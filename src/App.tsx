@@ -6,6 +6,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import Agents from "./pages/Agents";
 import NotFound from "./pages/NotFound";
+import { ComingSoon } from "@/components/ui/coming-soon";
 
 const queryClient = new QueryClient();
 
@@ -18,10 +19,10 @@ const App = () => (
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/agents" element={<Agents />} />
-          <Route path="/scenarios" element={<div className="p-6 text-center"><h1 className="text-2xl">Scenario Workbench - Coming Soon</h1></div>} />
-          <Route path="/insights" element={<div className="p-6 text-center"><h1 className="text-2xl">Insights & Recommendations - Coming Soon</h1></div>} />
-          <Route path="/approvals" element={<div className="p-6 text-center"><h1 className="text-2xl">Approvals & Decisions - Coming Soon</h1></div>} />
-          <Route path="/settings" element={<div className="p-6 text-center"><h1 className="text-2xl">Admin & Settings - Coming Soon</h1></div>} />
+          <Route path="/scenarios" element={<ComingSoon title="Scenario Workbench - Coming Soon" />} />
+          <Route path="/insights" element={<ComingSoon title="Insights & Recommendations - Coming Soon" />} />
+          <Route path="/approvals" element={<ComingSoon title="Approvals & Decisions - Coming Soon" />} />
+          <Route path="/settings" element={<ComingSoon title="Admin & Settings - Coming Soon" />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
