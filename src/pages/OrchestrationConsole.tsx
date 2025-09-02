@@ -148,7 +148,7 @@ export const OrchestrationConsole = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Orchestration Console</h1>
+          <h1 className="text-3xl font-bold text-foreground">Process Console</h1>
           <p className="text-muted-foreground mt-1">AI-powered autonomous planning control tower</p>
         </div>
         <div className="text-sm text-muted-foreground">

@@ -31,7 +31,7 @@ const sidebarItems: SidebarItem[] = [
   },
   {
     id: "console",
-    title: "Orchestration Console",
+    title: "Process Console",
     icon: Home,
     href: "/console",
   },
