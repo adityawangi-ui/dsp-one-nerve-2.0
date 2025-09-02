@@ -8,7 +8,8 @@ import {
   CheckSquare, 
   Settings,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  MessageSquare
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -23,10 +24,16 @@ interface SidebarItem {
 
 const sidebarItems: SidebarItem[] = [
   {
+    id: "ai-assistant",
+    title: "AI Assistant",
+    icon: MessageSquare,
+    href: "/",
+  },
+  {
     id: "console",
     title: "Orchestration Console",
     icon: Home,
-    href: "/",
+    href: "/console",
   },
   {
     id: "agents",
