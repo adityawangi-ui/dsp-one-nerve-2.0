@@ -6,6 +6,9 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import AIAssistant from "./pages/AIAssistant";
 import Index from "./pages/Index";
 import Agents from "./pages/Agents";
+import ScenarioWorkbench from "./pages/ScenarioWorkbench";
+import Insights from "./pages/Insights";
+import Approvals from "./pages/Approvals";
 import NotFound from "./pages/NotFound";
 import { ComingSoon } from "@/components/ui/coming-soon";
 
@@ -21,9 +24,9 @@ const App = () => (
           <Route path="/" element={<AIAssistant />} />
           <Route path="/console" element={<Index />} />
           <Route path="/agents" element={<Agents />} />
-          <Route path="/scenarios" element={<ComingSoon title="Scenario Workbench - Coming Soon" />} />
-          <Route path="/insights" element={<ComingSoon title="Insights & Recommendations - Coming Soon" />} />
-          <Route path="/approvals" element={<ComingSoon title="Approvals & Decisions - Coming Soon" />} />
+          <Route path="/scenarios" element={<ScenarioWorkbench />} />
+          <Route path="/insights" element={<Insights />} />
+          <Route path="/approvals" element={<Approvals />} />
           <Route path="/settings" element={<ComingSoon title="Admin & Settings - Coming Soon" />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

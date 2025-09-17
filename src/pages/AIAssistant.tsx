@@ -54,17 +54,17 @@ export default function AIAssistant() {
 
   return (
     <MainLayout>
-      <div className="flex flex-col h-full bg-background">
+      <div className="flex flex-col h-[calc(100vh-4rem)] bg-background">
         {/* Header */}
-        <div className="border-b border-border px-8 py-6 bg-gradient-subtle backdrop-blur-sm">
+        <div className="border-b border-border px-6 py-4 bg-gradient-subtle backdrop-blur-sm">
           <div className="flex items-center justify-between">
             <div className="animate-fade-in">
-              <h1 className="text-3xl font-bold text-foreground bg-gradient-primary bg-clip-text text-transparent">
+              <h1 className="text-2xl font-bold text-foreground bg-gradient-primary bg-clip-text text-transparent">
                 Orchestrator
               </h1>
-              <p className="text-muted-foreground mt-1">Ask anything about your operations</p>
+              <p className="text-muted-foreground text-sm">Ask anything about your operations</p>
             </div>
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-2">
               <Button 
                 variant="outline" 
                 size="sm" 
@@ -87,13 +87,13 @@ export default function AIAssistant() {
         </div>
 
         {/* Chat Container */}
-        <div className="flex-1 flex flex-col">
+        <div className="flex-1 flex flex-col min-h-0">
           {/* Messages Area */}
-          <div className="flex-1 overflow-auto px-8 py-6">
+          <div className="flex-1 overflow-auto px-6 py-4">
             {messages.length === 0 ? (
               <EmptyState onQuickAction={handleQuickAction} />
             ) : (
-              <div className="space-y-6 max-w-5xl mx-auto">
+              <div className="space-y-4 max-w-4xl mx-auto">
                 {messages.map((message, index) => (
                   <div 
                     key={message.id} 
@@ -106,9 +106,9 @@ export default function AIAssistant() {
                 {isTyping && (
                   <div className="flex items-center space-x-3 text-muted-foreground animate-fade-in ml-4">
                     <div className="flex space-x-1">
-                      <div className="w-3 h-3 bg-primary rounded-full animate-pulse"></div>
-                      <div className="w-3 h-3 bg-primary rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
-                      <div className="w-3 h-3 bg-primary rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
+                      <div className="w-2 h-2 bg-primary rounded-full animate-pulse"></div>
+                      <div className="w-2 h-2 bg-primary rounded-full animate-pulse" style={{ animationDelay: '0.2s' }}></div>
+                      <div className="w-2 h-2 bg-primary rounded-full animate-pulse" style={{ animationDelay: '0.4s' }}></div>
                     </div>
                     <span className="text-sm">Orchestrator is thinking...</span>
                   </div>
@@ -118,12 +118,12 @@ export default function AIAssistant() {
           </div>
 
           {/* Quick Actions */}
-          <div className="px-8 pb-4">
+          <div className="px-6 py-2">
             <QuickActions onQuickAction={handleQuickAction} />
           </div>
 
           {/* Chat Input */}
-          <div className="px-8 pb-6 bg-gradient-subtle">
+          <div className="px-6 py-3 bg-gradient-subtle">
             <ChatInput onSendMessage={handleSendMessage} />
           </div>
         </div>
