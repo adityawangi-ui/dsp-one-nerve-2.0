@@ -25,7 +25,7 @@ interface SidebarItem {
 const sidebarItems: SidebarItem[] = [
   {
     id: "ai-assistant",
-    title: "AI Assistant",
+    title: "Orchestrator",
     icon: MessageSquare,
     href: "/",
   },
@@ -34,12 +34,6 @@ const sidebarItems: SidebarItem[] = [
     title: "Process Console",
     icon: Home,
     href: "/console",
-  },
-  {
-    id: "agents",
-    title: "Agent Directory",
-    icon: Bot,
-    href: "/agents",
   },
   {
     id: "scenarios",
@@ -60,6 +54,12 @@ const sidebarItems: SidebarItem[] = [
     icon: CheckSquare,
     href: "/approvals",
     badge: 3,
+  },
+  {
+    id: "agents",
+    title: "Agent Directory",
+    icon: Bot,
+    href: "/agents",
   },
   {
     id: "settings",
@@ -83,12 +83,12 @@ export const MainSidebar = ({ collapsed, onToggle }: MainSidebarProps) => {
       )}
     >
       {/* Toggle Button */}
-      <div className="h-16 flex items-center justify-end px-4 border-b border-sidebar-border">
+      <div className="h-16 flex items-center justify-end px-4 border-b border-sidebar-border bg-gradient-subtle backdrop-blur-sm">
         <Button
           variant="ghost"
           size="sm"
           onClick={onToggle}
-          className="hover:bg-sidebar-accent"
+          className="hover:bg-sidebar-accent hover:scale-105 transition-all duration-200"
         >
           {collapsed ? (
             <ChevronRight className="h-4 w-4" />
@@ -99,7 +99,7 @@ export const MainSidebar = ({ collapsed, onToggle }: MainSidebarProps) => {
       </div>
 
       {/* Navigation Items */}
-      <nav className="flex-1 px-3 py-4 space-y-1">
+      <nav className="flex-1 px-4 py-6 space-y-2">
         {sidebarItems.map((item) => {
           const Icon = item.icon;
           return (
@@ -108,12 +108,12 @@ export const MainSidebar = ({ collapsed, onToggle }: MainSidebarProps) => {
               to={item.href}
               className={({ isActive }) =>
                 cn(
-                  "flex items-center px-3 py-3 rounded-lg text-sm font-medium transition-colors",
-                  "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                  "flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200",
+                  "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:scale-[1.02] hover:shadow-sm",
                   isActive
-                    ? "bg-sidebar-primary text-sidebar-primary-foreground"
+                    ? "bg-sidebar-primary text-sidebar-primary-foreground shadow-md scale-[1.02]"
                     : "text-sidebar-foreground",
-                  collapsed && "justify-center"
+                  collapsed && "justify-center px-3"
                 )
               }
             >
