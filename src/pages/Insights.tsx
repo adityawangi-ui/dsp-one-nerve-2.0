@@ -102,29 +102,9 @@ export const Insights = () => {
 
   return (
     <MainLayout>
-      <div className="h-[calc(100vh-4rem)] flex flex-col bg-background">
-        {/* Header */}
-        <div className="border-b border-border px-6 py-4 bg-gradient-subtle">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-foreground">Insights & Recommendations</h1>
-              <p className="text-muted-foreground text-sm">AI-powered insights to optimize your operations</p>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Button variant="outline" size="sm">
-                <Filter className="h-4 w-4 mr-2" />
-                Filter
-              </Button>
-              <Button variant="outline" size="sm">
-                <Download className="h-4 w-4 mr-2" />
-                Export Report
-              </Button>
-            </div>
-          </div>
-        </div>
-
+      <div className="h-[calc(100vh-4rem)] flex flex-col bg-gradient-to-br from-background via-warning/5 to-primary/5">
         {/* Content */}
-        <div className="flex-1 overflow-auto px-6 py-4">
+        <div className="flex-1 overflow-auto px-6 py-6">
           <Tabs defaultValue="all" className="h-full">
             <TabsList className="grid w-full grid-cols-5">
               <TabsTrigger value="all">All Insights</TabsTrigger>

@@ -123,28 +123,9 @@ export const Approvals = () => {
 
   return (
     <MainLayout>
-      <div className="h-[calc(100vh-4rem)] flex flex-col bg-background">
-        {/* Header */}
-        <div className="border-b border-border px-6 py-4 bg-gradient-subtle">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-foreground">Approvals & Decisions</h1>
-              <p className="text-muted-foreground text-sm">Review and approve critical planning decisions</p>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Button variant="outline" size="sm">
-                <Filter className="h-4 w-4 mr-2" />
-                Filter
-              </Button>
-              <Badge variant="destructive" className="text-sm">
-                3 Pending
-              </Badge>
-            </div>
-          </div>
-        </div>
-
+      <div className="h-[calc(100vh-4rem)] flex flex-col bg-gradient-to-br from-background via-success/5 to-primary/5">
         {/* Content */}
-        <div className="flex-1 overflow-auto px-6 py-4">
+        <div className="flex-1 overflow-auto px-6 py-6">
           <Tabs defaultValue="pending" className="h-full">
             <TabsList className="grid w-full grid-cols-4">
               <TabsTrigger value="pending">Pending (3)</TabsTrigger>

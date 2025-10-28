@@ -54,38 +54,7 @@ export default function AIAssistant() {
 
   return (
     <MainLayout>
-      <div className="flex flex-col h-[calc(100vh-4rem)] bg-background">
-        {/* Header */}
-        <div className="border-b border-border px-6 py-4 bg-gradient-subtle backdrop-blur-sm">
-          <div className="flex items-center justify-between">
-            <div className="animate-fade-in">
-              <h1 className="text-2xl font-bold text-foreground bg-gradient-primary bg-clip-text text-transparent">
-                Orchestrator
-              </h1>
-              <p className="text-muted-foreground text-sm">Ask anything about your operations</p>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={clearChat}
-                className="hover-lift hover:bg-muted transition-all duration-200"
-              >
-                <RotateCcw className="h-4 w-4 mr-2" />
-                Clear Chat
-              </Button>
-              <Button 
-                variant="outline" 
-                size="sm"
-                className="hover-lift hover:bg-muted transition-all duration-200"
-              >
-                <Download className="h-4 w-4 mr-2" />
-                Export
-              </Button>
-            </div>
-          </div>
-        </div>
-
+      <div className="flex flex-col h-[calc(100vh-4rem)] bg-gradient-to-br from-background via-background to-muted/20">
         {/* Chat Container */}
         <div className="flex-1 flex flex-col min-h-0">
           {/* Messages Area */}

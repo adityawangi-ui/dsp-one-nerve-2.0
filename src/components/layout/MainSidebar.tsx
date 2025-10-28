@@ -82,24 +82,22 @@ export const MainSidebar = ({ collapsed, onToggle }: MainSidebarProps) => {
         collapsed ? "w-16" : "w-64"
       )}
     >
-      {/* Toggle Button */}
-      <div className="h-16 flex items-center justify-end px-4 border-b border-sidebar-border bg-gradient-subtle backdrop-blur-sm">
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={onToggle}
-          className="hover:bg-sidebar-accent hover:scale-105 transition-all duration-200"
-        >
-          {collapsed ? (
-            <ChevronRight className="h-4 w-4" />
-          ) : (
-            <ChevronLeft className="h-4 w-4" />
-          )}
-        </Button>
-      </div>
-
       {/* Navigation Items */}
-      <nav className="flex-1 px-4 py-6 space-y-2">
+      <nav className="flex-1 px-3 py-4 space-y-1.5">
+        <div className="flex items-center justify-end mb-4">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={onToggle}
+            className="hover:bg-sidebar-accent hover:scale-105 transition-all duration-200"
+          >
+            {collapsed ? (
+              <ChevronRight className="h-4 w-4" />
+            ) : (
+              <ChevronLeft className="h-4 w-4" />
+            )}
+          </Button>
+        </div>
         {sidebarItems.map((item) => {
           const Icon = item.icon;
           return (
@@ -108,12 +106,13 @@ export const MainSidebar = ({ collapsed, onToggle }: MainSidebarProps) => {
               to={item.href}
               className={({ isActive }) =>
                 cn(
-                  "flex items-center px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200",
-                  "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:scale-[1.02] hover:shadow-sm",
+                  "flex items-center px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-300",
+                  "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground hover:scale-[1.02] hover:shadow-lg hover:translate-x-1",
+                  "relative overflow-hidden group",
                   isActive
-                    ? "bg-sidebar-primary text-sidebar-primary-foreground shadow-md scale-[1.02]"
+                    ? "bg-gradient-to-r from-sidebar-primary to-sidebar-primary/90 text-sidebar-primary-foreground shadow-lg scale-[1.02] before:absolute before:inset-0 before:bg-white/10 before:opacity-0 hover:before:opacity-100 before:transition-opacity"
                     : "text-sidebar-foreground",
-                  collapsed && "justify-center px-3"
+                  collapsed && "justify-center px-2"
                 )
               }
             >

@@ -65,29 +65,9 @@ export const ScenarioWorkbench = () => {
 
   return (
     <MainLayout>
-      <div className="h-[calc(100vh-4rem)] flex flex-col bg-background">
-        {/* Header */}
-        <div className="border-b border-border px-6 py-4 bg-gradient-subtle">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold text-foreground">Scenario Workbench</h1>
-              <p className="text-muted-foreground text-sm">Model and test different planning scenarios</p>
-            </div>
-            <div className="flex items-center space-x-2">
-              <Button variant="outline" size="sm">
-                <Copy className="h-4 w-4 mr-2" />
-                Clone Scenario
-              </Button>
-              <Button size="sm">
-                <Plus className="h-4 w-4 mr-2" />
-                New Scenario
-              </Button>
-            </div>
-          </div>
-        </div>
-
+      <div className="h-[calc(100vh-4rem)] flex flex-col bg-gradient-to-br from-background via-muted/10 to-primary/5">
         {/* Content */}
-        <div className="flex-1 overflow-auto px-6 py-4">
+        <div className="flex-1 overflow-auto px-6 py-6">
           <Tabs defaultValue="scenarios" className="h-full">
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="scenarios">Active Scenarios</TabsTrigger>

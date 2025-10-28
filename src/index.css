@@ -8,76 +8,75 @@
 
 @layer base {
   :root {
-    /* Core Brand Colors */
-    --background: 0 0% 100%;
-    --foreground: 215 25% 27%;
+    /* Core Brand Colors - Modern Light Palette */
+    --background: 210 40% 99%;
+    --foreground: 220 20% 15%;
     
     /* Surface & Layout */
     --surface: 210 40% 98%;
-    --surface-secondary: 210 40% 96%;
-    --border: 220 13% 91%;
-    --border-light: 220 13% 95%;
+    --surface-secondary: 210 35% 96%;
+    --border: 220 15% 92%;
+    --border-light: 220 15% 96%;
 
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 220 20% 15%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 220 20% 15%;
 
-    /* AI Orchestrator Brand Colors */
-    --primary: 213 94% 68%;          /* Modern Blue #2563EB */
+    /* AI Orchestrator Brand Colors - Vibrant & Modern */
+    --primary: 217 91% 60%;          /* Vivid Blue */
     --primary-foreground: 0 0% 100%;
-    --primary-muted: 221 83% 53%;    /* Bright Blue #3B82F6 */
+    --primary-muted: 217 85% 70%;    /* Lighter Blue */
     
-    --secondary: 215 16% 47%;        /* Slate Gray #64748B */
+    --secondary: 270 70% 65%;        /* Soft Purple */
     --secondary-foreground: 0 0% 100%;
     
-    /* Status Colors */
-    --success: 142 76% 36%;          /* Fresh Green #22C55E */
+    /* Status Colors - Bright & Friendly */
+    --success: 142 80% 45%;          /* Vibrant Green */
     --success-foreground: 0 0% 100%;
-    --warning: 38 92% 50%;           /* Amber #F59E0B */
+    --warning: 38 95% 55%;           /* Bright Amber */
     --warning-foreground: 0 0% 100%;
-    --destructive: 0 84% 60%;        /* Red #EF4444 */
+    --destructive: 0 80% 62%;        /* Soft Red */
     --destructive-foreground: 0 0% 100%;
     
     /* Agent Type Colors */
-    --agent-process: 213 94% 68%;    /* Blue */
-    --agent-utility: 258 90% 66%;    /* Purple #8B5CF6 */
-    --agent-foundation: 142 76% 36%; /* Green */
+    --agent-process: 217 91% 60%;    /* Blue */
+    --agent-utility: 270 70% 65%;    /* Purple */
+    --agent-foundation: 142 80% 45%; /* Green */
     
     /* Text Colors */
-    --text-primary: 215 25% 27%;     /* Dark Slate #1E293B */
-    --text-secondary: 215 16% 47%;   /* Medium Slate #64748B */
+    --text-primary: 220 20% 15%;     /* Deep Slate */
+    --text-secondary: 220 15% 45%;   /* Medium Slate */
     
     /* Surfaces & Borders */
-    --card: 0 0% 100%;
-    --card-foreground: 215 25% 27%;
-    --muted: 210 40% 98%;
-    --muted-foreground: 215 16% 47%;
-    --accent: 221 83% 53%;
+    --muted: 210 40% 97%;
+    --muted-foreground: 220 15% 50%;
+    --accent: 217 91% 60%;
     --accent-foreground: 0 0% 100%;
-    --border: 220 13% 91%;
-    --input: 220 13% 91%;
-    --ring: 213 94% 68%;
+    --input: 220 15% 94%;
+    --ring: 217 91% 60%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
     
-    /* Gradients & Effects */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-muted)));
-    --gradient-subtle: linear-gradient(180deg, hsl(var(--surface)), hsl(var(--background)));
-    --shadow-elegant: 0 10px 30px -10px hsl(var(--primary) / 0.1);
-    --shadow-card: 0 4px 6px -1px hsl(var(--border) / 0.1);
-    --shadow-elevated: 0 10px 15px -3px hsl(var(--border) / 0.1);
+    /* Gradients & Effects - Modern & Sleek */
+    --gradient-primary: linear-gradient(135deg, hsl(217 91% 60%), hsl(270 70% 65%));
+    --gradient-subtle: linear-gradient(180deg, hsl(210 40% 99%), hsl(210 40% 97%));
+    --gradient-card: linear-gradient(135deg, hsl(0 0% 100%), hsl(210 40% 98%));
+    --shadow-elegant: 0 20px 50px -15px hsl(217 91% 60% / 0.2);
+    --shadow-card: 0 2px 8px -2px hsl(220 15% 25% / 0.08);
+    --shadow-elevated: 0 8px 24px -4px hsl(220 15% 25% / 0.12);
+    --shadow-glow: 0 0 24px hsl(217 91% 60% / 0.15);
     
     /* Sidebar */
     --sidebar-background: 0 0% 100%;
-    --sidebar-foreground: 215 25% 27%;
-    --sidebar-primary: 213 94% 68%;
+    --sidebar-foreground: 220 20% 15%;
+    --sidebar-primary: 217 91% 60%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 210 40% 98%;
-    --sidebar-accent-foreground: 215 25% 27%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 213 94% 68%;
+    --sidebar-accent: 217 91% 97%;
+    --sidebar-accent-foreground: 220 20% 15%;
+    --sidebar-border: 220 15% 93%;
+    --sidebar-ring: 217 91% 60%;
   }
 
   .dark {
@@ -132,7 +131,7 @@
 @layer components {
   /* KPI Metric Cards */
   .kpi-card {
-    @apply bg-card border border-border rounded-lg p-6 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-elevated)] transition-all duration-200;
+    @apply bg-gradient-to-br from-card to-surface border border-border rounded-2xl p-6 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-glow)] transition-all duration-300 hover:scale-[1.02];
   }
   
   /* Agent Status Indicators */
@@ -176,7 +175,7 @@
   
   /* Interactive Elements */
   .hover-lift {
-    @apply transition-all duration-200 hover:translate-y-[-2px] hover:shadow-[var(--shadow-elevated)];
+    @apply transition-all duration-300 hover:translate-y-[-4px] hover:shadow-[var(--shadow-glow)] hover:scale-[1.01];
   }
   
   /* Chat Messages */
