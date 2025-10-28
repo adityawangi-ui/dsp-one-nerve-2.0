@@ -82,7 +82,7 @@ const aiCockpitItems: SidebarItem[] = [
 const decisionIntelligenceItems: SidebarItem[] = [
   {
     id: "skills",
-    title: "Skills",
+    title: "Module",
     icon: Zap,
     href: "/skills",
   },
