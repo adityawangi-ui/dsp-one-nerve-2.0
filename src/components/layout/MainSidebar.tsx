@@ -185,7 +185,7 @@ export const MainSidebar = ({ collapsed, onToggle }: MainSidebarProps) => {
       <nav className="flex-1 px-3 py-6 space-y-6 overflow-y-auto">
         {/* AI Cockpit Section */}
         <Collapsible open={aiCockpitOpen} onOpenChange={setAiCockpitOpen}>
-          <CollapsibleTrigger className="flex items-center justify-between w-full px-3 py-2 text-[11px] font-bold text-sidebar-foreground/60 hover:text-sidebar-foreground transition-colors uppercase tracking-wider">
+          <CollapsibleTrigger className="flex items-center justify-between w-full px-3 py-2 text-sm font-bold text-sidebar-foreground/70 hover:text-sidebar-foreground transition-colors uppercase tracking-wider">
             {!collapsed && <span>AI Cockpit</span>}
             <ChevronDown className={cn(
               "h-3.5 w-3.5 transition-transform duration-200",
@@ -199,7 +199,7 @@ export const MainSidebar = ({ collapsed, onToggle }: MainSidebarProps) => {
 
         {/* Decision Intelligence Section */}
         <Collapsible open={decisionIntelligenceOpen} onOpenChange={setDecisionIntelligenceOpen}>
-          <CollapsibleTrigger className="flex items-center justify-between w-full px-3 py-2 text-[11px] font-bold text-sidebar-foreground/60 hover:text-sidebar-foreground transition-colors uppercase tracking-wider">
+          <CollapsibleTrigger className="flex items-center justify-between w-full px-3 py-2 text-sm font-bold text-sidebar-foreground/70 hover:text-sidebar-foreground transition-colors uppercase tracking-wider">
             {!collapsed && <span>Decision Intelligence</span>}
             <ChevronDown className={cn(
               "h-3.5 w-3.5 transition-transform duration-200",
