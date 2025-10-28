@@ -9,6 +9,10 @@ import Agents from "./pages/Agents";
 import ScenarioWorkbench from "./pages/ScenarioWorkbench";
 import Insights from "./pages/Insights";
 import Approvals from "./pages/Approvals";
+import Skills from "./pages/Skills";
+import Planning from "./pages/Planning";
+import Analytics from "./pages/Analytics";
+import DataConfiguration from "./pages/DataConfiguration";
 import NotFound from "./pages/NotFound";
 import { ComingSoon } from "@/components/ui/coming-soon";
 
@@ -27,6 +31,10 @@ const App = () => (
           <Route path="/scenarios" element={<ScenarioWorkbench />} />
           <Route path="/insights" element={<Insights />} />
           <Route path="/approvals" element={<Approvals />} />
+          <Route path="/skills" element={<Skills />} />
+          <Route path="/planning" element={<Planning />} />
+          <Route path="/analytics" element={<Analytics />} />
+          <Route path="/data-config" element={<DataConfiguration />} />
           <Route path="/settings" element={<ComingSoon title="Admin & Settings - Coming Soon" />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
