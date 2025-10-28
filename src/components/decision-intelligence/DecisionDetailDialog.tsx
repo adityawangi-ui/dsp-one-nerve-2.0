@@ -153,24 +153,26 @@ export const DecisionDetailDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-[95vw] h-[90vh] p-0 gap-0">
-        <div className="flex h-full">
+      <DialogContent className="max-w-[95vw] h-[90vh] p-0 gap-0 flex flex-col overflow-hidden">
+        <div className="flex flex-1 overflow-hidden">
           {/* Left Panel - Decision Summary */}
-          <div className="w-[400px] border-r border-border bg-surface/50 p-6 flex flex-col">
-            <DialogHeader className="mb-6">
-              <div className="flex items-center justify-between mb-2">
-                <Badge variant="secondary" className="text-xs">
-                  {decision.type}
-                </Badge>
-                <span className="text-xs text-muted-foreground">Created 12 days ago</span>
-              </div>
-              <DialogTitle className="text-xl font-bold">
-                {decision.type} / {decision.type}
-              </DialogTitle>
-            </DialogHeader>
+          <div className="w-[400px] border-r border-border bg-surface/50 flex flex-col">
+            <div className="p-6 border-b border-border shrink-0">
+              <DialogHeader>
+                <div className="flex items-center justify-between mb-2">
+                  <Badge variant="secondary" className="text-xs">
+                    {decision.type}
+                  </Badge>
+                  <span className="text-xs text-muted-foreground">Created 12 days ago</span>
+                </div>
+                <DialogTitle className="text-xl font-bold">
+                  {decision.type} / {decision.type}
+                </DialogTitle>
+              </DialogHeader>
+            </div>
 
             <ScrollArea className="flex-1">
-              <div className="space-y-6">
+              <div className="p-6 space-y-6">
                 {/* Date */}
                 <div className="flex items-center gap-2 text-sm font-semibold text-success">
                   <Calendar className="h-4 w-4" />
@@ -211,53 +213,58 @@ export const DecisionDetailDialog = ({
             </ScrollArea>
 
             {/* Actions */}
-            <div className="flex gap-2 mt-6 pt-6 border-t border-border">
-              <Button
-                variant="outline"
-                className="flex-1"
-                onClick={() => {
-                  onDismiss(decision.id);
-                  onOpenChange(false);
-                }}
-              >
-                Dismiss
-              </Button>
-              <Button
-                variant="outline"
-                className="flex-1"
-                onClick={() => {
-                  onModify(decision.id);
-                }}
-              >
-                Modify
-              </Button>
-              <Button
-                className="flex-1 bg-primary hover:bg-primary/90"
-                onClick={() => {
-                  onAccept(decision.id);
-                  onOpenChange(false);
-                }}
-              >
-                Accept
-              </Button>
+            <div className="p-6 border-t border-border shrink-0">
+              <div className="flex gap-2">
+                <Button
+                  variant="outline"
+                  className="flex-1"
+                  onClick={() => {
+                    onDismiss(decision.id);
+                    onOpenChange(false);
+                  }}
+                >
+                  Dismiss
+                </Button>
+                <Button
+                  variant="outline"
+                  className="flex-1"
+                  onClick={() => {
+                    onModify(decision.id);
+                  }}
+                >
+                  Modify
+                </Button>
+                <Button
+                  className="flex-1 bg-primary hover:bg-primary/90"
+                  onClick={() => {
+                    onAccept(decision.id);
+                    onOpenChange(false);
+                  }}
+                >
+                  Accept
+                </Button>
+              </div>
             </div>
           </div>
 
           {/* Right Panel - Detailed Tabs */}
-          <div className="flex-1 flex flex-col">
-            <Tabs defaultValue="transfer" className="flex-1 flex flex-col">
-              <TabsList className="w-full justify-start rounded-none border-b border-border bg-transparent px-6 pt-4 h-auto">
-                <TabsTrigger value="transfer">Transfer</TabsTrigger>
-                <TabsTrigger value="impact">Impact</TabsTrigger>
-                <TabsTrigger value="logistics">Logistics</TabsTrigger>
-                <TabsTrigger value="alternative-summary">Alternative Summary</TabsTrigger>
-                <TabsTrigger value="alternative-analysis">Alternative Analysis</TabsTrigger>
-                <TabsTrigger value="learning">Learning</TabsTrigger>
-              </TabsList>
+          <div className="flex-1 flex flex-col overflow-hidden">
+            <Tabs defaultValue="transfer" className="flex-1 flex flex-col overflow-hidden">
+              <div className="shrink-0 border-b border-border px-6 pt-4">
+                <TabsList className="w-full justify-start rounded-none bg-transparent h-auto p-0 border-0">
+                  <TabsTrigger value="transfer">Transfer</TabsTrigger>
+                  <TabsTrigger value="impact">Impact</TabsTrigger>
+                  <TabsTrigger value="logistics">Logistics</TabsTrigger>
+                  <TabsTrigger value="alternative-summary">Alternative Summary</TabsTrigger>
+                  <TabsTrigger value="alternative-analysis">Alternative Analysis</TabsTrigger>
+                  <TabsTrigger value="learning">Learning</TabsTrigger>
+                </TabsList>
+              </div>
 
               <ScrollArea className="flex-1">
-                {/* Transfer Tab */}
-                <TabsContent value="transfer" className="p-6 space-y-6 m-0">
+                <div className="h-full">
+                  {/* Transfer Tab */}
+                  <TabsContent value="transfer" className="p-6 space-y-6 m-0 h-full">
                   {/* Summary Cards */}
                   <div className="grid grid-cols-2 gap-4">
                     <Card className="p-6 bg-gradient-to-br from-success/10 to-success/5 border-success/20">
@@ -1207,6 +1214,7 @@ export const DecisionDetailDialog = ({
                     </Card>
                   </div>
                 </TabsContent>
+                </div>
               </ScrollArea>
             </Tabs>
           </div>
