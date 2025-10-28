@@ -3,6 +3,7 @@ import { MainLayout } from "@/components/layout/MainLayout";
 import { ModuleCard } from "@/components/decision-intelligence/ModuleCard";
 import { FilterBar } from "@/components/decision-intelligence/FilterBar";
 import { DecisionTable, Decision } from "@/components/decision-intelligence/DecisionTable";
+import { DecisionDetailDialog } from "@/components/decision-intelligence/DecisionDetailDialog";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Package, ShoppingCart, CheckCircle, TrendingUp } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -112,6 +113,8 @@ export default function Skills() {
   const [searchQuery, setSearchQuery] = useState("");
   const [location, setLocation] = useState("all");
   const [type, setType] = useState("all");
+  const [selectedDecision, setSelectedDecision] = useState<Decision | null>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
   const { toast } = useToast();
 
   const handleModuleClick = (moduleId: string) => {
@@ -125,8 +128,8 @@ export default function Skills() {
   };
 
   const handleDecisionClick = (decision: Decision) => {
-    console.log("Decision clicked:", decision);
-    // Will implement detail view later
+    setSelectedDecision(decision);
+    setDialogOpen(true);
   };
 
   const handleAccept = (decisionId: string) => {
@@ -210,6 +213,16 @@ export default function Skills() {
             <DecisionTable
               decisions={filteredDecisions}
               onDecisionClick={handleDecisionClick}
+              onAccept={handleAccept}
+              onDismiss={handleDismiss}
+              onModify={handleModify}
+            />
+
+            {/* Decision Detail Dialog */}
+            <DecisionDetailDialog
+              decision={selectedDecision}
+              open={dialogOpen}
+              onOpenChange={setDialogOpen}
               onAccept={handleAccept}
               onDismiss={handleDismiss}
               onModify={handleModify}
