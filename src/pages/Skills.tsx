@@ -186,10 +186,10 @@ export default function Skills() {
                 Back to Modules
               </Button>
               <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent mb-2">
-                Inventory Optimization - Decisions
+                Inventory - Decisions
               </h1>
               <p className="text-muted-foreground">
-                Home &gt; Decision Intelligence &gt; Module &gt; Inventory Optimization
+                Home &gt; Decision Intelligence &gt; Module &gt; Inventory
               </p>
             </div>
 
@@ -251,7 +251,7 @@ export default function Skills() {
           {/* Modules Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-in">
             <ModuleCard
-              title="Inventory Optimization"
+              title="Inventory"
               subtitle="AI-powered inventory transfer recommendations"
               status="active"
               icon={Package}
@@ -273,7 +273,7 @@ export default function Skills() {
               disabled
             />
             <ModuleCard
-              title="Supply/Demand Balancing"
+              title="Stock Rebalancing"
               subtitle="Real-time supply and demand optimization"
               status="coming-soon"
               icon={TrendingUp}
