@@ -5,7 +5,8 @@ import { FilterBar } from "@/components/decision-intelligence/FilterBar";
 import { DecisionTable, Decision } from "@/components/decision-intelligence/DecisionTable";
 import { DecisionDetailDialog } from "@/components/decision-intelligence/DecisionDetailDialog";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Package, ShoppingCart, CheckCircle, TrendingUp } from "lucide-react";
+import { Card } from "@/components/ui/card";
+import { ArrowLeft, Package, ShoppingCart, CheckCircle, TrendingUp, Sparkles, User } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 // Mock decisions data
@@ -176,22 +177,44 @@ export default function Skills() {
   if (view === "inventory-detail") {
     return (
       <MainLayout>
-        <div className="min-h-[calc(100vh-4rem)] bg-gradient-to-br from-background via-background to-muted/20 p-8">
-          <div className="max-w-7xl mx-auto">
-            {/* Header with back button */}
-            <div className="mb-8 animate-fade-in">
-              <Button
-                variant="ghost"
-                onClick={handleBackToModules}
-                className="mb-4 hover:bg-muted"
-              >
-                <ArrowLeft className="h-4 w-4 mr-2" />
-                Back to Modules
-              </Button>
-              <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent mb-2">
-                Inventory - Decisions
+        <div className="min-h-[calc(100vh-4rem)] bg-gradient-to-br from-background via-surface/30 to-muted/20 p-6 md:p-8">
+          <div className="max-w-7xl mx-auto space-y-6">
+            {/* Personalized Greeting Banner */}
+            <Card className="bg-gradient-to-r from-primary/10 via-primary/5 to-background border-primary/20 shadow-[var(--shadow-glow)] animate-fade-in overflow-hidden relative">
+              <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent opacity-50" />
+              <div className="relative p-6 md:p-8">
+                <div className="flex items-start justify-between gap-4 flex-wrap">
+                  <div className="flex items-start gap-4">
+                    <div className="p-3 rounded-xl bg-primary/10 text-primary backdrop-blur-sm">
+                      <User className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-2 mb-1">
+                        <h2 className="text-2xl md:text-3xl font-bold text-foreground">Hello, Aditya!</h2>
+                        <Sparkles className="h-5 w-5 text-primary animate-pulse" />
+                      </div>
+                      <p className="text-sm md:text-base text-muted-foreground">Material Planner</p>
+                      <p className="text-sm text-muted-foreground mt-1">Welcome back to your Inventory Decision Intelligence workspace</p>
+                    </div>
+                  </div>
+                  <Button
+                    variant="ghost"
+                    onClick={handleBackToModules}
+                    className="hover:bg-primary/10 transition-all duration-300 hover:scale-105"
+                  >
+                    <ArrowLeft className="h-4 w-4 mr-2" />
+                    Back to Modules
+                  </Button>
+                </div>
+              </div>
+            </Card>
+
+            {/* Page Title */}
+            <div className="animate-fade-in" style={{ animationDelay: '0.1s', animationFillMode: 'both' }}>
+              <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent mb-2">
+                Inventory Transfer Decisions
               </h1>
-              <p className="text-muted-foreground">
+              <p className="text-sm text-muted-foreground">
                 Home &gt; Decision Intelligence &gt; Module &gt; Inventory
               </p>
             </div>
@@ -250,10 +273,30 @@ export default function Skills() {
 
   return (
     <MainLayout>
-      <div className="min-h-[calc(100vh-4rem)] bg-gradient-to-br from-background via-background to-muted/20 p-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="mb-8 animate-fade-in">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent mb-2">
+      <div className="min-h-[calc(100vh-4rem)] bg-gradient-to-br from-background via-surface/30 to-muted/20 p-6 md:p-8">
+        <div className="max-w-7xl mx-auto space-y-6">
+          {/* Personalized Greeting Banner */}
+          <Card className="bg-gradient-to-r from-primary/10 via-primary/5 to-background border-primary/20 shadow-[var(--shadow-glow)] animate-fade-in overflow-hidden relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent opacity-50" />
+            <div className="relative p-6 md:p-8">
+              <div className="flex items-start gap-4">
+                <div className="p-3 rounded-xl bg-primary/10 text-primary backdrop-blur-sm">
+                  <User className="h-6 w-6" />
+                </div>
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <h2 className="text-2xl md:text-3xl font-bold text-foreground">Hello, Aditya!</h2>
+                    <Sparkles className="h-5 w-5 text-primary animate-pulse" />
+                  </div>
+                  <p className="text-sm md:text-base text-muted-foreground">Material Planner</p>
+                  <p className="text-sm text-muted-foreground mt-1">Choose a module to view AI-powered decision recommendations</p>
+                </div>
+              </div>
+            </div>
+          </Card>
+
+          <div className="animate-fade-in" style={{ animationDelay: '0.1s', animationFillMode: 'both' }}>
+            <h1 className="text-3xl md:text-4xl font-bold bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent mb-2">
               Decision Intelligence - Module
             </h1>
             <p className="text-muted-foreground">
@@ -262,7 +305,7 @@ export default function Skills() {
           </div>
 
           {/* Modules Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-in">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-in" style={{ animationDelay: '0.2s', animationFillMode: 'both' }}>
             <ModuleCard
               title="Inventory"
               subtitle="AI-powered inventory transfer recommendations"

@@ -39,10 +39,10 @@ export const DecisionTable = ({
   onModify,
 }: DecisionTableProps) => {
   return (
-    <div className="bg-card rounded-2xl border border-border shadow-[var(--shadow-card)] overflow-hidden">
+    <div className="bg-card/50 backdrop-blur-sm rounded-2xl border border-border/50 shadow-[var(--shadow-card)] overflow-hidden animate-fade-in transition-all duration-300 hover:shadow-[var(--shadow-glow)]" style={{ animationDelay: '0.3s', animationFillMode: 'both' }}>
       <Table>
         <TableHeader>
-          <TableRow className="hover:bg-transparent border-b border-border">
+          <TableRow className="hover:bg-transparent border-b border-border/50 bg-muted/30">
             <TableHead className="font-semibold text-foreground">Recommendation</TableHead>
             <TableHead className="font-semibold text-foreground">Type</TableHead>
             <TableHead className="font-semibold text-foreground">From</TableHead>
@@ -59,12 +59,12 @@ export const DecisionTable = ({
           {decisions.map((decision) => (
             <TableRow
               key={decision.id}
-              className="cursor-pointer hover:bg-muted/50 transition-colors"
+              className="cursor-pointer hover:bg-muted/50 transition-all duration-300 hover:shadow-sm group"
               onClick={() => onDecisionClick(decision)}
             >
-              <TableCell className="font-medium max-w-xs">{decision.recommendation}</TableCell>
+              <TableCell className="font-medium max-w-xs group-hover:text-primary transition-colors">{decision.recommendation}</TableCell>
               <TableCell>
-                <Badge variant="secondary" className="bg-primary/10 text-primary hover:bg-primary/20">
+                <Badge variant="secondary" className="bg-primary/10 text-primary hover:bg-primary/20 transition-all duration-300">
                   {decision.type}
                 </Badge>
               </TableCell>
@@ -93,7 +93,7 @@ export const DecisionTable = ({
                 </div>
               </TableCell>
               <TableCell>
-                <Badge variant="outline" className="font-mono">
+                <Badge variant="outline" className="font-mono transition-all duration-300 group-hover:border-primary/50">
                   <Truck className="h-3 w-3 mr-1" />
                   {decision.truckNumber}
                 </Badge>
@@ -111,7 +111,7 @@ export const DecisionTable = ({
                     size="sm"
                     variant="default"
                     onClick={() => onAccept(decision.id)}
-                    className="h-8"
+                    className="h-8 transition-all duration-300 hover:scale-105"
                   >
                     Accept
                   </Button>
@@ -119,7 +119,7 @@ export const DecisionTable = ({
                     size="sm"
                     variant="outline"
                     onClick={() => onDismiss(decision.id)}
-                    className="h-8"
+                    className="h-8 transition-all duration-300 hover:scale-105"
                   >
                     Dismiss
                   </Button>
@@ -127,7 +127,7 @@ export const DecisionTable = ({
                     size="sm"
                     variant="secondary"
                     onClick={() => onModify(decision.id)}
-                    className="h-8"
+                    className="h-8 transition-all duration-300 hover:scale-105"
                   >
                     Modify
                   </Button>

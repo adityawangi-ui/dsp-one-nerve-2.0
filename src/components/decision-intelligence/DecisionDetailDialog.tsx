@@ -19,6 +19,8 @@ import {
   Calendar,
   Target,
   Lightbulb,
+  User,
+  Sparkles,
 } from "lucide-react";
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer, Area, AreaChart } from "recharts";
 
@@ -153,58 +155,74 @@ export const DecisionDetailDialog = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-[95vw] h-[90vh] p-0 gap-0 flex flex-col overflow-hidden">
+      <DialogContent className="max-w-[95vw] h-[90vh] p-0 gap-0 flex flex-col overflow-hidden bg-gradient-to-br from-background via-surface/30 to-muted/20">
         <div className="flex flex-1 overflow-hidden">
           {/* Left Panel - Decision Summary */}
-          <div className="w-[400px] border-r border-border bg-surface/50 flex flex-col">
-            <div className="p-6 border-b border-border shrink-0">
+          <div className="w-[400px] border-r border-border/50 bg-card/30 backdrop-blur-sm flex flex-col">
+            <div className="p-6 border-b border-border/50 shrink-0 bg-gradient-to-br from-primary/5 to-transparent">
               <DialogHeader>
-                <div className="flex items-center justify-between mb-2">
-                  <Badge variant="secondary" className="text-xs">
+                <div className="flex items-center justify-between mb-3">
+                  <Badge variant="secondary" className="text-xs bg-primary/10 text-primary hover:bg-primary/20 transition-colors">
                     {decision.type}
                   </Badge>
                   <span className="text-xs text-muted-foreground">Created 12 days ago</span>
                 </div>
-                <DialogTitle className="text-xl font-bold">
-                  {decision.type} / {decision.type}
-                </DialogTitle>
+                <div className="flex items-center gap-2 mb-2">
+                  <div className="p-2 rounded-lg bg-primary/10 text-primary">
+                    <Sparkles className="h-4 w-4" />
+                  </div>
+                  <DialogTitle className="text-xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">
+                    AI Decision Details
+                  </DialogTitle>
+                </div>
+                <div className="flex items-center gap-2 text-xs text-muted-foreground mt-2 p-2 bg-muted/30 rounded-lg">
+                  <User className="h-3 w-3" />
+                  <span>Reviewed by: <span className="text-foreground font-medium">Aditya (Material Planner)</span></span>
+                </div>
               </DialogHeader>
             </div>
 
             <ScrollArea className="flex-1">
               <div className="p-6 space-y-6">
                 {/* Date */}
-                <div className="flex items-center gap-2 text-sm font-semibold text-success">
+                <div className="flex items-center gap-2 text-sm font-semibold text-success animate-fade-in p-3 bg-success/5 rounded-lg border border-success/20">
                   <Calendar className="h-4 w-4" />
                   {formatDate(decision.calendarDay)}
                 </div>
 
                 {/* Main Action */}
-                <div className="space-y-2">
-                  <h3 className="font-semibold text-foreground">
+                <div className="space-y-2 animate-fade-in" style={{ animationDelay: '0.1s', animationFillMode: 'both' }}>
+                  <div className="flex items-center gap-2 mb-2">
+                    <Target className="h-4 w-4 text-primary" />
+                    <h4 className="text-sm font-semibold text-primary">Recommendation</h4>
+                  </div>
+                  <h3 className="font-semibold text-foreground leading-relaxed">
                     Transfer {decision.pallets} pallets from Location {decision.fromLocation} ({decision.fromLocation}) to Location {decision.toLocation} ({decision.toLocation}) with FTL load type Mon, Oct 20.
                   </h3>
                 </div>
 
                 {/* Reasoning */}
-                <div className="space-y-2">
-                  <h4 className="text-sm font-medium text-muted-foreground">Reasoning</h4>
+                <div className="space-y-2 animate-fade-in p-4 bg-muted/30 rounded-lg border border-border/50" style={{ animationDelay: '0.2s', animationFillMode: 'both' }}>
+                  <div className="flex items-center gap-2 mb-1">
+                    <Lightbulb className="h-4 w-4 text-primary" />
+                    <h4 className="text-sm font-semibold text-foreground">AI Reasoning</h4>
+                  </div>
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    Aera has identified excess inventory at location {decision.fromLocation} and shortage at location {decision.toLocation} which would allow balancing the inventory across the network to minimize excess and shortage. The lead time to transfer between is 22 hours.
+                    AI has identified excess inventory at location {decision.fromLocation} and shortage at location {decision.toLocation} which would allow balancing the inventory across the network to minimize excess and shortage. The lead time to transfer between is 22 hours.
                   </p>
                 </div>
 
                 {/* Details */}
-                <div className="space-y-3 pt-4 border-t border-border">
-                  <div className="flex items-center justify-between text-sm">
+                <div className="space-y-3 pt-4 border-t border-border/50 animate-fade-in" style={{ animationDelay: '0.3s', animationFillMode: 'both' }}>
+                  <div className="flex items-center justify-between text-sm p-3 bg-muted/20 rounded-lg transition-all duration-300 hover:bg-muted/30 hover:scale-[1.02]">
                     <span className="text-muted-foreground">Truck Load % (Type):</span>
                     <span className="font-semibold">100% (FTL)</span>
                   </div>
-                  <div className="flex items-center justify-between text-sm">
+                  <div className="flex items-center justify-between text-sm p-3 bg-muted/20 rounded-lg transition-all duration-300 hover:bg-muted/30 hover:scale-[1.02]">
                     <span className="text-muted-foreground">Truck Number:</span>
-                    <span className="font-semibold">{decision.truckNumber}</span>
+                    <Badge variant="outline" className="font-mono transition-all duration-300 hover:border-primary/50">{decision.truckNumber}</Badge>
                   </div>
-                  <div className="flex items-center justify-between text-sm">
+                  <div className="flex items-center justify-between text-sm p-3 bg-muted/20 rounded-lg transition-all duration-300 hover:bg-muted/30 hover:scale-[1.02]">
                     <span className="text-muted-foreground">Lead Time:</span>
                     <span className="font-semibold">22 hours</span>
                   </div>
@@ -213,11 +231,11 @@ export const DecisionDetailDialog = ({
             </ScrollArea>
 
             {/* Actions */}
-            <div className="p-6 border-t border-border shrink-0">
+            <div className="p-6 border-t border-border/50 shrink-0 bg-card/50 backdrop-blur-sm">
               <div className="flex gap-2">
                 <Button
                   variant="outline"
-                  className="flex-1"
+                  className="flex-1 transition-all duration-300 hover:scale-105 hover:border-destructive/50 hover:text-destructive"
                   onClick={() => {
                     onDismiss(decision.id);
                     onOpenChange(false);
@@ -227,7 +245,7 @@ export const DecisionDetailDialog = ({
                 </Button>
                 <Button
                   variant="outline"
-                  className="flex-1"
+                  className="flex-1 transition-all duration-300 hover:scale-105"
                   onClick={() => {
                     onModify(decision.id);
                   }}
@@ -235,7 +253,7 @@ export const DecisionDetailDialog = ({
                   Modify
                 </Button>
                 <Button
-                  className="flex-1 bg-primary hover:bg-primary/90"
+                  className="flex-1 bg-success hover:bg-success/90 transition-all duration-300 hover:scale-105"
                   onClick={() => {
                     onAccept(decision.id);
                     onOpenChange(false);
@@ -248,16 +266,16 @@ export const DecisionDetailDialog = ({
           </div>
 
           {/* Right Panel - Detailed Tabs */}
-          <div className="flex-1 flex flex-col overflow-hidden">
+          <div className="flex-1 flex flex-col overflow-hidden bg-background/50">
             <Tabs defaultValue="transfer" className="flex-1 flex flex-col overflow-hidden">
-              <div className="shrink-0 border-b border-border px-6 pt-4">
-                <TabsList className="w-full justify-start rounded-none bg-transparent h-auto p-0 border-0">
-                  <TabsTrigger value="transfer">Transfer</TabsTrigger>
-                  <TabsTrigger value="impact">Impact</TabsTrigger>
-                  <TabsTrigger value="logistics">Logistics</TabsTrigger>
-                  <TabsTrigger value="alternative-summary">Alternative Summary</TabsTrigger>
-                  <TabsTrigger value="alternative-analysis">Alternative Analysis</TabsTrigger>
-                  <TabsTrigger value="learning">Learning</TabsTrigger>
+              <div className="shrink-0 border-b border-border/50 px-6 pt-4 bg-card/30 backdrop-blur-sm">
+                <TabsList className="w-full justify-start rounded-none bg-muted/50 h-auto p-0 border-0">
+                  <TabsTrigger value="transfer" className="transition-all duration-300 data-[state=active]:bg-primary/10 data-[state=active]:text-primary">Transfer</TabsTrigger>
+                  <TabsTrigger value="impact" className="transition-all duration-300 data-[state=active]:bg-primary/10 data-[state=active]:text-primary">Impact</TabsTrigger>
+                  <TabsTrigger value="logistics" className="transition-all duration-300 data-[state=active]:bg-primary/10 data-[state=active]:text-primary">Logistics</TabsTrigger>
+                  <TabsTrigger value="alternative-summary" className="transition-all duration-300 data-[state=active]:bg-primary/10 data-[state=active]:text-primary">Alternative Summary</TabsTrigger>
+                  <TabsTrigger value="alternative-analysis" className="transition-all duration-300 data-[state=active]:bg-primary/10 data-[state=active]:text-primary">Alternative Analysis</TabsTrigger>
+                  <TabsTrigger value="learning" className="transition-all duration-300 data-[state=active]:bg-primary/10 data-[state=active]:text-primary">Learning</TabsTrigger>
                 </TabsList>
               </div>
 
@@ -267,7 +285,7 @@ export const DecisionDetailDialog = ({
                   <TabsContent value="transfer" className="p-6 space-y-6 m-0 h-full">
                   {/* Summary Cards */}
                   <div className="grid grid-cols-2 gap-4">
-                    <Card className="p-6 bg-gradient-to-br from-success/10 to-success/5 border-success/20">
+                    <Card className="p-6 bg-gradient-to-br from-success/10 to-success/5 border-success/20 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] animate-fade-in">
                       <div className="flex items-start justify-between mb-2">
                         <DollarSign className="h-5 w-5 text-success" />
                       </div>
@@ -280,7 +298,7 @@ export const DecisionDetailDialog = ({
                       </p>
                     </Card>
 
-                    <Card className="p-6 bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20">
+                    <Card className="p-6 bg-gradient-to-br from-primary/10 to-primary/5 border-primary/20 transition-all duration-300 hover:shadow-lg hover:scale-[1.02] animate-fade-in" style={{ animationDelay: '0.1s', animationFillMode: 'both' }}>
                       <div className="flex items-start justify-between mb-2">
                         <Target className="h-5 w-5 text-primary" />
                       </div>
@@ -295,13 +313,14 @@ export const DecisionDetailDialog = ({
                   </div>
 
                   {/* SKU Table */}
-                  <div className="space-y-3">
-                    <h3 className="font-semibold text-foreground">
+                  <div className="space-y-3 animate-fade-in" style={{ animationDelay: '0.2s', animationFillMode: 'both' }}>
+                    <h3 className="font-semibold text-foreground flex items-center gap-2">
+                      <Package className="h-4 w-4 text-primary" />
                       The following SKUs can be transferred:
                     </h3>
-                    <div className="border border-border rounded-lg overflow-hidden">
+                    <div className="border border-border/50 rounded-lg overflow-hidden transition-all duration-300 hover:shadow-lg">
                       <table className="w-full">
-                        <thead className="bg-muted/50">
+                        <thead className="bg-muted/30 backdrop-blur-sm">
                           <tr>
                             <th className="text-left p-3 text-xs font-medium text-muted-foreground">
                               Material Number
@@ -327,7 +346,7 @@ export const DecisionDetailDialog = ({
                           {mockSKUData.map((sku, index) => (
                             <tr
                               key={index}
-                              className="border-t border-border hover:bg-muted/30 transition-colors"
+                              className="border-t border-border/50 hover:bg-muted/30 transition-all duration-300 hover:scale-[1.01] group"
                             >
                               <td className="p-3 text-sm">{sku.materialNumber}</td>
                               <td className="p-3 text-sm">{sku.materialDescription}</td>

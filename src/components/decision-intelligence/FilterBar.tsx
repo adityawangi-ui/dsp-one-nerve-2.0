@@ -33,21 +33,21 @@ export const FilterBar = ({
   totalCount,
 }: FilterBarProps) => {
   return (
-    <div className="bg-card rounded-2xl border border-border shadow-[var(--shadow-card)] p-6 mb-6">
+    <div className="bg-card/50 backdrop-blur-sm rounded-2xl border border-border/50 shadow-[var(--shadow-card)] p-6 mb-6 animate-fade-in transition-all duration-300 hover:shadow-[var(--shadow-glow)]" style={{ animationDelay: '0.2s', animationFillMode: 'both' }}>
       <div className="flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
         <div className="flex flex-col sm:flex-row gap-3 flex-1 w-full">
-          <div className="relative flex-1 max-w-md">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+          <div className="relative flex-1 max-w-md group">
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
             <Input
               placeholder="Search decisions..."
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
-              className="pl-9 bg-background border-border"
+              className="pl-9 bg-background border-border focus:border-primary/50 transition-all duration-300"
             />
           </div>
 
           <Select value={location} onValueChange={onLocationChange}>
-            <SelectTrigger className="w-full sm:w-[180px] bg-background">
+            <SelectTrigger className="w-full sm:w-[180px] bg-background transition-all duration-300 hover:border-primary/50">
               <SelectValue placeholder="Location" />
             </SelectTrigger>
             <SelectContent>
@@ -64,7 +64,7 @@ export const FilterBar = ({
           </Select>
 
           <Select value={type} onValueChange={onTypeChange}>
-            <SelectTrigger className="w-full sm:w-[200px] bg-background">
+            <SelectTrigger className="w-full sm:w-[200px] bg-background transition-all duration-300 hover:border-primary/50">
               <SelectValue placeholder="Type" />
             </SelectTrigger>
             <SelectContent>
@@ -75,7 +75,7 @@ export const FilterBar = ({
             </SelectContent>
           </Select>
 
-          <Button variant="outline" onClick={onClearFilters} className="whitespace-nowrap">
+          <Button variant="outline" onClick={onClearFilters} className="whitespace-nowrap transition-all duration-300 hover:scale-105 hover:border-primary/50">
             Clear Filters
           </Button>
         </div>

@@ -27,21 +27,21 @@ export const ModuleCard = ({
   return (
     <Card
       className={cn(
-        "p-8 transition-all duration-300 cursor-pointer relative overflow-hidden group",
-        "bg-gradient-to-br from-card to-surface border border-border",
+        "p-8 transition-all duration-500 cursor-pointer relative overflow-hidden group",
+        "bg-gradient-to-br from-card/80 via-card to-surface/50 backdrop-blur-sm border border-border/50",
         "shadow-[var(--shadow-card)]",
         isActive
-          ? "hover:shadow-[var(--shadow-glow)] hover:scale-[1.02] hover:translate-y-[-4px]"
+          ? "hover:shadow-[var(--shadow-glow)] hover:scale-[1.03] hover:translate-y-[-6px] hover:border-primary/30"
           : "opacity-60 cursor-not-allowed",
         disabled && "pointer-events-none"
       )}
       onClick={isActive && !disabled ? onClick : undefined}
     >
-      {/* Status indicator bar */}
+      {/* Status indicator bar with animation */}
       <div
         className={cn(
-          "absolute top-0 left-0 w-full h-1",
-          isActive ? "bg-success" : "bg-muted-foreground"
+          "absolute top-0 left-0 w-full h-1 transition-all duration-500",
+          isActive ? "bg-gradient-to-r from-success via-success/80 to-success/60 group-hover:h-1.5" : "bg-muted-foreground"
         )}
       />
 
@@ -49,13 +49,13 @@ export const ModuleCard = ({
         <div className="flex items-start justify-between mb-4">
           <div
             className={cn(
-              "p-4 rounded-xl transition-all duration-300",
+              "p-4 rounded-xl transition-all duration-500 backdrop-blur-sm",
               isActive
-                ? "bg-success/10 text-success group-hover:bg-success/20"
+                ? "bg-success/10 text-success group-hover:bg-success/20 group-hover:scale-110 group-hover:rotate-3"
                 : "bg-muted text-muted-foreground"
             )}
           >
-            <Icon className="h-8 w-8" />
+            <Icon className="h-8 w-8 transition-transform duration-500" />
           </div>
           <Badge
             variant={isActive ? "default" : "secondary"}
