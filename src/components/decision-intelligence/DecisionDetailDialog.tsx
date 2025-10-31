@@ -172,7 +172,7 @@ export const DecisionDetailDialog = ({
                     <Sparkles className="h-4 w-4" />
                   </div>
                   <DialogTitle className="text-xl font-bold bg-gradient-to-r from-foreground to-foreground/70 bg-clip-text">
-                    AI Decision Details
+                    Decision Details
                   </DialogTitle>
                 </div>
                 <div className="flex items-center gap-2 text-xs text-muted-foreground mt-2 p-2 bg-muted/30 rounded-lg">
@@ -205,10 +205,10 @@ export const DecisionDetailDialog = ({
                 <div className="space-y-2 animate-fade-in p-4 bg-muted/30 rounded-lg border border-border/50" style={{ animationDelay: '0.2s', animationFillMode: 'both' }}>
                   <div className="flex items-center gap-2 mb-1">
                     <Lightbulb className="h-4 w-4 text-primary" />
-                    <h4 className="text-sm font-semibold text-foreground">AI Reasoning</h4>
+                    <h4 className="text-sm font-semibold text-foreground">Reasoning</h4>
                   </div>
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    AI has identified excess inventory at location {decision.fromLocation} and shortage at location {decision.toLocation} which would allow balancing the inventory across the network to minimize excess and shortage. The lead time to transfer between is 22 hours.
+                    System has identified excess inventory at location {decision.fromLocation} and shortage at location {decision.toLocation} which would allow balancing the inventory across the network to minimize excess and shortage. The lead time to transfer between is 22 hours.
                   </p>
                 </div>
 
@@ -1096,7 +1096,7 @@ export const DecisionDetailDialog = ({
                       <h3 className="font-semibold text-lg">Historical Decision Performance</h3>
                     </div>
                     <p className="text-sm text-muted-foreground mb-4">
-                      Track record of AI recommendations accuracy and realized savings
+                      Track record of recommendations accuracy and realized savings
                     </p>
                     <ResponsiveContainer width="100%" height={300}>
                       <BarChart data={historicalPerformance}>

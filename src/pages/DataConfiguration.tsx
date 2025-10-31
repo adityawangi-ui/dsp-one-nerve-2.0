@@ -12,7 +12,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Search, Upload, Download, Trash2, Edit, Plus, Settings } from "lucide-react";
+import { Search, Download, Trash2, Settings } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 
 // Mock SKU data
@@ -157,14 +157,6 @@ export default function DataConfiguration() {
                     </div>
 
                     <div className="flex gap-2">
-                      <Button>
-                        <Plus className="h-4 w-4 mr-2" />
-                        Add New
-                      </Button>
-                      <Button variant="outline">
-                        <Upload className="h-4 w-4 mr-2" />
-                        Bulk Upload
-                      </Button>
                       <Button variant="outline">
                         <Download className="h-4 w-4 mr-2" />
                         Export
@@ -205,7 +197,6 @@ export default function DataConfiguration() {
                           <TableHead className="font-semibold">ABC</TableHead>
                           <TableHead className="font-semibold">Status</TableHead>
                           <TableHead className="font-semibold">Updated</TableHead>
-                          <TableHead className="font-semibold text-right">Actions</TableHead>
                         </TableRow>
                       </TableHeader>
                       <TableBody>
@@ -257,20 +248,6 @@ export default function DataConfiguration() {
                             </TableCell>
                             <TableCell className="text-muted-foreground text-sm">
                               {sku.updated}
-                            </TableCell>
-                            <TableCell className="text-right">
-                              <div className="flex gap-2 justify-end">
-                                <Button variant="ghost" size="icon" className="h-8 w-8">
-                                  <Edit className="h-4 w-4" />
-                                </Button>
-                                <Button
-                                  variant="ghost"
-                                  size="icon"
-                                  className="h-8 w-8 text-destructive hover:text-destructive"
-                                >
-                                  <Trash2 className="h-4 w-4" />
-                                </Button>
-                              </div>
                             </TableCell>
                           </TableRow>
                         ))}
