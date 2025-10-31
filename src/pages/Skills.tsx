@@ -289,7 +289,7 @@ export default function Skills() {
                     <Sparkles className="h-5 w-5 text-primary animate-pulse" />
                   </div>
                   <p className="text-sm md:text-base text-muted-foreground">Material Planner</p>
-                  <p className="text-sm text-muted-foreground mt-1">Choose a module to view AI-powered decision recommendations</p>
+                  <p className="text-sm text-muted-foreground mt-1">Choose a module to view decision recommendations</p>
                 </div>
               </div>
             </div>
