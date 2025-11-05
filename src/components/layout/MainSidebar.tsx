@@ -81,6 +81,12 @@ const aiCockpitItems: SidebarItem[] = [
 
 const decisionIntelligenceItems: SidebarItem[] = [
   {
+    id: "workspace",
+    title: "Supply Planner Workspace",
+    icon: Wrench,
+    href: "/workspace",
+  },
+  {
     id: "skills",
     title: "Module",
     icon: Zap,

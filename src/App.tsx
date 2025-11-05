@@ -12,6 +12,7 @@ import Approvals from "./pages/Approvals";
 import Skills from "./pages/Skills";
 import Analytics from "./pages/Analytics";
 import DataConfiguration from "./pages/DataConfiguration";
+import SupplyPlannerWorkspace from "./pages/SupplyPlannerWorkspace";
 import NotFound from "./pages/NotFound";
 import { ComingSoon } from "@/components/ui/coming-soon";
 
@@ -33,6 +34,7 @@ const App = () => (
           <Route path="/skills" element={<Skills />} />
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/data-config" element={<DataConfiguration />} />
+          <Route path="/workspace" element={<SupplyPlannerWorkspace />} />
           <Route path="/settings" element={<ComingSoon title="Admin & Settings - Coming Soon" />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
