@@ -68,9 +68,12 @@ export default function SupplyPlannerWorkspace() {
               <CardContent className="p-6">
                 <div className="flex items-start justify-between flex-wrap gap-4">
                   <div>
-                    <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent mb-2">
-                      Workspace
+                    <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent mb-1">
+                      Hello Aditya!
                     </h1>
+                    <h2 className="text-2xl md:text-3xl font-semibold text-foreground mb-2">
+                      Supply Planning View
+                    </h2>
                     <p className="text-base md:text-lg text-muted-foreground">
                       Manage supply balance, stock levels, and production readiness across your network.
                     </p>
