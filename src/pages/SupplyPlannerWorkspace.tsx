@@ -1,5 +1,4 @@
 import { MainLayout } from "@/components/layout/MainLayout";
-import { ModuleCard } from "@/components/decision-intelligence/ModuleCard";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -29,113 +28,93 @@ export default function SupplyPlannerWorkspace() {
           
           {/* Header Section */}
           <div className="animate-fade-in">
-            <div className="flex items-start justify-between flex-wrap gap-4 mb-4">
-              <div>
-                <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent mb-2">
-                  Supply Planner Workspace
-                </h1>
-                <p className="text-base md:text-lg text-muted-foreground">
-                  Manage supply balance, stock levels, and production readiness across your network.
-                </p>
-              </div>
-              <div className="flex gap-2 flex-wrap">
-                <Badge variant="outline" className="px-3 py-1.5 text-xs bg-card/80 backdrop-blur-sm border-primary/20">
-                  <Calendar className="h-3 w-3 mr-1.5" />
-                  Data Last Synced: 2 mins ago
-                </Badge>
-                <Badge variant="outline" className="px-3 py-1.5 text-xs bg-card/80 backdrop-blur-sm border-warning/20">
-                  <Bell className="h-3 w-3 mr-1.5" />
-                  Active Alerts: 5
-                </Badge>
-                <Badge variant="outline" className="px-3 py-1.5 text-xs bg-card/80 backdrop-blur-sm border-primary/20">
-                  <Activity className="h-3 w-3 mr-1.5" />
-                  Current Week: W48
-                </Badge>
-              </div>
-            </div>
+            <Card className="bg-gradient-to-r from-primary/5 via-muted/30 to-muted/50 border-primary/10 mb-6">
+              <CardContent className="p-6">
+                <div className="flex items-start justify-between flex-wrap gap-4">
+                  <div>
+                    <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent mb-2">
+                      Workspace
+                    </h1>
+                    <p className="text-base md:text-lg text-muted-foreground">
+                      Manage supply balance, stock levels, and production readiness across your network.
+                    </p>
+                  </div>
+                  <div className="flex gap-2 flex-wrap">
+                    <Badge variant="outline" className="px-3 py-1.5 text-xs bg-card/80 backdrop-blur-sm border-primary/20">
+                      <Calendar className="h-3 w-3 mr-1.5" />
+                      Data Last Synced: 15 mins ago
+                    </Badge>
+                    <Badge variant="outline" className="px-3 py-1.5 text-xs bg-card/80 backdrop-blur-sm border-destructive/20 text-destructive">
+                      <Bell className="h-3 w-3 mr-1.5" />
+                      Active Alerts: 3
+                    </Badge>
+                    <Badge variant="outline" className="px-3 py-1.5 text-xs bg-card/80 backdrop-blur-sm border-primary/20">
+                      <Activity className="h-3 w-3 mr-1.5" />
+                      Current Week: W45 FY25
+                    </Badge>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
           </div>
 
-          {/* Today's Overview Section */}
+          {/* Overview Section */}
           <div className="animate-fade-in" style={{ animationDelay: '0.1s', animationFillMode: 'both' }}>
-            <h2 className="text-2xl font-bold text-foreground mb-4">Today's Overview</h2>
+            <h2 className="text-2xl font-bold text-foreground mb-4">Overview</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
               
               {/* Supply-Demand Balance */}
-              <Card className="transition-all duration-300 hover:shadow-[var(--shadow-glow)] hover:scale-[1.02] bg-gradient-to-br from-card to-surface/50 backdrop-blur-sm">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-                    <RefreshCw className="h-4 w-4" />
-                    Supply-Demand Balance
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-baseline gap-2 mb-2">
-                    <span className="text-3xl font-bold text-foreground">87%</span>
-                    <span className="text-sm text-muted-foreground">matched</span>
-                  </div>
-                  <div className="flex items-center gap-1 text-sm text-destructive">
-                    <TrendingDown className="h-3 w-3" />
-                    <span>23 shortfalls detected</span>
+              <Card className="transition-all duration-300 hover:shadow-[var(--shadow-glow)] hover:scale-[1.02] bg-card/50 backdrop-blur-sm border-border/50">
+                <CardContent className="p-6">
+                  <div className="space-y-3">
+                    <h3 className="text-sm font-medium text-muted-foreground">Supply–Demand Balance</h3>
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-4xl font-bold text-foreground">93</span>
+                      <span className="text-lg text-muted-foreground">% matched</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground">7 SKUs under review for shortfall</p>
                   </div>
                 </CardContent>
               </Card>
 
               {/* Inventory Coverage */}
-              <Card className="transition-all duration-300 hover:shadow-[var(--shadow-glow)] hover:scale-[1.02] bg-gradient-to-br from-card to-surface/50 backdrop-blur-sm">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-                    <Package className="h-4 w-4" />
-                    Inventory Coverage
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-baseline gap-2 mb-2">
-                    <span className="text-3xl font-bold text-foreground">34</span>
-                    <span className="text-sm text-muted-foreground">days</span>
-                  </div>
-                  <div className="flex items-center gap-1 text-sm text-warning">
-                    <AlertTriangle className="h-3 w-3" />
-                    <span>12 SKUs below safety stock</span>
+              <Card className="transition-all duration-300 hover:shadow-[var(--shadow-glow)] hover:scale-[1.02] bg-card/50 backdrop-blur-sm border-border/50">
+                <CardContent className="p-6">
+                  <div className="space-y-3">
+                    <h3 className="text-sm font-medium text-muted-foreground">Inventory Coverage</h3>
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-4xl font-bold text-foreground">26</span>
+                      <span className="text-lg text-muted-foreground">days avg</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground">4 materials below safety stock</p>
                   </div>
                 </CardContent>
               </Card>
 
               {/* Production Plan Adherence */}
-              <Card className="transition-all duration-300 hover:shadow-[var(--shadow-glow)] hover:scale-[1.02] bg-gradient-to-br from-card to-surface/50 backdrop-blur-sm">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-                    <CheckCircle className="h-4 w-4" />
-                    Production Plan Adherence
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-baseline gap-2 mb-2">
-                    <span className="text-3xl font-bold text-foreground">92%</span>
-                    <span className="text-sm text-muted-foreground">adherence</span>
-                  </div>
-                  <div className="flex items-center gap-1 text-sm text-success">
-                    <TrendingUp className="h-3 w-3" />
-                    <span>+3% vs last week</span>
+              <Card className="transition-all duration-300 hover:shadow-[var(--shadow-glow)] hover:scale-[1.02] bg-card/50 backdrop-blur-sm border-border/50">
+                <CardContent className="p-6">
+                  <div className="space-y-3">
+                    <h3 className="text-sm font-medium text-muted-foreground">Production Plan Adherence</h3>
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-4xl font-bold text-foreground">88</span>
+                      <span className="text-lg text-muted-foreground">%</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground">2 plants missed schedule last week</p>
                   </div>
                 </CardContent>
               </Card>
 
               {/* Open Exceptions */}
-              <Card className="transition-all duration-300 hover:shadow-[var(--shadow-glow)] hover:scale-[1.02] bg-gradient-to-br from-card to-surface/50 backdrop-blur-sm">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-                    <AlertTriangle className="h-4 w-4" />
-                    Open Exceptions
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="flex items-baseline gap-2 mb-2">
-                    <span className="text-3xl font-bold text-foreground">18</span>
-                    <span className="text-sm text-muted-foreground">active</span>
-                  </div>
-                  <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                    <Clock className="h-3 w-3" />
-                    <span>5 require urgent action</span>
+              <Card className="transition-all duration-300 hover:shadow-[var(--shadow-glow)] hover:scale-[1.02] bg-card/50 backdrop-blur-sm border-border/50">
+                <CardContent className="p-6">
+                  <div className="space-y-3">
+                    <h3 className="text-sm font-medium text-muted-foreground">Open Exceptions</h3>
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-4xl font-bold text-foreground">5</span>
+                      <span className="text-lg text-muted-foreground">active</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground">Pending replans or approvals</p>
                   </div>
                 </CardContent>
               </Card>
@@ -147,15 +126,32 @@ export default function SupplyPlannerWorkspace() {
           <div className="animate-fade-in" style={{ animationDelay: '0.2s', animationFillMode: 'both' }}>
             <h2 className="text-2xl font-bold text-foreground mb-4">Modules</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <ModuleCard
-                title="Inventory Balancing"
-                subtitle="Optimize inventory distribution across locations"
-                status="active"
-                icon={Package}
-                onClick={() => window.location.href = '/skills'}
-                statusCount={12}
-              />
-              <Card className="relative overflow-hidden transition-all duration-300 hover:shadow-[var(--shadow-glow)] hover:scale-[1.02] bg-gradient-to-br from-card to-surface border border-border/50 cursor-pointer">
+              
+              {/* Inventory Balancing */}
+              <Card className="relative overflow-hidden transition-all duration-300 hover:shadow-[var(--shadow-glow)] hover:scale-[1.02] bg-gradient-to-br from-card to-surface/50 border border-border/50 cursor-pointer backdrop-blur-sm">
+                <CardContent className="p-6">
+                  <div className="flex items-start gap-4">
+                    <div className="p-3 rounded-xl bg-primary/10 text-primary">
+                      <Package className="h-6 w-6" />
+                    </div>
+                    <div className="flex-1">
+                      <div className="flex items-start justify-between mb-2">
+                        <h3 className="text-lg font-semibold text-foreground">Inventory Balancing</h3>
+                        <span className="text-lg">✅</span>
+                      </div>
+                      <p className="text-sm text-muted-foreground mb-3">
+                        Optimize inventory distribution across locations
+                      </p>
+                      <div className="text-xs text-primary font-medium">
+                        12 SKUs pending balance review
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              {/* Supply Rebalancing */}
+              <Card className="relative overflow-hidden transition-all duration-300 hover:shadow-[var(--shadow-glow)] hover:scale-[1.02] bg-gradient-to-br from-card to-surface/50 border border-border/50 cursor-pointer backdrop-blur-sm">
                 <CardContent className="p-6">
                   <div className="flex items-start gap-4">
                     <div className="p-3 rounded-xl bg-primary/10 text-primary">
@@ -164,10 +160,7 @@ export default function SupplyPlannerWorkspace() {
                     <div className="flex-1">
                       <div className="flex items-start justify-between mb-2">
                         <h3 className="text-lg font-semibold text-foreground">Supply Rebalancing</h3>
-                        <Badge variant="outline" className="bg-warning/10 text-warning border-warning/20">
-                          <AlertTriangle className="h-3 w-3 mr-1" />
-                          8 alerts
-                        </Badge>
+                        <span className="text-lg">⚠️</span>
                       </div>
                       <p className="text-sm text-muted-foreground mb-3">
                         Real-time supply and demand optimization
@@ -179,7 +172,9 @@ export default function SupplyPlannerWorkspace() {
                   </div>
                 </CardContent>
               </Card>
-              <Card className="relative overflow-hidden transition-all duration-300 hover:shadow-[var(--shadow-glow)] hover:scale-[1.02] bg-gradient-to-br from-card to-surface border border-border/50 cursor-pointer">
+
+              {/* Dynamic Safety Stock */}
+              <Card className="relative overflow-hidden transition-all duration-300 hover:shadow-[var(--shadow-glow)] hover:scale-[1.02] bg-gradient-to-br from-card to-surface/50 border border-border/50 cursor-pointer backdrop-blur-sm">
                 <CardContent className="p-6">
                   <div className="flex items-start gap-4">
                     <div className="p-3 rounded-xl bg-primary/10 text-primary">
@@ -188,22 +183,21 @@ export default function SupplyPlannerWorkspace() {
                     <div className="flex-1">
                       <div className="flex items-start justify-between mb-2">
                         <h3 className="text-lg font-semibold text-foreground">Dynamic Safety Stock</h3>
-                        <Badge variant="outline" className="bg-success/10 text-success border-success/20">
-                          <CheckCircle className="h-3 w-3 mr-1" />
-                          Active
-                        </Badge>
+                        <span className="text-lg">✅</span>
                       </div>
                       <p className="text-sm text-muted-foreground mb-3">
                         Adaptive safety stock calculations and alerts
                       </p>
                       <div className="text-xs text-primary font-medium">
-                        15 SKUs require safety stock adjustment
+                        3 safety stock rules updated this week
                       </div>
                     </div>
                   </div>
                 </CardContent>
               </Card>
-              <Card className="relative overflow-hidden transition-all duration-300 hover:shadow-[var(--shadow-glow)] hover:scale-[1.02] bg-gradient-to-br from-card to-surface border border-border/50 cursor-pointer">
+
+              {/* Inventory Aging Management */}
+              <Card className="relative overflow-hidden transition-all duration-300 hover:shadow-[var(--shadow-glow)] hover:scale-[1.02] bg-gradient-to-br from-card to-surface/50 border border-border/50 cursor-pointer backdrop-blur-sm">
                 <CardContent className="p-6">
                   <div className="flex items-start gap-4">
                     <div className="p-3 rounded-xl bg-primary/10 text-primary">
@@ -212,10 +206,7 @@ export default function SupplyPlannerWorkspace() {
                     <div className="flex-1">
                       <div className="flex items-start justify-between mb-2">
                         <h3 className="text-lg font-semibold text-foreground">Inventory Aging Management</h3>
-                        <Badge variant="outline" className="bg-warning/10 text-warning border-warning/20">
-                          <AlertTriangle className="h-3 w-3 mr-1" />
-                          6 alerts
-                        </Badge>
+                        <span className="text-lg">⛔</span>
                       </div>
                       <p className="text-sm text-muted-foreground mb-3">
                         Track and optimize inventory aging patterns
@@ -227,6 +218,7 @@ export default function SupplyPlannerWorkspace() {
                   </div>
                 </CardContent>
               </Card>
+
             </div>
           </div>
 
@@ -235,65 +227,122 @@ export default function SupplyPlannerWorkspace() {
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-2xl font-bold text-foreground">Analytics Snapshot</h2>
               <Link to="/analytics">
-                <Button variant="outline" size="sm" className="gap-2">
+                <Button variant="outline" size="sm" className="gap-2 hover:bg-primary/10 transition-all">
                   View Full Analytics
                   <ExternalLink className="h-3 w-3" />
                 </Button>
               </Link>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Card className="bg-gradient-to-br from-card to-surface">
-                <CardHeader>
-                  <CardTitle className="text-base font-semibold flex items-center gap-2">
-                    <TrendingUp className="h-4 w-4 text-primary" />
-                    Forecast vs Actual
+              
+              {/* Forecast vs Actual Trend */}
+              <Card className="bg-gradient-to-br from-card to-surface/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base font-semibold flex items-center justify-between">
+                    <span className="flex items-center gap-2">
+                      <TrendingUp className="h-4 w-4 text-primary" />
+                      Forecast vs Actual Trend
+                    </span>
+                    <Badge variant="outline" className="bg-success/10 text-success border-success/20 text-xs">
+                      Within Target
+                    </Badge>
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="h-40 flex items-center justify-center text-muted-foreground text-sm">
-                    Chart visualization placeholder
+                  <div className="space-y-3">
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-2xl font-bold text-foreground">96%</span>
+                      <span className="text-sm text-muted-foreground">accuracy</span>
+                    </div>
+                    <div className="h-32 bg-muted/30 rounded-lg flex items-center justify-center">
+                      <span className="text-xs text-muted-foreground">Line chart: Last 6 weeks demand vs supply</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground">Demand tracking closely with forecast</p>
                   </div>
                 </CardContent>
               </Card>
-              <Card className="bg-gradient-to-br from-card to-surface">
-                <CardHeader>
-                  <CardTitle className="text-base font-semibold flex items-center gap-2">
-                    <RefreshCw className="h-4 w-4 text-primary" />
-                    Inventory Turns
+
+              {/* Inventory Turnover by Region */}
+              <Card className="bg-gradient-to-br from-card to-surface/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base font-semibold flex items-center justify-between">
+                    <span className="flex items-center gap-2">
+                      <RefreshCw className="h-4 w-4 text-primary" />
+                      Inventory Turnover by Region
+                    </span>
+                    <Badge variant="outline" className="bg-warning/10 text-warning border-warning/20 text-xs">
+                      Attention
+                    </Badge>
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="h-40 flex items-center justify-center text-muted-foreground text-sm">
-                    Chart visualization placeholder
+                  <div className="space-y-3">
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-2xl font-bold text-foreground">4.2x</span>
+                      <span className="text-sm text-muted-foreground">avg turns</span>
+                    </div>
+                    <div className="h-32 bg-muted/30 rounded-lg flex items-center justify-center">
+                      <span className="text-xs text-muted-foreground">Bar chart: Current vs target by region</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground">North region below target turnover</p>
                   </div>
                 </CardContent>
               </Card>
-              <Card className="bg-gradient-to-br from-card to-surface">
-                <CardHeader>
-                  <CardTitle className="text-base font-semibold flex items-center gap-2">
-                    <AlertTriangle className="h-4 w-4 text-warning" />
-                    Shortage Trends
+
+              {/* Material Shortage Trend */}
+              <Card className="bg-gradient-to-br from-card to-surface/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base font-semibold flex items-center justify-between">
+                    <span className="flex items-center gap-2">
+                      <AlertTriangle className="h-4 w-4 text-warning" />
+                      Material Shortage Trend
+                    </span>
+                    <Badge variant="outline" className="bg-destructive/10 text-destructive border-destructive/20 text-xs">
+                      Off-Target
+                    </Badge>
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="h-40 flex items-center justify-center text-muted-foreground text-sm">
-                    Chart visualization placeholder
+                  <div className="space-y-3">
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-2xl font-bold text-foreground">18</span>
+                      <span className="text-sm text-muted-foreground">shortages</span>
+                    </div>
+                    <div className="h-32 bg-muted/30 rounded-lg flex items-center justify-center">
+                      <span className="text-xs text-muted-foreground">Area chart: 8-week rolling shortage trend</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground">Increasing trend over last 3 weeks</p>
                   </div>
                 </CardContent>
               </Card>
-              <Card className="bg-gradient-to-br from-card to-surface">
-                <CardHeader>
-                  <CardTitle className="text-base font-semibold flex items-center gap-2">
-                    <CheckCircle className="h-4 w-4 text-success" />
-                    Supply Reliability
+
+              {/* Production Adherence */}
+              <Card className="bg-gradient-to-br from-card to-surface/50 backdrop-blur-sm border-border/50">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base font-semibold flex items-center justify-between">
+                    <span className="flex items-center gap-2">
+                      <CheckCircle className="h-4 w-4 text-success" />
+                      Production Adherence
+                    </span>
+                    <Badge variant="outline" className="bg-success/10 text-success border-success/20 text-xs">
+                      Within Target
+                    </Badge>
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="h-40 flex items-center justify-center text-muted-foreground text-sm">
-                    Chart visualization placeholder
+                  <div className="space-y-3">
+                    <div className="flex items-baseline gap-2">
+                      <span className="text-2xl font-bold text-foreground">88%</span>
+                      <span className="text-sm text-muted-foreground">adherence</span>
+                    </div>
+                    <div className="h-32 bg-muted/30 rounded-lg flex items-center justify-center">
+                      <span className="text-xs text-muted-foreground">Bar chart: Weekly adherence by plant</span>
+                    </div>
+                    <p className="text-xs text-muted-foreground">Plant A & C performing well, Plant B needs attention</p>
                   </div>
                 </CardContent>
               </Card>
+
             </div>
           </div>
 
