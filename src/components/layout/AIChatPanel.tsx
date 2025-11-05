@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { Link } from "react-router-dom";
 
 interface ChatMessage {
   id: string;
@@ -83,12 +84,13 @@ export const AIChatPanel = ({ isOpen, isMinimized, onToggle, onMinimize }: AICha
 
   if (!isOpen) {
     return (
-      <Button
-        onClick={onToggle}
-        className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-[var(--shadow-elevated)] bg-primary hover:bg-primary/90 z-50"
-      >
-        <MessageSquare className="h-6 w-6" />
-      </Button>
+      <Link to="/">
+        <Button
+          className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-[var(--shadow-elevated)] bg-primary hover:bg-primary/90 z-50"
+        >
+          <MessageSquare className="h-6 w-6" />
+        </Button>
+      </Link>
     );
   }
 
