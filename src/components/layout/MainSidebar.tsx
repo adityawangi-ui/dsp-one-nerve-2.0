@@ -65,18 +65,6 @@ const aiCockpitItems: SidebarItem[] = [
     href: "/approvals",
     badge: 3,
   },
-  {
-    id: "agents",
-    title: "Agent Directory",
-    icon: Bot,
-    href: "/agents",
-  },
-  {
-    id: "settings",
-    title: "Admin & Settings",
-    icon: Settings,
-    href: "/settings",
-  },
 ];
 
 const decisionIntelligenceItems: SidebarItem[] = [
