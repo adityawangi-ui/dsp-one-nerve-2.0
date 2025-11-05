@@ -144,9 +144,9 @@ export const OrchestrationConsole = () => {
   ];
 
   return (
-    <div className="p-6 space-y-8">
+    <div className="p-8 space-y-8 bg-gradient-to-br from-background via-surface to-muted/20 min-h-screen">
       {/* Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between animate-fade-in">
         <div>
           <h1 className="text-3xl font-bold text-foreground">Process Console</h1>
           <p className="text-muted-foreground mt-1">AI-powered autonomous planning control tower</p>

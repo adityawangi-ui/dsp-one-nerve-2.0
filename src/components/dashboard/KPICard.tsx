@@ -51,13 +51,13 @@ export const KPICard = ({
   };
 
   return (
-    <div className="kpi-card hover-lift">
-      <div className="flex items-start justify-between mb-4">
+    <div className="bg-gradient-to-br from-card to-surface border border-border rounded-3xl p-8 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-glow)] transition-all duration-300 hover:scale-[1.02]">
+      <div className="flex items-start justify-between mb-5">
         <div>
-          <h3 className="text-sm font-medium text-muted-foreground mb-1">{title}</h3>
+          <h3 className="text-sm font-medium text-muted-foreground mb-2">{title}</h3>
           <div className="flex items-baseline space-x-2">
-            <span className="text-2xl font-bold text-foreground">{value}</span>
-            {unit && <span className="text-sm text-muted-foreground">{unit}</span>}
+            <span className="text-3xl font-bold text-foreground">{value}</span>
+            {unit && <span className="text-base text-muted-foreground">{unit}</span>}
           </div>
           {subtitle && (
             <p className="text-xs text-muted-foreground mt-1">{subtitle}</p>
@@ -65,7 +65,7 @@ export const KPICard = ({
         </div>
         
         {status !== "healthy" && (
-          <div className={cn("p-1 rounded", getStatusColor())}>
+          <div className={cn("p-2 rounded-xl", getStatusColor())}>
             <AlertTriangle className="h-4 w-4" />
           </div>
         )}

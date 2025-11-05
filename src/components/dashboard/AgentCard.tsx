@@ -58,10 +58,10 @@ export const AgentCard = ({
   };
 
   return (
-    <div className="bg-card border border-border rounded-lg p-4 hover-lift min-w-[280px]">
-      <div className="flex items-start justify-between mb-3">
+    <div className="bg-gradient-to-br from-card to-surface border border-border rounded-2xl p-6 hover-lift min-w-[300px] shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-elevated)] transition-all duration-300">
+      <div className="flex items-start justify-between mb-4">
         <div className="flex items-center space-x-3">
-          <div className={cn("w-10 h-10 rounded-lg flex items-center justify-center text-white", getTypeColor())}>
+          <div className={cn("w-12 h-12 rounded-xl flex items-center justify-center text-white shadow-lg", getTypeColor())}>
             {icon || <div className="w-4 h-4 bg-current rounded-sm" />}
           </div>
           <div>

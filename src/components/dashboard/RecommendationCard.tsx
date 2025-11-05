@@ -55,14 +55,14 @@ export const RecommendationCard = ({
   };
 
   return (
-    <div className="bg-card border border-border rounded-lg p-6 hover-lift">
-      <div className="flex items-start justify-between mb-4">
-        <div className="flex items-start space-x-3">
-          <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center mt-1">
+    <div className="bg-gradient-to-br from-card to-surface border border-border rounded-2xl p-8 hover-lift shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-elevated)] transition-all duration-300">
+      <div className="flex items-start justify-between mb-5">
+        <div className="flex items-start space-x-4">
+          <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center mt-1 shadow-sm">
             <Lightbulb className="h-4 w-4 text-primary" />
           </div>
           <div className="flex-1">
-            <h4 className="font-semibold text-foreground mb-1">{title}</h4>
+            <h4 className="font-semibold text-foreground mb-2 text-base">{title}</h4>
             <p className="text-sm text-muted-foreground leading-relaxed">{description}</p>
           </div>
         </div>
@@ -73,7 +73,7 @@ export const RecommendationCard = ({
       </div>
 
       {impact && (
-        <div className="flex items-center space-x-2 mb-4 p-3 bg-muted/50 rounded-lg">
+        <div className="flex items-center space-x-2 mb-5 p-4 bg-muted/50 rounded-xl border border-border/50">
           {getImpactIcon()}
           <span className="text-sm font-medium">
             {impact.metric}: {impact.value}
