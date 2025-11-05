@@ -87,12 +87,6 @@ const decisionIntelligenceItems: SidebarItem[] = [
     href: "/skills",
   },
   {
-    id: "planning",
-    title: "Planning",
-    icon: TrendingUp,
-    href: "/planning",
-  },
-  {
     id: "analytics",
     title: "Analytics",
     icon: TrendingUp,

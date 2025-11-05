@@ -10,7 +10,6 @@ import ScenarioWorkbench from "./pages/ScenarioWorkbench";
 import Insights from "./pages/Insights";
 import Approvals from "./pages/Approvals";
 import Skills from "./pages/Skills";
-import Planning from "./pages/Planning";
 import Analytics from "./pages/Analytics";
 import DataConfiguration from "./pages/DataConfiguration";
 import NotFound from "./pages/NotFound";
@@ -32,7 +31,6 @@ const App = () => (
           <Route path="/insights" element={<Insights />} />
           <Route path="/approvals" element={<Approvals />} />
           <Route path="/skills" element={<Skills />} />
-          <Route path="/planning" element={<Planning />} />
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/data-config" element={<DataConfiguration />} />
           <Route path="/settings" element={<ComingSoon title="Admin & Settings - Coming Soon" />} />
