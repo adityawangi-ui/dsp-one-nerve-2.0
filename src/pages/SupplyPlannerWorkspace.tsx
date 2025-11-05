@@ -19,6 +19,42 @@ import {
   Bell
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { LineChart, Line, BarChart, Bar, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
+
+// Chart data
+const forecastData = [
+  { week: "W40", forecast: 2400, actual: 2380 },
+  { week: "W41", forecast: 2210, actual: 2300 },
+  { week: "W42", forecast: 2290, actual: 2200 },
+  { week: "W43", forecast: 2000, actual: 2100 },
+  { week: "W44", forecast: 2181, actual: 2150 },
+  { week: "W45", forecast: 2500, actual: 2400 },
+];
+
+const turnoverData = [
+  { region: "North", current: 3.8, target: 4.5 },
+  { region: "South", current: 4.6, target: 4.5 },
+  { region: "East", current: 4.2, target: 4.5 },
+  { region: "West", current: 5.1, target: 4.5 },
+];
+
+const shortageData = [
+  { week: "W38", shortages: 12 },
+  { week: "W39", shortages: 10 },
+  { week: "W40", shortages: 8 },
+  { week: "W41", shortages: 11 },
+  { week: "W42", shortages: 14 },
+  { week: "W43", shortages: 16 },
+  { week: "W44", shortages: 17 },
+  { week: "W45", shortages: 18 },
+];
+
+const adherenceData = [
+  { plant: "Plant A", adherence: 95 },
+  { plant: "Plant B", adherence: 78 },
+  { plant: "Plant C", adherence: 92 },
+  { plant: "Plant D", adherence: 85 },
+];
 
 export default function SupplyPlannerWorkspace() {
   return (
@@ -254,9 +290,23 @@ export default function SupplyPlannerWorkspace() {
                       <span className="text-2xl font-bold text-foreground">96%</span>
                       <span className="text-sm text-muted-foreground">accuracy</span>
                     </div>
-                    <div className="h-32 bg-muted/30 rounded-lg flex items-center justify-center">
-                      <span className="text-xs text-muted-foreground">Line chart: Last 6 weeks demand vs supply</span>
-                    </div>
+                    <ResponsiveContainer width="100%" height={120}>
+                      <LineChart data={forecastData}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                        <XAxis dataKey="week" tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 10 }} />
+                        <YAxis tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 10 }} />
+                        <Tooltip 
+                          contentStyle={{ 
+                            backgroundColor: 'hsl(var(--card))',
+                            border: '1px solid hsl(var(--border))',
+                            borderRadius: '8px',
+                            fontSize: '12px'
+                          }}
+                        />
+                        <Line type="monotone" dataKey="forecast" stroke="hsl(var(--primary))" strokeWidth={2} dot={{ fill: 'hsl(var(--primary))' }} />
+                        <Line type="monotone" dataKey="actual" stroke="hsl(var(--success))" strokeWidth={2} dot={{ fill: 'hsl(var(--success))' }} />
+                      </LineChart>
+                    </ResponsiveContainer>
                     <p className="text-xs text-muted-foreground">Demand tracking closely with forecast</p>
                   </div>
                 </CardContent>
@@ -281,9 +331,23 @@ export default function SupplyPlannerWorkspace() {
                       <span className="text-2xl font-bold text-foreground">4.2x</span>
                       <span className="text-sm text-muted-foreground">avg turns</span>
                     </div>
-                    <div className="h-32 bg-muted/30 rounded-lg flex items-center justify-center">
-                      <span className="text-xs text-muted-foreground">Bar chart: Current vs target by region</span>
-                    </div>
+                    <ResponsiveContainer width="100%" height={120}>
+                      <BarChart data={turnoverData}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                        <XAxis dataKey="region" tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 10 }} />
+                        <YAxis tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 10 }} />
+                        <Tooltip 
+                          contentStyle={{ 
+                            backgroundColor: 'hsl(var(--card))',
+                            border: '1px solid hsl(var(--border))',
+                            borderRadius: '8px',
+                            fontSize: '12px'
+                          }}
+                        />
+                        <Bar dataKey="current" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
+                        <Bar dataKey="target" fill="hsl(var(--muted))" radius={[4, 4, 0, 0]} />
+                      </BarChart>
+                    </ResponsiveContainer>
                     <p className="text-xs text-muted-foreground">North region below target turnover</p>
                   </div>
                 </CardContent>
@@ -308,9 +372,28 @@ export default function SupplyPlannerWorkspace() {
                       <span className="text-2xl font-bold text-foreground">18</span>
                       <span className="text-sm text-muted-foreground">shortages</span>
                     </div>
-                    <div className="h-32 bg-muted/30 rounded-lg flex items-center justify-center">
-                      <span className="text-xs text-muted-foreground">Area chart: 8-week rolling shortage trend</span>
-                    </div>
+                    <ResponsiveContainer width="100%" height={120}>
+                      <AreaChart data={shortageData}>
+                        <defs>
+                          <linearGradient id="shortageGradient" x1="0" y1="0" x2="0" y2="1">
+                            <stop offset="5%" stopColor="hsl(var(--destructive))" stopOpacity={0.3}/>
+                            <stop offset="95%" stopColor="hsl(var(--destructive))" stopOpacity={0}/>
+                          </linearGradient>
+                        </defs>
+                        <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                        <XAxis dataKey="week" tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 10 }} />
+                        <YAxis tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 10 }} />
+                        <Tooltip 
+                          contentStyle={{ 
+                            backgroundColor: 'hsl(var(--card))',
+                            border: '1px solid hsl(var(--border))',
+                            borderRadius: '8px',
+                            fontSize: '12px'
+                          }}
+                        />
+                        <Area type="monotone" dataKey="shortages" stroke="hsl(var(--destructive))" strokeWidth={2} fillOpacity={1} fill="url(#shortageGradient)" />
+                      </AreaChart>
+                    </ResponsiveContainer>
                     <p className="text-xs text-muted-foreground">Increasing trend over last 3 weeks</p>
                   </div>
                 </CardContent>
@@ -335,9 +418,22 @@ export default function SupplyPlannerWorkspace() {
                       <span className="text-2xl font-bold text-foreground">88%</span>
                       <span className="text-sm text-muted-foreground">adherence</span>
                     </div>
-                    <div className="h-32 bg-muted/30 rounded-lg flex items-center justify-center">
-                      <span className="text-xs text-muted-foreground">Bar chart: Weekly adherence by plant</span>
-                    </div>
+                    <ResponsiveContainer width="100%" height={120}>
+                      <BarChart data={adherenceData}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                        <XAxis dataKey="plant" tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 10 }} />
+                        <YAxis tick={{ fill: 'hsl(var(--muted-foreground))', fontSize: 10 }} domain={[0, 100]} />
+                        <Tooltip 
+                          contentStyle={{ 
+                            backgroundColor: 'hsl(var(--card))',
+                            border: '1px solid hsl(var(--border))',
+                            borderRadius: '8px',
+                            fontSize: '12px'
+                          }}
+                        />
+                        <Bar dataKey="adherence" fill="hsl(var(--success))" radius={[4, 4, 0, 0]} />
+                      </BarChart>
+                    </ResponsiveContainer>
                     <p className="text-xs text-muted-foreground">Plant A & C performing well, Plant B needs attention</p>
                   </div>
                 </CardContent>
