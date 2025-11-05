@@ -177,7 +177,7 @@ export const DecisionDetailDialog = ({
                 </div>
                 <div className="flex items-center gap-2 text-xs text-muted-foreground mt-2 p-2 bg-muted/30 rounded-lg">
                   <User className="h-3 w-3" />
-                  <span>Reviewed by: <span className="text-foreground font-medium">Aditya (Material Planner)</span></span>
+                  <span>Reviewed by: <span className="text-foreground font-medium">Aditya (Supply Planner)</span></span>
                 </div>
               </DialogHeader>
             </div>

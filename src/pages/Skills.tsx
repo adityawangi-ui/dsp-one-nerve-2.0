@@ -6,7 +6,7 @@ import { DecisionTable, Decision } from "@/components/decision-intelligence/Deci
 import { DecisionDetailDialog } from "@/components/decision-intelligence/DecisionDetailDialog";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { ArrowLeft, Package, ShoppingCart, CheckCircle, TrendingUp, Sparkles, User } from "lucide-react";
+import { ArrowLeft, Package, RefreshCw, Shield, Clock, Sparkles, User } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 // Mock decisions data
@@ -193,7 +193,7 @@ export default function Skills() {
                         <h2 className="text-2xl md:text-3xl font-bold text-foreground">Hello, Aditya!</h2>
                         <Sparkles className="h-5 w-5 text-primary animate-pulse" />
                       </div>
-                      <p className="text-sm md:text-base text-muted-foreground">Material Planner</p>
+                      <p className="text-sm md:text-base text-muted-foreground">Supply Planner</p>
                       <p className="text-sm text-muted-foreground mt-1">Welcome back to your Inventory Decision Intelligence workspace</p>
                     </div>
                   </div>
@@ -288,7 +288,7 @@ export default function Skills() {
                     <h2 className="text-2xl md:text-3xl font-bold text-foreground">Hello, Aditya!</h2>
                     <Sparkles className="h-5 w-5 text-primary animate-pulse" />
                   </div>
-                  <p className="text-sm md:text-base text-muted-foreground">Material Planner</p>
+                  <p className="text-sm md:text-base text-muted-foreground">Supply Planner</p>
                   <p className="text-sm text-muted-foreground mt-1">Choose a module to view decision recommendations</p>
                 </div>
               </div>
@@ -307,7 +307,7 @@ export default function Skills() {
           {/* Modules Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-in" style={{ animationDelay: '0.2s', animationFillMode: 'both' }}>
             <ModuleCard
-              title="Inventory"
+              title="Inventory Balancing"
               subtitle="AI-powered inventory transfer recommendations"
               status="active"
               icon={Package}
@@ -315,24 +315,24 @@ export default function Skills() {
               statusCount={47}
             />
             <ModuleCard
-              title="Order Management"
-              subtitle="Automated order processing and fulfillment"
-              status="coming-soon"
-              icon={ShoppingCart}
-              disabled
-            />
-            <ModuleCard
-              title="Quality Control"
-              subtitle="Predictive quality analysis and alerts"
-              status="coming-soon"
-              icon={CheckCircle}
-              disabled
-            />
-            <ModuleCard
-              title="Stock Rebalancing"
+              title="Supply Rebalancing"
               subtitle="Real-time supply and demand optimization"
               status="coming-soon"
-              icon={TrendingUp}
+              icon={RefreshCw}
+              disabled
+            />
+            <ModuleCard
+              title="Dynamic Safety Stock"
+              subtitle="Adaptive safety stock calculations and alerts"
+              status="coming-soon"
+              icon={Shield}
+              disabled
+            />
+            <ModuleCard
+              title="Inventory Aging Management"
+              subtitle="Track and optimize inventory aging patterns"
+              status="coming-soon"
+              icon={Clock}
               disabled
             />
           </div>
