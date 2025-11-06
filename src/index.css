@@ -64,10 +64,13 @@
     --gradient-subtle: linear-gradient(180deg, hsl(0 0% 100%), hsl(210 40% 98%));
     --gradient-card: linear-gradient(135deg, hsl(0 0% 100%), hsl(210 40% 98%));
     --gradient-warm: linear-gradient(135deg, hsl(210 40% 98%), hsl(214 32% 91%));
+    --gradient-greeting: linear-gradient(120deg, hsl(200 90% 55%), hsl(250 85% 60%));
+    --gradient-neon: linear-gradient(90deg, hsl(200 100% 50%), hsl(220 100% 60%));
     --shadow-elegant: 0 20px 50px -15px hsl(221.2 83.2% 53.3% / 0.15);
-    --shadow-card: 0 2px 12px -2px hsl(222.2 84% 4.9% / 0.08);
-    --shadow-elevated: 0 8px 30px -4px hsl(222.2 84% 4.9% / 0.1);
-    --shadow-glow: 0 0 30px hsl(221.2 83.2% 53.3% / 0.15);
+    --shadow-card: 0 4px 20px -4px hsl(222.2 84% 4.9% / 0.12);
+    --shadow-elevated: 0 8px 30px -4px hsl(222.2 84% 4.9% / 0.15);
+    --shadow-glow: 0 0 30px hsl(221.2 83.2% 53.3% / 0.2);
+    --shadow-intense: 0 12px 40px -8px hsl(222.2 84% 4.9% / 0.2);
     
     /* Sidebar */
     --sidebar-background: 0 0% 100%;
@@ -176,7 +179,7 @@
   
   /* Interactive Elements */
   .hover-lift {
-    @apply transition-all duration-300 hover:translate-y-[-4px] hover:shadow-[var(--shadow-glow)] hover:scale-[1.01];
+    @apply transition-all duration-300 hover:translate-y-[-3px] hover:shadow-[var(--shadow-intense)];
   }
   
   /* Chat Messages */
@@ -190,5 +193,63 @@
   
   .chat-message.ai {
     @apply bg-muted text-foreground mr-auto;
+  }
+  
+  /* Landing Page Specific */
+  .gradient-text {
+    background: var(--gradient-greeting);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  
+  .frosted-glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  
+  .breathing-border {
+    animation: breathing 3s ease-in-out infinite;
+  }
+  
+  @keyframes breathing {
+    0%, 100% {
+      box-shadow: 0 0 0 0 hsl(221.2 83.2% 53.3% / 0.4),
+                  0 0 20px -2px hsl(221.2 83.2% 53.3% / 0.2);
+    }
+    50% {
+      box-shadow: 0 0 0 4px hsl(221.2 83.2% 53.3% / 0.2),
+                  0 0 30px 0 hsl(221.2 83.2% 53.3% / 0.3);
+    }
+  }
+  
+  @keyframes shimmer {
+    0% {
+      transform: translateX(-100%);
+    }
+    100% {
+      transform: translateX(100%);
+    }
+  }
+  
+  .card-shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .card-shimmer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+    animation: shimmer 3s infinite;
+  }
+  
+  .misty-bg {
+    background: linear-gradient(135deg, hsl(210 40% 98%) 0%, hsl(220 40% 96%) 50%, hsl(210 40% 98%) 100%);
   }
 }
