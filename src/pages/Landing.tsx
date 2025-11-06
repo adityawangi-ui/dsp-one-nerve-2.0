@@ -16,8 +16,6 @@ import {
   Send,
   Plus,
   Settings,
-  History,
-  EuroIcon,
 } from "lucide-react";
 
 export default function Landing() {
@@ -72,30 +70,11 @@ export default function Landing() {
   return (
     <MainLayout>
       <div className="min-h-screen misty-bg px-8 py-6 overflow-hidden flex flex-col relative">
-        {/* Top Right Value Meter & Chat History */}
-        <div className="absolute top-6 right-8 flex items-center gap-4 z-10">
-          <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/80 backdrop-blur-sm shadow-md">
-            <EuroIcon className="h-4 w-4 text-primary" />
-            <div className="text-right">
-              <div className="text-[10px] text-muted-foreground uppercase tracking-wide">Saved This Quarter</div>
-              <div className="text-lg font-bold gradient-text">€12.4M</div>
-            </div>
-          </div>
-          <Button
-            variant="outline"
-            size="icon"
-            className="h-10 w-10 rounded-xl bg-white/80 backdrop-blur-sm border-border/50 hover:bg-white hover:shadow-md transition-all"
-            title="Chat History"
-          >
-            <History className="h-4 w-4" />
-          </Button>
-        </div>
-
         <div className="max-w-7xl mx-auto w-full flex flex-col h-full pt-8">
           {/* Personal Greeting Section */}
           <div className="text-center space-y-1 animate-fade-in mb-6">
             <h1 className="text-4xl font-bold gradient-text" style={{ animationDuration: '0.6s' }}>
-              Hello, Aditya 👋
+              Hello, Alex 👋
             </h1>
             <p className="text-sm text-[#7E7E7E] font-light">
               Your Intelligent Planning Companion.
