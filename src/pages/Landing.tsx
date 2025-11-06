@@ -154,11 +154,11 @@ export default function Landing() {
           </div>
 
           {/* Conversational Prompt Box */}
-          <div className="animate-fade-in mt-3 max-w-3xl mx-auto">
+          <div className="animate-fade-in mt-3 max-w-3xl mx-auto w-full">
             <div className="relative">
               <Input
                 placeholder="Ask about your planning operations or type '/' for quick actions…"
-                className="pl-4 pr-12 h-14 text-xs rounded-2xl border-2 border-gray-200 bg-card shadow-md hover:shadow-lg focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary transition-all"
+                className="w-full pl-4 pr-12 h-14 text-xs rounded-2xl border-2 border-gray-200 bg-card shadow-md hover:shadow-lg focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary transition-all"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
               />
