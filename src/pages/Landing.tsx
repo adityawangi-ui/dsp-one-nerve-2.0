@@ -28,7 +28,7 @@ export default function Landing() {
       title: "Service Risks",
       icon: AlertTriangle,
       subtext: "Identify and mitigate upcoming service or stock risks.",
-      footer: "View in Process Console",
+      footer: "View all Risks",
       link: "/agentic-console",
       status: "3 High Priority Alerts",
       isAgent: true,
@@ -43,7 +43,7 @@ export default function Landing() {
       isAgent: true,
     },
     {
-      title: "DAP Modules",
+      title: "DAP Workspace",
       icon: Package,
       subtext: "Access inventory balancing, rebalancing, and safety stock optimization.",
       footer: "Open DAP Workspace",
@@ -79,7 +79,7 @@ export default function Landing() {
               Welcome back, Aditya! 👋
             </h1>
             <p className="text-xs text-gray-500">
-              Your live planning assistant is ready with today's insights, risks, and recommendations.
+              Your One Nerve assistant is ready with today's insights, risks, and recommendations.
             </p>
           </div>
 
@@ -162,7 +162,7 @@ export default function Landing() {
             <div className="relative">
               <Input
                 placeholder="Ask about your planning operations or type '/' for quick actions…"
-                className="pl-4 pr-12 h-10 text-xs rounded-2xl border-2 border-gray-200 bg-card shadow-md hover:shadow-lg focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary transition-all"
+                className="pl-4 pr-12 h-14 text-xs rounded-2xl border-2 border-gray-200 bg-card shadow-md hover:shadow-lg focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary transition-all"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
               />
