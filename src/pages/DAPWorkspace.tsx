@@ -241,7 +241,7 @@ export default function SupplyPlannerWorkspace() {
                     </div>
                     <div>
                       <div className="flex items-center gap-2 mb-1">
-                        <h2 className="text-2xl md:text-3xl font-bold text-foreground">Hello, Aditya!</h2>
+                        <h2 className="text-2xl md:text-3xl font-bold text-foreground">Hello, Alex!</h2>
                         <Sparkles className="h-5 w-5 text-primary animate-pulse" />
                       </div>
                       <p className="text-sm md:text-base text-muted-foreground">Supply Planner</p>
@@ -334,7 +334,7 @@ export default function SupplyPlannerWorkspace() {
                 <div className="flex items-start justify-between flex-wrap gap-4">
                   <div>
                     <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent mb-1">
-                      Hello Aditya!
+                      Hello Alex!
                     </h1>
                     <h2 className="text-xl md:text-2xl font-semibold text-foreground mb-2">
                       DAP Workspace
