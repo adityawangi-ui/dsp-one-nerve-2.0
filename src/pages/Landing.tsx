@@ -71,32 +71,32 @@ export default function Landing() {
 
   return (
     <MainLayout>
-      <div className="h-screen bg-background px-8 py-6 overflow-hidden flex flex-col">
+      <div className="h-screen bg-background px-8 py-4 overflow-hidden flex flex-col">
         <div className="max-w-7xl mx-auto w-full flex flex-col h-full">
           {/* Personal Greeting Section */}
-          <div className="text-center space-y-1 animate-fade-in mb-6">
-            <h1 className="text-2xl font-semibold text-gray-900">
+          <div className="text-center space-y-0.5 animate-fade-in mb-4">
+            <h1 className="text-xl font-semibold text-gray-900">
               Welcome back, Aditya! 👋
             </h1>
-            <p className="text-sm text-gray-500">
+            <p className="text-xs text-gray-500">
               Your live planning assistant is ready with today's insights, risks, and recommendations.
             </p>
           </div>
 
           {/* Context Cards - 2x2 Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 animate-fade-in flex-1">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-fade-in mb-3">
             {contextCards.map((card, index) => (
               <Link key={index} to={card.link} className="group">
-                <Card className="h-full p-5 bg-card border border-border/50 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02] cursor-pointer flex flex-col">
+                <Card className="p-4 bg-card border border-border/50 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02] cursor-pointer flex flex-col min-h-[160px]">
                   {/* Header */}
-                  <div className="flex items-start justify-between mb-3">
-                    <div className="flex items-center gap-3 flex-1">
-                      <div className="p-2 rounded-xl bg-primary/10 flex-shrink-0">
-                        <card.icon className="h-5 w-5 text-primary" />
+                  <div className="flex items-start justify-between mb-2">
+                    <div className="flex items-center gap-2.5 flex-1">
+                      <div className="p-1.5 rounded-xl bg-primary/10 flex-shrink-0">
+                        <card.icon className="h-4 w-4 text-primary" />
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h3 className="text-lg font-medium text-gray-900 flex items-center gap-2">
-                          {card.isAgent && <Sparkles className="h-5 w-5 text-primary" />}
+                        <h3 className="text-base font-medium text-gray-900 flex items-center gap-2">
+                          {card.isAgent && <Sparkles className="h-4 w-4 text-primary" />}
                           {card.title}
                         </h3>
                       </div>
@@ -104,34 +104,34 @@ export default function Landing() {
                   </div>
 
                   {/* Subtext */}
-                  <p className="text-sm text-gray-600 mb-3 flex-1">
+                  <p className="text-xs text-gray-600 mb-2 flex-1">
                     {card.subtext}
                   </p>
 
                   {/* Chips or Status */}
-                  <div className="mb-3">
+                  <div className="mb-2">
                     {card.chips && (
-                      <div className="flex flex-wrap gap-2">
+                      <div className="flex flex-wrap gap-1.5">
                         {card.chips.map((chip, idx) => (
-                          <Badge key={idx} variant="secondary" className="text-xs bg-gray-100 text-gray-700 hover:bg-gray-200">
+                          <Badge key={idx} variant="secondary" className="text-[10px] py-0 px-2 bg-gray-100 text-gray-700 hover:bg-gray-200">
                             {chip}
                           </Badge>
                         ))}
                       </div>
                     )}
                     {card.status && (
-                      <Badge variant="outline" className="text-xs border-gray-300 text-gray-600">
+                      <Badge variant="outline" className="text-[10px] py-0 px-2 border-gray-300 text-gray-600">
                         {card.status}
                       </Badge>
                     )}
                   </div>
 
                   {/* Footer */}
-                  <div className="pt-3 border-t border-border/50 flex items-center justify-between">
-                    <span className="text-xs text-primary font-medium group-hover:underline">
+                  <div className="pt-2 border-t border-border/50 flex items-center justify-between">
+                    <span className="text-[10px] text-primary font-medium group-hover:underline">
                       {card.footer}
                     </span>
-                    <ChevronRight className="h-4 w-4 text-gray-400 group-hover:text-primary transition-colors" />
+                    <ChevronRight className="h-3.5 w-3.5 text-gray-400 group-hover:text-primary transition-colors" />
                   </div>
                 </Card>
               </Link>
@@ -139,8 +139,8 @@ export default function Landing() {
           </div>
 
           {/* Suggested Questions */}
-          <div className="space-y-3 animate-fade-in mt-4">
-            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide text-center">
+          <div className="space-y-2 animate-fade-in">
+            <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wide text-center">
               Try Asking
             </p>
             <div className="flex flex-wrap justify-center gap-2">
@@ -148,7 +148,7 @@ export default function Landing() {
                 <Button
                   key={idx}
                   variant="outline"
-                  className="h-auto py-2 px-4 rounded-full text-sm text-gray-700 border-gray-300 hover:bg-gray-50 hover:border-gray-400 hover:scale-102 transition-all duration-200"
+                  className="h-auto py-1.5 px-3 rounded-full text-xs text-gray-700 border-gray-300 hover:bg-gray-50 hover:border-gray-400 hover:scale-102 transition-all duration-200"
                   onClick={() => setInputValue(question)}
                 >
                   {question}
@@ -158,17 +158,17 @@ export default function Landing() {
           </div>
 
           {/* Conversational Prompt Box */}
-          <div className="animate-fade-in mt-4 mb-4">
+          <div className="animate-fade-in mt-3">
             <div className="relative">
               <Input
                 placeholder="Ask about your planning operations or type '/' for quick actions…"
-                className="pl-5 pr-14 h-12 text-sm rounded-2xl border-2 border-gray-200 bg-card shadow-md hover:shadow-lg focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary transition-all"
+                className="pl-4 pr-12 h-10 text-xs rounded-2xl border-2 border-gray-200 bg-card shadow-md hover:shadow-lg focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary transition-all"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
               />
-              <div className="absolute right-4 top-1/2 -translate-y-1/2 z-10">
-                <Button size="icon" variant="ghost" className="h-9 w-9 rounded-xl hover:bg-primary/10">
-                  <Send className="h-4 w-4 text-primary" />
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 z-10">
+                <Button size="icon" variant="ghost" className="h-8 w-8 rounded-xl hover:bg-primary/10">
+                  <Send className="h-3.5 w-3.5 text-primary" />
                 </Button>
               </div>
             </div>
