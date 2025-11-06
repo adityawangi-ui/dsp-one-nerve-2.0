@@ -69,8 +69,8 @@ export default function Landing() {
 
   return (
     <MainLayout>
-      <div className="min-h-screen misty-bg px-8 py-6 overflow-hidden flex flex-col relative">
-        <div className="max-w-7xl mx-auto w-full flex flex-col h-full pt-8">
+      <div className="h-[calc(100vh-4rem)] misty-bg px-8 overflow-hidden flex flex-col relative">
+        <div className="max-w-7xl mx-auto w-full flex flex-col h-full justify-center">
           {/* Personal Greeting Section */}
           <div className="text-center space-y-1 animate-fade-in mb-6">
             <h1 className="text-4xl font-bold gradient-text" style={{ animationDuration: '0.6s' }}>
@@ -82,7 +82,7 @@ export default function Landing() {
           </div>
 
           {/* Context Cards - 2x2 Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8 justify-items-center max-w-3xl mx-auto w-full"
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6 justify-items-center max-w-3xl mx-auto w-full"
                style={{ animation: 'fade-in 0.6s ease-out 0.2s both' }}>
             {contextCards.map((card, index) => (
               <Link 
