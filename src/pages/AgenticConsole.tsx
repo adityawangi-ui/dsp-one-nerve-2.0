@@ -148,9 +148,9 @@ export default function AgenticConsole() {
     <MainLayout>
       <div className="p-8 space-y-8 misty-bg min-h-screen">
         {/* Personal Greeting */}
-        <div className="text-center space-y-1 animate-fade-in mb-2">
-          <h1 className="text-4xl font-bold gradient-text" style={{ animationDuration: '0.6s' }}>
-            Hello, Alex 👋
+        <div className="space-y-1 animate-fade-in mb-2">
+          <h1 className="text-2xl md:text-3xl font-bold gradient-text" style={{ animationDuration: '0.6s' }}>
+            Hello Alex! 👋
           </h1>
           <p className="text-sm text-[#7E7E7E] font-light">
             Your Intelligent Planning Companion.
