@@ -84,23 +84,19 @@ export default function Landing() {
           </div>
 
           {/* Context Cards - 2x2 Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-fade-in mb-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-fade-in mb-3 justify-items-center max-w-5xl mx-auto">
             {contextCards.map((card, index) => (
-              <Link key={index} to={card.link} className="group">
-                <Card className="p-4 bg-card border border-border/50 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02] cursor-pointer flex flex-col min-h-[160px]">
+              <Link key={index} to={card.link} className="group w-full">
+                <Card className="p-4 bg-card border border-border/50 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02] cursor-pointer flex flex-col min-h-[160px] items-center text-center">
                   {/* Header */}
-                  <div className="flex items-start justify-between mb-2">
-                    <div className="flex items-center gap-2.5 flex-1">
-                      <div className="p-1.5 rounded-xl bg-primary/10 flex-shrink-0">
-                        <card.icon className="h-4 w-4 text-primary" />
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <h3 className="text-base font-medium text-gray-900 flex items-center gap-2">
-                          {card.isAgent && <Sparkles className="h-4 w-4 text-primary" />}
-                          {card.title}
-                        </h3>
-                      </div>
+                  <div className="flex flex-col items-center mb-2">
+                    <div className="p-1.5 rounded-xl bg-primary/10 flex-shrink-0 mb-2">
+                      <card.icon className="h-4 w-4 text-primary" />
                     </div>
+                    <h3 className="text-base font-medium text-gray-900 flex items-center gap-2">
+                      {card.isAgent && <Sparkles className="h-4 w-4 text-primary" />}
+                      {card.title}
+                    </h3>
                   </div>
 
                   {/* Subtext */}
@@ -111,7 +107,7 @@ export default function Landing() {
                   {/* Chips or Status */}
                   <div className="mb-2">
                     {card.chips && (
-                      <div className="flex flex-wrap gap-1.5">
+                      <div className="flex flex-wrap gap-1.5 justify-center">
                         {card.chips.map((chip, idx) => (
                           <Badge key={idx} variant="secondary" className="text-[10px] py-0 px-2 bg-gray-100 text-gray-700 hover:bg-gray-200">
                             {chip}
@@ -127,7 +123,7 @@ export default function Landing() {
                   </div>
 
                   {/* Footer */}
-                  <div className="pt-2 border-t border-border/50 flex items-center justify-between">
+                  <div className="pt-2 border-t border-border/50 flex items-center justify-center gap-2 w-full">
                     <span className="text-[10px] text-primary font-medium group-hover:underline">
                       {card.footer}
                     </span>
