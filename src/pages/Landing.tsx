@@ -107,18 +107,8 @@ export default function Landing() {
     <MainLayout>
       <div className="min-h-[calc(100vh-4rem)] bg-gradient-to-br from-background via-surface to-muted/20 p-8">
         <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <div className="text-center mb-8 animate-fade-in">
-            <h1 className="text-5xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent mb-3">
-              Unified Command Console
-            </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Monitor, orchestrate, and optimize planning and decision workflows
-            </p>
-          </div>
-
           {/* View Toggle */}
-          <div className="flex items-center justify-center gap-4 mb-12 animate-fade-in">
+          <div className="flex items-center justify-center gap-4 mb-16 pt-8 animate-fade-in">
             <div className="flex items-center gap-3 bg-card rounded-2xl border border-border shadow-[var(--shadow-card)] p-4">
               <span
                 className={`text-sm font-medium transition-colors ${
