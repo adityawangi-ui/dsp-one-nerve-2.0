@@ -84,7 +84,7 @@ export default function Landing() {
           </div>
 
           {/* Context Cards - 2x2 Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-fade-in mb-3 justify-items-center max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-fade-in mb-3 justify-items-center max-w-3xl mx-auto">
             {contextCards.map((card, index) => (
               <Link key={index} to={card.link} className="group w-full">
                 <Card className="p-4 bg-card border border-border/50 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02] cursor-pointer flex flex-col min-h-[160px] items-center text-center">
@@ -154,7 +154,7 @@ export default function Landing() {
           </div>
 
           {/* Conversational Prompt Box */}
-          <div className="animate-fade-in mt-3">
+          <div className="animate-fade-in mt-3 max-w-3xl mx-auto">
             <div className="relative">
               <Input
                 placeholder="Ask about your planning operations or type '/' for quick actions…"
