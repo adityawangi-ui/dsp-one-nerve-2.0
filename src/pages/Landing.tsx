@@ -140,8 +140,8 @@ export default function Landing() {
           </div>
 
           {/* Suggested Questions */}
-          <div className="max-w-4xl mx-auto space-y-4 animate-fade-in">
-            <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide text-center">
+          <div className="max-w-4xl space-y-4 animate-fade-in">
+            <p className="text-sm font-semibold text-muted-foreground uppercase tracking-wide">
               TRY ASKING
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -159,7 +159,7 @@ export default function Landing() {
           </div>
 
           {/* Conversational Prompt Box */}
-          <div className="max-w-4xl mx-auto animate-fade-in">
+          <div className="max-w-4xl animate-fade-in">
             <div className="relative">
               <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10">
                 <Button size="icon" variant="ghost" className="h-10 w-10 rounded-xl hover:bg-muted">
