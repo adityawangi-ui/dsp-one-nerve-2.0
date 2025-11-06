@@ -1,4 +1,4 @@
-import { Bell, ChevronDown, User, Settings } from "lucide-react";
+import { Bell, ChevronDown, User, Settings, Brain } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { 
   DropdownMenu, 
@@ -15,7 +15,7 @@ export const TopNavigation = () => {
       {/* Left: Branding */}
       <div className="flex items-center space-x-4">
         <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-          <div className="w-4 h-4 bg-primary-foreground rounded-sm"></div>
+          <Brain className="w-5 h-5 text-primary-foreground" />
         </div>
         <div>
           <h1 className="text-lg font-semibold text-foreground">One Nerve</h1>
