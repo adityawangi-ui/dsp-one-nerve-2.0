@@ -70,19 +70,19 @@ export default function Landing() {
   return (
     <MainLayout>
       <div className="h-[calc(100vh-4rem)] misty-bg px-8 overflow-hidden flex flex-col relative">
-        <div className="max-w-7xl mx-auto w-full flex flex-col h-full justify-center">
+        <div className="max-w-7xl mx-auto w-full flex flex-col h-full justify-center py-4">
           {/* Personal Greeting Section */}
-          <div className="text-center space-y-1 animate-fade-in mb-6">
-            <h1 className="text-4xl font-bold gradient-text" style={{ animationDuration: '0.6s' }}>
+          <div className="text-center space-y-0.5 animate-fade-in mb-5">
+            <h1 className="text-3xl font-bold gradient-text" style={{ animationDuration: '0.6s' }}>
               Hello, Alex 👋
             </h1>
-            <p className="text-sm text-[#7E7E7E] font-light">
+            <p className="text-xs text-[#7E7E7E] font-light">
               Your Intelligent Planning Companion.
             </p>
           </div>
 
           {/* Context Cards - 2x2 Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6 justify-items-center max-w-3xl mx-auto w-full"
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5 justify-items-center max-w-3xl mx-auto w-full"
                style={{ animation: 'fade-in 0.6s ease-out 0.2s both' }}>
             {contextCards.map((card, index) => (
               <Link 
@@ -93,28 +93,28 @@ export default function Landing() {
                   animation: `fade-in 0.5s ease-out ${0.3 + index * 0.1}s both, scale-in 0.4s ease-out ${0.3 + index * 0.1}s both` 
                 }}
               >
-                <Card className="relative p-5 bg-white border border-border/30 rounded-[18px] shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-intense)] transition-all duration-300 hover:-translate-y-1 cursor-pointer flex flex-col min-h-[170px] items-center text-center card-shimmer overflow-hidden">
+                <Card className="relative p-4 bg-white border border-border/30 rounded-[18px] shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-intense)] transition-all duration-300 hover:-translate-y-1 cursor-pointer flex flex-col min-h-[155px] items-center text-center card-shimmer overflow-hidden">
                   {/* Subtle gradient header strip */}
                   <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary/50 via-primary to-primary/50 rounded-t-[18px]" />
                   
                   {/* Header */}
-                  <div className="flex flex-col items-center mb-3 mt-2">
-                    <div className="p-2 rounded-xl bg-gradient-to-br from-primary/10 to-primary/5 flex-shrink-0 mb-2.5 group-hover:scale-110 transition-transform duration-300">
-                      <card.icon className="h-5 w-5 text-primary" />
+                  <div className="flex flex-col items-center mb-2 mt-1">
+                    <div className="p-1.5 rounded-xl bg-gradient-to-br from-primary/10 to-primary/5 flex-shrink-0 mb-2 group-hover:scale-110 transition-transform duration-300">
+                      <card.icon className="h-4 w-4 text-primary" />
                     </div>
-                    <h3 className="text-base font-semibold text-foreground flex items-center gap-2">
-                      {card.isAgent && <Sparkles className="h-4 w-4 text-primary animate-pulse" />}
+                    <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+                      {card.isAgent && <Sparkles className="h-3.5 w-3.5 text-primary animate-pulse" />}
                       {card.title}
                     </h3>
                   </div>
 
                   {/* Subtext */}
-                  <p className="text-xs text-muted-foreground mb-3 flex-1 leading-relaxed">
+                  <p className="text-[11px] text-muted-foreground mb-2 flex-1 leading-relaxed">
                     {card.subtext}
                   </p>
 
                   {/* Chips or Status */}
-                  <div className="mb-3">
+                  <div className="mb-2">
                     {card.chips && (
                       <div className="flex flex-wrap gap-1.5 justify-center">
                         {card.chips.map((chip, idx) => (
@@ -132,11 +132,11 @@ export default function Landing() {
                   </div>
 
                   {/* Footer */}
-                  <div className="pt-3 border-t border-border/40 flex items-center justify-center gap-2 w-full">
-                    <span className="text-xs text-primary font-medium group-hover:underline">
+                  <div className="pt-2 border-t border-border/40 flex items-center justify-center gap-2 w-full">
+                    <span className="text-[11px] text-primary font-medium group-hover:underline">
                       {card.footer}
                     </span>
-                    <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                    <ChevronRight className="h-3.5 w-3.5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
                   </div>
                 </Card>
               </Link>
@@ -147,7 +147,7 @@ export default function Landing() {
           <div className="animate-fade-in max-w-3xl mx-auto w-full" style={{ animationDelay: '0.5s' }}>
             <div className="relative">
               <div className="frosted-glass breathing-border rounded-2xl border-2 border-primary/30 shadow-[var(--shadow-glow)]">
-                <div className="flex items-center gap-3 pl-4 pr-3 py-3">
+                <div className="flex items-center gap-3 pl-4 pr-3 py-2.5">
                   {/* Left Icons */}
                   <div className="flex items-center gap-2">
                     <Button
@@ -171,7 +171,7 @@ export default function Landing() {
                   {/* Input */}
                   <Input
                     placeholder="Hi, How can I help you?…"
-                    className="flex-1 h-12 text-base border-0 bg-transparent shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground/60"
+                    className="flex-1 h-10 text-sm border-0 bg-transparent shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground/60"
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                   />

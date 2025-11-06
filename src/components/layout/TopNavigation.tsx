@@ -17,8 +17,8 @@ export const TopNavigation = () => {
         <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
           <Brain className="w-5 h-5 text-primary-foreground" />
         </div>
-        <div>
-          <h1 className="text-2xl font-playfair font-bold text-foreground shimmer-text">One Nerve</h1>
+        <div className="relative">
+          <h1 className="text-2xl font-playfair font-bold text-foreground aurora-shimmer">One Nerve</h1>
         </div>
       </div>
 
@@ -26,7 +26,7 @@ export const TopNavigation = () => {
       {/* Right: Actions */}
       <div className="flex items-center space-x-6">
         {/* Value Meter */}
-        <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/80 backdrop-blur-sm shadow-md mr-4">
+        <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/80 backdrop-blur-sm shadow-md mr-8">
           <EuroIcon className="h-4 w-4 text-primary" />
           <div className="text-right">
             <div className="text-[10px] text-muted-foreground uppercase tracking-wide">Value Meter</div>
