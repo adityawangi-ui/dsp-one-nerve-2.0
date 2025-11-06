@@ -11,13 +11,13 @@ import {
   BarChart3,
   Workflow,
   Clock,
-  Paperclip,
   Mic,
   Sparkles,
   TrendingUp,
   Package,
   FileText,
   ChevronRight,
+  Send,
 } from "lucide-react";
 
 export default function Landing() {
@@ -160,20 +160,15 @@ export default function Landing() {
           {/* Conversational Prompt Box */}
           <div className="animate-fade-in mt-4 mb-4">
             <div className="relative">
-              <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10">
-                <Button size="icon" variant="ghost" className="h-9 w-9 rounded-xl hover:bg-gray-100">
-                  <Paperclip className="h-4 w-4 text-gray-500" />
-                </Button>
-              </div>
               <Input
                 placeholder="Ask about your planning operations or type '/' for quick actions…"
-                className="pl-14 pr-14 h-12 text-sm rounded-2xl border-2 border-gray-200 bg-card shadow-md hover:shadow-lg focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary transition-all"
+                className="pl-5 pr-14 h-12 text-sm rounded-2xl border-2 border-gray-200 bg-card shadow-md hover:shadow-lg focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary transition-all"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
               />
               <div className="absolute right-4 top-1/2 -translate-y-1/2 z-10">
-                <Button size="icon" variant="ghost" className="h-9 w-9 rounded-xl hover:bg-gray-100">
-                  <Mic className="h-4 w-4 text-gray-500" />
+                <Button size="icon" variant="ghost" className="h-9 w-9 rounded-xl hover:bg-primary/10">
+                  <Send className="h-4 w-4 text-primary" />
                 </Button>
               </div>
             </div>
