@@ -9,7 +9,6 @@ import Agents from "./pages/Agents";
 import ScenarioWorkbench from "./pages/ScenarioWorkbench";
 import Insights from "./pages/Insights";
 import Approvals from "./pages/Approvals";
-import Skills from "./pages/Skills";
 import Analytics from "./pages/Analytics";
 import DataConfiguration from "./pages/DataConfiguration";
 import SupplyPlannerWorkspace from "./pages/SupplyPlannerWorkspace";
@@ -31,7 +30,6 @@ const App = () => (
           <Route path="/scenarios" element={<ScenarioWorkbench />} />
           <Route path="/insights" element={<Insights />} />
           <Route path="/approvals" element={<Approvals />} />
-          <Route path="/skills" element={<Skills />} />
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/data-config" element={<DataConfiguration />} />
           <Route path="/workspace" element={<SupplyPlannerWorkspace />} />
