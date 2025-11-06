@@ -24,13 +24,13 @@ export const TopNavigation = () => {
 
 
       {/* Right: Actions */}
-      <div className="flex items-center space-x-3">
+      <div className="flex items-center space-x-2">
         {/* Value Meter */}
         <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/80 backdrop-blur-sm shadow-md">
           <EuroIcon className="h-4 w-4 text-primary" />
           <div className="text-right">
             <div className="text-[10px] text-muted-foreground uppercase tracking-wide">Value Meter</div>
-            <div className="text-lg font-bold gradient-text">€12.4M</div>
+            <div className="text-lg font-bold gradient-text">12.4M</div>
           </div>
         </div>
 
