@@ -40,7 +40,7 @@ const mainNavItems: SidebarItem[] = [
   },
   {
     id: "reports",
-    title: "Reports",
+    title: "Reports & Insights",
     icon: FileText,
     href: "/reports",
   },

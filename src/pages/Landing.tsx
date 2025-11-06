@@ -50,7 +50,7 @@ export default function Landing() {
       isAgent: false,
     },
     {
-      title: "DAP Reports",
+      title: "DAP Reports & Insights",
       icon: BarChart3,
       subtext: "View forecast accuracy, service levels, and performance dashboards.",
       footer: "Open Reports Center",

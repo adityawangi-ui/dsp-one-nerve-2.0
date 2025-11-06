@@ -219,11 +219,6 @@ export default function SupplyPlannerWorkspace() {
     return matchesSearch && matchesLocation && matchesType;
   });
 
-  const upcomingDecisions = [
-    { id: 1, title: "Transfer 31 pallets from L017 to L002", dueDate: "23-Jan-2026", priority: "high" },
-    { id: 2, title: "Transfer 33 pallets from L017 to L002", dueDate: "25-Jan-2026", priority: "medium" },
-    { id: 3, title: "Transfer 53 pallets from L005 to L020", dueDate: "28-Jan-2026", priority: "high" },
-  ];
 
   if (showInventoryDetail) {
     return (
@@ -671,28 +666,6 @@ export default function SupplyPlannerWorkspace() {
             </div>
           </div>
 
-          {/* Upcoming Decisions Section */}
-          <div className="animate-fade-in" style={{ animationDelay: '0.4s', animationFillMode: 'both' }}>
-            <h2 className="text-2xl font-bold text-foreground mb-4">Upcoming Decisions</h2>
-            <Card className="bg-card/50 backdrop-blur-sm border-border/50">
-              <CardContent className="p-6">
-                <div className="space-y-3">
-                  {upcomingDecisions.map((decision) => (
-                    <div key={decision.id} className="flex items-center justify-between p-4 rounded-lg bg-background/50 hover:bg-background/80 transition-colors">
-                      <div className="flex items-center gap-3">
-                        <div className={`h-2 w-2 rounded-full ${decision.priority === 'high' ? 'bg-destructive' : 'bg-warning'}`} />
-                        <div>
-                          <p className="text-sm font-medium text-foreground">{decision.title}</p>
-                          <p className="text-xs text-muted-foreground">Due: {decision.dueDate}</p>
-                        </div>
-                      </div>
-                      <Button variant="ghost" size="sm">View</Button>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
 
         </div>
       </div>
