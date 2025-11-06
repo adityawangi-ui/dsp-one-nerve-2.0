@@ -115,10 +115,10 @@ export default function Analytics() {
           {/* Header */}
           <div className="mb-6 animate-fade-in">
             <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent mb-2">
-              Inventory Analytics & Insights
+              Reports
             </h1>
             <p className="text-muted-foreground">
-              Home &gt; Decision Intelligence &gt; Analytics
+              Track planning metrics and performance indicators
             </p>
           </div>
 

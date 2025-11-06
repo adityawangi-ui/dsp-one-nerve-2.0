@@ -266,7 +266,7 @@ export default function SupplyPlannerWorkspace() {
                 Inventory Transfer Decisions
               </h1>
               <p className="text-sm text-muted-foreground">
-                Home &gt; Supply Planner Workspace &gt; Inventory Balancing
+                Home &gt; DAP Workspace &gt; Inventory Balancing
               </p>
             </div>
 
@@ -337,7 +337,7 @@ export default function SupplyPlannerWorkspace() {
                       Hello Aditya!
                     </h1>
                     <h2 className="text-xl md:text-2xl font-semibold text-foreground mb-2">
-                      Supply Planning View
+                      DAP Workspace
                     </h2>
                     <p className="text-sm md:text-base text-muted-foreground">
                       Manage supply balance, stock levels, and production readiness across your network.

@@ -116,10 +116,10 @@ export default function DataConfiguration() {
           {/* Header */}
           <div className="mb-6 animate-fade-in">
             <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent mb-2">
-              Data & Configuration Management
+              Data & Configuration
             </h1>
             <p className="text-muted-foreground">
-              Home &gt; Decision Intelligence &gt; Data & Configuration
+              Manage data sources, planning parameters, and system settings
             </p>
           </div>
 
