@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import { MainLayout } from "@/components/layout/MainLayout";
 import { ModuleCard } from "@/components/decision-intelligence/ModuleCard";
 import { FilterBar } from "@/components/decision-intelligence/FilterBar";
@@ -110,6 +111,7 @@ const mockDecisions: Decision[] = [
 ];
 
 export default function Skills() {
+  const [searchParams] = useSearchParams();
   const [view, setView] = useState<"modules" | "inventory-detail">("modules");
   const [searchQuery, setSearchQuery] = useState("");
   const [location, setLocation] = useState("all");
@@ -117,6 +119,14 @@ export default function Skills() {
   const [selectedDecision, setSelectedDecision] = useState<Decision | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const { toast } = useToast();
+
+  // Check URL params on mount to set initial view
+  useEffect(() => {
+    const viewParam = searchParams.get("view");
+    if (viewParam === "inventory-detail") {
+      setView("inventory-detail");
+    }
+  }, [searchParams]);
 
   const handleModuleClick = (moduleId: string) => {
     if (moduleId === "inventory") {

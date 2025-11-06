@@ -167,27 +167,29 @@ export default function SupplyPlannerWorkspace() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               
               {/* Inventory Balancing */}
-              <Card className="relative overflow-hidden transition-all duration-300 hover:shadow-[var(--shadow-glow)] hover:scale-[1.02] bg-gradient-to-br from-card to-surface/50 border border-border/50 cursor-pointer backdrop-blur-sm">
-                <CardContent className="p-6">
-                  <div className="flex items-start gap-4">
-                    <div className="p-3 rounded-xl bg-primary/10 text-primary">
-                      <Package className="h-6 w-6" />
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex items-start justify-between mb-2">
-                        <h3 className="text-lg font-semibold text-foreground">Inventory Balancing</h3>
-                        <span className="text-lg">✅</span>
+              <Link to="/skills?view=inventory-detail">
+                <Card className="relative overflow-hidden transition-all duration-300 hover:shadow-[var(--shadow-glow)] hover:scale-[1.02] bg-gradient-to-br from-card to-surface/50 border border-border/50 cursor-pointer backdrop-blur-sm">
+                  <CardContent className="p-6">
+                    <div className="flex items-start gap-4">
+                      <div className="p-3 rounded-xl bg-primary/10 text-primary">
+                        <Package className="h-6 w-6" />
                       </div>
-                      <p className="text-sm text-muted-foreground mb-3">
-                        Optimize inventory distribution across locations
-                      </p>
-                      <div className="text-xs text-primary font-medium">
-                        12 SKUs pending balance review
+                      <div className="flex-1">
+                        <div className="flex items-start justify-between mb-2">
+                          <h3 className="text-lg font-semibold text-foreground">Inventory Balancing</h3>
+                          <span className="text-lg">✅</span>
+                        </div>
+                        <p className="text-sm text-muted-foreground mb-3">
+                          Optimize inventory distribution across locations
+                        </p>
+                        <div className="text-xs text-primary font-medium">
+                          12 SKUs pending balance review
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+              </Link>
 
               {/* Supply Rebalancing */}
               <Card className="relative overflow-hidden transition-all duration-300 hover:shadow-[var(--shadow-glow)] hover:scale-[1.02] bg-gradient-to-br from-card to-surface/50 border border-border/50 cursor-pointer backdrop-blur-sm">
