@@ -29,7 +29,6 @@ export default function Landing() {
       subtext: "Identify and mitigate upcoming service or stock risks.",
       footer: "View all Risks",
       link: "/agentic-console",
-      status: "3 High Priority Alerts",
       isAgent: true,
       hasFilters: true,
     },
@@ -39,7 +38,6 @@ export default function Landing() {
       subtext: "Monitor autonomous workflows and active process executions.",
       footer: "View all Processes",
       link: "/agentic-console",
-      status: "3 Processes Running | 1 Pending Approval",
       isAgent: true,
     },
     {
@@ -57,7 +55,7 @@ export default function Landing() {
       subtext: "View forecast accuracy, service levels, and performance dashboards.",
       footer: "Open Reports Center",
       link: "/reports",
-      status: "87.8% Forecast Accuracy",
+      chips: ["Accuracy", "Service Levels", "Performance"],
       isAgent: false,
     },
   ];
@@ -101,12 +99,12 @@ export default function Landing() {
           </div>
 
           {/* Context Cards - 2x2 Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-fade-in mb-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-in mb-4">
             {contextCards.map((card, index) => (
               <div key={index} className="group">
-                <Card className="p-4 bg-card border border-border/50 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02] flex flex-col min-h-[200px]">
+                <Card className="p-5 bg-card border border-border/50 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02] flex flex-col h-[220px]">
                   {/* Header */}
-                  <div className="flex items-start justify-between mb-2">
+                  <div className="flex items-start justify-between mb-3">
                     <div className="flex items-center gap-2.5 flex-1">
                       <div className="p-1.5 rounded-xl bg-primary/10 flex-shrink-0">
                         <card.icon className="h-4 w-4 text-primary" />
@@ -121,13 +119,13 @@ export default function Landing() {
                   </div>
 
                   {/* Subtext */}
-                  <p className="text-xs text-gray-600 mb-2">
+                  <p className="text-xs text-gray-600 mb-3">
                     {card.subtext}
                   </p>
 
                   {/* Risk Filters (only for Service Risks card) */}
                   {card.hasFilters && (
-                    <div className="flex gap-2 mb-2">
+                    <div className="flex gap-2 mb-3">
                       {riskFilters.map((filter) => (
                         <button
                           key={filter.label}
@@ -147,26 +145,22 @@ export default function Landing() {
                     </div>
                   )}
 
-                  {/* Chips or Status */}
-                  <div className="mb-2 flex-1">
-                    {card.chips && (
-                      <div className="flex flex-wrap gap-1.5">
-                        {card.chips.map((chip, idx) => (
-                          <Badge key={idx} variant="secondary" className="text-[10px] py-0 px-2 bg-gray-100 text-gray-700 hover:bg-gray-200">
-                            {chip}
-                          </Badge>
-                        ))}
-                      </div>
-                    )}
-                    {card.status && (
-                      <Badge variant="outline" className="text-[10px] py-0 px-2 border-gray-300 text-gray-600">
-                        {card.status}
-                      </Badge>
-                    )}
-                  </div>
+                  {/* Chips */}
+                  {card.chips && (
+                    <div className="flex flex-wrap gap-1.5 mb-3">
+                      {card.chips.map((chip, idx) => (
+                        <Badge key={idx} variant="secondary" className="text-[10px] py-0 px-2 bg-gray-100 text-gray-700 hover:bg-gray-200">
+                          {chip}
+                        </Badge>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Spacer */}
+                  <div className="flex-1" />
 
                   {/* Footer */}
-                  <Link to={card.link} className="pt-2 border-t border-border/50 flex items-center justify-between">
+                  <Link to={card.link} className="pt-3 border-t border-border/50 flex items-center justify-between mt-auto">
                     <span className="text-[10px] text-primary font-medium group-hover:underline">
                       {card.footer} →
                     </span>
