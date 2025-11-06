@@ -174,21 +174,20 @@ export default function Landing() {
 
 
               {/* Chat Input Section */}
-              <div className="animate-fade-in">
-                <div className="relative">
+              <div className="animate-fade-in w-full">
+                <div className="relative max-w-4xl mx-auto">
+                  <div className="absolute left-4 top-1/2 -translate-y-1/2 z-10">
+                    <Button size="icon" variant="ghost" className="h-10 w-10 rounded-xl hover:bg-muted">
+                      <Paperclip className="h-5 w-5" />
+                    </Button>
+                  </div>
                   <Input
-                    placeholder="Ask about your planning operations…"
-                    className="pr-24 h-14 text-base rounded-2xl"
+                    placeholder="Message Planning Assistant"
+                    className="pl-16 pr-16 h-20 text-lg rounded-3xl border-2 shadow-lg"
                   />
-                  <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-2">
-                    <Button size="icon" variant="ghost" className="h-9 w-9 rounded-xl">
-                      <Paperclip className="h-4 w-4" />
-                    </Button>
-                    <Button size="icon" variant="ghost" className="h-9 w-9 rounded-xl" disabled>
-                      <Mic className="h-4 w-4" />
-                    </Button>
-                    <Button size="icon" className="h-9 w-9 rounded-xl">
-                      <Send className="h-4 w-4" />
+                  <div className="absolute right-4 top-1/2 -translate-y-1/2 z-10">
+                    <Button size="icon" variant="ghost" className="h-10 w-10 rounded-xl hover:bg-muted">
+                      <Mic className="h-5 w-5" />
                     </Button>
                   </div>
                 </div>
