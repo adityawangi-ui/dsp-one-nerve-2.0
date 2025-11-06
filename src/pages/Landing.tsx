@@ -134,25 +134,6 @@ export default function Landing() {
             ))}
           </div>
 
-          {/* Suggested Questions */}
-          <div className="space-y-2 animate-fade-in">
-            <p className="text-[10px] font-semibold text-gray-500 uppercase tracking-wide text-center">
-              Try Asking
-            </p>
-            <div className="flex flex-wrap justify-center gap-2">
-              {suggestedQuestions.map((question, idx) => (
-                <Button
-                  key={idx}
-                  variant="outline"
-                  className="h-auto py-1.5 px-3 rounded-full text-xs text-gray-700 border-gray-300 hover:bg-gray-50 hover:border-gray-400 hover:scale-102 transition-all duration-200"
-                  onClick={() => setInputValue(question)}
-                >
-                  {question}
-                </Button>
-              ))}
-            </div>
-          </div>
-
           {/* Conversational Prompt Box */}
           <div className="animate-fade-in mt-3 max-w-3xl mx-auto w-full">
             <div className="relative">
