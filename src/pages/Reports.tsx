@@ -113,9 +113,9 @@ export default function Analytics() {
       <div className="min-h-[calc(100vh-4rem)] misty-bg p-8">
         <div className="max-w-7xl mx-auto">
           {/* Personal Greeting */}
-          <div className="text-center space-y-1 animate-fade-in mb-4">
-            <h1 className="text-4xl font-bold gradient-text" style={{ animationDuration: '0.6s' }}>
-              Hello, Alex 👋
+          <div className="space-y-1 animate-fade-in mb-4">
+            <h1 className="text-2xl md:text-3xl font-bold gradient-text" style={{ animationDuration: '0.6s' }}>
+              Hello Alex! 👋
             </h1>
             <p className="text-sm text-[#7E7E7E] font-light">
               Your Intelligent Planning Companion.
