@@ -228,12 +228,12 @@ export default function SupplyPlannerWorkspace() {
   if (showInventoryDetail) {
     return (
       <MainLayout>
-        <div className="min-h-[calc(100vh-4rem)] bg-gradient-to-br from-background via-surface/30 to-muted/20 p-6 md:p-8">
-          <div className="max-w-7xl mx-auto space-y-6">
-            {/* Personalized Greeting Banner */}
-            <Card className="bg-gradient-to-r from-primary/10 via-primary/5 to-background border-primary/20 shadow-[var(--shadow-glow)] animate-fade-in overflow-hidden relative">
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent opacity-50" />
-              <div className="relative p-6 md:p-8">
+      <div className="min-h-[calc(100vh-4rem)] misty-bg p-6 md:p-8">
+        <div className="max-w-7xl mx-auto space-y-6">
+          {/* Personalized Greeting Banner */}
+          <Card className="bg-white/80 backdrop-blur-sm rounded-[18px] border border-border/30 shadow-[var(--shadow-card)] animate-fade-in overflow-hidden relative">
+            <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent opacity-50" />
+            <div className="relative p-6 md:p-8">
                 <div className="flex items-start justify-between gap-4 flex-wrap">
                   <div className="flex items-start gap-4">
                     <div className="p-3 rounded-xl bg-primary/10 text-primary backdrop-blur-sm">
@@ -324,17 +324,17 @@ export default function SupplyPlannerWorkspace() {
 
   return (
     <MainLayout>
-      <div className="min-h-[calc(100vh-4rem)] bg-gradient-to-br from-background via-surface/30 to-muted/20 p-6 md:p-8">
+      <div className="min-h-[calc(100vh-4rem)] misty-bg p-6 md:p-8">
         <div className="max-w-7xl mx-auto space-y-8">
           
           {/* Header Section */}
           <div className="animate-fade-in">
-            <Card className="bg-gradient-to-r from-primary/5 via-muted/30 to-muted/50 border-primary/10 mb-6">
+            <Card className="bg-white/80 backdrop-blur-sm rounded-[18px] border border-border/30 shadow-[var(--shadow-card)] mb-6">
               <CardContent className="p-6">
                 <div className="flex items-start justify-between flex-wrap gap-4">
                   <div>
-                    <h1 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-primary via-primary/80 to-primary/60 bg-clip-text text-transparent mb-1">
-                      Hello Alex!
+                    <h1 className="text-2xl md:text-3xl font-bold gradient-text mb-1">
+                      Hello Alex! 👋
                     </h1>
                     <h2 className="text-xl md:text-2xl font-semibold text-foreground mb-2">
                       DAP Workspace

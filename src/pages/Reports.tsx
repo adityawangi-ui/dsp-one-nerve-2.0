@@ -110,20 +110,30 @@ const DONUT_COLORS = [COLORS.primary, COLORS.warning, COLORS.secondary, COLORS.d
 export default function Analytics() {
   return (
     <MainLayout>
-      <div className="min-h-[calc(100vh-4rem)] bg-gradient-to-br from-background via-background to-muted/20 p-8">
+      <div className="min-h-[calc(100vh-4rem)] misty-bg p-8">
         <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <div className="mb-6 animate-fade-in">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent mb-2">
-              Reports
+          {/* Personal Greeting */}
+          <div className="text-center space-y-1 animate-fade-in mb-4">
+            <h1 className="text-4xl font-bold gradient-text" style={{ animationDuration: '0.6s' }}>
+              Hello, Alex 👋
             </h1>
+            <p className="text-sm text-[#7E7E7E] font-light">
+              Your Intelligent Planning Companion.
+            </p>
+          </div>
+
+          {/* Page Header */}
+          <div className="mb-6 animate-fade-in">
+            <h2 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent mb-2">
+              Reports
+            </h2>
             <p className="text-muted-foreground">
               Track planning metrics and performance indicators
             </p>
           </div>
 
           {/* Top Control Bar */}
-          <div className="flex flex-wrap gap-4 mb-6 items-center justify-between bg-card rounded-2xl border border-border shadow-[var(--shadow-card)] p-4">
+          <div className="flex flex-wrap gap-4 mb-6 items-center justify-between bg-white/80 backdrop-blur-sm rounded-[18px] border border-border/30 shadow-[var(--shadow-card)] p-4">
             <div className="flex gap-3">
               <Select defaultValue="30">
                 <SelectTrigger className="w-[180px]">
@@ -216,7 +226,7 @@ export default function Analytics() {
           {/* Charts Section */}
           <div className="space-y-6">
             {/* Inventory Trends */}
-            <Card className="p-8 border border-border shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-glow)] transition-all duration-300 animate-fade-in">
+            <Card className="p-8 bg-white/80 backdrop-blur-sm border border-border/30 rounded-[18px] shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-intense)] transition-all duration-300 hover:-translate-y-1 animate-fade-in">
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-lg font-semibold text-foreground">Inventory Value Over Time</h3>
                 <div className="flex gap-2 bg-muted p-1 rounded-lg">
@@ -303,7 +313,7 @@ export default function Analytics() {
 
             {/* ABC Analysis */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 animate-fade-in">
-              <Card className="p-8 border border-border shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-glow)] transition-all duration-300">
+              <Card className="p-8 bg-white/80 backdrop-blur-sm border border-border/30 rounded-[18px] shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-intense)] transition-all duration-300 hover:-translate-y-1">
                 <h3 className="text-lg font-semibold text-foreground mb-6">ABC Classification</h3>
                 <ResponsiveContainer width="100%" height={240}>
                   <PieChart>
@@ -363,7 +373,7 @@ export default function Analytics() {
                 </div>
               </Card>
 
-              <Card className="p-8 border border-border shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-glow)] transition-all duration-300">
+              <Card className="p-8 bg-white/80 backdrop-blur-sm border border-border/30 rounded-[18px] shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-intense)] transition-all duration-300 hover:-translate-y-1">
                 <h3 className="text-lg font-semibold text-foreground mb-6">Turnover Analysis</h3>
                 <ResponsiveContainer width="100%" height={240}>
                   <BarChart data={turnoverData} layout="vertical">
@@ -410,7 +420,7 @@ export default function Analytics() {
             </div>
 
             {/* Location Performance */}
-            <Card className="p-8 border border-border shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-glow)] transition-all duration-300 animate-fade-in">
+            <Card className="p-8 bg-white/80 backdrop-blur-sm border border-border/30 rounded-[18px] shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-intense)] transition-all duration-300 hover:-translate-y-1 animate-fade-in">
               <div className="flex items-center justify-between mb-6">
                 <h3 className="text-lg font-semibold text-foreground">Performance by Location</h3>
                 <Select defaultValue="coverage">

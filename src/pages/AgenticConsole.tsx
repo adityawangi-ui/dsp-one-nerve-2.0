@@ -146,11 +146,21 @@ export default function AgenticConsole() {
 
   return (
     <MainLayout>
-      <div className="p-8 space-y-8 bg-gradient-to-br from-background via-surface to-muted/20 min-h-screen">
-        {/* Header */}
+      <div className="p-8 space-y-8 misty-bg min-h-screen">
+        {/* Personal Greeting */}
+        <div className="text-center space-y-1 animate-fade-in mb-2">
+          <h1 className="text-4xl font-bold gradient-text" style={{ animationDuration: '0.6s' }}>
+            Hello, Alex 👋
+          </h1>
+          <p className="text-sm text-[#7E7E7E] font-light">
+            Your Intelligent Planning Companion.
+          </p>
+        </div>
+
+        {/* Page Header */}
         <div className="flex items-center justify-between animate-fade-in">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">Agentic Process Console</h1>
+            <h2 className="text-2xl font-bold text-foreground">Agentic Process Console</h2>
             <p className="text-muted-foreground mt-1">Monitor and manage automated process flows</p>
           </div>
           <div className="text-sm text-muted-foreground">

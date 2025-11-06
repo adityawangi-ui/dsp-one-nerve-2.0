@@ -1,3 +1,4 @@
+import { MainLayout } from "@/components/layout/MainLayout";
 import { Bot, TrendingUp, Package, Target, AlertTriangle, BarChart3 } from "lucide-react";
 import { KPICard } from "@/components/dashboard/KPICard";
 import { AgentCard } from "@/components/dashboard/AgentCard";
@@ -144,17 +145,28 @@ export const OrchestrationConsole = () => {
   ];
 
   return (
-    <div className="p-8 space-y-8 bg-gradient-to-br from-background via-surface to-muted/20 min-h-screen">
-      {/* Header */}
-      <div className="flex items-center justify-between animate-fade-in">
-        <div>
-          <h1 className="text-3xl font-bold text-foreground">Process Console</h1>
-          <p className="text-muted-foreground mt-1">AI-powered autonomous planning control tower</p>
+    <MainLayout>
+      <div className="p-8 space-y-8 misty-bg min-h-screen">
+        {/* Personal Greeting */}
+        <div className="text-center space-y-1 animate-fade-in mb-2">
+          <h1 className="text-4xl font-bold gradient-text" style={{ animationDuration: '0.6s' }}>
+            Hello, Alex 👋
+          </h1>
+          <p className="text-sm text-[#7E7E7E] font-light">
+            Your Intelligent Planning Companion.
+          </p>
         </div>
-        <div className="text-sm text-muted-foreground">
-          Last updated: {new Date().toLocaleTimeString()}
+
+        {/* Page Header */}
+        <div className="flex items-center justify-between animate-fade-in">
+          <div>
+            <h2 className="text-2xl font-bold text-foreground">Process Console</h2>
+            <p className="text-muted-foreground mt-1">AI-powered autonomous planning control tower</p>
+          </div>
+          <div className="text-sm text-muted-foreground">
+            Last updated: {new Date().toLocaleTimeString()}
+          </div>
         </div>
-      </div>
 
       {/* KPI Dashboard */}
       <section>
@@ -191,6 +203,7 @@ export const OrchestrationConsole = () => {
           ))}
         </div>
       </section>
-    </div>
+      </div>
+    </MainLayout>
   );
 };

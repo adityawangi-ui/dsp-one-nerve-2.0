@@ -111,13 +111,23 @@ export default function DataConfiguration() {
 
   return (
     <MainLayout>
-      <div className="min-h-[calc(100vh-4rem)] bg-gradient-to-br from-background via-background to-muted/20 p-8">
+      <div className="min-h-[calc(100vh-4rem)] misty-bg p-8">
         <div className="max-w-7xl mx-auto">
-          {/* Header */}
-          <div className="mb-6 animate-fade-in">
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent mb-2">
-              Data & Configuration
+          {/* Personal Greeting */}
+          <div className="text-center space-y-1 animate-fade-in mb-4">
+            <h1 className="text-4xl font-bold gradient-text" style={{ animationDuration: '0.6s' }}>
+              Hello, Alex 👋
             </h1>
+            <p className="text-sm text-[#7E7E7E] font-light">
+              Your Intelligent Planning Companion.
+            </p>
+          </div>
+
+          {/* Page Header */}
+          <div className="mb-6 animate-fade-in">
+            <h2 className="text-3xl font-bold bg-gradient-to-r from-primary to-primary/70 bg-clip-text text-transparent mb-2">
+              Data & Configuration
+            </h2>
             <p className="text-muted-foreground">
               Manage data sources, planning parameters, and system settings
             </p>
@@ -145,7 +155,7 @@ export default function DataConfiguration() {
 
                 <TabsContent value="skus" className="space-y-4">
                   {/* Toolbar */}
-                  <div className="flex flex-wrap gap-4 items-center justify-between bg-card rounded-2xl border border-border shadow-[var(--shadow-card)] p-4">
+                  <div className="flex flex-wrap gap-4 items-center justify-between bg-white/80 backdrop-blur-sm rounded-[18px] border border-border/30 shadow-[var(--shadow-card)] p-4">
                     <div className="relative flex-1 max-w-md">
                       <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                       <Input
@@ -175,7 +185,7 @@ export default function DataConfiguration() {
                   </div>
 
                   {/* Data Table */}
-                  <div className="bg-card rounded-2xl border border-border shadow-[var(--shadow-card)] overflow-hidden">
+                  <div className="bg-white/80 backdrop-blur-sm rounded-[18px] border border-border/30 shadow-[var(--shadow-card)] overflow-hidden">
                     <Table>
                       <TableHeader>
                         <TableRow className="hover:bg-transparent">
@@ -273,19 +283,19 @@ export default function DataConfiguration() {
                 </TabsContent>
 
                 <TabsContent value="locations">
-                  <div className="bg-card rounded-2xl border border-border shadow-[var(--shadow-card)] p-12 text-center">
+                  <div className="bg-white/80 backdrop-blur-sm rounded-[18px] border border-border/30 shadow-[var(--shadow-card)] p-12 text-center">
                     <p className="text-muted-foreground">Location master data table</p>
                   </div>
                 </TabsContent>
 
                 <TabsContent value="suppliers">
-                  <div className="bg-card rounded-2xl border border-border shadow-[var(--shadow-card)] p-12 text-center">
+                  <div className="bg-white/80 backdrop-blur-sm rounded-[18px] border border-border/30 shadow-[var(--shadow-card)] p-12 text-center">
                     <p className="text-muted-foreground">Supplier master data table</p>
                   </div>
                 </TabsContent>
 
                 <TabsContent value="customers">
-                  <div className="bg-card rounded-2xl border border-border shadow-[var(--shadow-card)] p-12 text-center">
+                  <div className="bg-white/80 backdrop-blur-sm rounded-[18px] border border-border/30 shadow-[var(--shadow-card)] p-12 text-center">
                     <p className="text-muted-foreground">Customer master data table</p>
                   </div>
                 </TabsContent>
@@ -293,25 +303,25 @@ export default function DataConfiguration() {
             </TabsContent>
 
             <TabsContent value="transactions">
-              <div className="bg-card rounded-2xl border border-border shadow-[var(--shadow-card)] p-12 text-center">
+              <div className="bg-white/80 backdrop-blur-sm rounded-[18px] border border-border/30 shadow-[var(--shadow-card)] p-12 text-center">
                 <p className="text-muted-foreground">Transaction history and logs</p>
               </div>
             </TabsContent>
 
             <TabsContent value="parameters">
-              <div className="bg-card rounded-2xl border border-border shadow-[var(--shadow-card)] p-12 text-center">
+              <div className="bg-white/80 backdrop-blur-sm rounded-[18px] border border-border/30 shadow-[var(--shadow-card)] p-12 text-center">
                 <p className="text-muted-foreground">System parameters configuration</p>
               </div>
             </TabsContent>
 
             <TabsContent value="model">
-              <div className="bg-card rounded-2xl border border-border shadow-[var(--shadow-card)] p-12 text-center">
+              <div className="bg-white/80 backdrop-blur-sm rounded-[18px] border border-border/30 shadow-[var(--shadow-card)] p-12 text-center">
                 <p className="text-muted-foreground">AI model configuration and training</p>
               </div>
             </TabsContent>
 
             <TabsContent value="integrations">
-              <div className="bg-card rounded-2xl border border-border shadow-[var(--shadow-card)] p-12 text-center">
+              <div className="bg-white/80 backdrop-blur-sm rounded-[18px] border border-border/30 shadow-[var(--shadow-card)] p-12 text-center">
                 <p className="text-muted-foreground">External system integrations</p>
               </div>
             </TabsContent>
