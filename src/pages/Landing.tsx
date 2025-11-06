@@ -30,6 +30,7 @@ import {
 
 export default function Landing() {
   const [viewMode, setViewMode] = useState<"agentic" | "decision">("agentic");
+  const [inputValue, setInputValue] = useState("");
 
   const agenticModules = [
     {
@@ -165,6 +166,7 @@ export default function Landing() {
                       key={idx}
                       variant="outline"
                       className="h-auto py-4 px-6 text-left justify-start whitespace-normal text-sm hover:bg-muted/50 transition-colors"
+                      onClick={() => setInputValue(example)}
                     >
                       {example}
                     </Button>
@@ -184,6 +186,8 @@ export default function Landing() {
                   <Input
                     placeholder="Message Planning Assistant"
                     className="pl-16 pr-16 h-20 text-lg rounded-3xl border-2 shadow-lg"
+                    value={inputValue}
+                    onChange={(e) => setInputValue(e.target.value)}
                   />
                   <div className="absolute right-4 top-1/2 -translate-y-1/2 z-10">
                     <Button size="icon" variant="ghost" className="h-10 w-10 rounded-xl hover:bg-muted">
