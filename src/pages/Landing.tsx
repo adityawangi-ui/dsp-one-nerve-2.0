@@ -3,6 +3,7 @@ import { MainLayout } from "@/components/layout/MainLayout";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 import {
@@ -10,40 +11,41 @@ import {
   BarChart3,
   Workflow,
   Clock,
+  Mic,
   Sparkles,
+  TrendingUp,
   Package,
+  FileText,
   ChevronRight,
   Send,
-  History,
-  Layers,
 } from "lucide-react";
 
 export default function Landing() {
   const [inputValue, setInputValue] = useState("");
-  const [selectedRiskFilter, setSelectedRiskFilter] = useState<string>("High");
 
   const contextCards = [
     {
       title: "Service Risks",
       icon: AlertTriangle,
       subtext: "Identify and mitigate upcoming service or stock risks.",
-      footer: "View all Risks",
+      footer: "View in Process Console",
       link: "/agentic-console",
+      status: "3 High Priority Alerts",
       isAgent: true,
-      hasFilters: true,
     },
     {
       title: "Process Console",
       icon: Workflow,
       subtext: "Monitor autonomous workflows and active process executions.",
-      footer: "View all Processes",
+      footer: "View All Processes",
       link: "/agentic-console",
+      status: "3 Processes Running | 1 Pending Approval",
       isAgent: true,
     },
     {
-      title: "DAP Workspace",
-      icon: Layers,
-      subtext: "Access inventory balancing, rebalancing, and safety stock optimization modules.",
+      title: "DAP Modules",
+      icon: Package,
+      subtext: "Access inventory balancing, rebalancing, and safety stock optimization.",
       footer: "Open DAP Workspace",
       link: "/dap-workspace",
       chips: ["Inventory", "Supply", "Rebalancing"],
@@ -55,15 +57,9 @@ export default function Landing() {
       subtext: "View forecast accuracy, service levels, and performance dashboards.",
       footer: "Open Reports Center",
       link: "/reports",
-      chips: ["Accuracy", "Service Levels", "Performance"],
+      status: "87.8% Forecast Accuracy",
       isAgent: false,
     },
-  ];
-
-  const riskFilters = [
-    { label: "High", color: "bg-red-500", textColor: "text-red-700", borderColor: "border-red-500" },
-    { label: "Medium", color: "bg-orange-500", textColor: "text-orange-700", borderColor: "border-orange-500" },
-    { label: "Low", color: "bg-green-500", textColor: "text-green-700", borderColor: "border-green-500" },
   ];
 
   const suggestedQuestions = [
@@ -77,34 +73,23 @@ export default function Landing() {
     <MainLayout>
       <div className="h-screen bg-background px-8 py-4 overflow-hidden flex flex-col">
         <div className="max-w-7xl mx-auto w-full flex flex-col h-full">
-          {/* Header with Value Meter */}
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex-1" />
-            <div className="text-center space-y-0.5 animate-fade-in flex-1">
-              <h1 className="text-xl font-semibold text-gray-900">
-                Welcome back, Aditya! 👋
-              </h1>
-              <p className="text-xs text-gray-500">
-                Your One Nerve assistant is ready with today's insights, risks, and recommendations.
-              </p>
-            </div>
-            <div className="flex items-center gap-3 flex-1 justify-end">
-              <Badge className="bg-primary/10 text-primary border-primary/20 text-xs py-1 px-3 hover:bg-primary/20">
-                💶 €128K Saved This Month
-              </Badge>
-              <Button size="icon" variant="ghost" className="h-8 w-8 rounded-lg">
-                <History className="h-4 w-4 text-gray-600" />
-              </Button>
-            </div>
+          {/* Personal Greeting Section */}
+          <div className="text-center space-y-0.5 animate-fade-in mb-4">
+            <h1 className="text-xl font-semibold text-gray-900">
+              Welcome back, Aditya! 👋
+            </h1>
+            <p className="text-xs text-gray-500">
+              Your live planning assistant is ready with today's insights, risks, and recommendations.
+            </p>
           </div>
 
           {/* Context Cards - 2x2 Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 animate-fade-in mb-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 animate-fade-in mb-3">
             {contextCards.map((card, index) => (
-              <div key={index} className="group">
-                <Card className="p-5 bg-card border border-border/50 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02] flex flex-col h-[220px]">
+              <Link key={index} to={card.link} className="group">
+                <Card className="p-4 bg-card border border-border/50 rounded-2xl shadow-sm hover:shadow-md transition-all duration-300 hover:scale-[1.02] cursor-pointer flex flex-col min-h-[160px]">
                   {/* Header */}
-                  <div className="flex items-start justify-between mb-3">
+                  <div className="flex items-start justify-between mb-2">
                     <div className="flex items-center gap-2.5 flex-1">
                       <div className="p-1.5 rounded-xl bg-primary/10 flex-shrink-0">
                         <card.icon className="h-4 w-4 text-primary" />
@@ -119,55 +104,37 @@ export default function Landing() {
                   </div>
 
                   {/* Subtext */}
-                  <p className="text-xs text-gray-600 mb-3">
+                  <p className="text-xs text-gray-600 mb-2 flex-1">
                     {card.subtext}
                   </p>
 
-                  {/* Risk Filters (only for Service Risks card) */}
-                  {card.hasFilters && (
-                    <div className="flex gap-2 mb-3">
-                      {riskFilters.map((filter) => (
-                        <button
-                          key={filter.label}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setSelectedRiskFilter(filter.label);
-                          }}
-                          className={`text-[10px] py-1 px-3 rounded-full transition-all ${
-                            selectedRiskFilter === filter.label
-                              ? `${filter.color} text-white font-semibold`
-                              : `border ${filter.borderColor} ${filter.textColor} bg-white hover:bg-gray-50`
-                          }`}
-                        >
-                          {filter.label}
-                        </button>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* Chips */}
-                  {card.chips && (
-                    <div className="flex flex-wrap gap-1.5 mb-3">
-                      {card.chips.map((chip, idx) => (
-                        <Badge key={idx} variant="secondary" className="text-[10px] py-0 px-2 bg-gray-100 text-gray-700 hover:bg-gray-200">
-                          {chip}
-                        </Badge>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* Spacer */}
-                  <div className="flex-1" />
+                  {/* Chips or Status */}
+                  <div className="mb-2">
+                    {card.chips && (
+                      <div className="flex flex-wrap gap-1.5">
+                        {card.chips.map((chip, idx) => (
+                          <Badge key={idx} variant="secondary" className="text-[10px] py-0 px-2 bg-gray-100 text-gray-700 hover:bg-gray-200">
+                            {chip}
+                          </Badge>
+                        ))}
+                      </div>
+                    )}
+                    {card.status && (
+                      <Badge variant="outline" className="text-[10px] py-0 px-2 border-gray-300 text-gray-600">
+                        {card.status}
+                      </Badge>
+                    )}
+                  </div>
 
                   {/* Footer */}
-                  <Link to={card.link} className="pt-3 border-t border-border/50 flex items-center justify-between mt-auto">
+                  <div className="pt-2 border-t border-border/50 flex items-center justify-between">
                     <span className="text-[10px] text-primary font-medium group-hover:underline">
-                      {card.footer} →
+                      {card.footer}
                     </span>
                     <ChevronRight className="h-3.5 w-3.5 text-gray-400 group-hover:text-primary transition-colors" />
-                  </Link>
+                  </div>
                 </Card>
-              </div>
+              </Link>
             ))}
           </div>
 
@@ -195,13 +162,13 @@ export default function Landing() {
             <div className="relative">
               <Input
                 placeholder="Ask about your planning operations or type '/' for quick actions…"
-                className="pl-5 pr-14 h-14 text-sm rounded-2xl border-2 border-gray-200 bg-card shadow-md hover:shadow-lg focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary transition-all"
+                className="pl-4 pr-12 h-10 text-xs rounded-2xl border-2 border-gray-200 bg-card shadow-md hover:shadow-lg focus-visible:ring-2 focus-visible:ring-primary/20 focus-visible:border-primary transition-all"
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
               />
-              <div className="absolute right-4 top-1/2 -translate-y-1/2 z-10">
-                <Button size="icon" variant="ghost" className="h-10 w-10 rounded-xl hover:bg-primary/10">
-                  <Send className="h-4 w-4 text-primary" />
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 z-10">
+                <Button size="icon" variant="ghost" className="h-8 w-8 rounded-xl hover:bg-primary/10">
+                  <Send className="h-3.5 w-3.5 text-primary" />
                 </Button>
               </div>
             </div>
