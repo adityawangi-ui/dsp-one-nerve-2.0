@@ -71,8 +71,8 @@ export default function Landing() {
 
   return (
     <MainLayout>
-      <div className="min-h-screen bg-gradient-to-br from-background via-surface to-muted/20 p-8">
-        <div className="container mx-auto max-w-7xl space-y-12">
+      <div className="min-h-screen bg-gradient-to-br from-background via-surface to-muted/20 px-8 py-12">
+        <div className="max-w-7xl mx-auto space-y-12">
           {/* Personal Greeting Section */}
           <div className="text-center space-y-3 animate-fade-in">
             <h2 className="text-4xl font-bold text-foreground">
