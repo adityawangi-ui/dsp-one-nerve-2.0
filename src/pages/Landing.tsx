@@ -182,33 +182,6 @@ export default function Landing() {
                 </div>
               </div>
 
-              {/* Functional Chips */}
-              <div className="space-y-4 animate-fade-in">
-                <ScrollArea className="w-full">
-                  <div className="flex gap-3 pb-2">
-                    {[
-                      { icon: Package, label: "Inventory Balancing" },
-                      { icon: RefreshCw, label: "Supply Rebalancing" },
-                      { icon: TrendingUp, label: "Dynamic Safety Stock" },
-                      { icon: Clock, label: "Inventory Aging Management" },
-                      { icon: AlertTriangle, label: "Exception Handling" },
-                      { icon: FileText, label: "Plan Review" }
-                    ].map((module, idx) => {
-                      const Icon = module.icon;
-                      return (
-                        <Button
-                          key={idx}
-                          variant="secondary"
-                          className="flex items-center gap-2 whitespace-nowrap hover-scale"
-                        >
-                          <Icon className="h-4 w-4" />
-                          {module.label}
-                        </Button>
-                      );
-                    })}
-                  </div>
-                </ScrollArea>
-              </div>
 
               {/* Chat Input Section */}
               <div className="animate-fade-in">
@@ -291,50 +264,6 @@ export default function Landing() {
             </div>
           )}
 
-          {/* Quick Access Bar */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 animate-fade-in">
-            <Link to="/agentic-console">
-              <Card className="p-6 border border-border shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-glow)] transition-all duration-300 hover:scale-[1.02] cursor-pointer">
-                <div className="flex items-center gap-4">
-                  <div className="p-3 rounded-xl bg-primary/10">
-                    <Workflow className="h-6 w-6 text-primary" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-foreground">Agentic Console</h4>
-                    <p className="text-sm text-muted-foreground">Process orchestration</p>
-                  </div>
-                </div>
-              </Card>
-            </Link>
-
-            <Link to="/reports">
-              <Card className="p-6 border border-border shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-glow)] transition-all duration-300 hover:scale-[1.02] cursor-pointer">
-                <div className="flex items-center gap-4">
-                  <div className="p-3 rounded-xl bg-primary/10">
-                    <FileText className="h-6 w-6 text-primary" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-foreground">Reports</h4>
-                    <p className="text-sm text-muted-foreground">Performance tracking</p>
-                  </div>
-                </div>
-              </Card>
-            </Link>
-
-            <Link to="/data-config">
-              <Card className="p-6 border border-border shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-glow)] transition-all duration-300 hover:scale-[1.02] cursor-pointer">
-                <div className="flex items-center gap-4">
-                  <div className="p-3 rounded-xl bg-primary/10">
-                    <Settings className="h-6 w-6 text-primary" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-foreground">Configuration</h4>
-                    <p className="text-sm text-muted-foreground">Data & settings</p>
-                  </div>
-                </div>
-              </Card>
-            </Link>
-          </div>
         </div>
       </div>
     </MainLayout>
