@@ -82,10 +82,10 @@ Based on your inquiry, here are additional insights:
 
   return (
     <MainLayout>
-      <div className="h-[calc(100vh-4rem)] misty-bg px-8 lg:px-16 xl:px-24 overflow-auto pb-32">
-        <div className="w-full py-8 mx-auto" style={{ maxWidth: '1400px' }}>
+      <div className="min-h-[calc(100vh-4rem)] misty-bg px-4 md:px-8 lg:px-16 xl:px-24 overflow-auto pb-32 md:pb-36">
+        <div className="w-full py-4 md:py-8 mx-auto" style={{ maxWidth: '1400px' }}>
           {/* Header */}
-          <div className="mb-6 animate-fade-in">
+          <div className="mb-4 md:mb-6 animate-fade-in">
             <Button
               variant="ghost"
               onClick={() => navigate("/")}
@@ -100,12 +100,12 @@ Based on your inquiry, here are additional insights:
 
           {/* Conversation History */}
           {conversationHistory.map((item, idx) => (
-            <div key={idx} className="mb-6 animate-fade-in">
+            <div key={idx} className="mb-4 md:mb-6 animate-fade-in">
               <p className="text-sm text-muted-foreground mb-3 flex items-center gap-2">
                 <Sparkles className="h-4 w-4 text-primary" />
                 {item.query}
               </p>
-              <Card className="p-6 bg-white border-l-4 border-l-muted shadow-sm">
+              <Card className="p-4 md:p-6 bg-white border-l-4 border-l-muted shadow-sm">
                 <div className="prose prose-sm max-w-none">
                   {item.response.split('\n').map((line, lineIdx) => {
                     if (line.startsWith('**') && line.endsWith('**')) {
@@ -132,7 +132,7 @@ Based on your inquiry, here are additional insights:
 
           {/* Current Response Card */}
           <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
-            <Card className="p-8 bg-white border-l-4 border-l-primary shadow-[var(--shadow-card)]">
+            <Card className="p-4 md:p-8 bg-white border-l-4 border-l-primary shadow-[var(--shadow-card)]">
               {isProcessing ? (
                 <div className="flex items-center gap-3">
                   <div className="flex gap-1">
@@ -169,29 +169,29 @@ Based on your inquiry, here are additional insights:
         </div>
 
         {/* Fixed Follow-up Prompt Box */}
-        <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-background via-background to-background/50 backdrop-blur-sm border-t border-border/40 py-4 px-8 lg:px-16 xl:px-24">
+        <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-background via-background to-background/50 backdrop-blur-sm border-t border-border/40 py-3 md:py-4 px-4 md:px-8 lg:px-16 xl:px-24 z-10">
           <div className="mx-auto" style={{ maxWidth: '1400px' }}>
-            <div className="frosted-glass breathing-border rounded-2xl border-2 border-primary/30 shadow-[var(--shadow-glow)]">
-              <div className="flex items-center gap-3 pl-4 pr-3 py-2.5">
-                {/* Left Icons */}
-                <div className="flex items-center gap-2">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-9 w-9 rounded-xl hover:bg-primary/10 transition-all"
-                    title="Quick Actions"
-                  >
-                    <Plus className="h-4 w-4 text-primary" />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-9 w-9 rounded-xl hover:bg-primary/10 transition-all"
-                    title="Settings"
-                  >
-                    <Settings className="h-4 w-4 text-primary" />
-                  </Button>
-                </div>
+              <div className="frosted-glass breathing-border rounded-2xl border-2 border-primary/30 shadow-[var(--shadow-glow)]">
+                <div className="flex items-center gap-2 md:gap-3 pl-3 md:pl-4 pr-2 md:pr-3 py-2 md:py-2.5">
+                  {/* Left Icons */}
+                  <div className="hidden md:flex items-center gap-2">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-9 w-9 rounded-xl hover:bg-primary/10 transition-all"
+                      title="Quick Actions"
+                    >
+                      <Plus className="h-4 w-4 text-primary" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-9 w-9 rounded-xl hover:bg-primary/10 transition-all"
+                      title="Settings"
+                    >
+                      <Settings className="h-4 w-4 text-primary" />
+                    </Button>
+                  </div>
 
                 {/* Input */}
                 <Input
@@ -207,24 +207,24 @@ Based on your inquiry, here are additional insights:
                   }}
                 />
 
-                {/* Right Icons */}
-                <div className="flex items-center gap-2">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    className="h-9 w-9 rounded-xl hover:bg-primary/10 transition-all"
-                    title="Voice Input"
-                  >
-                    <Mic className="h-4 w-4 text-primary" />
-                  </Button>
-                  <Button
-                    size="icon"
-                    className="h-9 w-9 rounded-xl bg-primary hover:bg-primary/90 shadow-md hover:shadow-lg transition-all"
-                    onClick={handleFollowUp}
-                  >
-                    <Send className="h-4 w-4" />
-                  </Button>
-                </div>
+                  {/* Right Icons */}
+                  <div className="flex items-center gap-1 md:gap-2">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="hidden md:flex h-9 w-9 rounded-xl hover:bg-primary/10 transition-all"
+                      title="Voice Input"
+                    >
+                      <Mic className="h-4 w-4 text-primary" />
+                    </Button>
+                    <Button
+                      size="icon"
+                      className="h-9 w-9 rounded-xl bg-primary hover:bg-primary/90 shadow-md hover:shadow-lg transition-all"
+                      onClick={handleFollowUp}
+                    >
+                      <Send className="h-4 w-4" />
+                    </Button>
+                  </div>
               </div>
             </div>
           </div>

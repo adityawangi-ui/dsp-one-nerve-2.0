@@ -146,9 +146,9 @@ export default function AgenticConsole() {
 
   return (
     <MainLayout>
-      <div className="p-8 space-y-8 misty-bg min-h-screen">
+      <div className="p-4 md:p-8 space-y-6 md:space-y-8 misty-bg min-h-screen">
         {/* Personal Greeting */}
-        <div className="space-y-1 animate-fade-in mb-2">
+        <div className="space-y-1 animate-fade-in mb-2 md:mb-2">
           <h1 className="text-2xl md:text-3xl font-bold gradient-text" style={{ animationDuration: '0.6s' }}>
             Hello Alex! 👋
           </h1>
@@ -170,8 +170,8 @@ export default function AgenticConsole() {
 
         {/* Process Overview */}
         <section>
-          <h2 className="text-xl font-semibold text-foreground mb-4">Process Overview</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+          <h2 className="text-lg md:text-xl font-semibold text-foreground mb-3 md:mb-4">Process Overview</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 md:gap-4">
             {kpiData.map((kpi, index) => (
               <KPICard key={index} {...kpi} />
             ))}
@@ -196,8 +196,8 @@ export default function AgenticConsole() {
 
         {/* Recent Activity Log */}
         <section>
-          <h2 className="text-xl font-semibold text-foreground mb-4">Recent Activity Log</h2>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <h2 className="text-lg md:text-xl font-semibold text-foreground mb-3 md:mb-4">Recent Activity Log</h2>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 md:gap-6">
             {recommendations.map((rec, index) => (
               <RecommendationCard key={index} {...rec} />
             ))}

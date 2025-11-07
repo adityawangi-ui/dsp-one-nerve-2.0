@@ -153,10 +153,10 @@ export default function Landing() {
 
   return (
     <MainLayout>
-      <div className="h-[calc(100vh-4rem)] misty-bg px-8 lg:px-16 xl:px-24 overflow-hidden flex flex-col relative">
-        <div className="w-full flex flex-col h-full justify-center py-4 mx-auto" style={{ maxWidth: '1400px' }}>
+      <div className="min-h-[calc(100vh-4rem)] misty-bg px-8 lg:px-16 xl:px-24 overflow-auto flex flex-col relative py-8 md:py-0">
+        <div className="w-full flex flex-col md:h-full md:justify-center py-4 mx-auto" style={{ maxWidth: '1400px' }}>
           {/* Personal Greeting Section */}
-          <div className="text-center space-y-0.5 animate-fade-in mb-5">
+          <div className="text-center space-y-0.5 animate-fade-in mb-4 md:mb-5">
             <h1 className="text-3xl font-bold gradient-text" style={{ animationDuration: '0.6s' }}>
               Hello, Alex 👋
             </h1>
@@ -166,7 +166,7 @@ export default function Landing() {
           </div>
 
           {/* Context Cards - 2x2 Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5 justify-items-center w-full"
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 mb-4 md:mb-5 justify-items-center w-full"
                style={{ animation: 'fade-in 0.6s ease-out 0.2s both' }}>
             {contextCards.map((card, index) => (
               <Link 
@@ -177,7 +177,7 @@ export default function Landing() {
                   animation: `fade-in 0.5s ease-out ${0.3 + index * 0.1}s both, scale-in 0.4s ease-out ${0.3 + index * 0.1}s both` 
                 }}
               >
-                <Card className="relative p-4 bg-white border border-border/30 rounded-[18px] shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-intense)] transition-all duration-300 hover:-translate-y-1 cursor-pointer flex flex-col min-h-[155px] items-center text-center card-shimmer overflow-hidden">
+                <Card className="relative p-3 md:p-4 bg-white border border-border/30 rounded-[18px] shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-intense)] transition-all duration-300 hover:-translate-y-1 cursor-pointer flex flex-col min-h-[140px] md:min-h-[155px] items-center text-center card-shimmer overflow-hidden">
                   {/* Subtle gradient header strip */}
                   <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary/50 via-primary to-primary/50 rounded-t-[18px]" />
                   
@@ -228,13 +228,13 @@ export default function Landing() {
           </div>
 
           {/* FAQ Chips Section */}
-          <div className="animate-fade-in w-full mb-3 px-0" style={{ animationDelay: '0.45s' }}>
-            <div className="flex gap-2 justify-between">
+          <div className="animate-fade-in w-full mb-3 md:mb-3 px-0" style={{ animationDelay: '0.45s' }}>
+            <div className="flex flex-col md:flex-row gap-2 justify-between">
               {faqChips.map((chip, idx) => (
                 <button
                   key={idx}
                   onClick={() => handleChipClick(chip)}
-                  className="group relative px-3 py-1.5 rounded-xl bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 border border-primary/20 shadow-sm hover:shadow-[0_0_20px_rgba(111,108,246,0.3)] transition-all duration-300 hover:scale-[1.02] hover:border-primary/40 text-left flex-1 flex items-center gap-1.5"
+                  className="group relative px-3 py-2 md:py-1.5 rounded-xl bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 border border-primary/20 shadow-sm hover:shadow-[0_0_20px_rgba(111,108,246,0.3)] transition-all duration-300 hover:scale-[1.02] hover:border-primary/40 text-left flex-1 flex items-center gap-1.5"
                 >
                   <Sparkles className="h-3 w-3 text-primary flex-shrink-0 group-hover:animate-pulse" />
                   <span className="text-[11px] text-foreground/80 group-hover:text-foreground font-medium leading-tight">
