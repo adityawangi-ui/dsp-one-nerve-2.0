@@ -240,15 +240,15 @@ export default function Landing() {
           </div>
 
           {/* FAQ Chips Section */}
-          <div className="animate-fade-in max-w-3xl mx-auto w-full mb-4" style={{ animationDelay: '0.45s' }}>
-            <div className="flex items-center justify-center gap-2 flex-wrap">
+          <div className="animate-fade-in max-w-3xl mx-auto w-full mb-3 px-0" style={{ animationDelay: '0.45s' }}>
+            <div className="flex flex-col gap-2">
               {faqChips.map((chip, idx) => (
                 <button
                   key={idx}
                   onClick={() => handleChipClick(chip)}
-                  className="group relative px-4 py-2 rounded-2xl bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 border border-primary/20 shadow-sm hover:shadow-[0_0_20px_rgba(111,108,246,0.3)] transition-all duration-300 hover:scale-105 hover:border-primary/40"
+                  className="group relative px-3 py-1.5 rounded-xl bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 border border-primary/20 shadow-sm hover:shadow-[0_0_20px_rgba(111,108,246,0.3)] transition-all duration-300 hover:scale-[1.02] hover:border-primary/40 text-left w-full"
                 >
-                  <span className="text-xs text-foreground/80 group-hover:text-foreground font-medium">
+                  <span className="text-[11px] text-foreground/80 group-hover:text-foreground font-medium leading-tight">
                     {chip.text}
                   </span>
                 </button>
