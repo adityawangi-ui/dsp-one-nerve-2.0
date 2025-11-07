@@ -23,24 +23,6 @@ export default function Landing() {
 
   const contextCards = [
     {
-      title: "Service Risks",
-      icon: AlertTriangle,
-      subtext: "Identify and mitigate upcoming service or stock risks.",
-      footer: "View all Risks",
-      link: "/agentic-console",
-      status: "3 High Priority Alerts",
-      isAgent: true,
-    },
-    {
-      title: "Process Console",
-      icon: Workflow,
-      subtext: "Monitor autonomous workflows and active process executions.",
-      footer: "View All Processes",
-      link: "/agentic-console",
-      status: "3 Processes Running | 1 Pending Approval",
-      isAgent: true,
-    },
-    {
       title: "DAP Workspace",
       icon: Package,
       subtext: "Access inventory balancing, rebalancing, and safety stock optimization.",
@@ -57,6 +39,24 @@ export default function Landing() {
       link: "/reports",
       status: "87.8% Forecast Accuracy",
       isAgent: false,
+    },
+    {
+      title: "Service Risks",
+      icon: AlertTriangle,
+      subtext: "Identify and mitigate upcoming service or stock risks.",
+      footer: "View all Risks",
+      link: "/agentic-console",
+      status: "3 High Priority Alerts",
+      isAgent: true,
+    },
+    {
+      title: "Process Console",
+      icon: Workflow,
+      subtext: "Monitor autonomous workflows and active process executions.",
+      footer: "View All Processes",
+      link: "/agentic-console",
+      status: "3 Processes Running | 1 Pending Approval",
+      isAgent: true,
     },
   ];
 
