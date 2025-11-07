@@ -223,8 +223,8 @@ export default function SupplyPlannerWorkspace() {
   if (showInventoryDetail) {
     return (
       <MainLayout>
-      <div className="min-h-[calc(100vh-4rem)] misty-bg p-6 md:p-8">
-        <div className="max-w-7xl mx-auto space-y-6">
+      <div className="min-h-[calc(100vh-4rem)] misty-bg p-6 md:p-8 lg:px-16 xl:px-24">
+        <div className="mx-auto space-y-6" style={{ maxWidth: '1600px' }}>
           {/* Personalized Greeting Banner */}
           <Card className="bg-white/80 backdrop-blur-sm rounded-[18px] border border-border/30 shadow-[var(--shadow-card)] animate-fade-in overflow-hidden relative">
             <div className="absolute inset-0 bg-gradient-to-r from-primary/5 to-transparent opacity-50" />
@@ -319,8 +319,8 @@ export default function SupplyPlannerWorkspace() {
 
   return (
     <MainLayout>
-      <div className="min-h-[calc(100vh-4rem)] misty-bg p-6 md:p-8">
-        <div className="max-w-7xl mx-auto space-y-8">
+      <div className="min-h-[calc(100vh-4rem)] misty-bg p-6 md:p-8 lg:px-16 xl:px-24">
+        <div className="mx-auto space-y-8" style={{ maxWidth: '1600px' }}>
           
           {/* Header Section */}
           <div className="animate-fade-in">

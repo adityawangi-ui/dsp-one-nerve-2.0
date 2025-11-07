@@ -82,8 +82,8 @@ Based on your inquiry, here are additional insights:
 
   return (
     <MainLayout>
-      <div className="h-[calc(100vh-4rem)] misty-bg px-8 overflow-auto pb-32">
-        <div className="max-w-5xl mx-auto w-full py-8">
+      <div className="h-[calc(100vh-4rem)] misty-bg px-8 lg:px-16 xl:px-24 overflow-auto pb-32">
+        <div className="w-full py-8 mx-auto" style={{ maxWidth: '1400px' }}>
           {/* Header */}
           <div className="mb-6 animate-fade-in">
             <Button
@@ -169,8 +169,8 @@ Based on your inquiry, here are additional insights:
         </div>
 
         {/* Fixed Follow-up Prompt Box */}
-        <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-background via-background to-background/50 backdrop-blur-sm border-t border-border/40 py-4 px-8">
-          <div className="max-w-5xl mx-auto">
+        <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-background via-background to-background/50 backdrop-blur-sm border-t border-border/40 py-4 px-8 lg:px-16 xl:px-24">
+          <div className="mx-auto" style={{ maxWidth: '1400px' }}>
             <div className="frosted-glass breathing-border rounded-2xl border-2 border-primary/30 shadow-[var(--shadow-glow)]">
               <div className="flex items-center gap-3 pl-4 pr-3 py-2.5">
                 {/* Left Icons */}

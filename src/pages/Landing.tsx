@@ -153,8 +153,8 @@ export default function Landing() {
 
   return (
     <MainLayout>
-      <div className="h-[calc(100vh-4rem)] misty-bg px-8 overflow-hidden flex flex-col relative">
-        <div className="max-w-7xl mx-auto w-full flex flex-col h-full justify-center py-4">
+      <div className="h-[calc(100vh-4rem)] misty-bg px-8 lg:px-16 xl:px-24 overflow-hidden flex flex-col relative">
+        <div className="w-full flex flex-col h-full justify-center py-4 mx-auto" style={{ maxWidth: '1400px' }}>
           {/* Personal Greeting Section */}
           <div className="text-center space-y-0.5 animate-fade-in mb-5">
             <h1 className="text-3xl font-bold gradient-text" style={{ animationDuration: '0.6s' }}>
@@ -166,7 +166,7 @@ export default function Landing() {
           </div>
 
           {/* Context Cards - 2x2 Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5 justify-items-center max-w-3xl mx-auto w-full"
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5 justify-items-center w-full"
                style={{ animation: 'fade-in 0.6s ease-out 0.2s both' }}>
             {contextCards.map((card, index) => (
               <Link 
@@ -228,7 +228,7 @@ export default function Landing() {
           </div>
 
           {/* FAQ Chips Section */}
-          <div className="animate-fade-in max-w-3xl mx-auto w-full mb-3 px-0" style={{ animationDelay: '0.45s' }}>
+          <div className="animate-fade-in w-full mb-3 px-0" style={{ animationDelay: '0.45s' }}>
             <div className="flex gap-2 justify-between">
               {faqChips.map((chip, idx) => (
                 <button
@@ -246,7 +246,7 @@ export default function Landing() {
           </div>
 
           {/* Conversational Prompt Box - Gemini Style */}
-          <div className="animate-fade-in max-w-3xl mx-auto w-full" style={{ animationDelay: '0.5s' }}>
+          <div className="animate-fade-in w-full" style={{ animationDelay: '0.5s' }}>
             <div className="relative">
               <div className="frosted-glass breathing-border rounded-2xl border-2 border-primary/30 shadow-[var(--shadow-glow)]">
                 <div className="flex items-center gap-3 pl-4 pr-3 py-2.5">
