@@ -363,10 +363,19 @@ export default function SupplyPlannerWorkspace() {
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
               
               {/* Supply-Demand Balance */}
-              <Card className="transition-all duration-300 hover:shadow-[var(--shadow-glow)] hover:scale-[1.02] bg-card/50 backdrop-blur-sm border-border/50">
+              <Card className="transition-all duration-300 hover:shadow-[var(--shadow-glow)] hover:scale-[1.02] bg-card/50 backdrop-blur-sm border-border/50 cursor-pointer group">
                 <CardContent className="p-6">
                   <div className="space-y-3">
-                    <h3 className="text-sm font-medium text-muted-foreground">Supply–Demand Balance</h3>
+                    <div className="flex items-start justify-between">
+                      <h3 className="text-sm font-medium text-muted-foreground">Supply–Demand Balance</h3>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <ExternalLink className="h-4 w-4 text-primary" />
+                      </Button>
+                    </div>
                     <div className="flex items-baseline gap-2">
                       <span className="text-4xl font-bold text-foreground">93</span>
                       <span className="text-lg text-muted-foreground">% matched</span>
@@ -377,10 +386,19 @@ export default function SupplyPlannerWorkspace() {
               </Card>
 
               {/* Inventory Coverage */}
-              <Card className="transition-all duration-300 hover:shadow-[var(--shadow-glow)] hover:scale-[1.02] bg-card/50 backdrop-blur-sm border-border/50">
+              <Card className="transition-all duration-300 hover:shadow-[var(--shadow-glow)] hover:scale-[1.02] bg-card/50 backdrop-blur-sm border-border/50 cursor-pointer group">
                 <CardContent className="p-6">
                   <div className="space-y-3">
-                    <h3 className="text-sm font-medium text-muted-foreground">Inventory Coverage</h3>
+                    <div className="flex items-start justify-between">
+                      <h3 className="text-sm font-medium text-muted-foreground">Inventory Coverage</h3>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <ExternalLink className="h-4 w-4 text-primary" />
+                      </Button>
+                    </div>
                     <div className="flex items-baseline gap-2">
                       <span className="text-4xl font-bold text-foreground">26</span>
                       <span className="text-lg text-muted-foreground">days avg</span>
@@ -391,10 +409,19 @@ export default function SupplyPlannerWorkspace() {
               </Card>
 
               {/* Production Plan Adherence */}
-              <Card className="transition-all duration-300 hover:shadow-[var(--shadow-glow)] hover:scale-[1.02] bg-card/50 backdrop-blur-sm border-border/50">
+              <Card className="transition-all duration-300 hover:shadow-[var(--shadow-glow)] hover:scale-[1.02] bg-card/50 backdrop-blur-sm border-border/50 cursor-pointer group">
                 <CardContent className="p-6">
                   <div className="space-y-3">
-                    <h3 className="text-sm font-medium text-muted-foreground">Production Plan Adherence</h3>
+                    <div className="flex items-start justify-between">
+                      <h3 className="text-sm font-medium text-muted-foreground">Production Plan Adherence</h3>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <ExternalLink className="h-4 w-4 text-primary" />
+                      </Button>
+                    </div>
                     <div className="flex items-baseline gap-2">
                       <span className="text-4xl font-bold text-foreground">88</span>
                       <span className="text-lg text-muted-foreground">%</span>
@@ -405,10 +432,19 @@ export default function SupplyPlannerWorkspace() {
               </Card>
 
               {/* Open Exceptions */}
-              <Card className="transition-all duration-300 hover:shadow-[var(--shadow-glow)] hover:scale-[1.02] bg-card/50 backdrop-blur-sm border-border/50">
+              <Card className="transition-all duration-300 hover:shadow-[var(--shadow-glow)] hover:scale-[1.02] bg-card/50 backdrop-blur-sm border-border/50 cursor-pointer group">
                 <CardContent className="p-6">
                   <div className="space-y-3">
-                    <h3 className="text-sm font-medium text-muted-foreground">Open Exceptions</h3>
+                    <div className="flex items-start justify-between">
+                      <h3 className="text-sm font-medium text-muted-foreground">Open Exceptions</h3>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity"
+                      >
+                        <ExternalLink className="h-4 w-4 text-primary" />
+                      </Button>
+                    </div>
                     <div className="flex items-baseline gap-2">
                       <span className="text-4xl font-bold text-foreground">5</span>
                       <span className="text-lg text-muted-foreground">active</span>
