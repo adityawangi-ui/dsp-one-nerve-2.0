@@ -28,7 +28,7 @@ export default function Landing() {
       subtext: "Access inventory balancing, rebalancing, and safety stock optimization.",
       footer: "Open DAP Workspace",
       link: "/dap-workspace",
-      chips: ["Inventory", "Supply", "Rebalancing"],
+      chips: ["Inventory", "Supply Rebalancing"],
       isAgent: false,
     },
     {
