@@ -241,13 +241,14 @@ export default function Landing() {
 
           {/* FAQ Chips Section */}
           <div className="animate-fade-in max-w-3xl mx-auto w-full mb-3 px-0" style={{ animationDelay: '0.45s' }}>
-            <div className="flex flex-col gap-2">
+            <div className="flex gap-2 justify-between">
               {faqChips.map((chip, idx) => (
                 <button
                   key={idx}
                   onClick={() => handleChipClick(chip)}
-                  className="group relative px-3 py-1.5 rounded-xl bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 border border-primary/20 shadow-sm hover:shadow-[0_0_20px_rgba(111,108,246,0.3)] transition-all duration-300 hover:scale-[1.02] hover:border-primary/40 text-left w-full"
+                  className="group relative px-3 py-1.5 rounded-xl bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 border border-primary/20 shadow-sm hover:shadow-[0_0_20px_rgba(111,108,246,0.3)] transition-all duration-300 hover:scale-[1.02] hover:border-primary/40 text-left flex-1 flex items-center gap-1.5"
                 >
+                  <Sparkles className="h-3 w-3 text-primary flex-shrink-0 group-hover:animate-pulse" />
                   <span className="text-[11px] text-foreground/80 group-hover:text-foreground font-medium leading-tight">
                     {chip.text}
                   </span>
