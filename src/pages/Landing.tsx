@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   AlertTriangle,
   BarChart3,
@@ -20,8 +20,7 @@ import {
 
 export default function Landing() {
   const [inputValue, setInputValue] = useState("");
-  const [isProcessing, setIsProcessing] = useState(false);
-  const [currentResponse, setCurrentResponse] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const contextCards = [
     {
@@ -144,23 +143,12 @@ export default function Landing() {
   ];
 
   const handleChipClick = (chip: typeof faqChips[0]) => {
-    setInputValue(chip.text);
-  };
-
-  const handleSend = async () => {
-    if (!inputValue.trim()) return;
-    
-    const matchedChip = faqChips.find(chip => chip.text === inputValue);
-    if (matchedChip) {
-      setIsProcessing(true);
-      setCurrentResponse(null);
-      
-      // Simulate AI processing with typing animation
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      setCurrentResponse(matchedChip.response);
-      setIsProcessing(false);
-    }
+    navigate('/ai-response', { 
+      state: { 
+        query: chip.text, 
+        response: chip.response 
+      } 
+    });
   };
 
   return (
@@ -257,42 +245,6 @@ export default function Landing() {
             </div>
           </div>
 
-          {/* AI Response Display */}
-          {(isProcessing || currentResponse) && (
-            <div className="animate-fade-in max-w-3xl mx-auto w-full mb-4">
-              <Card className="p-6 bg-white border-l-4 border-l-primary shadow-md">
-                {isProcessing ? (
-                  <div className="flex items-center gap-3">
-                    <div className="flex gap-1">
-                      <span className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
-                      <span className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
-                      <span className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
-                    </div>
-                    <span className="text-sm text-muted-foreground">Analyzing data...</span>
-                  </div>
-                ) : (
-                  <div className="prose prose-sm max-w-none">
-                    {currentResponse?.split('\n').map((line, idx) => {
-                      if (line.startsWith('**') && line.endsWith('**')) {
-                        return <h3 key={idx} className="text-sm font-semibold text-foreground mt-4 mb-2">{line.replace(/\*\*/g, '')}</h3>;
-                      }
-                      if (line.startsWith('•')) {
-                        return <p key={idx} className="text-xs text-foreground/80 ml-4 mb-1">{line}</p>;
-                      }
-                      if (line.match(/^\d+\./)) {
-                        return <p key={idx} className="text-xs text-foreground/80 ml-4 mb-1">{line}</p>;
-                      }
-                      if (line.startsWith('→')) {
-                        return <p key={idx} className="text-xs text-primary font-medium ml-4 mb-1">{line}</p>;
-                      }
-                      return line ? <p key={idx} className="text-xs text-foreground/80 mb-2">{line}</p> : <br key={idx} />;
-                    })}
-                  </div>
-                )}
-              </Card>
-            </div>
-          )}
-
           {/* Conversational Prompt Box - Gemini Style */}
           <div className="animate-fade-in max-w-3xl mx-auto w-full" style={{ animationDelay: '0.5s' }}>
             <div className="relative">
@@ -339,7 +291,6 @@ export default function Landing() {
                     <Button
                       size="icon"
                       className="h-9 w-9 rounded-xl bg-primary hover:bg-primary/90 shadow-md hover:shadow-lg transition-all"
-                      onClick={handleSend}
                     >
                       <Send className="h-4 w-4" />
                     </Button>

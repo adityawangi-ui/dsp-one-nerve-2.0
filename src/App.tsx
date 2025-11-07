@@ -8,6 +8,7 @@ import AgenticConsole from "./pages/AgenticConsole";
 import DAPWorkspace from "./pages/DAPWorkspace";
 import Reports from "./pages/Reports";
 import DataConfiguration from "./pages/DataConfiguration";
+import AIResponse from "./pages/AIResponse";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ const App = () => (
           <Route path="/dap-workspace" element={<DAPWorkspace />} />
           <Route path="/reports" element={<Reports />} />
           <Route path="/data-config" element={<DataConfiguration />} />
+          <Route path="/ai-response" element={<AIResponse />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
