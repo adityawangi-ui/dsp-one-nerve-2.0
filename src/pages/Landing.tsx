@@ -153,20 +153,21 @@ export default function Landing() {
 
   return (
     <MainLayout>
-      <div className="min-h-[calc(100vh-4rem)] misty-bg px-8 lg:px-16 xl:px-24 overflow-auto flex flex-col relative py-8 md:py-0">
-        <div className="w-full flex flex-col md:h-full md:justify-center py-4 mx-auto" style={{ maxWidth: '1400px' }}>
-          {/* Personal Greeting Section */}
-          <div className="text-center space-y-0.5 animate-fade-in mb-4 md:mb-5">
-            <h1 className="text-3xl font-bold gradient-text" style={{ animationDuration: '0.6s' }}>
-              Hello, Alex 👋
-            </h1>
-            <p className="text-xs text-[#7E7E7E] font-light">
-              Your Intelligent Planning Companion.
-            </p>
-          </div>
+      <div className="min-h-[calc(100vh-4rem)] misty-bg px-8 lg:px-16 xl:px-24 overflow-auto flex flex-col relative">
+        <div className="w-full flex flex-col justify-between min-h-[calc(100vh-4rem)] py-6 md:py-8 mx-auto" style={{ maxWidth: '1400px' }}>
+          <div className="flex-1 flex flex-col justify-center space-y-4 md:space-y-6">
+            {/* Personal Greeting Section */}
+            <div className="text-center space-y-0.5 animate-fade-in">
+              <h1 className="text-3xl font-bold gradient-text" style={{ animationDuration: '0.6s' }}>
+                Hello, Alex 👋
+              </h1>
+              <p className="text-xs text-[#7E7E7E] font-light">
+                Your Intelligent Planning Companion.
+              </p>
+            </div>
 
-          {/* Context Cards - 2x2 Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 mb-4 md:mb-5 justify-items-center w-full"
+            {/* Context Cards - 2x2 Grid */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 justify-items-center w-full"
                style={{ animation: 'fade-in 0.6s ease-out 0.2s both' }}>
             {contextCards.map((card, index) => (
               <Link 
@@ -225,10 +226,13 @@ export default function Landing() {
                 </Card>
               </Link>
             ))}
+            </div>
           </div>
 
-          {/* FAQ Chips Section */}
-          <div className="animate-fade-in w-full mb-3 md:mb-3 px-0" style={{ animationDelay: '0.45s' }}>
+          {/* Bottom Section - FAQ Chips and Prompt Box */}
+          <div className="space-y-3 md:space-y-4">
+            {/* FAQ Chips Section */}
+            <div className="animate-fade-in w-full px-0" style={{ animationDelay: '0.45s' }}>
             <div className="flex flex-col md:flex-row gap-2 justify-between">
               {faqChips.map((chip, idx) => (
                 <button
@@ -242,11 +246,11 @@ export default function Landing() {
                   </span>
                 </button>
               ))}
+              </div>
             </div>
-          </div>
 
-          {/* Conversational Prompt Box - Gemini Style */}
-          <div className="animate-fade-in w-full" style={{ animationDelay: '0.5s' }}>
+            {/* Conversational Prompt Box - Gemini Style */}
+            <div className="animate-fade-in w-full" style={{ animationDelay: '0.5s' }}>
             <div className="relative">
               <div className="frosted-glass breathing-border rounded-2xl border-2 border-primary/30 shadow-[var(--shadow-glow)]">
                 <div className="flex items-center gap-3 pl-4 pr-3 py-2.5">
@@ -301,6 +305,7 @@ export default function Landing() {
           </div>
         </div>
       </div>
+    </div>
     </MainLayout>
   );
 }
