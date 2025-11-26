@@ -46,7 +46,7 @@ export default function Landing() {
       icon: AlertTriangle,
       subtext: "Identify and mitigate upcoming service or stock risks.",
       footer: "View all Risks",
-      link: "/agentic-console",
+      link: "/risk-landing",
       status: "3 High Priority Alerts",
       isAgent: true,
     },
