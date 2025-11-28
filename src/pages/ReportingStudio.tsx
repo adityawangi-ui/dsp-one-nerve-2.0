@@ -2,9 +2,10 @@ import { MainLayout } from "@/components/layout/MainLayout";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { FileText, Download, Calendar, TrendingUp, Package, AlertCircle } from "lucide-react";
+import { FileText, Download, Calendar, TrendingUp, Package, AlertCircle, ArrowLeft } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from "recharts";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 const mbrData = [
   { metric: "Service Level", actual: 89.4, target: 90.0, variance: -0.6 },
@@ -37,6 +38,7 @@ const inventoryNormsData = [
 
 export default function ReportingStudio() {
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const activeAgents = [
     "Reports Generator",
@@ -56,9 +58,14 @@ export default function ReportingStudio() {
       <div className="space-y-6 p-8 animate-fade-in">
         {/* Header */}
         <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-4xl font-bold text-foreground">Reporting Studio</h1>
-            <p className="text-muted-foreground mt-2">Pre-built reports and dashboards</p>
+          <div className="flex items-center gap-4">
+            <Button variant="outline" size="icon" onClick={() => navigate(-1)}>
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+            <div>
+              <h1 className="text-4xl font-bold text-foreground">Reporting Studio</h1>
+              <p className="text-muted-foreground mt-2">Pre-built reports and dashboards</p>
+            </div>
           </div>
           <div className="flex items-center gap-2">
             <Badge variant="secondary" className="gap-1">

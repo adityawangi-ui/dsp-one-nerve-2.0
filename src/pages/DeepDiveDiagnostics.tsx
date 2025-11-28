@@ -2,7 +2,7 @@ import { MainLayout } from "@/components/layout/MainLayout";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ChevronRight, AlertCircle, TrendingUp, Package2, Truck } from "lucide-react";
+import { ChevronRight, AlertCircle, TrendingUp, Package2, Truck, ArrowLeft } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell } from "recharts";
 import { useNavigate } from "react-router-dom";
 
@@ -43,9 +43,14 @@ export default function DeepDiveDiagnostics() {
       <div className="space-y-6 p-8 animate-fade-in">
         {/* Header */}
         <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-4xl font-bold text-foreground">Deep Dive Diagnostics</h1>
-            <p className="text-muted-foreground mt-2">Material: FG-98342 | Plant: 1200</p>
+          <div className="flex items-center gap-4">
+            <Button variant="outline" size="icon" onClick={() => navigate(-1)}>
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+            <div>
+              <h1 className="text-4xl font-bold text-foreground">Deep Dive Diagnostics</h1>
+              <p className="text-muted-foreground mt-2">Material: FG-98342 | Plant: 1200</p>
+            </div>
           </div>
           <Button onClick={() => navigate("/scenario-studio")} size="lg" className="gap-2">
             Generate Scenarios <ChevronRight className="h-4 w-4" />

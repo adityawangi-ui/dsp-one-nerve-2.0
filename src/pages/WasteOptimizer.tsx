@@ -2,9 +2,10 @@ import { MainLayout } from "@/components/layout/MainLayout";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { AlertTriangle, Package, TrendingDown, Factory, PlayCircle } from "lucide-react";
+import { AlertTriangle, Package, TrendingDown, Factory, PlayCircle, ArrowLeft } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart, Pie, Cell } from "recharts";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 const slobTrendData = [
   { month: "Jul", amount: 42, count: 245 },
@@ -39,6 +40,7 @@ const ageingByPlantData = [
 
 export default function WasteOptimizer() {
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const activeAgents = [
     "SLOB+BW Agent",
@@ -57,9 +59,14 @@ export default function WasteOptimizer() {
       <div className="space-y-6 p-8 animate-fade-in">
         {/* Header */}
         <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-4xl font-bold text-foreground">Waste Optimization Studio</h1>
-            <p className="text-muted-foreground mt-2">SLOB & Batch Write-off Management</p>
+          <div className="flex items-center gap-4">
+            <Button variant="outline" size="icon" onClick={() => navigate(-1)}>
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+            <div>
+              <h1 className="text-4xl font-bold text-foreground">Waste Optimization Studio</h1>
+              <p className="text-muted-foreground mt-2">SLOB & Batch Write-off Management</p>
+            </div>
           </div>
           <Button size="lg" onClick={handleRunOptimization} className="gap-2">
             <PlayCircle className="h-5 w-5" />
