@@ -154,6 +154,7 @@ const allAlerts = [
 export default function RiskAlert() {
   const navigate = useNavigate();
   const [expandedAlert, setExpandedAlert] = useState<number>(1);
+  const [selectedSeverities, setSelectedSeverities] = useState<string[]>([]);
 
   const activeAgents = [
     "Service Agent",
@@ -194,6 +195,18 @@ export default function RiskAlert() {
       default: return "bg-muted border-border";
     }
   };
+
+  const toggleSeverity = (severity: string) => {
+    setSelectedSeverities(prev => 
+      prev.includes(severity) 
+        ? prev.filter(s => s !== severity)
+        : [...prev, severity]
+    );
+  };
+
+  const filteredAlerts = selectedSeverities.length === 0 
+    ? allAlerts 
+    : allAlerts.filter(alert => selectedSeverities.includes(alert.severity));
 
   return (
     <MainLayout>
@@ -237,50 +250,102 @@ export default function RiskAlert() {
           </div>
         </Card>
 
-        {/* Risk Severity Summary */}
+        {/* Risk Severity Summary - Interactive Filters */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          <Card className="p-4 bg-gradient-to-br from-destructive/10 to-destructive/5 border-destructive/30">
+          <Card 
+            className={`p-4 cursor-pointer transition-all duration-300 ${
+              selectedSeverities.includes("critical")
+                ? "bg-gradient-to-br from-destructive/20 to-destructive/10 border-destructive/50 shadow-lg scale-105"
+                : "bg-gradient-to-br from-destructive/10 to-destructive/5 border-destructive/30 hover:border-destructive/40 hover:scale-102"
+            }`}
+            onClick={() => toggleSeverity("critical")}
+          >
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Critical</p>
                 <p className="text-3xl font-bold text-destructive">1</p>
               </div>
-              <AlertCircle className="h-10 w-10 text-destructive opacity-50" />
+              <AlertCircle className={`h-10 w-10 text-destructive ${
+                selectedSeverities.includes("critical") ? "opacity-100" : "opacity-50"
+              }`} />
             </div>
           </Card>
-          <Card className="p-4 bg-gradient-to-br from-warning/10 to-warning/5 border-warning/30">
+          <Card 
+            className={`p-4 cursor-pointer transition-all duration-300 ${
+              selectedSeverities.includes("high")
+                ? "bg-gradient-to-br from-warning/20 to-warning/10 border-warning/50 shadow-lg scale-105"
+                : "bg-gradient-to-br from-warning/10 to-warning/5 border-warning/30 hover:border-warning/40 hover:scale-102"
+            }`}
+            onClick={() => toggleSeverity("high")}
+          >
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">High</p>
                 <p className="text-3xl font-bold text-warning">3</p>
               </div>
-              <AlertTriangle className="h-10 w-10 text-warning opacity-50" />
+              <AlertTriangle className={`h-10 w-10 text-warning ${
+                selectedSeverities.includes("high") ? "opacity-100" : "opacity-50"
+              }`} />
             </div>
           </Card>
-          <Card className="p-4 bg-gradient-to-br from-primary/10 to-primary/5 border-primary/30">
+          <Card 
+            className={`p-4 cursor-pointer transition-all duration-300 ${
+              selectedSeverities.includes("medium")
+                ? "bg-gradient-to-br from-primary/20 to-primary/10 border-primary/50 shadow-lg scale-105"
+                : "bg-gradient-to-br from-primary/10 to-primary/5 border-primary/30 hover:border-primary/40 hover:scale-102"
+            }`}
+            onClick={() => toggleSeverity("medium")}
+          >
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Medium</p>
                 <p className="text-3xl font-bold text-primary">3</p>
               </div>
-              <AlertTriangle className="h-10 w-10 text-primary opacity-50" />
+              <AlertTriangle className={`h-10 w-10 text-primary ${
+                selectedSeverities.includes("medium") ? "opacity-100" : "opacity-50"
+              }`} />
             </div>
           </Card>
-          <Card className="p-4 bg-gradient-to-br from-muted to-muted/50 border-border">
+          <Card 
+            className={`p-4 cursor-pointer transition-all duration-300 ${
+              selectedSeverities.includes("low")
+                ? "bg-gradient-to-br from-muted/80 to-muted/60 border-border/80 shadow-lg scale-105"
+                : "bg-gradient-to-br from-muted to-muted/50 border-border hover:border-border/80 hover:scale-102"
+            }`}
+            onClick={() => toggleSeverity("low")}
+          >
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-sm text-muted-foreground">Low</p>
                 <p className="text-3xl font-bold text-foreground">1</p>
               </div>
-              <AlertCircle className="h-10 w-10 text-muted-foreground opacity-50" />
+              <AlertCircle className={`h-10 w-10 text-muted-foreground ${
+                selectedSeverities.includes("low") ? "opacity-100" : "opacity-50"
+              }`} />
             </div>
           </Card>
         </div>
 
         {/* All Risk Alerts */}
         <div className="space-y-3">
-          <h2 className="text-2xl font-bold text-foreground">Active Risk Alerts</h2>
-          {allAlerts.map((alert) => {
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-2xl font-bold text-foreground">Active Risk Alerts</h2>
+            {selectedSeverities.length > 0 && (
+              <div className="flex items-center gap-2">
+                <span className="text-sm text-muted-foreground">
+                  Showing {filteredAlerts.length} of {allAlerts.length} alerts
+                </span>
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  onClick={() => setSelectedSeverities([])}
+                >
+                  Clear Filters
+                </Button>
+              </div>
+            )}
+          </div>
+          {filteredAlerts.map((alert) => {
             const Icon = alert.icon;
             const isExpanded = expandedAlert === alert.id;
             
