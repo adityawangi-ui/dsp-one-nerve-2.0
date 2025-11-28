@@ -222,14 +222,9 @@ export default function RiskAlert() {
               <p className="text-muted-foreground mt-2">AI-powered supply chain risk monitoring & mitigation</p>
             </div>
           </div>
-          <div className="flex items-center gap-3">
-            <Badge variant="destructive" className="text-base px-4 py-2 animate-pulse">
-              1 Critical Alert
-            </Badge>
-            <Button onClick={() => navigate("/deep-dive-diagnostics")} size="lg" className="gap-2">
-              Deep Dive Analysis <ChevronRight className="h-4 w-4" />
-            </Button>
-          </div>
+          <Button onClick={() => navigate("/deep-dive-diagnostics")} size="lg" className="gap-2">
+            Deep Dive Analysis <ChevronRight className="h-4 w-4" />
+          </Button>
         </div>
 
         {/* Active Agents - Glowing Border */}
