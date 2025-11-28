@@ -2,12 +2,14 @@ import { MainLayout } from "@/components/layout/MainLayout";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle2, Mail, FileText, PlayCircle, Clock, CheckCheck } from "lucide-react";
+import { CheckCircle2, Mail, FileText, PlayCircle, Clock, CheckCheck, ArrowLeft } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 export default function ExecutionClosure() {
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const activeAgents = [
     "SAP Action Agent",
@@ -48,9 +50,14 @@ export default function ExecutionClosure() {
       <div className="space-y-6 p-8 animate-fade-in">
         {/* Header */}
         <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-4xl font-bold text-foreground">Execution & Closure</h1>
-            <p className="text-muted-foreground mt-2">Material: FG-98342 | Scenario: S1</p>
+          <div className="flex items-center gap-4">
+            <Button variant="outline" size="icon" onClick={() => navigate(-1)}>
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+            <div>
+              <h1 className="text-4xl font-bold text-foreground">Execution & Closure</h1>
+              <p className="text-muted-foreground mt-2">Material: FG-98342 | Scenario: S1</p>
+            </div>
           </div>
           <Badge variant="default" className="bg-success text-lg px-4 py-2">
             Ready for Approval

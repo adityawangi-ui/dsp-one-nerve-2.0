@@ -1,15 +1,23 @@
 import { MainLayout } from "@/components/layout/MainLayout";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { BookOpen, Video, FileText, Brain } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
+import { BookOpen, Video, FileText, Brain, ArrowLeft } from "lucide-react";
 
 export default function LearningHub() {
+  const navigate = useNavigate();
   const activeAgents = ["Learning Agent", "Process Audit Agent"];
 
   return (
     <MainLayout>
       <div className="space-y-6 p-8 animate-fade-in">
-        <h1 className="text-4xl font-bold">Learning Agent Hub</h1>
+        <div className="flex items-center gap-4">
+          <Button variant="outline" size="icon" onClick={() => navigate(-1)}>
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+          <h1 className="text-4xl font-bold">Learning Agent Hub</h1>
+        </div>
         <Card className="p-4">
           <div className="flex items-center gap-2">
             <span className="text-sm font-medium text-muted-foreground">Active Agents:</span>

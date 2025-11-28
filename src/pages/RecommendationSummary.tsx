@@ -2,7 +2,7 @@ import { MainLayout } from "@/components/layout/MainLayout";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ChevronRight, CheckCircle2, TrendingUp, AlertTriangle, Lightbulb } from "lucide-react";
+import { ChevronRight, CheckCircle2, TrendingUp, AlertTriangle, Lightbulb, ArrowLeft } from "lucide-react";
 import { RadarChart, PolarGrid, PolarAngleAxis, Radar, ResponsiveContainer, LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip } from "recharts";
 import { useNavigate } from "react-router-dom";
 
@@ -37,9 +37,14 @@ export default function RecommendationSummary() {
       <div className="space-y-6 p-8 animate-fade-in">
         {/* Header */}
         <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-4xl font-bold text-foreground">Recommendation Summary</h1>
-            <p className="text-muted-foreground mt-2">Optimized solution pathway</p>
+          <div className="flex items-center gap-4">
+            <Button variant="outline" size="icon" onClick={() => navigate(-1)}>
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+            <div>
+              <h1 className="text-4xl font-bold text-foreground">Recommendation Summary</h1>
+              <p className="text-muted-foreground mt-2">Optimized solution pathway</p>
+            </div>
           </div>
           <Button onClick={() => navigate("/execution-closure")} size="lg" className="gap-2">
             Proceed to Execution <ChevronRight className="h-4 w-4" />

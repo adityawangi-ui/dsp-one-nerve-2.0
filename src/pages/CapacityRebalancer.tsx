@@ -2,9 +2,10 @@ import { MainLayout } from "@/components/layout/MainLayout";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Factory, TrendingUp, AlertCircle, PlayCircle } from "lucide-react";
+import { Factory, TrendingUp, AlertCircle, PlayCircle, ArrowLeft } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 const rcpcData = [
   { line: "L23", load: 134, capacity: 100, status: "Overload" },
@@ -16,6 +17,7 @@ const rcpcData = [
 
 export default function CapacityRebalancer() {
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const activeAgents = [
     "RCCP Agent",
@@ -34,9 +36,14 @@ export default function CapacityRebalancer() {
     <MainLayout>
       <div className="space-y-6 p-8 animate-fade-in">
         <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-4xl font-bold text-foreground">Capacity Rebalancer</h1>
-            <p className="text-muted-foreground mt-2">RCCP & Line Optimization</p>
+          <div className="flex items-center gap-4">
+            <Button variant="outline" size="icon" onClick={() => navigate(-1)}>
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+            <div>
+              <h1 className="text-4xl font-bold text-foreground">Capacity Rebalancer</h1>
+              <p className="text-muted-foreground mt-2">RCCP & Line Optimization</p>
+            </div>
           </div>
           <Button size="lg" onClick={handleRebalance} className="gap-2">
             <PlayCircle className="h-5 w-5" />

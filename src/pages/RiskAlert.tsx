@@ -2,7 +2,7 @@ import { MainLayout } from "@/components/layout/MainLayout";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { AlertTriangle, Clock, Package, TrendingDown, ChevronRight, AlertCircle, PackageX, Truck, Zap, Factory, ArrowRightLeft, Timer } from "lucide-react";
+import { AlertTriangle, Clock, Package, TrendingDown, ChevronRight, AlertCircle, PackageX, Truck, Zap, Factory, ArrowRightLeft, Timer, ArrowLeft } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, ScatterChart, Scatter, Cell } from "recharts";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
@@ -200,9 +200,14 @@ export default function RiskAlert() {
       <div className="space-y-6 p-8 animate-fade-in">
         {/* Header */}
         <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-4xl font-bold text-foreground">Multi-Agent Risk Control Center</h1>
-            <p className="text-muted-foreground mt-2">AI-powered supply chain risk monitoring & mitigation</p>
+          <div className="flex items-center gap-4">
+            <Button variant="outline" size="icon" onClick={() => navigate(-1)}>
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+            <div>
+              <h1 className="text-4xl font-bold text-foreground">Multi-Agent Risk Control Center</h1>
+              <p className="text-muted-foreground mt-2">AI-powered supply chain risk monitoring & mitigation</p>
+            </div>
           </div>
           <div className="flex items-center gap-3">
             <Badge variant="destructive" className="text-base px-4 py-2 animate-pulse">

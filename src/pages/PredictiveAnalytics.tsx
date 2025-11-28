@@ -1,8 +1,10 @@
 import { MainLayout } from "@/components/layout/MainLayout";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Brain, TrendingUp, Users, Calendar } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Brain, TrendingUp, Users, Calendar, ArrowLeft } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, ScatterChart, Scatter, ZAxis } from "recharts";
+import { useNavigate } from "react-router-dom";
 
 const serviceForecastData = [
   { week: "W1", predicted: 89.2, lower: 87.1, upper: 91.3 },
@@ -49,6 +51,8 @@ const customerClusterData = [
 ];
 
 export default function PredictiveAnalytics() {
+  const navigate = useNavigate();
+  
   const activeAgents = [
     "Predictive Analytics Agent",
     "Self-Healing MD Agent"
@@ -58,9 +62,14 @@ export default function PredictiveAnalytics() {
     <MainLayout>
       <div className="space-y-6 p-8 animate-fade-in">
         {/* Header */}
-        <div>
-          <h1 className="text-4xl font-bold text-foreground">Predictive Analytics Hub</h1>
-          <p className="text-muted-foreground mt-2">AI-powered forecasting and pattern recognition</p>
+        <div className="flex items-center gap-4">
+          <Button variant="outline" size="icon" onClick={() => navigate(-1)}>
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+          <div>
+            <h1 className="text-4xl font-bold text-foreground">Predictive Analytics Hub</h1>
+            <p className="text-muted-foreground mt-2">AI-powered forecasting and pattern recognition</p>
+          </div>
         </div>
 
         {/* Active Agents */}

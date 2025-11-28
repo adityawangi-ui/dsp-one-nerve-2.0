@@ -2,9 +2,10 @@ import { MainLayout } from "@/components/layout/MainLayout";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Package, Target, TrendingUp, DollarSign, PlayCircle } from "lucide-react";
+import { Package, Target, TrendingUp, DollarSign, PlayCircle, ArrowLeft } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, RadarChart, PolarGrid, PolarAngleAxis, Radar } from "recharts";
 import { useToast } from "@/hooks/use-toast";
+import { useNavigate } from "react-router-dom";
 
 const normsComparisonData = [
   { sku: "FG-101", current: 27, simulated: 21, target: 21 },
@@ -39,6 +40,7 @@ const impactRadarData = [
 
 export default function InventoryOptimizer() {
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const activeAgents = [
     "Target Agent",
@@ -59,9 +61,14 @@ export default function InventoryOptimizer() {
       <div className="space-y-6 p-8 animate-fade-in">
         {/* Header */}
         <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-4xl font-bold text-foreground">Inventory Norms & Target Simulator</h1>
-            <p className="text-muted-foreground mt-2">Multi-Echelon Inventory Optimization</p>
+          <div className="flex items-center gap-4">
+            <Button variant="outline" size="icon" onClick={() => navigate(-1)}>
+              <ArrowLeft className="h-4 w-4" />
+            </Button>
+            <div>
+              <h1 className="text-4xl font-bold text-foreground">Inventory Norms & Target Simulator</h1>
+              <p className="text-muted-foreground mt-2">Multi-Echelon Inventory Optimization</p>
+            </div>
           </div>
           <Button size="lg" onClick={handleRunSimulation} className="gap-2">
             <PlayCircle className="h-5 w-5" />

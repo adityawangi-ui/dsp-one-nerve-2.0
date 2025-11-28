@@ -1,7 +1,8 @@
 import { MainLayout } from "@/components/layout/MainLayout";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { TrendingDown, Package, Truck, Factory } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { TrendingDown, Package, Truck, Factory, ArrowLeft } from "lucide-react";
 import { Sankey, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, LineChart, Line } from "recharts";
 import { useNavigate } from "react-router-dom";
 
@@ -69,9 +70,14 @@ export default function DiagnosticsAnalytics() {
     <MainLayout>
       <div className="space-y-6 p-8 animate-fade-in">
         {/* Header */}
-        <div>
-          <h1 className="text-4xl font-bold text-foreground">Diagnostics Analytics Hub</h1>
-          <p className="text-muted-foreground mt-2">Deep-dive root cause analysis</p>
+        <div className="flex items-center gap-4">
+          <Button variant="outline" size="icon" onClick={() => navigate(-1)}>
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+          <div>
+            <h1 className="text-4xl font-bold text-foreground">Diagnostics Analytics Hub</h1>
+            <p className="text-muted-foreground mt-2">Deep-dive root cause analysis</p>
+          </div>
         </div>
 
         {/* Active Agents */}
