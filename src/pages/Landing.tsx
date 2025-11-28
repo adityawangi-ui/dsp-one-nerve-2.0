@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Link, useNavigate } from "react-router-dom";
+import { AgenticGenerativeUI } from "@/components/chat/AgenticGenerativeUI";
 import {
   AlertTriangle,
   BarChart3,
@@ -20,6 +21,7 @@ import {
 
 export default function Landing() {
   const [inputValue, setInputValue] = useState("");
+  const [chatOpen, setChatOpen] = useState(false);
   const navigate = useNavigate();
 
   const contextCards = [
@@ -280,6 +282,11 @@ export default function Landing() {
                     className="flex-1 h-10 text-sm border-0 bg-transparent shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 placeholder:text-muted-foreground/60"
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
+                    onKeyPress={(e) => {
+                      if (e.key === "Enter" && inputValue.trim()) {
+                        setChatOpen(true);
+                      }
+                    }}
                   />
 
                   {/* Right Icons */}
@@ -295,6 +302,11 @@ export default function Landing() {
                     <Button
                       size="icon"
                       className="h-9 w-9 rounded-xl bg-primary hover:bg-primary/90 shadow-md hover:shadow-lg transition-all"
+                      onClick={() => {
+                        if (inputValue.trim()) {
+                          setChatOpen(true);
+                        }
+                      }}
                     >
                       <Send className="h-4 w-4" />
                     </Button>
@@ -305,6 +317,16 @@ export default function Landing() {
           </div>
         </div>
       </div>
+
+      {/* Agentic Generative UI */}
+      <AgenticGenerativeUI
+        isOpen={chatOpen}
+        onClose={() => {
+          setChatOpen(false);
+          setInputValue("");
+        }}
+        initialQuery={inputValue}
+      />
     </div>
     </MainLayout>
   );
