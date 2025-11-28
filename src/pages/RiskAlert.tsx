@@ -2,10 +2,11 @@ import { MainLayout } from "@/components/layout/MainLayout";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { AlertTriangle, Clock, Package, TrendingDown, ChevronRight, AlertCircle, PackageX, Truck, Zap, Factory, ArrowRightLeft, Timer, ArrowLeft } from "lucide-react";
+import { AlertTriangle, Clock, Package, TrendingDown, ChevronRight, AlertCircle, PackageX, Truck, Zap, Factory, ArrowRightLeft, Timer, ArrowLeft, MessageSquare } from "lucide-react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, ScatterChart, Scatter, Cell } from "recharts";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { GenerativeChat } from "@/components/ui/generative-chat";
 
 const serviceDropData = [
   { hour: "0h", service: 92 },
@@ -155,6 +156,8 @@ export default function RiskAlert() {
   const navigate = useNavigate();
   const [expandedAlert, setExpandedAlert] = useState<number>(1);
   const [selectedSeverities, setSelectedSeverities] = useState<string[]>([]);
+  const [chatOpen, setChatOpen] = useState(false);
+  const [chatContext, setChatContext] = useState<string>("");
 
   const activeAgents = [
     "Service Agent",
@@ -208,6 +211,11 @@ export default function RiskAlert() {
     ? allAlerts 
     : allAlerts.filter(alert => selectedSeverities.includes(alert.severity));
 
+  const openChat = (context: string) => {
+    setChatContext(context);
+    setChatOpen(true);
+  };
+
   return (
     <MainLayout>
       <div className="space-y-6 p-8 animate-fade-in">
@@ -229,23 +237,47 @@ export default function RiskAlert() {
 
         {/* Active Agents - Glowing Border */}
         <Card className="p-4 bg-gradient-to-r from-primary/5 via-success/5 to-warning/5 border-primary/30 shadow-[0_0_20px_rgba(var(--primary),0.1)]">
-          <div className="flex items-center gap-2 flex-wrap">
-            <Zap className="h-4 w-4 text-primary animate-pulse" />
-            <span className="text-sm font-medium text-foreground">Active Agent Mesh:</span>
-            {activeAgents.map((agent, idx) => (
-              <Badge 
-                key={agent} 
-                variant="secondary" 
-                className="animate-pulse border border-primary/20"
-                style={{ animationDelay: `${idx * 0.1}s` }}
-              >
-                {agent}
-              </Badge>
-            ))}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2 flex-wrap">
+              <Zap className="h-4 w-4 text-primary animate-pulse" />
+              <span className="text-sm font-medium text-foreground">Active Agent Mesh:</span>
+              {activeAgents.map((agent, idx) => (
+                <Badge 
+                  key={agent} 
+                  variant="secondary" 
+                  className="animate-pulse border border-primary/20"
+                  style={{ animationDelay: `${idx * 0.1}s` }}
+                >
+                  {agent}
+                </Badge>
+              ))}
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => openChat("active agents and their coordination")}
+              className="gap-2 shrink-0"
+            >
+              <MessageSquare className="h-4 w-4" />
+              Ask AI
+            </Button>
           </div>
         </Card>
 
         {/* Risk Severity Summary - Interactive Filters */}
+        <div className="space-y-3">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-semibold text-foreground">Risk Overview</h2>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => openChat("risk severity trends and mitigation strategies")}
+              className="gap-2"
+            >
+              <MessageSquare className="h-4 w-4" />
+              Analyze Risks
+            </Button>
+          </div>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <Card 
             className={`p-4 cursor-pointer transition-all duration-300 ${
@@ -319,6 +351,7 @@ export default function RiskAlert() {
               }`} />
             </div>
           </Card>
+        </div>
         </div>
 
         {/* All Risk Alerts */}
@@ -421,6 +454,20 @@ export default function RiskAlert() {
 
                     {isExpanded && alert.id === 1 && (
                       <div className="mt-6 space-y-4 border-t border-border pt-4">
+                        <div className="flex justify-end mb-2">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              openChat(`risk alert: ${alert.title} - ${alert.material}`);
+                            }}
+                            className="gap-2"
+                          >
+                            <MessageSquare className="h-3 w-3" />
+                            Deep Dive with AI
+                          </Button>
+                        </div>
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                           {/* Service Forecast Curve */}
                           <div>
@@ -580,6 +627,21 @@ export default function RiskAlert() {
           })}
         </div>
 
+        {/* Floating Generative UI Button */}
+        <Button
+          onClick={() => openChat("supply chain risk analysis and optimization")}
+          className="fixed bottom-8 right-8 h-14 w-14 rounded-full shadow-2xl bg-gradient-to-br from-primary to-success hover:scale-110 transition-transform z-40"
+          size="icon"
+        >
+          <MessageSquare className="h-6 w-6 animate-pulse" />
+        </Button>
+
+        {/* Generative Chat Modal */}
+        <GenerativeChat
+          isOpen={chatOpen}
+          onClose={() => setChatOpen(false)}
+          context={chatContext}
+        />
       </div>
     </MainLayout>
   );
