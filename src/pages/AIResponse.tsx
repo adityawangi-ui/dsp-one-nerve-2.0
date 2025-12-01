@@ -417,7 +417,7 @@ Based on your inquiry, here are additional insights:
         </div>
 
         {/* Fixed Follow-up Prompt Box */}
-        <div className="fixed bottom-0 left-0 right-0 bg-gradient-to-t from-background via-background to-background/50 backdrop-blur-sm border-t border-border/40 py-3 md:py-4 px-4 md:px-8 lg:px-16 xl:px-24 z-10">
+        <div className="fixed bottom-0 left-16 md:left-64 right-0 bg-gradient-to-t from-background via-background to-background/50 backdrop-blur-sm border-t border-border/40 py-3 md:py-4 px-4 md:px-8 lg:px-16 xl:px-24 z-10">
           <div className="mx-auto" style={{ maxWidth: '1400px' }}>
               <div className="frosted-glass breathing-border rounded-2xl border-2 border-primary/30 shadow-[var(--shadow-glow)]">
                 <div className="flex items-center gap-2 md:gap-3 pl-3 md:pl-4 pr-2 md:pr-3 py-2 md:py-2.5">
