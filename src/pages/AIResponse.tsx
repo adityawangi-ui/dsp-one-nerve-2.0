@@ -3,7 +3,8 @@ import { MainLayout } from "@/components/layout/MainLayout";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { ArrowLeft, Send, Mic, Plus, Settings, Sparkles } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { ArrowLeft, Send, Mic, Plus, Settings, Sparkles, FileText, CheckCircle2 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { toast } from "@/hooks/use-toast";
 
@@ -24,6 +25,16 @@ export default function AIResponse() {
       return;
     }
 
+    // Check if this is the detailed inventory optimization response
+    if (responseText === "INVENTORY_OPTIMIZATION_DETAILED") {
+      // Simulate AI processing
+      const timer = setTimeout(() => {
+        setResponse(getDetailedInventoryResponse());
+        setIsProcessing(false);
+      }, 2000);
+      return () => clearTimeout(timer);
+    }
+
     // Simulate AI processing
     const timer = setTimeout(() => {
       setResponse(responseText);
@@ -32,6 +43,10 @@ export default function AIResponse() {
 
     return () => clearTimeout(timer);
   }, [query, responseText, navigate]);
+
+  const getDetailedInventoryResponse = () => {
+    return `DETAILED_INVENTORY_OPTIMIZATION`;
+  };
 
   const handleFollowUp = async () => {
     if (!followUpInput.trim()) {
@@ -140,7 +155,227 @@ Based on your inquiry, here are additional insights:
                     <span className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
                     <span className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
                   </div>
-                  <span className="text-sm text-muted-foreground">Analyzing data...</span>
+                  <span className="text-sm text-muted-foreground">Running multi-agent orchestration...</span>
+                </div>
+              ) : response === "DETAILED_INVENTORY_OPTIMIZATION" ? (
+                <div className="space-y-6">
+                  {/* Header */}
+                  <div className="flex items-start gap-3 pb-4 border-b border-border/40">
+                    <div className="p-2 rounded-lg bg-primary/10">
+                      <CheckCircle2 className="h-5 w-5 text-primary" />
+                    </div>
+                    <div className="flex-1">
+                      <h2 className="text-lg font-bold text-foreground mb-2">✅ Inventory Agent Response</h2>
+                      <p className="text-sm text-foreground/80">
+                        Absolutely. I've run a full end-to-end inventory optimization cycle for the Europe Home Care business, 
+                        using your Q3 target of €18M reduction while protecting 98.5% service, Core SKUs and MATDOH constraints.
+                      </p>
+                      <div className="mt-3 flex items-center gap-2">
+                        <Badge variant="outline" className="text-xs bg-primary/5 border-primary/30 text-primary">
+                          <FileText className="h-3 w-3 mr-1" />
+                          🔵 Audit Log (12 steps, 6 agents invoked)
+                        </Badge>
+                        <span className="text-xs text-muted-foreground">— click to view full agent actions</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Step 1 */}
+                  <div className="space-y-3">
+                    <h3 className="text-base font-semibold text-foreground flex items-center gap-2">
+                      <Badge className="bg-primary/10 text-primary hover:bg-primary/20">1️⃣</Badge>
+                      DATA QUERYING & INVENTORY DIAGNOSTICS
+                    </h3>
+                    <p className="text-sm text-muted-foreground">(Inventory Agent + Insights Agent)</p>
+                    <p className="text-sm text-foreground/80">
+                      I pulled your full inventory profile including: FG cycle stock, safety stock, prebuild, SLOB, in-transit, 
+                      MoQs, frequencies, lead times, demand/supply variability, promotion signals, norm rules, and constrained plan outputs from Kinaxis.
+                    </p>
+                    <div className="bg-muted/30 p-4 rounded-lg space-y-2">
+                      <p className="text-sm font-medium">Key findings:</p>
+                      <ul className="text-sm text-foreground/80 space-y-1 ml-4">
+                        <li>• Current inventory: €144M</li>
+                        <li>• Target: €126M → Gap = €18M</li>
+                        <li>• Service: 98.8%</li>
+                        <li>• Variability high in 2 markets</li>
+                        <li>• 11 plants with excess prebuild</li>
+                        <li>• 38 SKUs over-norm, 52 SKUs under-norm</li>
+                        <li>• 6 supplier MoQ changes</li>
+                        <li>• 3 plant capacity bottlenecks</li>
+                        <li>• 3 portfolio SKUs → SLOB in 6 weeks</li>
+                      </ul>
+                    </div>
+                    <p className="text-xs text-primary/80 italic">
+                      📌 PlanGPT alone can retrieve numbers, but cannot understand system drivers. 
+                      Inventory Agent interprets root causes & constraints.
+                    </p>
+                  </div>
+
+                  {/* Step 2 */}
+                  <div className="space-y-3">
+                    <h3 className="text-base font-semibold text-foreground flex items-center gap-2">
+                      <Badge className="bg-primary/10 text-primary hover:bg-primary/20">2️⃣</Badge>
+                      CHECKING TARGET FEASIBILITY
+                    </h3>
+                    <p className="text-sm text-muted-foreground">(Inventory Agent)</p>
+                    <p className="text-sm text-foreground/80">I evaluated whether the €18M reduction is realistic.</p>
+                    <div className="bg-muted/30 p-4 rounded-lg">
+                      <p className="text-sm font-medium mb-2">Potential Levers Identified</p>
+                      <div className="grid grid-cols-2 gap-2 text-sm text-foreground/80">
+                        <div>• Norm correction: €7.2M</div>
+                        <div>• Excess prebuild: €4.9M</div>
+                        <div>• Cycle stock optimization: €3.1M</div>
+                        <div>• Tail low runners: €1.4M</div>
+                        <div>• DR rationalization: €2.3M</div>
+                        <div>• SLOB avoidance: €0.6M</div>
+                      </div>
+                      <p className="text-sm text-primary font-medium mt-3">
+                        ➡️ Theoretical potential = €19.5M → feasible but tight.
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Step 3 */}
+                  <div className="space-y-3">
+                    <h3 className="text-base font-semibold text-foreground flex items-center gap-2">
+                      <Badge className="bg-primary/10 text-primary hover:bg-primary/20">3️⃣</Badge>
+                      INVENTORY OPTIMIZATION MODELS
+                    </h3>
+                    <p className="text-sm text-muted-foreground">(Inventory Agent + Waste Agent + Cost Agent)</p>
+                    
+                    <div className="space-y-3">
+                      <Card className="p-4 border-border/40">
+                        <h4 className="text-sm font-semibold mb-2">Model A — Service-Protective</h4>
+                        <p className="text-sm text-foreground/80">Reduction: €13M | Very low risk</p>
+                        <p className="text-xs text-muted-foreground mt-1">Levers: Remove prebuild, correct tail items</p>
+                        <Badge variant="outline" className="mt-2 text-xs">Short of €18M target</Badge>
+                      </Card>
+
+                      <Card className="p-4 border-primary/40 bg-primary/5">
+                        <h4 className="text-sm font-semibold mb-2 text-primary">Model B — Balanced Model (Recommended)</h4>
+                        <p className="text-sm text-foreground/80 mb-2">Reduction: €18–19M | Service ≥ 98.5%</p>
+                        <div className="space-y-2">
+                          <p className="text-xs font-medium">Levers:</p>
+                          <ul className="text-xs text-foreground/80 space-y-1 ml-4">
+                            <li>• Norm reduction (medium movers)</li>
+                            <li>• DR tightening</li>
+                            <li>• Prebuild alignment</li>
+                            <li>• MoQ renegotiation</li>
+                            <li>• Tail SKU clipping</li>
+                          </ul>
+                          <p className="text-xs font-medium mt-2">Trade-offs:</p>
+                          <ul className="text-xs text-foreground/80 space-y-1 ml-4">
+                            <li>• 0.2% service dip in Tail</li>
+                            <li>• Slightly tighter production frequency constraints</li>
+                          </ul>
+                        </div>
+                      </Card>
+
+                      <Card className="p-4 border-amber-500/40">
+                        <h4 className="text-sm font-semibold mb-2">Model C — Target-First (Aggressive)</h4>
+                        <p className="text-sm text-foreground/80">Reduction: €22M | Service risk: Medium</p>
+                        <p className="text-xs text-muted-foreground mt-1">
+                          Levers: Deep norm cuts, no protection to medium SKUs, DR restrictions
+                        </p>
+                      </Card>
+                    </div>
+                  </div>
+
+                  {/* Step 4 */}
+                  <div className="space-y-3">
+                    <h3 className="text-base font-semibold text-foreground flex items-center gap-2">
+                      <Badge className="bg-primary/10 text-primary hover:bg-primary/20">4️⃣</Badge>
+                      TRADE-OFF COMMUNICATION
+                    </h3>
+                    <p className="text-sm text-muted-foreground">(Inventory Agent + Insights Agent)</p>
+                    <p className="text-sm text-primary font-medium">
+                      Model B is optimal — meets the €18M target with minimal service impact, protects Core SKUs, and preserves flow.
+                      Requires coordination with Production, Deployment & Procurement.
+                    </p>
+                  </div>
+
+                  {/* Step 5 */}
+                  <div className="space-y-3">
+                    <h3 className="text-base font-semibold text-foreground flex items-center gap-2">
+                      <Badge className="bg-primary/10 text-primary hover:bg-primary/20">5️⃣</Badge>
+                      SIMULATION OF MODEL B (Aug–Oct)
+                    </h3>
+                    <p className="text-sm text-muted-foreground">
+                      (Simulation Agent + Capacity Agent + DRP Agent + MD Agent + SLOB Agent)
+                    </p>
+                    <p className="text-sm text-foreground/80">
+                      Simulation covered: Capacity, frequencies, transit, cross-border, MoQs, DR feasibility, 
+                      portfolio timing, service targets, inventory KPIs.
+                    </p>
+                    <div className="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg">
+                      <p className="text-sm font-medium mb-2">Simulation Output:</p>
+                      <ul className="text-sm text-foreground/80 space-y-1">
+                        <li>✔ Closing inventory: €125M</li>
+                        <li>✔ Service: 98.6%</li>
+                        <li>⚠️ Bottleneck: PL33 → Pull back 1 SKU</li>
+                        <li>⚠️ 18 SKU exceptions</li>
+                        <li>⚠️ Italy → SLOB risk (demand drop)</li>
+                      </ul>
+                    </div>
+                  </div>
+
+                  {/* Remaining steps collapsed for brevity */}
+                  <div className="space-y-3">
+                    <h3 className="text-base font-semibold text-foreground flex items-center gap-2">
+                      <Badge className="bg-primary/10 text-primary hover:bg-primary/20">6️⃣-🔟</Badge>
+                      EXECUTION & CONTINUOUS MONITORING
+                    </h3>
+                    <div className="space-y-2 text-sm text-foreground/80">
+                      <p><strong>6️⃣ Financial Validation</strong> — Achieves €126M end-Q3, Service 98.5% maintained</p>
+                      <p><strong>7️⃣ Recommendation Package</strong> — Planner Pack & Leadership Pack created</p>
+                      <p><strong>8️⃣ Write to Kinaxis</strong> — Private scenario pushed with new norms, DR adjustments</p>
+                      <p><strong>9️⃣ Final Writeback</strong> — Production scenario committed after planner approval</p>
+                      <p><strong>🔟 Weekly Auto-Adjust</strong> — Continuous monitoring for service, variability, demand shifts</p>
+                    </div>
+                  </div>
+
+                  {/* Audit Log Section */}
+                  <div className="border-t border-border/40 pt-4">
+                    <div className="bg-primary/5 p-4 rounded-lg">
+                      <h3 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
+                        <FileText className="h-4 w-4 text-primary" />
+                        ⭐ AUDIT LOG (Clickable Chip in UI)
+                      </h3>
+                      <div className="space-y-3">
+                        <div>
+                          <p className="text-xs font-medium mb-2">Agents Invoked:</p>
+                          <div className="flex flex-wrap gap-1.5">
+                            {[
+                              "Inventory Agent",
+                              "Insights Agent",
+                              "Waste Agent",
+                              "Cost Agent",
+                              "Simulation Agent",
+                              "Capacity Agent",
+                              "DRP Agent",
+                              "MD Agent",
+                              "SLOB Agent",
+                              "Finance Agent",
+                              "Kinaxis Action Agent",
+                              "Notification Agent"
+                            ].map((agent, idx) => (
+                              <Badge key={idx} variant="secondary" className="text-xs">
+                                {agent}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+                        <div>
+                          <p className="text-xs font-medium mb-2">12-Step Log:</p>
+                          <p className="text-xs text-foreground/80">
+                            Data pull → Diagnostics → Feasibility → Levers → Model Creation → Trade-offs → 
+                            Simulation → Finance Validation → Recommendation Packs → Kinaxis Scenario → 
+                            Writeback → Weekly Auto-Adjust.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               ) : (
                 <div className="prose prose-sm max-w-none">
