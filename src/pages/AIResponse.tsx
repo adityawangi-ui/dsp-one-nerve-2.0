@@ -15,6 +15,7 @@ export default function AIResponse() {
   const [response, setResponse] = useState<string | null>(null);
   const [followUpInput, setFollowUpInput] = useState("");
   const [conversationHistory, setConversationHistory] = useState<Array<{ query: string; response: string }>>([]);
+  const [showAuditLog, setShowAuditLog] = useState(false);
 
   const query = location.state?.query || "";
   const responseText = location.state?.response || "";
@@ -109,8 +110,22 @@ Based on your inquiry, here are additional insights:
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to Home
             </Button>
-            <h1 className="text-2xl font-bold gradient-text mb-2">AI Analysis</h1>
-            <p className="text-sm text-muted-foreground">{query}</p>
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex-1">
+                <h1 className="text-2xl font-bold gradient-text mb-2">Orchestrator</h1>
+                <p className="text-sm text-muted-foreground">{query}</p>
+              </div>
+              {response === "DETAILED_INVENTORY_OPTIMIZATION" && !isProcessing && (
+                <Button
+                  variant="outline"
+                  onClick={() => setShowAuditLog(!showAuditLog)}
+                  className="flex items-center gap-2 border-primary/30 hover:bg-primary/10"
+                >
+                  <FileText className="h-4 w-4 text-primary" />
+                  <span className="text-sm">🔵 Audit Log (12 steps, 6 agents)</span>
+                </Button>
+              )}
+            </div>
           </div>
 
           {/* Conversation History */}
@@ -159,24 +174,69 @@ Based on your inquiry, here are additional insights:
                 </div>
               ) : response === "DETAILED_INVENTORY_OPTIMIZATION" ? (
                 <div className="space-y-6">
+                  {/* Audit Log Modal/Expandable Section */}
+                  {showAuditLog && (
+                    <div className="border-2 border-primary/40 bg-primary/5 p-4 rounded-lg animate-fade-in">
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
+                          <FileText className="h-4 w-4 text-primary" />
+                          ⭐ AUDIT LOG
+                        </h3>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => setShowAuditLog(false)}
+                          className="text-xs"
+                        >
+                          Close
+                        </Button>
+                      </div>
+                      <div className="space-y-3">
+                        <div>
+                          <p className="text-xs font-medium mb-2">Agents Invoked:</p>
+                          <div className="flex flex-wrap gap-1.5">
+                            {[
+                              "Inventory Agent",
+                              "Insights Agent",
+                              "Waste Agent",
+                              "Cost Agent",
+                              "Simulation Agent",
+                              "Capacity Agent",
+                              "DRP Agent",
+                              "MD Agent",
+                              "SLOB Agent",
+                              "Finance Agent",
+                              "Kinaxis Action Agent",
+                              "Notification Agent"
+                            ].map((agent, idx) => (
+                              <Badge key={idx} variant="secondary" className="text-xs">
+                                {agent}
+                              </Badge>
+                            ))}
+                          </div>
+                        </div>
+                        <div>
+                          <p className="text-xs font-medium mb-2">12-Step Log:</p>
+                          <p className="text-xs text-foreground/80">
+                            Data pull → Diagnostics → Feasibility → Levers → Model Creation → Trade-offs → 
+                            Simulation → Finance Validation → Recommendation Packs → Kinaxis Scenario → 
+                            Writeback → Weekly Auto-Adjust.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+
                   {/* Header */}
                   <div className="flex items-start gap-3 pb-4 border-b border-border/40">
                     <div className="p-2 rounded-lg bg-primary/10">
                       <CheckCircle2 className="h-5 w-5 text-primary" />
                     </div>
                     <div className="flex-1">
-                      <h2 className="text-lg font-bold text-foreground mb-2">✅ Inventory Agent Response</h2>
                       <p className="text-sm text-foreground/80">
                         Absolutely. I've run a full end-to-end inventory optimization cycle for the Europe Home Care business, 
                         using your Q3 target of €18M reduction while protecting 98.5% service, Core SKUs and MATDOH constraints.
                       </p>
-                      <div className="mt-3 flex items-center gap-2">
-                        <Badge variant="outline" className="text-xs bg-primary/5 border-primary/30 text-primary">
-                          <FileText className="h-3 w-3 mr-1" />
-                          🔵 Audit Log (12 steps, 6 agents invoked)
-                        </Badge>
-                        <span className="text-xs text-muted-foreground">— click to view full agent actions</span>
-                      </div>
                     </div>
                   </div>
 
@@ -205,10 +265,6 @@ Based on your inquiry, here are additional insights:
                         <li>• 3 portfolio SKUs → SLOB in 6 weeks</li>
                       </ul>
                     </div>
-                    <p className="text-xs text-primary/80 italic">
-                      📌 PlanGPT alone can retrieve numbers, but cannot understand system drivers. 
-                      Inventory Agent interprets root causes & constraints.
-                    </p>
                   </div>
 
                   {/* Step 2 */}
@@ -331,49 +387,6 @@ Based on your inquiry, here are additional insights:
                       <p><strong>8️⃣ Write to Kinaxis</strong> — Private scenario pushed with new norms, DR adjustments</p>
                       <p><strong>9️⃣ Final Writeback</strong> — Production scenario committed after planner approval</p>
                       <p><strong>🔟 Weekly Auto-Adjust</strong> — Continuous monitoring for service, variability, demand shifts</p>
-                    </div>
-                  </div>
-
-                  {/* Audit Log Section */}
-                  <div className="border-t border-border/40 pt-4">
-                    <div className="bg-primary/5 p-4 rounded-lg">
-                      <h3 className="text-sm font-semibold text-foreground mb-3 flex items-center gap-2">
-                        <FileText className="h-4 w-4 text-primary" />
-                        ⭐ AUDIT LOG (Clickable Chip in UI)
-                      </h3>
-                      <div className="space-y-3">
-                        <div>
-                          <p className="text-xs font-medium mb-2">Agents Invoked:</p>
-                          <div className="flex flex-wrap gap-1.5">
-                            {[
-                              "Inventory Agent",
-                              "Insights Agent",
-                              "Waste Agent",
-                              "Cost Agent",
-                              "Simulation Agent",
-                              "Capacity Agent",
-                              "DRP Agent",
-                              "MD Agent",
-                              "SLOB Agent",
-                              "Finance Agent",
-                              "Kinaxis Action Agent",
-                              "Notification Agent"
-                            ].map((agent, idx) => (
-                              <Badge key={idx} variant="secondary" className="text-xs">
-                                {agent}
-                              </Badge>
-                            ))}
-                          </div>
-                        </div>
-                        <div>
-                          <p className="text-xs font-medium mb-2">12-Step Log:</p>
-                          <p className="text-xs text-foreground/80">
-                            Data pull → Diagnostics → Feasibility → Levers → Model Creation → Trade-offs → 
-                            Simulation → Finance Validation → Recommendation Packs → Kinaxis Scenario → 
-                            Writeback → Weekly Auto-Adjust.
-                          </p>
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </div>
