@@ -57,12 +57,12 @@ export default function Landing() {
       isAgent: true,
     },
     {
-      title: "Learning Hub",
-      icon: Workflow,
-      subtext: "Interactive learning, process explanations, and AI-powered tutoring.",
-      footer: "Start Learning",
-      link: "/learning-hub",
-      status: "24 Training Modules Available",
+      title: "DAP Workspace",
+      icon: Package,
+      subtext: "Access inventory balancing, rebalancing, and safety stock optimization.",
+      footer: "Open DAP Workspace",
+      link: "/dap-workspace",
+      chips: ["Inventory", "Supply Rebalancing"],
       isAgent: true,
     },
   ];
