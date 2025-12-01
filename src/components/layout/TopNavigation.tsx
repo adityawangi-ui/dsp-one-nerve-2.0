@@ -34,6 +34,16 @@ export const TopNavigation = () => {
           </div>
         </div>
 
+        {/* Learning Hub Button */}
+        <Button 
+          variant="outline" 
+          className="flex items-center gap-2 px-4 py-2 h-auto"
+          onClick={() => window.location.href = '/learning-hub'}
+        >
+          <Brain className="h-4 w-4" />
+          <span className="text-sm font-medium">Learning Hub</span>
+        </Button>
+
         {/* User Menu */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
