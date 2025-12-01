@@ -214,14 +214,14 @@ export default function Landing() {
                     </Badge>
                   </div>
                   <div className="flex items-baseline gap-1">
-                    <h3 className="text-xl font-bold text-foreground">₹285Cr</h3>
+                    <h3 className="text-xl font-bold text-foreground">€285M</h3>
                   </div>
                   <div className="flex items-center gap-1">
                     <TrendingDown className="h-3 w-3 text-success" />
                     <span className="text-[9px] text-success font-medium">-3.2%</span>
                   </div>
                   <p className="text-[9px] text-muted-foreground italic leading-tight pt-1 border-t border-border">
-                    SLOB: ₹38Cr (-8%)
+                    SLOB: €38M (-8%)
                   </p>
                 </div>
               </Card>
