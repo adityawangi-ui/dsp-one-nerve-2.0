@@ -168,7 +168,7 @@ export default function Landing() {
         <div className="w-full flex flex-col justify-between min-h-[calc(100vh-4rem)] py-6 md:py-8 mx-auto" style={{ maxWidth: '1400px' }}>
           <div className="flex-1 flex flex-col justify-center space-y-4 md:space-y-6">
             {/* Personal Greeting Section */}
-            <div className="text-center space-y-0.5 animate-fade-in">
+            <div className="text-left space-y-0.5 animate-fade-in">
               <h1 className="text-3xl font-bold gradient-text" style={{ animationDuration: '0.6s' }}>
                 Hello, Alex 👋
               </h1>
