@@ -141,6 +141,11 @@ export default function Landing() {
 • Sync MEIO & ADF refresh cadence (currently offset by 12 hrs)
 • Run Forecast Bias Correction (Azure ML retrain)
 • Trigger alert workflow to planners in DAP Workspace → Service Risk Module.`
+    },
+    {
+      text: "Can we achieve the €18M inventory reduction target without compromising service?",
+      response: "INVENTORY_OPTIMIZATION_DETAILED",
+      isDetailed: true
     }
   ];
 
@@ -235,12 +240,12 @@ export default function Landing() {
           <div className="space-y-3 md:space-y-4">
             {/* FAQ Chips Section */}
             <div className="animate-fade-in w-full px-0" style={{ animationDelay: '0.45s' }}>
-            <div className="flex flex-col md:flex-row gap-2 justify-between">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
               {faqChips.map((chip, idx) => (
                 <button
                   key={idx}
                   onClick={() => handleChipClick(chip)}
-                  className="group relative px-3 py-2 md:py-1.5 rounded-xl bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 border border-primary/20 shadow-sm hover:shadow-[0_0_20px_rgba(111,108,246,0.3)] transition-all duration-300 hover:scale-[1.02] hover:border-primary/40 text-left flex-1 flex items-center gap-1.5"
+                  className="group relative px-3 py-2 md:py-1.5 rounded-xl bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 border border-primary/20 shadow-sm hover:shadow-[0_0_20px_rgba(111,108,246,0.3)] transition-all duration-300 hover:scale-[1.02] hover:border-primary/40 text-left flex items-center gap-1.5"
                 >
                   <Sparkles className="h-3 w-3 text-primary flex-shrink-0 group-hover:animate-pulse" />
                   <span className="text-[11px] text-foreground/80 group-hover:text-foreground font-medium leading-tight">
