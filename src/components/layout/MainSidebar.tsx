@@ -94,7 +94,7 @@ export const MainSidebar = ({ collapsed, onToggle }: MainSidebarProps) => {
       )}
     >
       {/* Header with Toggle */}
-      <div className="flex items-center justify-between px-4 py-4 border-b border-sidebar-border bg-sidebar">
+      <div className="flex items-center justify-between px-4 py-4 border-b border-sidebar-border">
         {!collapsed && (
           <h2 className="text-sm font-bold text-sidebar-foreground tracking-wide">
             COMMAND CONSOLE
@@ -104,7 +104,7 @@ export const MainSidebar = ({ collapsed, onToggle }: MainSidebarProps) => {
           variant="ghost"
           size="sm"
           onClick={onToggle}
-          className="hover:bg-sidebar-accent/50 transition-all duration-200 h-8 w-8 p-0"
+          className="hover:bg-sidebar-accent transition-all duration-200 h-8 w-8 p-0"
         >
           {collapsed ? (
             <ChevronRight className="h-4 w-4" />
@@ -115,7 +115,7 @@ export const MainSidebar = ({ collapsed, onToggle }: MainSidebarProps) => {
       </div>
 
       {/* Navigation Items */}
-      <nav className="flex-1 px-3 py-6 space-y-2 overflow-y-auto bg-sidebar">
+      <nav className="flex-1 px-3 py-6 space-y-2 overflow-y-auto">
         {renderNavItems(mainNavItems)}
       </nav>
     </aside>

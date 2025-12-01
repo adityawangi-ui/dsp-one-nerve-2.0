@@ -15,12 +15,10 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
     <div className="min-h-screen w-full flex flex-col bg-background">
       <TopNavigation />
       
-      <div className="flex flex-1 w-full h-[calc(100vh-4rem)]">
-        <div className="sticky top-0 h-full">
-          <MainSidebar collapsed={sidebarCollapsed} onToggle={toggleSidebar} />
-        </div>
+      <div className="flex flex-1 w-full">
+        <MainSidebar collapsed={sidebarCollapsed} onToggle={toggleSidebar} />
         
-        <main className="flex-1 overflow-auto h-full">
+        <main className="flex-1 overflow-auto">
           {children}
         </main>
       </div>
