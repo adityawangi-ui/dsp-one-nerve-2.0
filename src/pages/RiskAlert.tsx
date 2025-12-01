@@ -237,30 +237,19 @@ export default function RiskAlert() {
 
         {/* Active Agents - Glowing Border */}
         <Card className="p-4 bg-gradient-to-r from-primary/5 via-success/5 to-warning/5 border-primary/30 shadow-[0_0_20px_rgba(var(--primary),0.1)]">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2 flex-wrap">
-              <Zap className="h-4 w-4 text-primary animate-pulse" />
-              <span className="text-sm font-medium text-foreground">Active Agent Mesh:</span>
-              {activeAgents.map((agent, idx) => (
-                <Badge 
-                  key={agent} 
-                  variant="secondary" 
-                  className="animate-pulse border border-primary/20"
-                  style={{ animationDelay: `${idx * 0.1}s` }}
-                >
-                  {agent}
-                </Badge>
-              ))}
-            </div>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => openChat("active agents and their coordination")}
-              className="gap-2 shrink-0"
-            >
-              <MessageSquare className="h-4 w-4" />
-              Ask AI
-            </Button>
+          <div className="flex items-center gap-2 flex-wrap">
+            <Zap className="h-4 w-4 text-primary animate-pulse" />
+            <span className="text-sm font-medium text-foreground">Active Agent Mesh:</span>
+            {activeAgents.map((agent, idx) => (
+              <Badge 
+                key={agent} 
+                variant="secondary" 
+                className="animate-pulse border border-primary/20"
+                style={{ animationDelay: `${idx * 0.1}s` }}
+              >
+                {agent}
+              </Badge>
+            ))}
           </div>
         </Card>
 
