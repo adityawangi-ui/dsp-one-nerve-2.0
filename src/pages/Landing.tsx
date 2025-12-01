@@ -17,6 +17,10 @@ import {
   Send,
   Plus,
   Settings,
+  TrendingUp,
+  TrendingDown,
+  CheckCircle,
+  XCircle,
 } from "lucide-react";
 
 export default function Landing() {
@@ -168,9 +172,131 @@ export default function Landing() {
               <h1 className="text-3xl font-bold gradient-text" style={{ animationDuration: '0.6s' }}>
                 Hello, Alex 👋
               </h1>
-              <p className="text-xs text-[#7E7E7E] font-light">
+              <p className="text-sm text-[#7E7E7E] font-light">
                 Your Intelligent Planning Companion.
               </p>
+            </div>
+
+            {/* Planning Health KPI Cards */}
+            <div className="grid grid-cols-2 md:grid-cols-5 gap-2 md:gap-3 w-full animate-fade-in" style={{ animationDelay: '0.15s' }}>
+              {/* KPI 1: Service Level */}
+              <Card className="p-3 hover:shadow-[var(--shadow-elevated)] transition-all cursor-pointer" onClick={() => navigate('/diagnostics-analytics')}>
+                <div className="space-y-2">
+                  <div className="flex items-start justify-between mb-1">
+                    <p className="text-[10px] font-medium text-muted-foreground">Service Level</p>
+                    <Badge variant="secondary" className="bg-warning/20 text-warning text-[9px] px-1.5 py-0">
+                      <AlertTriangle className="h-2.5 w-2.5 mr-0.5" />
+                      Amber
+                    </Badge>
+                  </div>
+                  <div className="flex items-baseline gap-1">
+                    <h3 className="text-xl font-bold text-foreground">92.3%</h3>
+                    <span className="text-[9px] text-muted-foreground">/ 95%</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <TrendingDown className="h-3 w-3 text-destructive" />
+                    <span className="text-[9px] text-destructive font-medium">-1.8%</span>
+                  </div>
+                  <p className="text-[9px] text-muted-foreground italic leading-tight pt-1 border-t border-border">
+                    APAC fill rate at 89%
+                  </p>
+                </div>
+              </Card>
+
+              {/* KPI 2: Inventory Health */}
+              <Card className="p-3 hover:shadow-[var(--shadow-elevated)] transition-all cursor-pointer" onClick={() => navigate('/inventory-optimizer')}>
+                <div className="space-y-2">
+                  <div className="flex items-start justify-between mb-1">
+                    <p className="text-[10px] font-medium text-muted-foreground">Inventory</p>
+                    <Badge variant="secondary" className="bg-success/20 text-success text-[9px] px-1.5 py-0">
+                      <CheckCircle className="h-2.5 w-2.5 mr-0.5" />
+                      Green
+                    </Badge>
+                  </div>
+                  <div className="flex items-baseline gap-1">
+                    <h3 className="text-xl font-bold text-foreground">₹285Cr</h3>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <TrendingDown className="h-3 w-3 text-success" />
+                    <span className="text-[9px] text-success font-medium">-3.2%</span>
+                  </div>
+                  <p className="text-[9px] text-muted-foreground italic leading-tight pt-1 border-t border-border">
+                    SLOB: ₹38Cr (-8%)
+                  </p>
+                </div>
+              </Card>
+
+              {/* KPI 3: Capacity Health */}
+              <Card className="p-3 hover:shadow-[var(--shadow-elevated)] transition-all cursor-pointer" onClick={() => navigate('/capacity-rebalancer')}>
+                <div className="space-y-2">
+                  <div className="flex items-start justify-between mb-1">
+                    <p className="text-[10px] font-medium text-muted-foreground">Capacity</p>
+                    <Badge variant="secondary" className="bg-success/20 text-success text-[9px] px-1.5 py-0">
+                      <CheckCircle className="h-2.5 w-2.5 mr-0.5" />
+                      Green
+                    </Badge>
+                  </div>
+                  <div className="flex items-baseline gap-1">
+                    <h3 className="text-xl font-bold text-foreground">78%</h3>
+                    <span className="text-[9px] text-muted-foreground">util.</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <TrendingUp className="h-3 w-3 text-success" />
+                    <span className="text-[9px] text-success font-medium">+2.4%</span>
+                  </div>
+                  <p className="text-[9px] text-muted-foreground italic leading-tight pt-1 border-t border-border">
+                    Plan adherence: 94%
+                  </p>
+                </div>
+              </Card>
+
+              {/* KPI 4: Forecast Accuracy */}
+              <Card className="p-3 hover:shadow-[var(--shadow-elevated)] transition-all cursor-pointer" onClick={() => navigate('/predictive-analytics')}>
+                <div className="space-y-2">
+                  <div className="flex items-start justify-between mb-1">
+                    <p className="text-[10px] font-medium text-muted-foreground">Forecast</p>
+                    <Badge variant="secondary" className="bg-warning/20 text-warning text-[9px] px-1.5 py-0">
+                      <AlertTriangle className="h-2.5 w-2.5 mr-0.5" />
+                      Amber
+                    </Badge>
+                  </div>
+                  <div className="flex items-baseline gap-1">
+                    <h3 className="text-xl font-bold text-foreground">82.4%</h3>
+                    <span className="text-[9px] text-muted-foreground">MAPE</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <TrendingDown className="h-3 w-3 text-destructive" />
+                    <span className="text-[9px] text-destructive font-medium">-3.1%</span>
+                  </div>
+                  <p className="text-[9px] text-muted-foreground italic leading-tight pt-1 border-t border-border">
+                    Bias: +6% over-fcst
+                  </p>
+                </div>
+              </Card>
+
+              {/* KPI 5: DR Compliance */}
+              <Card className="p-3 hover:shadow-[var(--shadow-elevated)] transition-all cursor-pointer" onClick={() => navigate('/execution-tracker')}>
+                <div className="space-y-2">
+                  <div className="flex items-start justify-between mb-1">
+                    <p className="text-[10px] font-medium text-muted-foreground">DR Compliance</p>
+                    <Badge variant="secondary" className="bg-warning/20 text-warning text-[9px] px-1.5 py-0">
+                      <AlertTriangle className="h-2.5 w-2.5 mr-0.5" />
+                      Amber
+                    </Badge>
+                  </div>
+                  <div className="flex items-baseline gap-1">
+                    <h3 className="text-xl font-bold text-foreground">94%</h3>
+                    <span className="text-[9px] text-muted-foreground">/ 98%</span>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <TrendingUp className="h-3 w-3 text-success" />
+                    <span className="text-[9px] text-success font-medium">+1.2%</span>
+                  </div>
+                  <p className="text-[9px] text-muted-foreground italic leading-tight pt-1 border-t border-border">
+                    12 lane violations
+                  </p>
+                </div>
+              </Card>
             </div>
 
             {/* Context Cards - 2x2 Grid */}
@@ -200,8 +326,8 @@ export default function Landing() {
                     </h3>
                   </div>
 
-                  {/* Subtext */}
-                  <p className="text-[11px] text-muted-foreground mb-2 flex-1 leading-relaxed">
+                   {/* Subtext */}
+                  <p className="text-xs text-muted-foreground mb-2 flex-1 leading-relaxed">
                     {card.subtext}
                   </p>
 
@@ -223,9 +349,9 @@ export default function Landing() {
                     )}
                   </div>
 
-                  {/* Footer */}
+                   {/* Footer */}
                   <div className="pt-2 border-t border-border/40 flex items-center justify-center gap-2 w-full">
-                    <span className="text-[11px] text-primary font-medium group-hover:underline">
+                    <span className="text-xs text-primary font-medium group-hover:underline">
                       {card.footer}
                     </span>
                     <ChevronRight className="h-3.5 w-3.5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
@@ -248,7 +374,7 @@ export default function Landing() {
                   className="group relative px-3 py-2 md:py-1.5 rounded-xl bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 border border-primary/20 shadow-sm hover:shadow-[0_0_20px_rgba(111,108,246,0.3)] transition-all duration-300 hover:scale-[1.02] hover:border-primary/40 text-left flex items-center gap-1.5"
                 >
                   <Sparkles className="h-3 w-3 text-primary flex-shrink-0 group-hover:animate-pulse" />
-                  <span className="text-[11px] text-foreground/80 group-hover:text-foreground font-medium leading-tight">
+                  <span className="text-xs text-foreground/80 group-hover:text-foreground font-medium leading-tight">
                     {chip.text}
                   </span>
                 </button>
