@@ -9,15 +9,16 @@ import { useState } from "react";
 import { GenerativeChat } from "@/components/ui/generative-chat";
 
 const serviceDropData = [
-  { hour: "0h", service: 92 },
-  { hour: "6h", service: 89 },
-  { hour: "12h", service: 85 },
-  { hour: "18h", service: 82 },
-  { hour: "24h", service: 79 },
-  { hour: "30h", service: 77 },
-  { hour: "36h", service: 77 },
-  { hour: "42h", service: 77 },
-  { hour: "48h", service: 77 },
+  { day: "Day 1", service: 94 },
+  { day: "Day 2", service: 93 },
+  { day: "Day 3", service: 95 },
+  { day: "Day 4", service: 92 },
+  { day: "Day 5", service: 94 },
+  { day: "Day 6", service: 91 },
+  { day: "Day 7", service: 93 },
+  { day: "Day 8", service: 89 },
+  { day: "Day 9", service: 88 },
+  { day: "Day 10", service: 92 },
 ];
 
 const rootCauseData = [
@@ -458,14 +459,14 @@ export default function RiskAlert() {
                           </Button>
                         </div>
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                          {/* Service Forecast Curve */}
+                          {/* Service Level Trend */}
                           <div>
-                            <h4 className="text-sm font-semibold text-foreground mb-3">48-Hour Service Forecast</h4>
+                            <h4 className="text-sm font-semibold text-foreground mb-3">Last 10 Days Service Level</h4>
                             <ResponsiveContainer width="100%" height={200}>
                               <LineChart data={serviceDropData}>
                                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                                <XAxis dataKey="hour" stroke="hsl(var(--muted-foreground))" />
-                                <YAxis stroke="hsl(var(--muted-foreground))" domain={[70, 95]} />
+                                <XAxis dataKey="day" stroke="hsl(var(--muted-foreground))" />
+                                <YAxis stroke="hsl(var(--muted-foreground))" domain={[85, 100]} />
                                 <Tooltip 
                                   contentStyle={{ 
                                     backgroundColor: "hsl(var(--card))", 
