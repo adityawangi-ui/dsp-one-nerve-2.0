@@ -114,9 +114,9 @@ export default function InsightsHome() {
                 <div className="flex items-start justify-between">
                   <div>
                     <p className="text-sm font-medium text-muted-foreground mb-1">Inventory Health</p>
-                    <div className="flex items-baseline gap-2">
-                      <h3 className="text-3xl font-bold text-foreground">₹285Cr</h3>
-                    </div>
+                  <div className="flex items-baseline gap-2">
+                    <h3 className="text-3xl font-bold text-foreground">€285M</h3>
+                  </div>
                   </div>
                   <Badge variant="secondary" className="bg-success/20 text-success">
                     <CheckCircle className="h-3 w-3 mr-1" />
@@ -132,8 +132,8 @@ export default function InsightsHome() {
                 <div className="space-y-2">
                   <p className="text-xs font-medium text-muted-foreground">Breakdown:</p>
                   <div className="space-y-1">
-                    <p className="text-xs text-foreground leading-relaxed">• Cycle: ₹180Cr | Safety: ₹42Cr</p>
-                    <p className="text-xs text-foreground leading-relaxed">• Prebuild: ₹25Cr | SLOB: ₹38Cr</p>
+                    <p className="text-xs text-foreground leading-relaxed">• Cycle: €180M | Safety: €42M</p>
+                    <p className="text-xs text-foreground leading-relaxed">• Prebuild: €25M | SLOB: €38M</p>
                   </div>
                 </div>
 
@@ -367,7 +367,7 @@ export default function InsightsHome() {
                 </div>
                 <Badge variant="secondary" className="bg-destructive/20 text-destructive text-sm">+8.4%</Badge>
               </div>
-              <h3 className="text-3xl font-bold text-foreground">₹58 Cr</h3>
+              <h3 className="text-3xl font-bold text-foreground">€58 M</h3>
               <p className="text-base text-muted-foreground mt-2">SLOB Exposure</p>
             </Card>
 
