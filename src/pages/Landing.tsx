@@ -302,63 +302,96 @@ export default function Landing() {
             {/* Context Cards - 2x2 Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 justify-items-center w-full"
                style={{ animation: 'fade-in 0.6s ease-out 0.2s both' }}>
-            {contextCards.map((card, index) => (
-              <Link 
-                key={index} 
-                to={card.link} 
-                className="group w-full"
-                style={{ 
-                  animation: `fade-in 0.5s ease-out ${0.3 + index * 0.1}s both, scale-in 0.4s ease-out ${0.3 + index * 0.1}s both` 
-                }}
-              >
-                <Card className="relative p-3 md:p-4 bg-white border border-border/30 rounded-[18px] shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-intense)] transition-all duration-300 hover:-translate-y-1 cursor-pointer flex flex-col min-h-[140px] md:min-h-[155px] items-center text-center card-shimmer overflow-hidden">
-                  {/* Subtle gradient header strip */}
-                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary/50 via-primary to-primary/50 rounded-t-[18px]" />
-                  
-                  {/* Header */}
-                  <div className="flex flex-col items-center mb-2 mt-1">
-                    <div className="p-1.5 rounded-xl bg-gradient-to-br from-primary/10 to-primary/5 flex-shrink-0 mb-2 group-hover:scale-110 transition-transform duration-300">
-                      <card.icon className="h-4 w-4 text-primary" />
-                    </div>
-                    <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
-                      {card.isAgent && <Sparkles className="h-3.5 w-3.5 text-primary animate-pulse" />}
-                      {card.title}
-                    </h3>
-                  </div>
-
-                   {/* Subtext */}
-                  <p className="text-xs text-muted-foreground mb-2 flex-1 leading-relaxed">
-                    {card.subtext}
-                  </p>
-
-                  {/* Chips or Status */}
-                  <div className="mb-2">
-                    {card.chips && (
-                      <div className="flex flex-wrap gap-1.5 justify-center">
-                        {card.chips.map((chip, idx) => (
-                          <Badge key={idx} variant="secondary" className="text-[10px] py-0.5 px-2.5 bg-secondary/80 text-secondary-foreground hover:bg-secondary">
-                            {chip}
-                          </Badge>
-                        ))}
+            {contextCards.map((card, index) => {
+              const isActionItem = card.title === "Service Risk Alerts";
+              
+              return (
+                <Link 
+                  key={index} 
+                  to={card.link} 
+                  className="group w-full"
+                  style={{ 
+                    animation: `fade-in 0.5s ease-out ${0.3 + index * 0.1}s both, scale-in 0.4s ease-out ${0.3 + index * 0.1}s both` 
+                  }}
+                >
+                  <Card className={`relative p-3 md:p-4 rounded-[18px] transition-all duration-300 hover:-translate-y-1 cursor-pointer flex flex-col min-h-[140px] md:min-h-[155px] items-center text-center overflow-hidden ${
+                    isActionItem 
+                      ? 'bg-gradient-to-br from-destructive/5 via-warning/5 to-background border-2 border-destructive/40 shadow-[0_4px_20px_rgba(239,68,68,0.15)] hover:shadow-[0_8px_30px_rgba(239,68,68,0.25)] hover:border-destructive/60' 
+                      : 'bg-white border border-border/30 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-intense)] card-shimmer'
+                  }`}>
+                    {/* Gradient header strip - action items get attention-grabbing colors */}
+                    <div className={`absolute top-0 left-0 right-0 h-1.5 rounded-t-[18px] ${
+                      isActionItem 
+                        ? 'bg-gradient-to-r from-destructive via-warning to-destructive animate-pulse' 
+                        : 'bg-gradient-to-r from-primary/50 via-primary to-primary/50'
+                    }`} />
+                    
+                    {/* Action Required Badge for urgent items */}
+                    {isActionItem && (
+                      <div className="absolute top-3 right-3">
+                        <Badge className="bg-destructive text-destructive-foreground text-[9px] px-2 py-0.5 animate-pulse shadow-sm">
+                          Action Required
+                        </Badge>
                       </div>
                     )}
-                    {card.status && (
-                      <Badge variant="outline" className="text-[10px] py-0.5 px-2.5 border-primary/30 text-primary/80 bg-primary/5">
-                        {card.status}
-                      </Badge>
-                    )}
-                  </div>
+                    
+                    {/* Header */}
+                    <div className="flex flex-col items-center mb-2 mt-1">
+                      <div className={`p-1.5 rounded-xl flex-shrink-0 mb-2 group-hover:scale-110 transition-transform duration-300 ${
+                        isActionItem 
+                          ? 'bg-gradient-to-br from-destructive/20 to-warning/10' 
+                          : 'bg-gradient-to-br from-primary/10 to-primary/5'
+                      }`}>
+                        <card.icon className={`h-4 w-4 ${isActionItem ? 'text-destructive' : 'text-primary'}`} />
+                      </div>
+                      <h3 className={`text-sm font-semibold flex items-center gap-2 ${isActionItem ? 'text-destructive' : 'text-foreground'}`}>
+                        {card.isAgent && <Sparkles className={`h-3.5 w-3.5 animate-pulse ${isActionItem ? 'text-warning' : 'text-primary'}`} />}
+                        {card.title}
+                      </h3>
+                    </div>
 
-                   {/* Footer */}
-                  <div className="pt-2 border-t border-border/40 flex items-center justify-center gap-2 w-full">
-                    <span className="text-xs text-primary font-medium group-hover:underline">
-                      {card.footer}
-                    </span>
-                    <ChevronRight className="h-3.5 w-3.5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
-                  </div>
-                </Card>
-              </Link>
-            ))}
+                     {/* Subtext */}
+                    <p className="text-xs text-muted-foreground mb-2 flex-1 leading-relaxed">
+                      {card.subtext}
+                    </p>
+
+                    {/* Chips or Status */}
+                    <div className="mb-2">
+                      {card.chips && (
+                        <div className="flex flex-wrap gap-1.5 justify-center">
+                          {card.chips.map((chip, idx) => (
+                            <Badge key={idx} variant="secondary" className="text-[10px] py-0.5 px-2.5 bg-secondary/80 text-secondary-foreground hover:bg-secondary">
+                              {chip}
+                            </Badge>
+                          ))}
+                        </div>
+                      )}
+                      {card.status && (
+                        <Badge variant="outline" className={`text-[10px] py-0.5 px-2.5 ${
+                          isActionItem 
+                            ? 'border-destructive/50 text-destructive bg-destructive/10 font-semibold' 
+                            : 'border-primary/30 text-primary/80 bg-primary/5'
+                        }`}>
+                          {card.status}
+                        </Badge>
+                      )}
+                    </div>
+
+                     {/* Footer */}
+                    <div className={`pt-2 border-t flex items-center justify-center gap-2 w-full ${
+                      isActionItem ? 'border-destructive/20' : 'border-border/40'
+                    }`}>
+                      <span className={`text-xs font-medium group-hover:underline ${isActionItem ? 'text-destructive' : 'text-primary'}`}>
+                        {card.footer}
+                      </span>
+                      <ChevronRight className={`h-3.5 w-3.5 group-hover:translate-x-1 transition-all ${
+                        isActionItem ? 'text-destructive/60 group-hover:text-destructive' : 'text-muted-foreground group-hover:text-primary'
+                      }`} />
+                    </div>
+                  </Card>
+                </Link>
+              );
+            })}
             </div>
           </div>
 
