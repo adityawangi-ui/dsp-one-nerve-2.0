@@ -164,16 +164,24 @@ export default function Landing() {
 
   return (
     <MainLayout>
-      <div className="min-h-[calc(100vh-4rem)] misty-bg px-8 lg:px-16 xl:px-24 overflow-auto flex flex-col relative">
-        <div className="w-full flex flex-col justify-between min-h-[calc(100vh-4rem)] py-6 md:py-8 mx-auto" style={{ maxWidth: '1400px' }}>
-          <div className="flex-1 flex flex-col justify-center space-y-4 md:space-y-6">
-            {/* Personal Greeting Section */}
-            <div className="text-left space-y-0.5 animate-fade-in">
-              <h1 className="text-3xl font-bold gradient-text" style={{ animationDuration: '0.6s' }}>
-                Hello, Alex 👋
-              </h1>
-              <p className="text-sm text-[#7E7E7E] font-light">
-                Your Intelligent Planning Companion.
+      <div className="min-h-[calc(100vh-4rem)] misty-bg px-4 md:px-8 lg:px-12 xl:px-16 overflow-auto flex flex-col relative">
+        <div className="w-full flex flex-col py-4 md:py-6 mx-auto max-w-6xl">
+          <div className="flex flex-col space-y-4 md:space-y-5">
+            {/* Personal Greeting Section - Centered */}
+            <div className="text-center space-y-3 animate-fade-in">
+              <div className="flex items-center justify-center gap-3">
+                <div className="p-2 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 animate-pulse">
+                  <Sparkles className="h-6 w-6 text-primary" />
+                </div>
+                <h1 className="text-3xl md:text-4xl font-bold gradient-text aurora-shimmer" style={{ animationDuration: '0.6s' }}>
+                  Welcome Back, Alex!
+                </h1>
+                <div className="p-2 rounded-full bg-gradient-to-br from-primary/20 to-primary/10 animate-pulse" style={{ animationDelay: '0.5s' }}>
+                  <Sparkles className="h-6 w-6 text-primary" />
+                </div>
+              </div>
+              <p className="text-sm md:text-base text-muted-foreground font-light max-w-md mx-auto">
+                Your Intelligent Planning Companion is ready to help
               </p>
             </div>
 
@@ -396,22 +404,30 @@ export default function Landing() {
           </div>
 
           {/* Bottom Section - FAQ Chips and Prompt Box */}
-          <div className="space-y-3 md:space-y-4">
-            {/* FAQ Chips Section */}
-            <div className="animate-fade-in w-full px-0" style={{ animationDelay: '0.45s' }}>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-              {faqChips.map((chip, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => handleChipClick(chip)}
-                  className="group relative px-3 py-2 md:py-1.5 rounded-xl bg-gradient-to-r from-primary/10 via-primary/5 to-primary/10 border border-primary/20 shadow-sm hover:shadow-[0_0_20px_rgba(111,108,246,0.3)] transition-all duration-300 hover:scale-[1.02] hover:border-primary/40 text-left flex items-center gap-1.5"
-                >
-                  <Sparkles className="h-3 w-3 text-primary flex-shrink-0 group-hover:animate-pulse" />
-                  <span className="text-xs text-foreground/80 group-hover:text-foreground font-medium leading-tight">
-                    {chip.text}
-                  </span>
-                </button>
-              ))}
+          <div className="space-y-3 md:space-y-4 mt-4">
+            {/* FAQ Chips Section - Improved Cards */}
+            <div className="animate-fade-in w-full" style={{ animationDelay: '0.45s' }}>
+              <p className="text-xs font-medium text-muted-foreground mb-2 text-center">Quick insights you can ask</p>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                {faqChips.map((chip, idx) => (
+                  <Card
+                    key={idx}
+                    onClick={() => handleChipClick(chip)}
+                    className="group relative p-3 rounded-xl bg-gradient-to-br from-card via-card to-primary/5 border border-border/60 shadow-sm hover:shadow-[var(--shadow-elevated)] hover:border-primary/40 transition-all duration-300 hover:-translate-y-0.5 cursor-pointer"
+                  >
+                    <div className="flex items-start gap-2">
+                      <div className="p-1.5 rounded-lg bg-primary/10 flex-shrink-0 group-hover:bg-primary/20 transition-colors">
+                        <Sparkles className="h-3 w-3 text-primary group-hover:animate-pulse" />
+                      </div>
+                      <p className="text-xs text-foreground/80 group-hover:text-foreground leading-relaxed line-clamp-2">
+                        {chip.text}
+                      </p>
+                    </div>
+                    <div className="absolute bottom-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                      <ChevronRight className="h-3.5 w-3.5 text-primary" />
+                    </div>
+                  </Card>
+                ))}
               </div>
             </div>
 
