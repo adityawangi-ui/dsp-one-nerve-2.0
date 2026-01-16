@@ -96,24 +96,91 @@ Based on your inquiry, here are additional insights:
     setFollowUpInput("");
   };
 
+  // Helper function to render formatted response content
+  const renderFormattedResponse = (text: string) => {
+    return text.split('\n').map((line, lineIdx) => {
+      // Section headers with emoji
+      if (line.match(/^[✅🇪🇸📊💡🎯]/)) {
+        return (
+          <div key={lineIdx} className="flex items-center gap-2 mb-4 mt-4 first:mt-0">
+            <div className="h-8 w-1 bg-gradient-to-b from-primary to-primary/50 rounded-full" />
+            <h2 className="text-lg font-bold text-foreground">{line}</h2>
+          </div>
+        );
+      }
+      // Bold headers
+      if (line.startsWith('**') && line.endsWith('**')) {
+        return (
+          <div key={lineIdx} className="mt-5 mb-3 first:mt-0">
+            <h3 className="text-sm font-semibold text-foreground bg-gradient-to-r from-primary/10 to-transparent px-3 py-1.5 rounded-lg inline-block">
+              {line.replace(/\*\*/g, '')}
+            </h3>
+          </div>
+        );
+      }
+      // Bullet points
+      if (line.startsWith('•')) {
+        return (
+          <div key={lineIdx} className="flex items-start gap-2 ml-2 mb-1.5">
+            <div className="w-1.5 h-1.5 rounded-full bg-primary/60 mt-2 flex-shrink-0" />
+            <p className="text-sm text-foreground/80">{line.substring(1).trim()}</p>
+          </div>
+        );
+      }
+      // Numbered lists
+      if (line.match(/^\d+\./)) {
+        const match = line.match(/^(\d+)\.\s*(.*)$/);
+        if (match) {
+          return (
+            <div key={lineIdx} className="flex items-start gap-2 ml-2 mb-2">
+              <span className="text-xs font-semibold text-primary bg-primary/10 w-5 h-5 rounded-full flex items-center justify-center flex-shrink-0">
+                {match[1]}
+              </span>
+              <p className="text-sm text-foreground/80">{match[2]}</p>
+            </div>
+          );
+        }
+      }
+      // Action items / recommendations
+      if (line.startsWith('→')) {
+        return (
+          <div key={lineIdx} className="flex items-start gap-2 ml-2 mb-2 p-2 bg-primary/5 rounded-lg border-l-2 border-primary">
+            <p className="text-sm text-primary font-medium">{line}</p>
+          </div>
+        );
+      }
+      // Empty lines
+      if (!line.trim()) {
+        return <div key={lineIdx} className="h-2" />;
+      }
+      // Regular text
+      return <p key={lineIdx} className="text-sm text-foreground/80 mb-2 leading-relaxed">{line}</p>;
+    });
+  };
+
   return (
     <MainLayout>
-      <div className="min-h-[calc(100vh-4rem)] misty-bg px-4 md:px-8 lg:px-16 xl:px-24 overflow-auto pb-32 md:pb-36">
-        <div className="w-full py-4 md:py-8 mx-auto" style={{ maxWidth: '1400px' }}>
+      <div className="h-[calc(100vh-4rem)] misty-bg px-4 md:px-8 lg:px-12 overflow-auto pb-32 md:pb-36">
+        <div className="w-full py-4 md:py-6 mx-auto max-w-5xl">
           {/* Header */}
           <div className="mb-4 md:mb-6 animate-fade-in">
             <Button
               variant="ghost"
               onClick={() => navigate("/")}
-              className="mb-4 hover:bg-primary/10"
+              className="mb-3 hover:bg-primary/10"
             >
               <ArrowLeft className="h-4 w-4 mr-2" />
               Back to Home
             </Button>
             <div className="flex items-start justify-between gap-4">
               <div className="flex-1">
-                <h1 className="text-2xl font-bold gradient-text mb-2">Orchestrator</h1>
-                <p className="text-sm text-muted-foreground">{query}</p>
+                <div className="flex items-center gap-2 mb-2">
+                  <Sparkles className="h-5 w-5 text-primary animate-pulse" />
+                  <h1 className="text-xl font-bold gradient-text">AI Orchestrator</h1>
+                </div>
+                <Card className="p-3 bg-primary/5 border-primary/20">
+                  <p className="text-sm text-foreground font-medium">{query}</p>
+                </Card>
               </div>
               {response === "DETAILED_INVENTORY_OPTIMIZATION" && !isProcessing && (
                 <Button
@@ -122,7 +189,7 @@ Based on your inquiry, here are additional insights:
                   className="flex items-center gap-2 border-primary/30 hover:bg-primary/10"
                 >
                   <FileText className="h-4 w-4 text-primary" />
-                  <span className="text-sm">🔵 Audit Log (12 steps, 6 agents)</span>
+                  <span className="text-sm">🔵 Audit Log</span>
                 </Button>
               )}
             </div>
@@ -131,30 +198,13 @@ Based on your inquiry, here are additional insights:
           {/* Conversation History */}
           {conversationHistory.map((item, idx) => (
             <div key={idx} className="mb-4 md:mb-6 animate-fade-in">
-              <p className="text-sm text-muted-foreground mb-3 flex items-center gap-2">
+              <div className="flex items-center gap-2 mb-3">
                 <Sparkles className="h-4 w-4 text-primary" />
-                {item.query}
-              </p>
-              <Card className="p-4 md:p-6 bg-white border-l-4 border-l-muted shadow-sm">
+                <p className="text-sm font-medium text-foreground">{item.query}</p>
+              </div>
+              <Card className="p-4 md:p-6 bg-gradient-to-br from-card to-surface border border-border/60 shadow-[var(--shadow-card)]">
                 <div className="prose prose-sm max-w-none">
-                  {item.response.split('\n').map((line, lineIdx) => {
-                    if (line.startsWith('**') && line.endsWith('**')) {
-                      return <h3 key={lineIdx} className="text-base font-semibold text-foreground mt-6 mb-3 first:mt-0">{line.replace(/\*\*/g, '')}</h3>;
-                    }
-                    if (line.startsWith('•')) {
-                      return <p key={lineIdx} className="text-sm text-foreground/80 ml-4 mb-1.5">{line}</p>;
-                    }
-                    if (line.match(/^\d+\./)) {
-                      return <p key={lineIdx} className="text-sm text-foreground/80 ml-4 mb-1.5">{line}</p>;
-                    }
-                    if (line.startsWith('→')) {
-                      return <p key={lineIdx} className="text-sm text-primary font-medium ml-4 mb-2">{line}</p>;
-                    }
-                    if (line.match(/^[✅🇪🇸📊]/)) {
-                      return <h2 key={lineIdx} className="text-lg font-bold text-foreground mb-4 mt-2 first:mt-0">{line}</h2>;
-                    }
-                    return line ? <p key={lineIdx} className="text-sm text-foreground/80 mb-2">{line}</p> : <br key={lineIdx} />;
-                  })}
+                  {renderFormattedResponse(item.response)}
                 </div>
               </Card>
             </div>
@@ -162,15 +212,15 @@ Based on your inquiry, here are additional insights:
 
           {/* Current Response Card */}
           <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
-            <Card className="p-4 md:p-8 bg-white border-l-4 border-l-primary shadow-[var(--shadow-card)]">
+            <Card className="p-4 md:p-6 bg-gradient-to-br from-card to-surface border border-border/60 shadow-[var(--shadow-card)]">
               {isProcessing ? (
-                <div className="flex items-center gap-3">
-                  <div className="flex gap-1">
-                    <span className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
-                    <span className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
-                    <span className="w-2 h-2 bg-primary rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
+                <div className="flex flex-col items-center justify-center py-8 gap-4">
+                  <div className="flex gap-1.5">
+                    <span className="w-2.5 h-2.5 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
+                    <span className="w-2.5 h-2.5 bg-primary rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
+                    <span className="w-2.5 h-2.5 bg-primary rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
                   </div>
-                  <span className="text-sm text-muted-foreground">Running multi-agent orchestration...</span>
+                  <span className="text-sm text-muted-foreground">Analyzing with multi-agent orchestration...</span>
                 </div>
               ) : response === "DETAILED_INVENTORY_OPTIMIZATION" ? (
                 <div className="space-y-6">
@@ -390,35 +440,18 @@ Based on your inquiry, here are additional insights:
                     </div>
                   </div>
                 </div>
-              ) : (
+              ) : response ? (
                 <div className="prose prose-sm max-w-none">
-                  {response?.split('\n').map((line, idx) => {
-                    if (line.startsWith('**') && line.endsWith('**')) {
-                      return <h3 key={idx} className="text-base font-semibold text-foreground mt-6 mb-3 first:mt-0">{line.replace(/\*\*/g, '')}</h3>;
-                    }
-                    if (line.startsWith('•')) {
-                      return <p key={idx} className="text-sm text-foreground/80 ml-4 mb-1.5">{line}</p>;
-                    }
-                    if (line.match(/^\d+\./)) {
-                      return <p key={idx} className="text-sm text-foreground/80 ml-4 mb-1.5">{line}</p>;
-                    }
-                    if (line.startsWith('→')) {
-                      return <p key={idx} className="text-sm text-primary font-medium ml-4 mb-2">{line}</p>;
-                    }
-                    if (line.match(/^[✅🇪🇸📊]/)) {
-                      return <h2 key={idx} className="text-lg font-bold text-foreground mb-4 mt-2 first:mt-0">{line}</h2>;
-                    }
-                    return line ? <p key={idx} className="text-sm text-foreground/80 mb-2">{line}</p> : <br key={idx} />;
-                  })}
+                  {renderFormattedResponse(response)}
                 </div>
-              )}
+              ) : null}
             </Card>
           </div>
         </div>
 
         {/* Fixed Follow-up Prompt Box */}
-        <div className="fixed bottom-0 left-16 md:left-64 right-0 bg-gradient-to-t from-background via-background to-background/50 backdrop-blur-sm border-t border-border/40 py-3 md:py-4 px-4 md:px-8 lg:px-16 xl:px-24 z-10">
-          <div className="mx-auto" style={{ maxWidth: '1400px' }}>
+        <div className="fixed bottom-0 left-16 md:left-64 right-0 bg-gradient-to-t from-background via-background to-background/50 backdrop-filter backdrop-blur-md border-t border-border/40 py-3 md:py-4 px-4 md:px-8 lg:px-12 z-10">
+          <div className="mx-auto max-w-5xl">
               <div className="frosted-glass breathing-border rounded-2xl border-2 border-primary/30 shadow-[var(--shadow-glow)]">
                 <div className="flex items-center gap-2 md:gap-3 pl-3 md:pl-4 pr-2 md:pr-3 py-2 md:py-2.5">
                   {/* Left Icons */}
