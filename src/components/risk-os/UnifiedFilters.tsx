@@ -37,7 +37,7 @@ export const defaultFilters: FilterState = {
   status: "all",
   country: "all",
   assignedTo: "all",
-  lossRange: [0, 50000],
+  lossRange: [0, 890000],
   search: "",
 };
 
@@ -71,7 +71,7 @@ export default function UnifiedFilters({ filters, onChange, maxLoss }: Props) {
   const activeCount = useMemo(() => {
     let c = 0;
     for (const [k, v] of Object.entries(filters)) {
-      if (k === "lossRange") { if ((v as number[])[0] !== 0 || (v as number[])[1] !== maxLoss) c++; }
+      if (k === "lossRange") { if ((v as number[])[0] !== 0 || (v as number[])[1] !== 890000) c++; }
       else if (k === "search") { if (v) c++; }
       else if (v !== "all") c++;
     }
@@ -79,6 +79,8 @@ export default function UnifiedFilters({ filters, onChange, maxLoss }: Props) {
   }, [filters, maxLoss]);
 
   const formatK = (n: number) => n >= 1000 ? `${(n / 1000).toFixed(0)}K` : String(n);
+  const sliderMax = 890000;
+  const sliderStep = 1000;
 
   const dropdownFilters = allFilterKeys.filter(f => f.key !== "lossRange" && f.key !== "search" && visibleFilters.has(f.key));
 
@@ -156,8 +158,8 @@ export default function UnifiedFilters({ filters, onChange, maxLoss }: Props) {
                 value={filters.lossRange}
                 onValueChange={(v) => onChange({ ...filters, lossRange: v })}
                 min={0}
-                max={maxLoss}
-                step={1}
+                max={sliderMax}
+                step={sliderStep}
                 className="flex-1"
               />
               <span className="text-[11px] font-mono-tech text-foreground whitespace-nowrap">{formatK(filters.lossRange[0])}–{formatK(filters.lossRange[1])}</span>

@@ -91,7 +91,18 @@ export default function AlertsSection() {
                     <Cell key={i} fill={entry.color} />
                   ))}
                 </Pie>
-                <RechartsTooltip formatter={(value: number, name: string) => [`${value}`, name]} />
+                <RechartsTooltip
+                  content={({ active, payload }) => {
+                    if (!active || !payload?.length) return null;
+                    return (
+                      <div className="bg-foreground text-background text-[11px] rounded-md px-2.5 py-1.5 shadow-lg pointer-events-none">
+                        <span className="font-semibold">{payload[0].name}:</span> {payload[0].value}
+                      </div>
+                    );
+                  }}
+                  wrapperStyle={{ zIndex: 60 }}
+                  position={{ x: 150, y: 40 }}
+                />
               </PieChart>
             </ResponsiveContainer>
             {/* Center text */}
