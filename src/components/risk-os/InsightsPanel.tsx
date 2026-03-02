@@ -126,10 +126,10 @@ export default function InsightsPanel({ row, onClose }: Props) {
   
   // Stock type breakdown pie data
   const stockBreakdown = [
-    { name: "Unrestricted", value: 45200, fill: COLORS[0] },
-    { name: "Restricted", value: 8700, fill: COLORS[1] },
-    { name: "Blocked", value: 3200, fill: COLORS[4] },
-    { name: "Quarantine", value: 1500, fill: COLORS[3] },
+    { name: "Unrestricted", value: 77, fill: "#38bdf8" },
+    { name: "Restricted", value: 15, fill: "#7dd3fc" },
+    { name: "Blocked", value: 5, fill: "#ef4444" },
+    { name: "Quarantine", value: 3, fill: "#f59e0b" },
   ];
   const stockBarData = stockBreakdown.map(s => ({ type: s.name, qty: s.value }));
 
