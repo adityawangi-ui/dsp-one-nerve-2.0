@@ -1,7 +1,7 @@
 import { useState, useRef, useMemo } from "react";
 import { RiskRow, riskData } from "@/data/riskData";
 import { X, Package, Calendar, TrendingDown, Truck, Factory, BarChart3, Database, Table2, ToggleLeft } from "lucide-react";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, LineChart, Line, Legend, AreaChart, Area, ReferenceLine, PieChart, Pie, Cell } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, Tooltip as RechartsTooltip, LineChart, Line, Legend, AreaChart, Area, ReferenceLine, PieChart, Pie, Cell } from "recharts";
 import { Badge } from "@/components/ui/badge";
 
 const COLORS = [
