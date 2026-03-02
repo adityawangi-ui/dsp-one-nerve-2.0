@@ -22,10 +22,9 @@ import InventoryOptimizer from "./pages/InventoryOptimizer";
 import WasteOptimizer from "./pages/WasteOptimizer";
 import CapacityRebalancer from "./pages/CapacityRebalancer";
 import LearningHub from "./pages/LearningHub";
-import RiskOSLayout from "./components/risk-os/RiskOSLayout";
-import RiskOSHome from "./pages/RiskOSHome";
 import RiskOverview from "./pages/RiskOverview";
 import NotFound from "./pages/NotFound";
+import { MainLayout } from "./components/layout/MainLayout";
 
 const queryClient = new QueryClient();
 
@@ -55,11 +54,7 @@ const App = () => (
           <Route path="/waste-optimizer" element={<WasteOptimizer />} />
           <Route path="/capacity-rebalancer" element={<CapacityRebalancer />} />
           <Route path="/learning-hub" element={<LearningHub />} />
-          {/* RiskOS Enterprise */}
-          <Route path="/risk-monitor" element={<RiskOSLayout />}>
-            <Route index element={<RiskOSHome />} />
-            <Route path="risk-overview" element={<RiskOverview />} />
-          </Route>
+          <Route path="/risk-monitor" element={<MainLayout><RiskOverview /></MainLayout>} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
