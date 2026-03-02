@@ -16,8 +16,8 @@ interface Props {
   onUpdateRow: (idx: number, updates: Partial<RiskRow>) => void;
 }
 
-const MRDR_FROZEN_KEYS = ["mrdr", "mrdrDescription", "gtin"];
-const MRDR_FROZEN_WIDTHS: Record<string, number> = { mrdr: 130, mrdrDescription: 210, gtin: 150 };
+const MRDR_FROZEN_KEYS = ["riskId", "mrdr", "mrdrDescription", "msoCountry"];
+const MRDR_FROZEN_WIDTHS: Record<string, number> = { riskId: 90, mrdr: 120, mrdrDescription: 220, msoCountry: 100 };
 
 export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }: Props) {
   const [view, setView] = useState<"mrdr" | "gtin" | "uom">("mrdr");
@@ -98,9 +98,9 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
     if (!MRDR_FROZEN_KEYS.includes(key)) return {};
     const bgMap = {
       normal: "hsl(var(--card))",
-      new: "hsl(0 84% 60% / 0.08)",
+      new: "hsl(0 80% 96%)",
       child: "hsl(var(--muted))",
-      childNew: "hsl(0 84% 60% / 0.1)",
+      childNew: "hsl(0 80% 95%)",
     };
     return {
       position: "sticky",
@@ -109,7 +109,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
       width: MRDR_FROZEN_WIDTHS[key],
       minWidth: MRDR_FROZEN_WIDTHS[key],
       maxWidth: MRDR_FROZEN_WIDTHS[key],
-      boxShadow: isLastFrozen(key) ? "2px 0 4px rgba(0,0,0,0.06)" : undefined,
+      boxShadow: isLastFrozen(key) ? "2px 0 4px rgba(0,0,0,0.08)" : undefined,
       backgroundColor: bgMap[variant],
     };
   };
@@ -199,16 +199,16 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
       {/* MRDR View */}
       {view === "mrdr" && (
         <div className="overflow-x-auto overflow-y-auto max-h-[60vh] rounded-lg border border-border">
-          <table className="w-full border-collapse text-left" style={{ minWidth: "1800px" }}>
+          <table className="w-full border-collapse text-left" style={{ minWidth: "2800px" }}>
             <thead className="sticky top-0 z-30">
               <tr>
                 {shareMode && <th className="bg-secondary w-10 px-2 sticky left-0 z-40 border-b border-border" />}
                 {mrdrAggColumns.map(col => (
                   <th
                     key={col.key}
-                    className={`text-[11px] font-semibold uppercase tracking-wider text-muted-foreground px-3 py-3 cursor-pointer hover:text-foreground select-none bg-secondary border-b border-border ${isLastFrozen(col.key) ? "" : ""}`}
+                    className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground px-3 py-3 cursor-pointer hover:text-foreground select-none border-b border-border"
                     style={{ width: col.width, ...frozenHeaderStyle(col.key) }}
-                    onClick={() => toggleSort(col.key)}
+                    onClick={() => col.key !== "insights" && toggleSort(col.key)}
                   >
                     <span className="flex items-center gap-1">
                       {col.label}
@@ -216,7 +216,6 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
                     </span>
                   </th>
                 ))}
-                <th className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground px-3 py-3 bg-secondary border-b border-border" style={{ width: 100 }}>Insights</th>
               </tr>
             </thead>
             <tbody>
@@ -224,12 +223,14 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
                 const expanded = expandedMrdrs.has(agg.mrdr);
                 const childRows = data.filter(r => r.mrdr === agg.mrdr);
                 const hasMultiple = agg.lineCount > 1;
-                
+                const rowNewVariant = agg.isNew ? "new" : "normal";
+
                 return (
                   <React.Fragment key={agg.mrdr}>
-                    <tr key={agg.mrdr} className={`border-b border-border/50 hover:bg-primary/[0.04] transition-colors ${agg.isNew ? "bg-destructive/[0.05]" : ""}`}>
+                    <tr className={`border-b border-border/50 hover:bg-primary/[0.04] transition-colors`}
+                        style={agg.isNew ? { backgroundColor: "hsl(0 80% 96%)" } : undefined}>
                       {shareMode && (
-                        <td className="px-2 sticky left-0 z-10 bg-card border-b border-border/50">
+                        <td className="px-2 border-b border-border/50" style={{ position: "sticky", left: 0, zIndex: 10, backgroundColor: agg.isNew ? "hsl(0 80% 96%)" : "hsl(var(--card))" }}>
                           <Checkbox checked={selectedRows.has(agg.mrdr)} onCheckedChange={(c) => {
                             const next = new Set(selectedRows);
                             if (c) next.add(agg.mrdr); else next.delete(agg.mrdr);
@@ -237,7 +238,13 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
                           }} />
                         </td>
                       )}
-                      <td className={cellCls} style={frozenCellStyle("mrdr", agg.isNew ? "new" : "normal")}>
+                      {/* Risk ID - frozen */}
+                      <td className={cellCls} style={frozenCellStyle("riskId", rowNewVariant)}>
+                        <span className="font-mono">{agg.riskId}</span>
+                        {agg.isNew && <NewBadge />}
+                      </td>
+                      {/* MRDR - frozen, drill-through */}
+                      <td className={cellCls} style={frozenCellStyle("mrdr", rowNewVariant)}>
                         <button
                           onClick={() => { if (hasMultiple) { const n = new Set(expandedMrdrs); if (expanded) n.delete(agg.mrdr); else n.add(agg.mrdr); setExpandedMrdrs(n); } }}
                           className={`flex items-center gap-1 font-mono ${hasMultiple ? "text-primary font-semibold hover:underline cursor-pointer" : "text-foreground cursor-default"}`}
@@ -246,58 +253,67 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
                           {agg.mrdr}
                           {hasMultiple && <span className="text-[9px] text-muted-foreground ml-0.5">({agg.lineCount})</span>}
                         </button>
-                        {agg.isNew && <NewBadge />}
                       </td>
-                      <td className={cellCls} style={frozenCellStyle("mrdrDescription", agg.isNew ? "new" : "normal")}>{agg.mrdrDescription}</td>
-                      <td className={`${cellCls} font-mono`} style={frozenCellStyle("gtin", agg.isNew ? "new" : "normal")}>{agg.gtin}</td>
-                      <td className={cellCls}>{agg.msoCountry}</td>
+                      {/* MRDR GTIN Description - frozen */}
+                      <td className={cellCls} style={frozenCellStyle("mrdrDescription", rowNewVariant)}>{agg.mrdrDescription}</td>
+                      {/* MSO Country - frozen */}
+                      <td className={cellCls} style={frozenCellStyle("msoCountry", rowNewVariant)}>{agg.msoCountry}</td>
+                      {/* Scrollable columns */}
                       <td className={cellCls}>{agg.site}</td>
+                      <td className={cellCls}>{agg.su}</td>
                       <td className={cellCls}><Badge variant="outline" className={`text-[10px] ${agg.riskType === "Out Of Stock" ? "bg-critical-bg text-critical border-critical-border" : "bg-medium-bg text-medium border-medium-border"}`}>{agg.riskType}</Badge></td>
                       <td className={cellCls}><Badge variant="outline" className={`text-[10px] ${sevBadgeClass(agg.severity)}`}>{agg.severity}</Badge></td>
                       <td className={cellCls}><Badge variant="outline" className={`text-[10px] ${priBadgeClass(agg.priority)}`}>{agg.priority}</Badge></td>
-                      <td className={cellCls}><Badge variant="outline" className={`text-[10px] ${agg.status === "Open" ? "bg-info-bg text-info border-info-border" : "bg-low-bg text-low border-low-border"}`}>{agg.status}</Badge></td>
-                      <td className={cellCls}>{agg.uom}</td>
+                      <td className={cellCls}>{agg.riskHorizon}</td>
                       <td className={cellCls}>{agg.segmentation}</td>
-                      <td className={cellCls}>{agg.category}</td>
                       <td className={cellCls}>{agg.startedOnWeek}</td>
+                      <td className={cellCls}>{agg.endedOnWeek || "—"}</td>
                       <td className={`${cellCls} font-mono`}>{agg.riskInDays}</td>
                       <td className={`${cellCls} font-mono`}>{agg.stockCS.toLocaleString()}</td>
                       <td className={`${cellCls} font-mono`}>{agg.expectedLossCases.toLocaleString()}</td>
                       <td className={`${cellCls} font-mono`}>${agg.expectedLossValue.toLocaleString()}</td>
+                      <td className={cellCls}>{agg.nextAvailableDate || "—"}</td>
                       <td className={cellCls}>{agg.botReasonCode}</td>
                       <td className={cellCls}>{agg.plannerReasonCode}</td>
+                      <td className={cellCls}>{agg.comments || "—"}</td>
                       <td className={cellCls}>{agg.assignedTo}</td>
                       <td className={cellCls}>
                         <button onClick={() => onOpenInsights(childRows[0])} className="flex items-center gap-1 text-primary hover:underline text-[11px]">
                           <Eye className="h-3 w-3" /> View More
                         </button>
                       </td>
+                      <td className={cellCls}>{agg.promoFlag}</td>
+                      <td className={cellCls}>{agg.typeCode}</td>
+                      <td className={cellCls}>{agg.repackDependency}</td>
+                      <td className={cellCls}>{agg.category}</td>
                     </tr>
                     {expanded && childRows.map(cr => {
-                      const childBg = cr.isNew ? "bg-destructive/[0.06]" : "bg-muted/30";
+                      const childVariant = cr.isNew ? "childNew" : "child";
+                      const childRowBg = cr.isNew ? "hsl(0 80% 95%)" : "hsl(var(--muted))";
                       return (
-                        <tr key={cr.riskId} className={`border-b border-border/30 ${childBg}`}>
-                          {shareMode && <td className="sticky left-0 z-10" />}
-                          <td className={`${childCellCls} pl-8 font-mono`} style={frozenCellStyle("mrdr", cr.isNew ? "childNew" : "child")}>
-                            <span className="text-muted-foreground">↳</span> RID-{cr.riskId}
+                        <tr key={cr.riskId} className="border-b border-border/30" style={{ backgroundColor: childRowBg }}>
+                          {shareMode && <td style={{ position: "sticky", left: 0, zIndex: 10, backgroundColor: childRowBg }} />}
+                          <td className={`${childCellCls} pl-6 font-mono`} style={frozenCellStyle("riskId", childVariant)}>
+                            <span className="text-muted-foreground">↳</span> {cr.riskId}
                             {cr.isNew && <NewBadge />}
                           </td>
-                          <td className={childCellCls} style={frozenCellStyle("mrdrDescription", cr.isNew ? "childNew" : "child")}>{cr.mrdrDescription}</td>
-                          <td className={`${childCellCls} font-mono`} style={frozenCellStyle("gtin", cr.isNew ? "childNew" : "child")}>{cr.gtin}</td>
-                          <td className={childCellCls}>{cr.msoCountry}</td>
+                          <td className={`${childCellCls} font-mono`} style={frozenCellStyle("mrdr", childVariant)}>{cr.mrdr}</td>
+                          <td className={childCellCls} style={frozenCellStyle("mrdrDescription", childVariant)}>{cr.mrdrDescription}</td>
+                          <td className={childCellCls} style={frozenCellStyle("msoCountry", childVariant)}>{cr.msoCountry}</td>
                           <td className={childCellCls}>{cr.site}</td>
+                          <td className={childCellCls}>{cr.su}</td>
                           <td className={childCellCls}><Badge variant="outline" className={`text-[10px] ${cr.riskType === "Out Of Stock" ? "bg-critical-bg text-critical border-critical-border" : "bg-medium-bg text-medium border-medium-border"}`}>{cr.riskType}</Badge></td>
                           <td className={childCellCls}><Badge variant="outline" className={`text-[10px] ${sevBadgeClass(cr.severity)}`}>{cr.severity}</Badge></td>
                           <td className={childCellCls}><Badge variant="outline" className={`text-[10px] ${priBadgeClass(cr.priority)}`}>{cr.priority}</Badge></td>
-                          <td className={childCellCls}><Badge variant="outline" className={`text-[10px] ${cr.status === "Open" ? "bg-info-bg text-info border-info-border" : "bg-low-bg text-low border-low-border"}`}>{cr.status}</Badge></td>
-                          <td className={childCellCls}>{cr.uom}</td>
+                          <td className={childCellCls}>{cr.riskHorizon}</td>
                           <td className={childCellCls}>{cr.segmentation}</td>
-                          <td className={childCellCls}>{cr.category}</td>
                           <td className={childCellCls}>{cr.startedOnWeek}</td>
+                          <td className={childCellCls}>{cr.endedOnWeek || "—"}</td>
                           <td className={`${childCellCls} font-mono`}>{cr.riskInDays}</td>
                           <td className={`${childCellCls} font-mono`}>{cr.stockCS.toLocaleString()}</td>
                           <td className={`${childCellCls} font-mono`}>{cr.expectedLossCases.toLocaleString()}</td>
                           <td className={`${childCellCls} font-mono`}>${cr.expectedLossValue.toLocaleString()}</td>
+                          <td className={childCellCls}>{cr.nextAvailableDate || "—"}</td>
                           <td className={childCellCls}>{cr.botReasonCode}</td>
                           <td className={childCellCls}>
                             <Select value={cr.plannerReasonCode || "none"} onValueChange={(v) => {
@@ -308,12 +324,17 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
                               <SelectContent>{reasonCodes.map(r => <SelectItem key={r} value={r}>{r}</SelectItem>)}</SelectContent>
                             </Select>
                           </td>
+                          <td className={childCellCls}>{cr.comments || "—"}</td>
                           <td className={childCellCls}>{cr.assignedTo}</td>
                           <td className={childCellCls}>
                             <button onClick={() => onOpenInsights(cr)} className="flex items-center gap-1 text-primary hover:underline text-[11px]">
                               <Eye className="h-3 w-3" /> View
                             </button>
                           </td>
+                          <td className={childCellCls}>{cr.promoFlag}</td>
+                          <td className={childCellCls}>{cr.typeCode}</td>
+                          <td className={childCellCls}>{cr.repackDependency}</td>
+                          <td className={childCellCls}>{cr.category}</td>
                         </tr>
                       );
                     })}
