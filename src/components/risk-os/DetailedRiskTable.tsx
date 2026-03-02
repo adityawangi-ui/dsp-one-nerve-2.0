@@ -228,7 +228,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
                 return (
                   <React.Fragment key={agg.mrdr}>
                     <tr className={`border-b border-border/50 hover:bg-primary/[0.04] transition-colors`}
-                        style={agg.isNew ? { backgroundColor: "hsl(0 80% 96%)" } : undefined}>
+                        style={{ backgroundColor: agg.isNew ? "hsl(0 80% 96%)" : "hsl(var(--card))", height: "44px" }}>
                       {shareMode && (
                         <td className="px-2 border-b border-border/50" style={{ position: "sticky", left: 0, zIndex: 10, backgroundColor: agg.isNew ? "hsl(0 80% 96%)" : "hsl(var(--card))" }}>
                           <Checkbox checked={selectedRows.has(agg.mrdr)} onCheckedChange={(c) => {
@@ -277,15 +277,15 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
                       <td className={cellCls}>{agg.plannerReasonCode}</td>
                       <td className={cellCls}>{agg.comments || "—"}</td>
                       <td className={cellCls}>{agg.assignedTo}</td>
+                      <td className={cellCls}>{agg.promoFlag}</td>
+                      <td className={cellCls}>{agg.typeCode}</td>
+                      <td className={cellCls}>{agg.repackDependency}</td>
+                      <td className={cellCls}>{agg.category}</td>
                       <td className={cellCls}>
                         <button onClick={() => onOpenInsights(childRows[0])} className="flex items-center gap-1 text-primary hover:underline text-[11px]">
                           <Eye className="h-3 w-3" /> View More
                         </button>
                       </td>
-                      <td className={cellCls}>{agg.promoFlag}</td>
-                      <td className={cellCls}>{agg.typeCode}</td>
-                      <td className={cellCls}>{agg.repackDependency}</td>
-                      <td className={cellCls}>{agg.category}</td>
                     </tr>
                     {expanded && childRows.map(cr => {
                       const childVariant = cr.isNew ? "childNew" : "child";

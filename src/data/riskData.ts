@@ -202,11 +202,11 @@ export const mrdrAggColumns: ColumnDef[] = [
   { key: "plannerReasonCode", label: "Planner Reason Code", width: 140 },
   { key: "comments", label: "Comments", width: 160 },
   { key: "assignedTo", label: "Assigned To", width: 160 },
-  { key: "insights", label: "Insights", width: 90 },
   { key: "promoFlag", label: "Promo Flag", width: 90 },
   { key: "typeCode", label: "Type Code", width: 100 },
   { key: "repackDependency", label: "Repack Dependency", width: 130 },
   { key: "category", label: "Category", width: 120 },
+  { key: "insights", label: "Insights", width: 100 },
 ];
 
 export function aggregateByMrdr(rows: RiskRow[]): MrdrAggRow[] {
