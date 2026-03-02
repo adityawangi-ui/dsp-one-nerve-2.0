@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { riskData, RiskRow } from "@/data/riskData";
+import { Home, ChevronRight } from "lucide-react";
 import AlertsSection from "@/components/risk-os/AlertsSection";
 import UnifiedFilters, { FilterState, defaultFilters } from "@/components/risk-os/UnifiedFilters";
 import DetailedRiskTable from "@/components/risk-os/DetailedRiskTable";
@@ -43,6 +44,15 @@ export default function RiskOverview() {
 
   return (
     <div className="gradient-mesh p-6 space-y-5 min-h-full">
+      {/* Breadcrumb */}
+      <nav className="flex items-center gap-1.5 text-xs text-muted-foreground">
+        <a href="/" className="hover:text-primary transition-colors cursor-pointer flex items-center gap-1">
+          <Home className="h-3 w-3" />
+          Home
+        </a>
+        <ChevronRight className="h-3 w-3" />
+        <span className="text-foreground font-medium">Risk Monitor</span>
+      </nav>
       <AlertsSection />
       <UnifiedFilters filters={filters} onChange={setFilters} maxLoss={maxLoss} />
       <DetailedRiskTable data={filteredRows} onOpenInsights={setInsightsRow} onUpdateRow={handleUpdateRow} />

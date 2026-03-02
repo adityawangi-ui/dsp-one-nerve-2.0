@@ -37,7 +37,7 @@ export const defaultFilters: FilterState = {
   status: "all",
   country: "all",
   assignedTo: "all",
-  lossRange: [0, 250000],
+  lossRange: [0, 5000],
   search: "",
 };
 
@@ -53,7 +53,7 @@ const allFilterKeys = [
   { key: "status", label: "Status" },
   { key: "country", label: "Country" },
   { key: "assignedTo", label: "Assigned To" },
-  { key: "lossRange", label: "Loss Cases Range" },
+  { key: "lossRange", label: "Expected Loss Cases" },
   { key: "search", label: "Search" },
 ] as const;
 
@@ -149,7 +149,7 @@ export default function UnifiedFilters({ filters, onChange, maxLoss }: Props) {
         {visibleFilters.has("lossRange") && (
           <div>
             <label className="text-[11px] uppercase tracking-wider text-muted-foreground font-medium mb-1 flex items-center gap-1">
-              <SlidersHorizontal className="h-3 w-3" /> Loss Range
+              <SlidersHorizontal className="h-3 w-3" /> Expected Loss Cases
             </label>
             <div className="flex items-center gap-2">
               <Slider
@@ -157,7 +157,7 @@ export default function UnifiedFilters({ filters, onChange, maxLoss }: Props) {
                 onValueChange={(v) => onChange({ ...filters, lossRange: v })}
                 min={0}
                 max={maxLoss}
-                step={10}
+                step={1}
                 className="flex-1"
               />
               <span className="text-[11px] font-mono-tech text-foreground whitespace-nowrap">{formatK(filters.lossRange[0])}–{formatK(filters.lossRange[1])}</span>
