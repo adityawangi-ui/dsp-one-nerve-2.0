@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Checkbox } from "@/components/ui/checkbox";
-import { LayoutList, Download, Share2, Plus, Eye, ChevronRight, ChevronDown, ChevronUp, Columns3, Send, AlertTriangle } from "lucide-react";
+import { LayoutList, Download, Share2, Plus, Eye, ChevronRight, ChevronDown, ChevronUp, Columns3, Send } from "lucide-react";
 import { toast } from "sonner";
 
 interface Props {
@@ -238,7 +238,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
                           {agg.mrdr}
                           {hasMultiple && <span className="text-[9px] text-muted-foreground ml-0.5">({agg.lineCount})</span>}
                         </button>
-                        {agg.isNew && <NewBadgeInline />}
+                        {agg.isNew && <NewBadge />}
                       </td>
                       <td className={`${cellCls} ${rowBg}`} style={frozenCellStyle("mrdrDescription")}>{agg.mrdrDescription}</td>
                       <td className={`${cellCls} font-mono ${rowBg}`} style={frozenCellStyle("gtin")}>{agg.gtin}</td>
@@ -272,7 +272,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
                           {shareMode && <td className="sticky left-0 z-10" />}
                           <td className={`${childCellCls} pl-8 font-mono ${childBg}`} style={frozenCellStyle("mrdr")}>
                             <span className="text-muted-foreground">↳</span> RID-{cr.riskId}
-                            {cr.isNew && <NewBadgeInline />}
+                            {cr.isNew && <NewBadge />}
                           </td>
                           <td className={`${childCellCls} ${childBg}`} style={frozenCellStyle("mrdrDescription")}>{cr.mrdrDescription}</td>
                           <td className={`${childCellCls} font-mono ${childBg}`} style={frozenCellStyle("gtin")}>{cr.gtin}</td>
@@ -367,7 +367,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
                         {shareMode && <td />}
                         <td className={`${childCellCls} pl-8 font-mono`}>
                           {cr.gtin}
-                          {cr.isNew && <NewBadgeInline />}
+                          {cr.isNew && <NewBadge />}
                         </td>
                         <td className={`${childCellCls} font-mono`}>{cr.mrdr}</td>
                         <td className={childCellCls}>{cr.msoCountry}</td>
