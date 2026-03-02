@@ -22,6 +22,7 @@ import InventoryOptimizer from "./pages/InventoryOptimizer";
 import WasteOptimizer from "./pages/WasteOptimizer";
 import CapacityRebalancer from "./pages/CapacityRebalancer";
 import LearningHub from "./pages/LearningHub";
+import RiskMonitor from "./pages/RiskMonitor";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -52,6 +53,7 @@ const App = () => (
           <Route path="/waste-optimizer" element={<WasteOptimizer />} />
           <Route path="/capacity-rebalancer" element={<CapacityRebalancer />} />
           <Route path="/learning-hub" element={<LearningHub />} />
+          <Route path="/risk-monitor" element={<RiskMonitor />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
