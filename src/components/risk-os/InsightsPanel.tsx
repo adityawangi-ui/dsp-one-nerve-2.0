@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import { RiskRow } from "@/data/riskData";
 import { X, Package, Calendar, TrendingDown, Truck, Factory, BarChart3, Database, Megaphone, Table2 } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, PieChart, Pie, Cell, AreaChart, Area, LineChart, Line, ScatterChart, Scatter, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Legend } from "recharts";
@@ -20,16 +20,15 @@ const sections = [
   { id: "ctp", title: "Exception CTP View", icon: Table2 },
 ];
 
-// Mock data generators
-const stockData = Array.from({ length: 8 }, (_, i) => ({ site: `C${400 + i * 5}`, unrestricted: 4000 + Math.random() * 5000, restricted: 500 + Math.random() * 2000, blocked: 200 + Math.random() * 800 }));
+const stockBarData = Array.from({ length: 8 }, (_, i) => ({ site: `C${400 + i * 5}`, unrestricted: Math.round(4000 + Math.random() * 5000), restricted: Math.round(500 + Math.random() * 2000), blocked: Math.round(200 + Math.random() * 800) }));
 const stockPie = [{ name: "Unrestricted", value: 45200 }, { name: "Restricted", value: 8700 }, { name: "Blocked", value: 3200 }, { name: "Quarantine", value: 1500 }];
-const dohData = Array.from({ length: 12 }, (_, i) => ({ week: `W${i + 1}`, doh: 8 + Math.random() * 20, qty: 1000 + Math.random() * 5000 }));
-const drData = Array.from({ length: 12 }, (_, i) => ({ week: `W${i + 1}`, dr: 75 + Math.random() * 20, loss: 100 + Math.random() * 500, variance: -5 + Math.random() * 10 }));
-const stoData = Array.from({ length: 8 }, (_, i) => ({ id: `SH-${1000 + i}`, qty: 500 + Math.random() * 3000, leadTime: 3 + Math.random() * 12 }));
-const prodData = Array.from({ length: 10 }, (_, i) => ({ week: `W${i + 1}`, qty: 2000 + Math.random() * 6000, ccu: 65 + Math.random() * 30 }));
+const dohData = Array.from({ length: 12 }, (_, i) => ({ week: `W${i + 1}`, doh: Math.round(8 + Math.random() * 20), qty: Math.round(1000 + Math.random() * 5000) }));
+const drData = Array.from({ length: 12 }, (_, i) => ({ week: `W${i + 1}`, dr: Math.round(75 + Math.random() * 20), loss: Math.round(100 + Math.random() * 500), variance: Math.round((-5 + Math.random() * 10) * 10) / 10 }));
+const stoBarData = Array.from({ length: 8 }, (_, i) => ({ id: `SH-${1000 + i}`, qty: Math.round(500 + Math.random() * 3000), leadTime: Math.round(3 + Math.random() * 12) }));
+const prodData = Array.from({ length: 10 }, (_, i) => ({ week: `W${i + 1}`, qty: Math.round(2000 + Math.random() * 6000), ccu: Math.round(65 + Math.random() * 30) }));
 const forecastCountries = ["DE", "FR", "IT", "ES", "NL", "PL"];
-const forecastData = forecastCountries.map(c => ({ country: c, mso: 80 + Math.random() * 15, mrdrMso: 75 + Math.random() * 20, mrdrSite: 70 + Math.random() * 25 }));
-const promoData = Array.from({ length: 6 }, (_, i) => ({ campaign: `PRO-${i + 1}`, volume: 5000 + Math.random() * 15000, uplift: 5 + Math.random() * 25 }));
+const forecastData = forecastCountries.map(c => ({ country: c, mso: Math.round(80 + Math.random() * 15), mrdrMso: Math.round(75 + Math.random() * 20), mrdrSite: Math.round(70 + Math.random() * 25) }));
+const promoData = Array.from({ length: 6 }, (_, i) => ({ campaign: `PRO-${i + 1}`, volume: Math.round(5000 + Math.random() * 15000), uplift: Math.round((5 + Math.random() * 25) * 10) / 10 }));
 
 const ctpWeeks = ["Past", "10/03", "10/04", "10/05", "10/06", "10/07", "10/08", "10/09", "WK-2", "WK-3", "WK-4", "WK-5", "WK-6", "WK-7", "WK-8"];
 const ctpMetrics = ["Planned Demand", "Total Supply", "Balance", "Replenishment Stock", "Max Stock", "Below RS QTY", "OOS QTY", "AboveMax QTY"];
@@ -38,7 +37,63 @@ const ctpData = ctpMetrics.map(metric => {
   ctpWeeks.forEach(w => { row[w] = Math.round(-500 + Math.random() * 5000); });
   return row;
 });
-const ctpChartData = ctpWeeks.map(w => ({ week: w, demand: 1000 + Math.random() * 3000, supply: 800 + Math.random() * 3500, balance: -200 + Math.random() * 2000 }));
+const ctpChartData = ctpWeeks.map(w => ({ week: w, demand: Math.round(1000 + Math.random() * 3000), supply: Math.round(800 + Math.random() * 3500), balance: Math.round(-200 + Math.random() * 2000) }));
+
+// Stock table data (15 rows, 20 columns)
+const stockTableHeaders = ["MRDR", "Description", "Site", "MSO", "DR% MSO", "DR% MRDR", "Alt MRDR", "Alt Stock", "Stock>0", "Cluster", "Unrestricted", "Restricted", "Blocked", "Quarantine", "PO Inbound", "PO Number", "PO Qty", "Shipment No", "Shipment Date", "Release Date"];
+const stockTableRows = Array.from({ length: 15 }, (_, i) => [
+  50001 + i, `Product ${i + 1}`, `C${400 + (i % 5) * 5}`, ["DE", "FR", "IT", "ES", "NL"][i % 5],
+  `${(85 + Math.random() * 10).toFixed(1)}%`, `${(80 + Math.random() * 15).toFixed(1)}%`,
+  50100 + i, Math.round(500 + Math.random() * 2000), Math.round(Math.random()) ? "Y" : "N",
+  ["A", "B", "C"][i % 3], Math.round(3000 + Math.random() * 5000), Math.round(200 + Math.random() * 1500),
+  Math.round(50 + Math.random() * 500), Math.round(10 + Math.random() * 200), Math.round(100 + Math.random() * 800),
+  `PO-${4000 + i}`, Math.round(200 + Math.random() * 1500), `SH-${2000 + i}`,
+  `2025-${String(3 + (i % 6)).padStart(2, "0")}-${String(10 + i).padStart(2, "0")}`,
+  `2025-${String(2 + (i % 6)).padStart(2, "0")}-${String(5 + i).padStart(2, "0")}`
+]);
+
+// DOH table (15 rows, 3 cols)
+const dohTableHeaders = ["Week", "DOH Days", "Quantity"];
+const dohTableRows = Array.from({ length: 15 }, (_, i) => [`W${i + 1}`, Math.round(5 + Math.random() * 25), Math.round(1000 + Math.random() * 5000)]);
+
+// DR table (15 rows, 4 cols)
+const drTableHeaders = ["Week", "DR%", "Projected Loss Units", "Variance %"];
+const drTableRows = Array.from({ length: 15 }, (_, i) => [`W${i + 1}`, `${(75 + Math.random() * 20).toFixed(1)}%`, Math.round(100 + Math.random() * 500), `${(-5 + Math.random() * 10).toFixed(1)}%`]);
+
+// STO table (15 rows, 5 cols)
+const stoTableHeaders = ["Shipment No", "Delivery Date", "Open PO No", "Open PO Date", "Open PO Qty"];
+const stoTableRows = Array.from({ length: 15 }, (_, i) => [`SH-${1000 + i}`, `2025-03-${String(10 + i).padStart(2, "0")}`, `PO-${3000 + i}`, `2025-02-${String(5 + i).padStart(2, "0")}`, Math.round(200 + Math.random() * 2000)]);
+
+// Production table (15 rows, 6 cols)
+const prodTableHeaders = ["Next Prod. Week", "Produced In", "Quantity", "CCU % Before Risk", "Transition Y/N", "New MRDR"];
+const factories = ["Hamburg Plant", "Lyon Factory", "Milan Works", "Barcelona Unit", "Rotterdam Facility"];
+const prodTableRows = Array.from({ length: 15 }, (_, i) => [`W${i + 1}`, factories[i % 5], Math.round(2000 + Math.random() * 6000), `${(65 + Math.random() * 30).toFixed(0)}%`, Math.random() > 0.5 ? "Y" : "N", 50100 + i]);
+
+// Forecast table (15 rows, 6 cols)
+const forecastTableHeaders = ["Country", "DR% MSO", "DR% MRDR MSO", "DR% MRDR Site", "4WL Forecast Bias", "1WL Forecast Bias"];
+const forecastTableRows = Array.from({ length: 15 }, (_, i) => {
+  const c = ["DE", "FR", "IT", "ES", "NL", "PL", "BE", "AT", "PT", "SE", "DK", "FI", "NO", "CH", "IE"][i];
+  return [c, `${(80 + Math.random() * 15).toFixed(1)}%`, `${(75 + Math.random() * 20).toFixed(1)}%`, `${(70 + Math.random() * 25).toFixed(1)}%`, `${(-8 + Math.random() * 16).toFixed(1)}%`, `${(-5 + Math.random() * 10).toFixed(1)}%`];
+});
+
+// Master Data table (15 rows, 17 cols)
+const masterTableHeaders = ["Material", "EAN", "Site", "Country", "Category", "Orig. Factory", "Type", "MSO", "UOM", "Small C", "Segment", "MRP", "Repack", "Pack Size", "Pack Family", "DRP Planner", "Master Scheduler"];
+const masterTableRows = Array.from({ length: 15 }, (_, i) => [
+  50001 + i, `11000000000${String(i + 1).padStart(2, "0")}`, `C${400 + (i % 5) * 5}`,
+  ["DE", "FR", "IT", "ES", "NL"][i % 5], ["Personal Care", "Home Care", "Foods", "Refreshment"][i % 4],
+  factories[i % 5], ["Standard", "Repack", "Component"][i % 3], `MSO-${["DE", "FR", "IT", "ES", "NL"][i % 5]}`,
+  "CS", `SC${String(i % 3 + 1).padStart(2, "0")}`, ["A", "B", "C", "D"][i % 4],
+  `MRP${String(i % 3 + 1).padStart(2, "0")}`, Math.random() > 0.5 ? "Y" : "N",
+  [6, 12, 24, 48][i % 4], `PF-${100 + i}`, `planner${(i % 3) + 1}@co.com`, `sched${(i % 2) + 1}@co.com`
+]);
+
+// Promo table (15 rows, 7 cols)
+const promoTableHeaders = ["Promo ID", "Start Week", "End Week", "Status", "Volume", "Uplift %", "Type"];
+const promoTypes = ["Display", "BOGO", "Discount", "Bundle", "Loyalty"];
+const promoTableRows = Array.from({ length: 15 }, (_, i) => [
+  `PRO-${1000 + i}`, `W${i + 1}`, `W${i + 3}`, i % 2 === 0 ? "Active" : "Planned",
+  Math.round(5000 + Math.random() * 15000), `${(5 + Math.random() * 25).toFixed(1)}%`, promoTypes[i % 5]
+]);
 
 interface Props { row: RiskRow; onClose: () => void; }
 
@@ -53,26 +108,26 @@ function SectionHeader({ icon: Icon, title }: { icon: React.ElementType; title: 
 
 function ChartCard({ children, title }: { children: React.ReactNode; title?: string }) {
   return (
-    <div className="section-card h-48 flex flex-col">
+    <div className="section-card h-48 flex flex-col overflow-hidden">
       {title && <span className="text-[10px] text-muted-foreground uppercase tracking-wider mb-1">{title}</span>}
-      <div className="flex-1">{children}</div>
+      <div className="flex-1 min-h-0">{children}</div>
     </div>
   );
 }
 
-function DataTable({ headers, rows }: { headers: string[]; rows: (string | number)[][] }) {
+function DataTable({ headers, rows, minWidth }: { headers: string[]; rows: (string | number)[][]; minWidth?: string }) {
   return (
-    <div className="overflow-x-auto mt-2">
-      <table className="w-full text-[11px]">
+    <div className="overflow-x-auto mt-3 border border-border/40 rounded-lg">
+      <table className="w-full text-[11px]" style={{ minWidth: minWidth || `${Math.max(headers.length * 110, 600)}px` }}>
         <thead>
           <tr className="bg-gradient-to-r from-secondary to-secondary/80">
-            {headers.map(h => <th key={h} className="px-2 py-1.5 text-left text-[10px] font-bold uppercase tracking-wider text-muted-foreground">{h}</th>)}
+            {headers.map(h => <th key={h} className="px-2 py-1.5 text-left text-[10px] font-bold uppercase tracking-wider text-muted-foreground whitespace-nowrap">{h}</th>)}
           </tr>
         </thead>
         <tbody>
-          {rows.slice(0, 8).map((r, i) => (
+          {rows.map((r, i) => (
             <tr key={i} className="border-b border-border/40 hover:bg-primary/[0.02]">
-              {r.map((c, j) => <td key={j} className="px-2 py-1.5 whitespace-nowrap">{typeof c === "number" ? c.toLocaleString() : c}</td>)}
+              {r.map((c, j) => <td key={j} className="px-2 py-1.5 whitespace-nowrap font-mono-tech">{typeof c === "number" ? c.toLocaleString() : c}</td>)}
             </tr>
           ))}
         </tbody>
@@ -93,18 +148,16 @@ export default function InsightsPanel({ row, onClose }: Props) {
 
   return (
     <div className="fixed inset-0 z-[100] flex">
-      {/* Backdrop */}
       <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
 
-      {/* Panel */}
-      <div className="ml-auto relative flex w-[95%] h-full bg-background shadow-2xl animate-slide-in-right">
+      <div className="ml-auto relative flex w-[95%] h-full bg-background shadow-2xl animate-slide-in-right overflow-hidden">
         {/* Left nav */}
-        <div className="w-56 bg-sidebar border-r border-sidebar-border flex flex-col shrink-0 overflow-y-auto">
-          <div className="p-4 border-b border-sidebar-border">
+        <div className="w-56 bg-sidebar border-r border-sidebar-border flex flex-col shrink-0">
+          <div className="p-4 border-b border-sidebar-border shrink-0">
             <p className="text-xs font-semibold text-sidebar-primary-foreground">Insights for Risk #{row.riskId}</p>
             <p className="text-[10px] text-sidebar-foreground mt-1 truncate">{row.mrdrDescription}</p>
           </div>
-          <nav className="p-2 space-y-0.5 flex-1">
+          <nav className="p-2 space-y-0.5 flex-1 overflow-y-auto">
             {sections.map(s => (
               <button
                 key={s.id}
@@ -121,8 +174,7 @@ export default function InsightsPanel({ row, onClose }: Props) {
         </div>
 
         {/* Content */}
-        <div className="flex-1 flex flex-col min-w-0">
-          {/* Header */}
+        <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
           <div className="h-12 flex items-center justify-between px-5 border-b border-border shrink-0 bg-card">
             <div>
               <span className="text-sm font-semibold text-foreground">Risk Insights Dashboard</span>
@@ -133,15 +185,14 @@ export default function InsightsPanel({ row, onClose }: Props) {
             </button>
           </div>
 
-          {/* Scrollable content */}
-          <div ref={contentRef} className="flex-1 overflow-y-auto p-5 space-y-8">
+          <div ref={contentRef} className="flex-1 overflow-y-auto overflow-x-hidden p-5 space-y-8">
             {/* Stock Info */}
             <div id="insight-stock">
               <SectionHeader icon={Package} title="Stock Info / Inventory" />
               <div className="grid grid-cols-2 gap-3">
                 <ChartCard title="Stock by Site">
                   <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={stockData}><CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" /><XAxis dataKey="site" tick={{ fontSize: 9 }} /><YAxis tick={{ fontSize: 9 }} /><Tooltip /><Bar dataKey="unrestricted" stackId="a" fill={COLORS[0]} /><Bar dataKey="restricted" stackId="a" fill={COLORS[1]} /><Bar dataKey="blocked" stackId="a" fill={COLORS[4]} /></BarChart>
+                    <BarChart data={stockBarData}><CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" /><XAxis dataKey="site" tick={{ fontSize: 9 }} /><YAxis tick={{ fontSize: 9 }} /><Tooltip /><Bar dataKey="unrestricted" stackId="a" fill={COLORS[0]} /><Bar dataKey="restricted" stackId="a" fill={COLORS[1]} /><Bar dataKey="blocked" stackId="a" fill={COLORS[4]} /></BarChart>
                   </ResponsiveContainer>
                 </ChartCard>
                 <ChartCard title="Stock Distribution">
@@ -150,6 +201,7 @@ export default function InsightsPanel({ row, onClose }: Props) {
                   </ResponsiveContainer>
                 </ChartCard>
               </div>
+              <DataTable headers={stockTableHeaders} rows={stockTableRows} minWidth="2200px" />
             </div>
 
             {/* DOH */}
@@ -167,6 +219,7 @@ export default function InsightsPanel({ row, onClose }: Props) {
                   </ResponsiveContainer>
                 </ChartCard>
               </div>
+              <DataTable headers={dohTableHeaders} rows={dohTableRows} />
             </div>
 
             {/* DR% */}
@@ -184,6 +237,7 @@ export default function InsightsPanel({ row, onClose }: Props) {
                   </ResponsiveContainer>
                 </ChartCard>
               </div>
+              <DataTable headers={drTableHeaders} rows={drTableRows} />
             </div>
 
             {/* STO */}
@@ -192,15 +246,16 @@ export default function InsightsPanel({ row, onClose }: Props) {
               <div className="grid grid-cols-2 gap-3">
                 <ChartCard title="Open PO Qty">
                   <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={stoData}><CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" /><XAxis dataKey="id" tick={{ fontSize: 9 }} /><YAxis tick={{ fontSize: 9 }} /><Tooltip /><Bar dataKey="qty" fill={COLORS[2]} /></BarChart>
+                    <BarChart data={stoBarData}><CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" /><XAxis dataKey="id" tick={{ fontSize: 9 }} /><YAxis tick={{ fontSize: 9 }} /><Tooltip /><Bar dataKey="qty" fill={COLORS[2]} /></BarChart>
                   </ResponsiveContainer>
                 </ChartCard>
                 <ChartCard title="Qty vs Lead Time">
                   <ResponsiveContainer width="100%" height="100%">
-                    <ScatterChart><CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" /><XAxis dataKey="leadTime" name="Lead Time" tick={{ fontSize: 9 }} /><YAxis dataKey="qty" name="Qty" tick={{ fontSize: 9 }} /><Tooltip /><Scatter data={stoData} fill={COLORS[5]} /></ScatterChart>
+                    <ScatterChart><CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" /><XAxis dataKey="leadTime" name="Lead Time" tick={{ fontSize: 9 }} /><YAxis dataKey="qty" name="Qty" tick={{ fontSize: 9 }} /><Tooltip /><Scatter data={stoBarData} fill={COLORS[5]} /></ScatterChart>
                   </ResponsiveContainer>
                 </ChartCard>
               </div>
+              <DataTable headers={stoTableHeaders} rows={stoTableRows} />
             </div>
 
             {/* Production */}
@@ -218,6 +273,7 @@ export default function InsightsPanel({ row, onClose }: Props) {
                   </ResponsiveContainer>
                 </ChartCard>
               </div>
+              <DataTable headers={prodTableHeaders} rows={prodTableRows} />
             </div>
 
             {/* Forecast */}
@@ -235,19 +291,25 @@ export default function InsightsPanel({ row, onClose }: Props) {
                   </ResponsiveContainer>
                 </ChartCard>
               </div>
+              <DataTable headers={forecastTableHeaders} rows={forecastTableRows} />
             </div>
 
             {/* Master Data */}
             <div id="insight-master">
               <SectionHeader icon={Database} title="Master Data" />
-              <DataTable
-                headers={["Material", "EAN", "Site", "Country", "Category", "Type", "Segment"]}
-                rows={[
-                  [row.mrdr, row.gtin, row.site, row.msoCountry, row.category, row.typeCode, row.segmentation],
-                  [50013, 1100000000013, "C402", "DE", "Home Care", "Repack", "B"],
-                  [50014, 1100000000014, "C405", "IT", "Foods", "Standard", "A"],
-                ]}
-              />
+              <div className="grid grid-cols-2 gap-3">
+                <ChartCard title="Type of Code">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart><Pie data={[{ name: "Repack", value: 5 }, { name: "Standard", value: 7 }, { name: "Component", value: 3 }]} cx="50%" cy="50%" innerRadius={20} outerRadius={40} dataKey="value" label={{ fontSize: 9 }}>{[COLORS[0], COLORS[2], COLORS[3]].map((c, i) => <Cell key={i} fill={c} />)}</Pie><Tooltip /><Legend wrapperStyle={{ fontSize: 9 }} /></PieChart>
+                  </ResponsiveContainer>
+                </ChartCard>
+                <ChartCard title="Segment Distribution">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={[{ seg: "A", count: 5 }, { seg: "B", count: 4 }, { seg: "C", count: 3 }, { seg: "D", count: 3 }]}><CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" /><XAxis dataKey="seg" tick={{ fontSize: 9 }} /><YAxis tick={{ fontSize: 9 }} /><Tooltip /><Bar dataKey="count" fill={COLORS[0]} /></BarChart>
+                  </ResponsiveContainer>
+                </ChartCard>
+              </div>
+              <DataTable headers={masterTableHeaders} rows={masterTableRows} minWidth="1900px" />
             </div>
 
             {/* Promo */}
@@ -265,6 +327,7 @@ export default function InsightsPanel({ row, onClose }: Props) {
                   </ResponsiveContainer>
                 </ChartCard>
               </div>
+              <DataTable headers={promoTableHeaders} rows={promoTableRows} />
             </div>
 
             {/* Exception CTP */}
@@ -282,19 +345,18 @@ export default function InsightsPanel({ row, onClose }: Props) {
                   </ResponsiveContainer>
                 </ChartCard>
               </div>
-              {/* CTP Matrix */}
-              <div className="overflow-x-auto">
+              <div className="overflow-x-auto border border-border/40 rounded-lg">
                 <table className="w-full text-[11px]" style={{ minWidth: "1200px" }}>
                   <thead>
                     <tr className="bg-gradient-to-r from-secondary to-secondary/80">
                       <th className="sticky left-0 z-10 bg-secondary px-2 py-1.5 text-left text-[10px] font-bold uppercase tracking-wider text-muted-foreground w-36">Metric</th>
-                      {ctpWeeks.map(w => <th key={w} className="px-2 py-1.5 text-center text-[10px] font-bold uppercase tracking-wider text-muted-foreground">{w}</th>)}
+                      {ctpWeeks.map(w => <th key={w} className="px-2 py-1.5 text-center text-[10px] font-bold uppercase tracking-wider text-muted-foreground whitespace-nowrap">{w}</th>)}
                     </tr>
                   </thead>
                   <tbody>
                     {ctpData.map((r, i) => (
                       <tr key={i} className={`border-b border-border/40 ${r.metric === "Balance" ? "bg-medium/5" : "hover:bg-primary/[0.02]"}`}>
-                        <td className="sticky left-0 z-10 bg-card px-2 py-1.5 font-medium">{r.metric}</td>
+                        <td className="sticky left-0 z-10 bg-card px-2 py-1.5 font-medium whitespace-nowrap">{r.metric}</td>
                         {ctpWeeks.map(w => <td key={w} className="px-2 py-1.5 text-center font-mono-tech">{r[w]?.toLocaleString()}</td>)}
                       </tr>
                     ))}
