@@ -53,7 +53,7 @@ const allFilterKeys = [
   { key: "status", label: "Status" },
   { key: "country", label: "Country" },
   { key: "assignedTo", label: "Assigned To" },
-  { key: "lossRange", label: "Expected Loss Value" },
+  { key: "lossRange", label: "Expected Loss Cases" },
   { key: "search", label: "Search" },
 ] as const;
 
