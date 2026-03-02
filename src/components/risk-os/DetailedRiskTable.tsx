@@ -206,7 +206,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
                 {mrdrAggColumns.map(col => (
                   <th
                     key={col.key}
-                    className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground px-3 py-3 cursor-pointer hover:text-foreground select-none border-b border-border"
+                    className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground px-3 py-3 cursor-pointer hover:text-foreground select-none border-b border-border bg-secondary"
                     style={{ width: col.width, ...frozenHeaderStyle(col.key) }}
                     onClick={() => col.key !== "insights" && toggleSort(col.key)}
                   >
