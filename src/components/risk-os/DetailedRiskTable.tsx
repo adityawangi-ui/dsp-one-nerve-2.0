@@ -218,7 +218,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
                 const expanded = expandedMrdrs.has(agg.mrdr);
                 const childRows = data.filter(r => r.mrdr === agg.mrdr);
                 const hasMultiple = agg.lineCount > 1;
-                const rowBg = agg.isNew ? "bg-destructive/[0.05]" : "bg-card";
+                
                 return (
                   <>
                     <tr key={agg.mrdr} className={`border-b border-border/50 hover:bg-primary/[0.04] transition-colors ${agg.isNew ? "bg-destructive/[0.05]" : ""}`}>
