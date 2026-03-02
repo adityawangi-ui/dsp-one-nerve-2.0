@@ -147,51 +147,66 @@ export function aggregateByGtin(rows: RiskRow[]): GtinRow[] {
 
 // MRDR aggregated view
 export interface MrdrAggRow {
+  riskId: number;
   mrdr: number;
   mrdrDescription: string;
-  gtin: number;
   msoCountry: string;
   site: string;
+  su: string;
   riskType: string;
   severity: string;
   priority: string;
+  riskHorizon: string;
   segmentation: string;
-  category: string;
-  uom: string;
-  startedOnWeek: string; // earliest
-  riskInDays: number; // sum
-  stockCS: number; // sum
-  expectedLossCases: number; // sum
-  expectedLossValue: number; // sum
-  botReasonCode: string; // from earliest
-  plannerReasonCode: string; // from earliest
+  startedOnWeek: string;
+  endedOnWeek: string;
+  riskInDays: number;
+  stockCS: number;
+  expectedLossCases: number;
+  expectedLossValue: number;
+  nextAvailableDate: string;
+  botReasonCode: string;
+  plannerReasonCode: string;
+  comments: string;
   assignedTo: string;
+  promoFlag: string;
+  typeCode: string;
+  repackDependency: string;
+  category: string;
+  gtin: number;
   status: string;
   lineCount: number;
   isNew: boolean;
 }
 
 export const mrdrAggColumns: ColumnDef[] = [
+  { key: "riskId", label: "Risk ID", width: 90 },
   { key: "mrdr", label: "MRDR", width: 120 },
-  { key: "mrdrDescription", label: "MRDR Description", width: 200 },
-  { key: "gtin", label: "GTIN", width: 130 },
-  { key: "msoCountry", label: "MSO Country", width: 90 },
+  { key: "mrdrDescription", label: "MRDR GTIN Description", width: 220 },
+  { key: "msoCountry", label: "MSO Country", width: 100 },
   { key: "site", label: "Site", width: 70 },
+  { key: "su", label: "SU", width: 100 },
   { key: "riskType", label: "Risk Type", width: 110 },
   { key: "severity", label: "Severity", width: 80 },
   { key: "priority", label: "Priority", width: 80 },
-  { key: "status", label: "Status", width: 80 },
-  { key: "uom", label: "UOM", width: 60 },
+  { key: "riskHorizon", label: "Risk Horizon", width: 100 },
   { key: "segmentation", label: "Segmentation", width: 100 },
-  { key: "category", label: "Category", width: 120 },
   { key: "startedOnWeek", label: "Started On Week", width: 120 },
-  { key: "riskInDays", label: "Risk in Days", width: 90 },
-  { key: "stockCS", label: "Stock CS", width: 80 },
-  { key: "expectedLossCases", label: "Expected Loss Cases", width: 130 },
-  { key: "expectedLossValue", label: "Expected Loss Value ($)", width: 140 },
-  { key: "botReasonCode", label: "Bot Reason Code", width: 110 },
-  { key: "plannerReasonCode", label: "Planner Reason Code", width: 130 },
+  { key: "endedOnWeek", label: "Ended On Week", width: 120 },
+  { key: "riskInDays", label: "Risk in Days", width: 100 },
+  { key: "stockCS", label: "Stock CS", width: 90 },
+  { key: "expectedLossCases", label: "Expected Loss Cases", width: 140 },
+  { key: "expectedLossValue", label: "Expected Loss Value ($)", width: 150 },
+  { key: "nextAvailableDate", label: "Next Available Date", width: 140 },
+  { key: "botReasonCode", label: "Bot Reason Code", width: 120 },
+  { key: "plannerReasonCode", label: "Planner Reason Code", width: 140 },
+  { key: "comments", label: "Comments", width: 160 },
   { key: "assignedTo", label: "Assigned To", width: 160 },
+  { key: "insights", label: "Insights", width: 90 },
+  { key: "promoFlag", label: "Promo Flag", width: 90 },
+  { key: "typeCode", label: "Type Code", width: 100 },
+  { key: "repackDependency", label: "Repack Dependency", width: 130 },
+  { key: "category", label: "Category", width: 120 },
 ];
 
 export function aggregateByMrdr(rows: RiskRow[]): MrdrAggRow[] {
@@ -205,25 +220,33 @@ export function aggregateByMrdr(rows: RiskRow[]): MrdrAggRow[] {
     const sorted = [...items].sort((a, b) => a.startedOnWeek.localeCompare(b.startedOnWeek));
     const earliest = sorted[0];
     return {
+      riskId: earliest.riskId,
       mrdr,
       mrdrDescription: earliest.mrdrDescription,
       gtin: earliest.gtin,
       msoCountry: earliest.msoCountry,
       site: earliest.site,
+      su: earliest.su,
       riskType: earliest.riskType,
       severity: items.reduce((min, r) => (r.severity < min ? r.severity : min), items[0].severity),
       priority: items.reduce((min, r) => (r.priority < min ? r.priority : min), items[0].priority),
+      riskHorizon: earliest.riskHorizon,
       segmentation: earliest.segmentation,
-      category: earliest.category,
-      uom: earliest.uom,
       startedOnWeek: earliest.startedOnWeek,
+      endedOnWeek: earliest.endedOnWeek,
       riskInDays: items.reduce((s, r) => s + r.riskInDays, 0),
       stockCS: items.reduce((s, r) => s + r.stockCS, 0),
       expectedLossCases: items.reduce((s, r) => s + r.expectedLossCases, 0),
       expectedLossValue: items.reduce((s, r) => s + r.expectedLossValue, 0),
+      nextAvailableDate: earliest.nextAvailableDate,
       botReasonCode: earliest.botReasonCode,
       plannerReasonCode: earliest.plannerReasonCode,
+      comments: earliest.comments,
       assignedTo: earliest.assignedTo,
+      promoFlag: earliest.promoFlag,
+      typeCode: earliest.typeCode,
+      repackDependency: earliest.repackDependency,
+      category: earliest.category,
       status: items.some(i => i.status === "Open") ? "Open" : "Closed",
       lineCount: items.length,
       isNew: items.some(i => i.isNew),
