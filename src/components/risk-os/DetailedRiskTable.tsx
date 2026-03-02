@@ -199,9 +199,9 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
       {/* MRDR View */}
       {view === "mrdr" && (
         <div className="overflow-x-auto overflow-y-auto max-h-[60vh] rounded-lg border border-border">
-          <table className="w-full border-collapse text-left" style={{ minWidth: "2800px" }}>
-            <thead className="sticky top-0 z-30">
-              <tr>
+          <table className="w-full text-left" style={{ minWidth: "2800px", borderSpacing: 0 }}>
+            <thead className="sticky top-0 z-30" style={{ backgroundColor: "hsl(var(--secondary))" }}>
+              <tr style={{ backgroundColor: "hsl(var(--secondary))" }}>
                 {shareMode && <th className="bg-secondary w-10 px-2 sticky left-0 z-40 border-b border-border" />}
                 {mrdrAggColumns.map(col => (
                   <th
