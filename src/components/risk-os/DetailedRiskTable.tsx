@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { RiskRow, allColumns, frozenColumns, gtinColumns, aggregateByGtin, aggregateByMrdr, mrdrAggColumns, reasonCodes, getSeverityColor, filterOptions } from "@/data/riskData";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Checkbox } from "@/components/ui/checkbox";
-import { LayoutList, Download, Share2, Plus, Eye, ChevronRight, ChevronDown, ChevronUp, Columns3, Send, AlertTriangle } from "lucide-react";
+import { LayoutList, Download, Share2, Plus, Eye, ChevronRight, ChevronDown, ChevronUp, Columns3, Send } from "lucide-react";
 import { toast } from "sonner";
 
 interface Props {
@@ -90,11 +90,18 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
       minWidth: MRDR_FROZEN_WIDTHS[key],
       maxWidth: MRDR_FROZEN_WIDTHS[key],
       boxShadow: isLastFrozen(key) ? "2px 0 4px rgba(0,0,0,0.06)" : undefined,
+      backgroundColor: "hsl(var(--secondary))",
     };
   };
 
-  const frozenCellStyle = (key: string): React.CSSProperties => {
+  const frozenCellStyle = (key: string, variant: "normal" | "new" | "child" | "childNew" = "normal"): React.CSSProperties => {
     if (!MRDR_FROZEN_KEYS.includes(key)) return {};
+    const bgMap = {
+      normal: "hsl(var(--card))",
+      new: "hsl(0 84% 60% / 0.08)",
+      child: "hsl(var(--muted))",
+      childNew: "hsl(0 84% 60% / 0.1)",
+    };
     return {
       position: "sticky",
       left: getFrozenLeft(key),
@@ -103,14 +110,12 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
       minWidth: MRDR_FROZEN_WIDTHS[key],
       maxWidth: MRDR_FROZEN_WIDTHS[key],
       boxShadow: isLastFrozen(key) ? "2px 0 4px rgba(0,0,0,0.06)" : undefined,
+      backgroundColor: bgMap[variant],
     };
   };
 
-  const NewBadgeInline = () => (
-    <span className="inline-flex items-center gap-0.5 ml-1.5 px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-destructive text-destructive-foreground shadow-sm animate-pulse">
-      <AlertTriangle className="h-2.5 w-2.5" />
-      NEW
-    </span>
+  const NewBadge = () => (
+    <Badge variant="outline" className="ml-1.5 text-[9px] font-bold uppercase bg-destructive/10 text-destructive border-destructive/30">NEW</Badge>
   );
 
   const cellCls = "text-[11px] whitespace-nowrap px-3 py-2.5";
@@ -219,9 +224,9 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
                 const expanded = expandedMrdrs.has(agg.mrdr);
                 const childRows = data.filter(r => r.mrdr === agg.mrdr);
                 const hasMultiple = agg.lineCount > 1;
-                const rowBg = agg.isNew ? "bg-destructive/[0.05]" : "bg-card";
+                
                 return (
-                  <>
+                  <React.Fragment key={agg.mrdr}>
                     <tr key={agg.mrdr} className={`border-b border-border/50 hover:bg-primary/[0.04] transition-colors ${agg.isNew ? "bg-destructive/[0.05]" : ""}`}>
                       {shareMode && (
                         <td className="px-2 sticky left-0 z-10 bg-card border-b border-border/50">
@@ -232,7 +237,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
                           }} />
                         </td>
                       )}
-                      <td className={`${cellCls} ${rowBg}`} style={frozenCellStyle("mrdr")}>
+                      <td className={cellCls} style={frozenCellStyle("mrdr", agg.isNew ? "new" : "normal")}>
                         <button
                           onClick={() => { if (hasMultiple) { const n = new Set(expandedMrdrs); if (expanded) n.delete(agg.mrdr); else n.add(agg.mrdr); setExpandedMrdrs(n); } }}
                           className={`flex items-center gap-1 font-mono ${hasMultiple ? "text-primary font-semibold hover:underline cursor-pointer" : "text-foreground cursor-default"}`}
@@ -241,10 +246,10 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
                           {agg.mrdr}
                           {hasMultiple && <span className="text-[9px] text-muted-foreground ml-0.5">({agg.lineCount})</span>}
                         </button>
-                        {agg.isNew && <NewBadgeInline />}
+                        {agg.isNew && <NewBadge />}
                       </td>
-                      <td className={`${cellCls} ${rowBg}`} style={frozenCellStyle("mrdrDescription")}>{agg.mrdrDescription}</td>
-                      <td className={`${cellCls} font-mono ${rowBg}`} style={frozenCellStyle("gtin")}>{agg.gtin}</td>
+                      <td className={cellCls} style={frozenCellStyle("mrdrDescription", agg.isNew ? "new" : "normal")}>{agg.mrdrDescription}</td>
+                      <td className={`${cellCls} font-mono`} style={frozenCellStyle("gtin", agg.isNew ? "new" : "normal")}>{agg.gtin}</td>
                       <td className={cellCls}>{agg.msoCountry}</td>
                       <td className={cellCls}>{agg.site}</td>
                       <td className={cellCls}><Badge variant="outline" className={`text-[10px] ${agg.riskType === "Out Of Stock" ? "bg-critical-bg text-critical border-critical-border" : "bg-medium-bg text-medium border-medium-border"}`}>{agg.riskType}</Badge></td>
@@ -273,12 +278,12 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
                       return (
                         <tr key={cr.riskId} className={`border-b border-border/30 ${childBg}`}>
                           {shareMode && <td className="sticky left-0 z-10" />}
-                          <td className={`${childCellCls} pl-8 font-mono ${childBg}`} style={frozenCellStyle("mrdr")}>
+                          <td className={`${childCellCls} pl-8 font-mono`} style={frozenCellStyle("mrdr", cr.isNew ? "childNew" : "child")}>
                             <span className="text-muted-foreground">↳</span> RID-{cr.riskId}
-                            {cr.isNew && <NewBadgeInline />}
+                            {cr.isNew && <NewBadge />}
                           </td>
-                          <td className={`${childCellCls} ${childBg}`} style={frozenCellStyle("mrdrDescription")}>{cr.mrdrDescription}</td>
-                          <td className={`${childCellCls} font-mono ${childBg}`} style={frozenCellStyle("gtin")}>{cr.gtin}</td>
+                          <td className={childCellCls} style={frozenCellStyle("mrdrDescription", cr.isNew ? "childNew" : "child")}>{cr.mrdrDescription}</td>
+                          <td className={`${childCellCls} font-mono`} style={frozenCellStyle("gtin", cr.isNew ? "childNew" : "child")}>{cr.gtin}</td>
                           <td className={childCellCls}>{cr.msoCountry}</td>
                           <td className={childCellCls}>{cr.site}</td>
                           <td className={childCellCls}><Badge variant="outline" className={`text-[10px] ${cr.riskType === "Out Of Stock" ? "bg-critical-bg text-critical border-critical-border" : "bg-medium-bg text-medium border-medium-border"}`}>{cr.riskType}</Badge></td>
@@ -312,7 +317,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
                         </tr>
                       );
                     })}
-                  </>
+                  </React.Fragment>
                 );
               })}
             </tbody>
@@ -337,7 +342,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
                 const expanded = expandedGtins.has(grow.gtin);
                 const childRows = data.filter(r => r.gtin === grow.gtin);
                 return (
-                  <>
+                  <React.Fragment key={grow.gtin}>
                     <tr key={grow.gtin} className="border-b border-border/50 hover:bg-primary/[0.04]">
                       {shareMode && (
                         <td className="px-2">
@@ -370,7 +375,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
                         {shareMode && <td />}
                         <td className={`${childCellCls} pl-8 font-mono`}>
                           {cr.gtin}
-                          {cr.isNew && <NewBadgeInline />}
+                          {cr.isNew && <NewBadge />}
                         </td>
                         <td className={`${childCellCls} font-mono`}>{cr.mrdr}</td>
                         <td className={childCellCls}>{cr.msoCountry}</td>
@@ -384,7 +389,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
                         <td className={`${childCellCls} font-mono`}>${cr.expectedLossValue.toLocaleString()}</td>
                       </tr>
                     ))}
-                  </>
+                  </React.Fragment>
                 );
               })}
             </tbody>
