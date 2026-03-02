@@ -93,7 +93,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
     };
   };
 
-  const frozenCellStyle = (key: string): React.CSSProperties => {
+  const frozenCellStyle = (key: string, isNewRow: boolean = false): React.CSSProperties => {
     if (!MRDR_FROZEN_KEYS.includes(key)) return {};
     return {
       position: "sticky",
@@ -103,6 +103,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
       minWidth: MRDR_FROZEN_WIDTHS[key],
       maxWidth: MRDR_FROZEN_WIDTHS[key],
       boxShadow: isLastFrozen(key) ? "2px 0 4px rgba(0,0,0,0.06)" : undefined,
+      backgroundColor: isNewRow ? "hsl(var(--destructive) / 0.08)" : "hsl(var(--card))",
     };
   };
 
