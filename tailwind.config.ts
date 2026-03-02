@@ -21,6 +21,7 @@ export default {
 			fontFamily: {
 				inter: ['Inter', 'sans-serif'],
 				sans: ['Inter', 'sans-serif'],
+				mono: ['JetBrains Mono', 'monospace'],
 				playfair: ['Playfair Display', 'serif'],
 			},
 			colors: {
@@ -33,7 +34,8 @@ export default {
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))',
-					muted: 'hsl(var(--primary-muted))'
+					muted: 'hsl(var(--primary-muted))',
+					glow: 'hsl(var(--primary-glow))'
 				},
 				success: {
 					DEFAULT: 'hsl(var(--success))',
@@ -47,6 +49,36 @@ export default {
 					process: 'hsl(var(--agent-process))',
 					utility: 'hsl(var(--agent-utility))',
 					foundation: 'hsl(var(--agent-foundation))'
+				},
+				critical: {
+					DEFAULT: 'hsl(var(--critical))',
+					bg: 'hsl(var(--critical-bg))',
+					border: 'hsl(var(--critical-border))'
+				},
+				medium: {
+					DEFAULT: 'hsl(var(--medium))',
+					bg: 'hsl(var(--medium-bg))',
+					border: 'hsl(var(--medium-border))'
+				},
+				low: {
+					DEFAULT: 'hsl(var(--low))',
+					bg: 'hsl(var(--low-bg))',
+					border: 'hsl(var(--low-border))'
+				},
+				info: {
+					DEFAULT: 'hsl(var(--info))',
+					bg: 'hsl(var(--info-bg))',
+					border: 'hsl(var(--info-border))'
+				},
+				'new-sev': {
+					DEFAULT: 'hsl(var(--new))',
+					bg: 'hsl(var(--new-bg))',
+					border: 'hsl(var(--new-border))'
+				},
+				assigned: {
+					DEFAULT: 'hsl(var(--assigned))',
+					bg: 'hsl(var(--assigned-bg))',
+					border: 'hsl(var(--assigned-border))'
 				},
 				secondary: {
 					DEFAULT: 'hsl(var(--secondary))',
