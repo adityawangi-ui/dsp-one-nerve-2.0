@@ -230,7 +230,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
                           }} />
                         </td>
                       )}
-                      <td className={`${cellCls} ${rowBg}`} style={frozenCellStyle("mrdr")}>
+                      <td className={cellCls} style={frozenCellStyle("mrdr", agg.isNew)}>
                         <button
                           onClick={() => { if (hasMultiple) { const n = new Set(expandedMrdrs); if (expanded) n.delete(agg.mrdr); else n.add(agg.mrdr); setExpandedMrdrs(n); } }}
                           className={`flex items-center gap-1 font-mono ${hasMultiple ? "text-primary font-semibold hover:underline cursor-pointer" : "text-foreground cursor-default"}`}
@@ -241,8 +241,8 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
                         </button>
                         {agg.isNew && <NewBadge />}
                       </td>
-                      <td className={`${cellCls} ${rowBg}`} style={frozenCellStyle("mrdrDescription")}>{agg.mrdrDescription}</td>
-                      <td className={`${cellCls} font-mono ${rowBg}`} style={frozenCellStyle("gtin")}>{agg.gtin}</td>
+                      <td className={cellCls} style={frozenCellStyle("mrdrDescription", agg.isNew)}>{agg.mrdrDescription}</td>
+                      <td className={`${cellCls} font-mono`} style={frozenCellStyle("gtin", agg.isNew)}>{agg.gtin}</td>
                       <td className={cellCls}>{agg.msoCountry}</td>
                       <td className={cellCls}>{agg.site}</td>
                       <td className={cellCls}><Badge variant="outline" className={`text-[10px] ${agg.riskType === "Out Of Stock" ? "bg-critical-bg text-critical border-critical-border" : "bg-medium-bg text-medium border-medium-border"}`}>{agg.riskType}</Badge></td>
@@ -271,12 +271,12 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
                       return (
                         <tr key={cr.riskId} className={`border-b border-border/30 ${childBg}`}>
                           {shareMode && <td className="sticky left-0 z-10" />}
-                          <td className={`${childCellCls} pl-8 font-mono ${childBg}`} style={frozenCellStyle("mrdr")}>
+                          <td className={`${childCellCls} pl-8 font-mono`} style={frozenCellStyle("mrdr", cr.isNew)}>
                             <span className="text-muted-foreground">↳</span> RID-{cr.riskId}
                             {cr.isNew && <NewBadge />}
                           </td>
-                          <td className={`${childCellCls} ${childBg}`} style={frozenCellStyle("mrdrDescription")}>{cr.mrdrDescription}</td>
-                          <td className={`${childCellCls} font-mono ${childBg}`} style={frozenCellStyle("gtin")}>{cr.gtin}</td>
+                          <td className={childCellCls} style={frozenCellStyle("mrdrDescription", cr.isNew)}>{cr.mrdrDescription}</td>
+                          <td className={`${childCellCls} font-mono`} style={frozenCellStyle("gtin", cr.isNew)}>{cr.gtin}</td>
                           <td className={childCellCls}>{cr.msoCountry}</td>
                           <td className={childCellCls}>{cr.site}</td>
                           <td className={childCellCls}><Badge variant="outline" className={`text-[10px] ${cr.riskType === "Out Of Stock" ? "bg-critical-bg text-critical border-critical-border" : "bg-medium-bg text-medium border-medium-border"}`}>{cr.riskType}</Badge></td>
