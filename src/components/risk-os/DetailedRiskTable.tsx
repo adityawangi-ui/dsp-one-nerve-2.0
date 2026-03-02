@@ -226,7 +226,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
                 const hasMultiple = agg.lineCount > 1;
                 
                 return (
-                  <>
+                  <React.Fragment key={agg.mrdr}>
                     <tr key={agg.mrdr} className={`border-b border-border/50 hover:bg-primary/[0.04] transition-colors ${agg.isNew ? "bg-destructive/[0.05]" : ""}`}>
                       {shareMode && (
                         <td className="px-2 sticky left-0 z-10 bg-card border-b border-border/50">
