@@ -1,7 +1,7 @@
 import { useState, useRef, useMemo } from "react";
 import { RiskRow, riskData } from "@/data/riskData";
 import { X, Package, Calendar, TrendingDown, Truck, Factory, BarChart3, Database, Table2, ToggleLeft } from "lucide-react";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, LineChart, Line, Legend, AreaChart, Area, ReferenceLine, PieChart, Pie, Cell } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, Tooltip as RechartsTooltip, LineChart, Line, Legend, AreaChart, Area, ReferenceLine, PieChart, Pie, Cell } from "recharts";
 import { Badge } from "@/components/ui/badge";
 
 const COLORS = [
@@ -126,10 +126,10 @@ export default function InsightsPanel({ row, onClose }: Props) {
   
   // Stock type breakdown pie data
   const stockBreakdown = [
-    { name: "Unrestricted", value: 45200, fill: COLORS[0] },
-    { name: "Restricted", value: 8700, fill: COLORS[1] },
-    { name: "Blocked", value: 3200, fill: COLORS[4] },
-    { name: "Quarantine", value: 1500, fill: COLORS[3] },
+    { name: "Unrestricted", value: 77, fill: "#38bdf8" },
+    { name: "Restricted", value: 15, fill: "#7dd3fc" },
+    { name: "Blocked", value: 5, fill: "#ef4444" },
+    { name: "Quarantine", value: 3, fill: "#f59e0b" },
   ];
   const stockBarData = stockBreakdown.map(s => ({ type: s.name, qty: s.value }));
 
@@ -283,16 +283,55 @@ export default function InsightsPanel({ row, onClose }: Props) {
             {/* 2. Stock Info / Inventory */}
             <div id="insight-stock">
               <SectionHeader icon={Package} title="Stock Info / Inventory" />
-              <ChartCard title="Stock Type Breakdown">
+              <ChartCard title="Stock Type Breakdown" className="h-80">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
-                    <Pie data={stockBreakdown} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={70} label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`} labelLine={true} fontSize={9}>
+                    <Pie
+                      data={stockBreakdown}
+                      dataKey="value"
+                      nameKey="name"
+                      cx="50%"
+                      cy="45%"
+                      outerRadius={110}
+                      innerRadius={0}
+                      label={({ name, value, cx: pcx, cy: pcy, midAngle, outerRadius: or }) => {
+                        const RADIAN = Math.PI / 180;
+                        const radius = (or as number) + 28;
+                        const x = (pcx as number) + radius * Math.cos(-midAngle * RADIAN);
+                        const y = (pcy as number) + radius * Math.sin(-midAngle * RADIAN);
+                        return (
+                          <text x={x} y={y} textAnchor={x > (pcx as number) ? "start" : "end"} dominantBaseline="central" fontSize={11} fontWeight={600} fill="hsl(var(--foreground))">
+                            {name} {value}%
+                          </text>
+                        );
+                      }}
+                      labelLine={{ stroke: "hsl(var(--muted-foreground))", strokeWidth: 1 }}
+                      strokeWidth={1}
+                      stroke="hsl(var(--background))"
+                    >
                       {stockBreakdown.map((entry, i) => (
                         <Cell key={i} fill={entry.fill} />
                       ))}
                     </Pie>
-                    <Tooltip />
-                    <Legend wrapperStyle={{ fontSize: 9 }} />
+                    <RechartsTooltip
+                      content={({ active, payload }) => {
+                        if (!active || !payload?.length) return null;
+                        const d = payload[0];
+                        return (
+                          <div className="bg-card border border-border rounded-lg shadow-lg px-3 py-2 text-xs">
+                            <span className="font-semibold text-foreground">{d.name}</span>
+                            <span className="text-muted-foreground ml-2">{d.value}%</span>
+                          </div>
+                        );
+                      }}
+                    />
+                    <Legend
+                      verticalAlign="bottom"
+                      iconType="circle"
+                      iconSize={8}
+                      wrapperStyle={{ fontSize: 11, paddingTop: 12 }}
+                      formatter={(value: string) => <span className="text-foreground ml-1">{value}</span>}
+                    />
                   </PieChart>
                 </ResponsiveContainer>
               </ChartCard>
