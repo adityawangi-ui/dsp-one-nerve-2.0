@@ -199,14 +199,14 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
       {/* MRDR View */}
       {view === "mrdr" && (
         <div className="overflow-x-auto overflow-y-auto max-h-[60vh] rounded-lg border border-border">
-          <table className="w-full border-collapse text-left" style={{ minWidth: "2800px" }}>
-            <thead className="sticky top-0 z-30">
-              <tr>
+          <table className="w-full text-left" style={{ minWidth: "2800px", borderSpacing: 0 }}>
+            <thead className="sticky top-0 z-30" style={{ backgroundColor: "hsl(var(--secondary))", boxShadow: "0 2px 0 hsl(var(--border))" }}>
+              <tr style={{ backgroundColor: "hsl(var(--secondary))" }}>
                 {shareMode && <th className="bg-secondary w-10 px-2 sticky left-0 z-40 border-b border-border" />}
                 {mrdrAggColumns.map(col => (
                   <th
                     key={col.key}
-                    className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground px-3 py-3 cursor-pointer hover:text-foreground select-none border-b border-border"
+                    className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground px-3 py-3 cursor-pointer hover:text-foreground select-none border-b border-border bg-secondary"
                     style={{ width: col.width, ...frozenHeaderStyle(col.key) }}
                     onClick={() => col.key !== "insights" && toggleSort(col.key)}
                   >
