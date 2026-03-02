@@ -8,7 +8,7 @@ import {
   Menu,
   ChevronLeft,
   ChevronRight,
-  ShieldAlert
+  
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
@@ -50,12 +50,6 @@ const mainNavItems: SidebarItem[] = [
     title: "Data & Configuration",
     icon: Database,
     href: "/data-config",
-  },
-  {
-    id: "risk-overview",
-    title: "Risk Monitor",
-    icon: ShieldAlert,
-    href: "/risk-monitor",
   },
 ];
 

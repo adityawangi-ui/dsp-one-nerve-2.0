@@ -1,5 +1,5 @@
-import { useState, useRef } from "react";
-import { RiskRow } from "@/data/riskData";
+import { useState, useRef, useMemo } from "react";
+import { RiskRow, riskData } from "@/data/riskData";
 import { X, Package, Calendar, TrendingDown, Truck, Factory, BarChart3, Database, Megaphone, Table2 } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, PieChart, Pie, Cell, AreaChart, Area, LineChart, Line, ScatterChart, Scatter, RadarChart, Radar, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Legend } from "recharts";
 
@@ -20,80 +20,10 @@ const sections = [
   { id: "ctp", title: "Exception CTP View", icon: Table2 },
 ];
 
-const stockBarData = Array.from({ length: 8 }, (_, i) => ({ site: `C${400 + i * 5}`, unrestricted: Math.round(4000 + Math.random() * 5000), restricted: Math.round(500 + Math.random() * 2000), blocked: Math.round(200 + Math.random() * 800) }));
-const stockPie = [{ name: "Unrestricted", value: 45200 }, { name: "Restricted", value: 8700 }, { name: "Blocked", value: 3200 }, { name: "Quarantine", value: 1500 }];
-const dohData = Array.from({ length: 12 }, (_, i) => ({ week: `W${i + 1}`, doh: Math.round(8 + Math.random() * 20), qty: Math.round(1000 + Math.random() * 5000) }));
-const drData = Array.from({ length: 12 }, (_, i) => ({ week: `W${i + 1}`, dr: Math.round(75 + Math.random() * 20), loss: Math.round(100 + Math.random() * 500), variance: Math.round((-5 + Math.random() * 10) * 10) / 10 }));
-const stoBarData = Array.from({ length: 8 }, (_, i) => ({ id: `SH-${1000 + i}`, qty: Math.round(500 + Math.random() * 3000), leadTime: Math.round(3 + Math.random() * 12) }));
-const prodData = Array.from({ length: 10 }, (_, i) => ({ week: `W${i + 1}`, qty: Math.round(2000 + Math.random() * 6000), ccu: Math.round(65 + Math.random() * 30) }));
-const forecastCountries = ["DE", "FR", "IT", "ES", "NL", "PL"];
-const forecastData = forecastCountries.map(c => ({ country: c, mso: Math.round(80 + Math.random() * 15), mrdrMso: Math.round(75 + Math.random() * 20), mrdrSite: Math.round(70 + Math.random() * 25) }));
-const promoData = Array.from({ length: 6 }, (_, i) => ({ campaign: `PRO-${i + 1}`, volume: Math.round(5000 + Math.random() * 15000), uplift: Math.round((5 + Math.random() * 25) * 10) / 10 }));
-
 const ctpWeeks = ["Past", "10/03", "10/04", "10/05", "10/06", "10/07", "10/08", "10/09", "WK-2", "WK-3", "WK-4", "WK-5", "WK-6", "WK-7", "WK-8"];
 const ctpMetrics = ["Planned Demand", "Total Supply", "Balance", "Replenishment Stock", "Max Stock", "Below RS QTY", "OOS QTY", "AboveMax QTY"];
-const ctpData = ctpMetrics.map(metric => {
-  const row: Record<string, any> = { metric };
-  ctpWeeks.forEach(w => { row[w] = Math.round(-500 + Math.random() * 5000); });
-  return row;
-});
-const ctpChartData = ctpWeeks.map(w => ({ week: w, demand: Math.round(1000 + Math.random() * 3000), supply: Math.round(800 + Math.random() * 3500), balance: Math.round(-200 + Math.random() * 2000) }));
-
-// Stock table data (15 rows, 20 columns)
-const stockTableHeaders = ["MRDR", "Description", "Site", "MSO", "DR% MSO", "DR% MRDR", "Alt MRDR", "Alt Stock", "Stock>0", "Cluster", "Unrestricted", "Restricted", "Blocked", "Quarantine", "PO Inbound", "PO Number", "PO Qty", "Shipment No", "Shipment Date", "Release Date"];
-const stockTableRows = Array.from({ length: 15 }, (_, i) => [
-  50001 + i, `Product ${i + 1}`, `C${400 + (i % 5) * 5}`, ["DE", "FR", "IT", "ES", "NL"][i % 5],
-  `${(85 + Math.random() * 10).toFixed(1)}%`, `${(80 + Math.random() * 15).toFixed(1)}%`,
-  50100 + i, Math.round(500 + Math.random() * 2000), Math.round(Math.random()) ? "Y" : "N",
-  ["A", "B", "C"][i % 3], Math.round(3000 + Math.random() * 5000), Math.round(200 + Math.random() * 1500),
-  Math.round(50 + Math.random() * 500), Math.round(10 + Math.random() * 200), Math.round(100 + Math.random() * 800),
-  `PO-${4000 + i}`, Math.round(200 + Math.random() * 1500), `SH-${2000 + i}`,
-  `2025-${String(3 + (i % 6)).padStart(2, "0")}-${String(10 + i).padStart(2, "0")}`,
-  `2025-${String(2 + (i % 6)).padStart(2, "0")}-${String(5 + i).padStart(2, "0")}`
-]);
-
-// DOH table (15 rows, 3 cols)
-const dohTableHeaders = ["Week", "DOH Days", "Quantity"];
-const dohTableRows = Array.from({ length: 15 }, (_, i) => [`W${i + 1}`, Math.round(5 + Math.random() * 25), Math.round(1000 + Math.random() * 5000)]);
-
-// DR table (15 rows, 4 cols)
-const drTableHeaders = ["Week", "DR%", "Projected Loss Units", "Variance %"];
-const drTableRows = Array.from({ length: 15 }, (_, i) => [`W${i + 1}`, `${(75 + Math.random() * 20).toFixed(1)}%`, Math.round(100 + Math.random() * 500), `${(-5 + Math.random() * 10).toFixed(1)}%`]);
-
-// STO table (15 rows, 5 cols)
-const stoTableHeaders = ["Shipment No", "Delivery Date", "Open PO No", "Open PO Date", "Open PO Qty"];
-const stoTableRows = Array.from({ length: 15 }, (_, i) => [`SH-${1000 + i}`, `2025-03-${String(10 + i).padStart(2, "0")}`, `PO-${3000 + i}`, `2025-02-${String(5 + i).padStart(2, "0")}`, Math.round(200 + Math.random() * 2000)]);
-
-// Production table (15 rows, 6 cols)
-const prodTableHeaders = ["Next Prod. Week", "Produced In", "Quantity", "CCU % Before Risk", "Transition Y/N", "New MRDR"];
 const factories = ["Hamburg Plant", "Lyon Factory", "Milan Works", "Barcelona Unit", "Rotterdam Facility"];
-const prodTableRows = Array.from({ length: 15 }, (_, i) => [`W${i + 1}`, factories[i % 5], Math.round(2000 + Math.random() * 6000), `${(65 + Math.random() * 30).toFixed(0)}%`, Math.random() > 0.5 ? "Y" : "N", 50100 + i]);
-
-// Forecast table (15 rows, 6 cols)
-const forecastTableHeaders = ["Country", "DR% MSO", "DR% MRDR MSO", "DR% MRDR Site", "4WL Forecast Bias", "1WL Forecast Bias"];
-const forecastTableRows = Array.from({ length: 15 }, (_, i) => {
-  const c = ["DE", "FR", "IT", "ES", "NL", "PL", "BE", "AT", "PT", "SE", "DK", "FI", "NO", "CH", "IE"][i];
-  return [c, `${(80 + Math.random() * 15).toFixed(1)}%`, `${(75 + Math.random() * 20).toFixed(1)}%`, `${(70 + Math.random() * 25).toFixed(1)}%`, `${(-8 + Math.random() * 16).toFixed(1)}%`, `${(-5 + Math.random() * 10).toFixed(1)}%`];
-});
-
-// Master Data table (15 rows, 17 cols)
-const masterTableHeaders = ["Material", "EAN", "Site", "Country", "Category", "Orig. Factory", "Type", "MSO", "UOM", "Small C", "Segment", "MRP", "Repack", "Pack Size", "Pack Family", "DRP Planner", "Master Scheduler"];
-const masterTableRows = Array.from({ length: 15 }, (_, i) => [
-  50001 + i, `11000000000${String(i + 1).padStart(2, "0")}`, `C${400 + (i % 5) * 5}`,
-  ["DE", "FR", "IT", "ES", "NL"][i % 5], ["Personal Care", "Home Care", "Foods", "Refreshment"][i % 4],
-  factories[i % 5], ["Standard", "Repack", "Component"][i % 3], `MSO-${["DE", "FR", "IT", "ES", "NL"][i % 5]}`,
-  "CS", `SC${String(i % 3 + 1).padStart(2, "0")}`, ["A", "B", "C", "D"][i % 4],
-  `MRP${String(i % 3 + 1).padStart(2, "0")}`, Math.random() > 0.5 ? "Y" : "N",
-  [6, 12, 24, 48][i % 4], `PF-${100 + i}`, `planner${(i % 3) + 1}@co.com`, `sched${(i % 2) + 1}@co.com`
-]);
-
-// Promo table (15 rows, 7 cols)
-const promoTableHeaders = ["Promo ID", "Start Week", "End Week", "Status", "Volume", "Uplift %", "Type"];
 const promoTypes = ["Display", "BOGO", "Discount", "Bundle", "Loyalty"];
-const promoTableRows = Array.from({ length: 15 }, (_, i) => [
-  `PRO-${1000 + i}`, `W${i + 1}`, `W${i + 3}`, i % 2 === 0 ? "Active" : "Planned",
-  Math.round(5000 + Math.random() * 15000), `${(5 + Math.random() * 25).toFixed(1)}%`, promoTypes[i % 5]
-]);
 
 interface Props { row: RiskRow; onClose: () => void; }
 
@@ -140,11 +70,83 @@ export default function InsightsPanel({ row, onClose }: Props) {
   const [activeSection, setActiveSection] = useState("stock");
   const contentRef = useRef<HTMLDivElement>(null);
 
+  // Get all line items for this MRDR
+  const mrdrLineItems = useMemo(() => riskData.filter(r => r.mrdr === row.mrdr), [row.mrdr]);
+  const lineCount = mrdrLineItems.length;
+
   const scrollTo = (id: string) => {
     setActiveSection(id);
     const el = document.getElementById(`insight-${id}`);
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
+
+  // Generate data scoped to the MRDR line items
+  const stockBarData = useMemo(() => mrdrLineItems.map((item, i) => ({
+    site: item.site,
+    unrestricted: Math.round(3000 + Math.random() * 5000),
+    restricted: Math.round(400 + Math.random() * 1500),
+    blocked: Math.round(100 + Math.random() * 600),
+  })), [mrdrLineItems]);
+
+  const stockPie = [{ name: "Unrestricted", value: 45200 }, { name: "Restricted", value: 8700 }, { name: "Blocked", value: 3200 }, { name: "Quarantine", value: 1500 }];
+  
+  const dohData = Array.from({ length: Math.max(lineCount * 4, 8) }, (_, i) => ({ week: `W${i + 1}`, doh: Math.round(8 + Math.random() * 20), qty: Math.round(1000 + Math.random() * 5000) }));
+  const drData = Array.from({ length: Math.max(lineCount * 4, 8) }, (_, i) => ({ week: `W${i + 1}`, dr: Math.round(75 + Math.random() * 20), loss: Math.round(100 + Math.random() * 500), variance: Math.round((-5 + Math.random() * 10) * 10) / 10 }));
+  const stoBarData = mrdrLineItems.map((item, i) => ({ id: `SH-${1000 + i}`, qty: Math.round(500 + Math.random() * 3000), leadTime: Math.round(3 + Math.random() * 12) }));
+  const prodData = Array.from({ length: Math.max(lineCount * 3, 6) }, (_, i) => ({ week: `W${i + 1}`, qty: Math.round(2000 + Math.random() * 6000), ccu: Math.round(65 + Math.random() * 30) }));
+  const forecastCountries = [...new Set(mrdrLineItems.map(r => r.msoCountry))];
+  const forecastData = forecastCountries.map(c => ({ country: c, mso: Math.round(80 + Math.random() * 15), mrdrMso: Math.round(75 + Math.random() * 20), mrdrSite: Math.round(70 + Math.random() * 25) }));
+  const promoData = mrdrLineItems.filter(r => r.promoFlag === "Y").map((r, i) => ({ campaign: `PRO-${r.riskId}`, volume: Math.round(5000 + Math.random() * 15000), uplift: Math.round((5 + Math.random() * 25) * 10) / 10 }));
+  if (promoData.length === 0) promoData.push({ campaign: "PRO-N/A", volume: 0, uplift: 0 });
+
+  // Table data scoped to MRDR line items
+  const stockTableHeaders = ["MRDR", "Description", "Site", "MSO", "DR% MSO", "DR% MRDR", "Alt MRDR", "Alt Stock", "Stock>0", "Cluster", "Unrestricted", "Restricted", "Blocked", "Quarantine", "PO Inbound", "PO Number", "PO Qty", "Shipment No", "Shipment Date", "Release Date"];
+  const stockTableRows = mrdrLineItems.map((item, i) => [
+    item.mrdr, item.mrdrDescription, item.site, item.msoCountry,
+    `${(85 + Math.random() * 10).toFixed(1)}%`, `${(80 + Math.random() * 15).toFixed(1)}%`,
+    50100 + i, Math.round(500 + Math.random() * 2000), item.stockCS > 0 ? "Y" : "N",
+    item.segmentation, Math.round(3000 + Math.random() * 5000), Math.round(200 + Math.random() * 1500),
+    Math.round(50 + Math.random() * 500), Math.round(10 + Math.random() * 200), Math.round(100 + Math.random() * 800),
+    `PO-${4000 + i}`, Math.round(200 + Math.random() * 1500), `SH-${2000 + i}`,
+    `2025-03-${String(10 + i).padStart(2, "0")}`, `2025-02-${String(5 + i).padStart(2, "0")}`
+  ]);
+
+  const dohTableHeaders = ["Week", "DOH Days", "Quantity"];
+  const dohTableRows = dohData.map(d => [d.week, d.doh, d.qty]);
+
+  const drTableHeaders = ["Week", "DR%", "Projected Loss Units", "Variance %"];
+  const drTableRows = drData.map(d => [d.week, `${d.dr.toFixed(1)}%`, d.loss, `${d.variance.toFixed(1)}%`]);
+
+  const stoTableHeaders = ["Shipment No", "Delivery Date", "Open PO No", "Open PO Date", "Open PO Qty"];
+  const stoTableRows = mrdrLineItems.map((item, i) => [`SH-${1000 + i}`, `2025-03-${String(10 + i).padStart(2, "0")}`, `PO-${3000 + i}`, `2025-02-${String(5 + i).padStart(2, "0")}`, Math.round(200 + Math.random() * 2000)]);
+
+  const prodTableHeaders = ["Next Prod. Week", "Produced In", "Quantity", "CCU % Before Risk", "Transition Y/N", "New MRDR"];
+  const prodTableRows = mrdrLineItems.map((item, i) => [item.startedOnWeek, factories[i % 5], Math.round(2000 + Math.random() * 6000), `${(65 + Math.random() * 30).toFixed(0)}%`, Math.random() > 0.5 ? "Y" : "N", 50100 + i]);
+
+  const forecastTableHeaders = ["Country", "DR% MSO", "DR% MRDR MSO", "DR% MRDR Site", "4WL Forecast Bias", "1WL Forecast Bias"];
+  const forecastTableRows = forecastCountries.map(c => [c, `${(80 + Math.random() * 15).toFixed(1)}%`, `${(75 + Math.random() * 20).toFixed(1)}%`, `${(70 + Math.random() * 25).toFixed(1)}%`, `${(-8 + Math.random() * 16).toFixed(1)}%`, `${(-5 + Math.random() * 10).toFixed(1)}%`]);
+
+  const masterTableHeaders = ["Material", "EAN", "Site", "Country", "Category", "Orig. Factory", "Type", "MSO", "UOM", "Small C", "Segment", "MRP", "Repack", "Pack Size", "Pack Family", "DRP Planner", "Master Scheduler"];
+  const masterTableRows = mrdrLineItems.map((item, i) => [
+    item.mrdr, item.gtin, item.site, item.msoCountry, item.category,
+    factories[i % 5], item.typeCode, `MSO-${item.msoCountry}`,
+    item.uom, `SC${String((i % 3) + 1).padStart(2, "0")}`, item.segmentation,
+    `MRP${String((i % 3) + 1).padStart(2, "0")}`, item.repackDependency,
+    [6, 12, 24, 48][i % 4], `PF-${100 + i}`, `planner${(i % 3) + 1}@co.com`, `sched${(i % 2) + 1}@co.com`
+  ]);
+
+  const promoTableHeaders = ["Promo ID", "Start Week", "End Week", "Status", "Volume", "Uplift %", "Type"];
+  const promoTableRows = mrdrLineItems.map((item, i) => [
+    `PRO-${item.riskId}`, item.startedOnWeek, item.endedOnWeek || "Ongoing", item.status,
+    Math.round(5000 + Math.random() * 15000), `${(5 + Math.random() * 25).toFixed(1)}%`, promoTypes[i % 5]
+  ]);
+
+  const ctpData = ctpMetrics.map(metric => {
+    const r: Record<string, any> = { metric };
+    ctpWeeks.forEach(w => { r[w] = Math.round(-500 + Math.random() * 5000); });
+    return r;
+  });
+  const ctpChartData = ctpWeeks.map(w => ({ week: w, demand: Math.round(1000 + Math.random() * 3000), supply: Math.round(800 + Math.random() * 3500), balance: Math.round(-200 + Math.random() * 2000) }));
 
   return (
     <div className="fixed inset-0 z-[100] flex">
@@ -156,6 +158,7 @@ export default function InsightsPanel({ row, onClose }: Props) {
           <div className="p-4 border-b border-sidebar-border shrink-0">
             <p className="text-xs font-semibold text-sidebar-primary-foreground">Insights for Risk #{row.riskId}</p>
             <p className="text-[10px] text-sidebar-foreground mt-1 truncate">{row.mrdrDescription}</p>
+            <p className="text-[10px] text-sidebar-foreground/60 mt-0.5">{lineCount} line item(s) in this MRDR</p>
           </div>
           <nav className="p-2 space-y-0.5 flex-1 overflow-y-auto">
             {sections.map(s => (
@@ -178,7 +181,9 @@ export default function InsightsPanel({ row, onClose }: Props) {
           <div className="h-12 flex items-center justify-between px-5 border-b border-border shrink-0 bg-card">
             <div>
               <span className="text-sm font-semibold text-foreground">Risk Insights Dashboard</span>
-              <span className="text-[11px] text-muted-foreground ml-3">MRDR: {row.mrdr} · Site: {row.site} · {row.msoCountry}</span>
+              <span className="text-[11px] text-muted-foreground ml-3">
+                MRDR: {row.mrdr} · {row.mrdrDescription} · Site: {row.site} · {row.msoCountry} · {row.riskType}
+              </span>
             </div>
             <button onClick={onClose} className="h-8 w-8 flex items-center justify-center rounded-lg hover:bg-secondary transition-colors">
               <X className="h-4 w-4 text-muted-foreground" />
@@ -287,7 +292,7 @@ export default function InsightsPanel({ row, onClose }: Props) {
                 </ChartCard>
                 <ChartCard title="Radar">
                   <ResponsiveContainer width="100%" height="100%">
-                    <RadarChart data={forecastData}><PolarGrid stroke="hsl(var(--border))" /><PolarAngleAxis dataKey="country" tick={{ fontSize: 9 }} /><PolarRadiusAxis tick={{ fontSize: 8 }} /><Radar name="MSO" dataKey="mso" stroke={COLORS[0]} fill={COLORS[0]} fillOpacity={0.2} /><Radar name="MRDR Site" dataKey="mrdrSite" stroke={COLORS[2]} fill={COLORS[2]} fillOpacity={0.2} /></RadarChart>
+                    <RadarChart data={forecastData.length >= 3 ? forecastData : [...forecastData, ...forecastData, ...forecastData].slice(0,3)}><PolarGrid stroke="hsl(var(--border))" /><PolarAngleAxis dataKey="country" tick={{ fontSize: 9 }} /><PolarRadiusAxis tick={{ fontSize: 8 }} /><Radar name="MSO" dataKey="mso" stroke={COLORS[0]} fill={COLORS[0]} fillOpacity={0.2} /><Radar name="MRDR Site" dataKey="mrdrSite" stroke={COLORS[2]} fill={COLORS[2]} fillOpacity={0.2} /></RadarChart>
                   </ResponsiveContainer>
                 </ChartCard>
               </div>
@@ -300,12 +305,12 @@ export default function InsightsPanel({ row, onClose }: Props) {
               <div className="grid grid-cols-2 gap-3">
                 <ChartCard title="Type of Code">
                   <ResponsiveContainer width="100%" height="100%">
-                    <PieChart><Pie data={[{ name: "Repack", value: 5 }, { name: "Standard", value: 7 }, { name: "Component", value: 3 }]} cx="50%" cy="50%" innerRadius={20} outerRadius={40} dataKey="value" label={{ fontSize: 9 }}>{[COLORS[0], COLORS[2], COLORS[3]].map((c, i) => <Cell key={i} fill={c} />)}</Pie><Tooltip /><Legend wrapperStyle={{ fontSize: 9 }} /></PieChart>
+                    <PieChart><Pie data={[{ name: "Repack", value: mrdrLineItems.filter(r => r.typeCode === "Repack").length || 1 }, { name: "Standard", value: mrdrLineItems.filter(r => r.typeCode === "Standard").length || 1 }, { name: "Component", value: mrdrLineItems.filter(r => r.typeCode === "Component").length || 1 }]} cx="50%" cy="50%" innerRadius={20} outerRadius={40} dataKey="value" label={{ fontSize: 9 }}>{[COLORS[0], COLORS[2], COLORS[3]].map((c, i) => <Cell key={i} fill={c} />)}</Pie><Tooltip /><Legend wrapperStyle={{ fontSize: 9 }} /></PieChart>
                   </ResponsiveContainer>
                 </ChartCard>
                 <ChartCard title="Segment Distribution">
                   <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={[{ seg: "A", count: 5 }, { seg: "B", count: 4 }, { seg: "C", count: 3 }, { seg: "D", count: 3 }]}><CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" /><XAxis dataKey="seg" tick={{ fontSize: 9 }} /><YAxis tick={{ fontSize: 9 }} /><Tooltip /><Bar dataKey="count" fill={COLORS[0]} /></BarChart>
+                    <BarChart data={["A", "B", "C", "D"].map(s => ({ seg: s, count: mrdrLineItems.filter(r => r.segmentation === s).length }))}><CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" /><XAxis dataKey="seg" tick={{ fontSize: 9 }} /><YAxis tick={{ fontSize: 9 }} /><Tooltip /><Bar dataKey="count" fill={COLORS[0]} /></BarChart>
                   </ResponsiveContainer>
                 </ChartCard>
               </div>

@@ -1,6 +1,5 @@
 import { useState, useMemo } from "react";
-import { RiskRow, GtinRow, allColumns, frozenColumns, gtinColumns, aggregateByGtin, reasonCodes, getSeverityColor, getPriorityColor, filterOptions } from "@/data/riskData";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { RiskRow, GtinRow, allColumns, frozenColumns, gtinColumns, aggregateByGtin, aggregateByMrdr, mrdrAggColumns, MrdrAggRow, reasonCodes, getSeverityColor, getPriorityColor, filterOptions } from "@/data/riskData";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -8,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Checkbox } from "@/components/ui/checkbox";
-import { LayoutList, Download, Share2, Plus, Eye, ChevronRight, ChevronDown, ChevronUp, Columns3, X, Send } from "lucide-react";
+import { LayoutList, Download, Share2, Plus, Eye, ChevronRight, ChevronDown, ChevronUp, Columns3, X, Send, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 
 interface Props {
@@ -18,13 +17,14 @@ interface Props {
 }
 
 export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }: Props) {
-  const [view, setView] = useState<"mrdr" | "gtin">("mrdr");
+  const [view, setView] = useState<"mrdr" | "gtin" | "uom">("mrdr");
   const [sortCol, setSortCol] = useState<string | null>(null);
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
   const [visibleCols, setVisibleCols] = useState<Set<string>>(new Set(allColumns.map(c => c.key)));
   const [shareMode, setShareMode] = useState(false);
   const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
   const [expandedGtins, setExpandedGtins] = useState<Set<number>>(new Set());
+  const [expandedMrdrs, setExpandedMrdrs] = useState<Set<number>>(new Set());
   const [shareDialog, setShareDialog] = useState(false);
   const [shareTo, setShareTo] = useState("");
   const [shareSubject, setShareSubject] = useState("Risk Data Share");
@@ -47,6 +47,25 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
   }, [data, sortCol, sortDir]);
 
   const gtinData = useMemo(() => aggregateByGtin(data), [data]);
+  const mrdrAggData = useMemo(() => aggregateByMrdr(data), [data]);
+
+  // UOM aggregation
+  const uomData = useMemo(() => {
+    const map = new Map<string, RiskRow[]>();
+    data.forEach(r => {
+      if (!map.has(r.uom)) map.set(r.uom, []);
+      map.get(r.uom)!.push(r);
+    });
+    return Array.from(map.entries()).map(([uom, items]) => ({
+      uom,
+      count: items.length,
+      totalStockCS: items.reduce((s, r) => s + r.stockCS, 0),
+      totalLossCases: items.reduce((s, r) => s + r.expectedLossCases, 0),
+      totalLossValue: items.reduce((s, r) => s + r.expectedLossValue, 0),
+      totalRiskDays: items.reduce((s, r) => s + r.riskInDays, 0),
+      severity: items.reduce((min, r) => (r.severity < min ? r.severity : min), items[0].severity),
+    }));
+  }, [data]);
 
   const displayCols = allColumns.filter(c => visibleCols.has(c.key));
   const frozenCols = displayCols.filter(c => frozenColumns.includes(c.key));
@@ -111,19 +130,25 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
     }
   };
 
+  const NewBadge = () => (
+    <Badge className="bg-new-bg text-new border-new-border text-[9px] px-1 py-0 ml-1 animate-pulse">
+      <Sparkles className="h-2.5 w-2.5 mr-0.5" />NEW
+    </Badge>
+  );
+
   return (
     <div className="section-card overflow-hidden">
       {/* Toolbar */}
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
         <div className="flex items-center gap-2">
           <LayoutList className="h-4 w-4 text-primary" />
           <span className="text-sm font-semibold text-foreground">Detailed Risk View</span>
           <span className="text-[11px] text-muted-foreground">{data.length} items</span>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           {/* View Toggle */}
           <div className="flex rounded-lg border border-border overflow-hidden">
-            {(["mrdr", "gtin"] as const).map(v => (
+            {(["mrdr", "gtin", "uom"] as const).map(v => (
               <button
                 key={v}
                 onClick={() => setView(v)}
@@ -187,51 +212,123 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
         </div>
       </div>
 
-      {/* MRDR View */}
+      {/* MRDR Aggregated View with drill-through */}
       {view === "mrdr" && (
         <div className="overflow-x-auto overflow-y-auto max-h-[60vh] -mx-5 -mb-5 relative">
-          <table className="w-full border-collapse" style={{ minWidth: "2200px", tableLayout: "fixed" }}>
-            <thead>
+          <table className="w-full border-collapse" style={{ minWidth: "2400px", tableLayout: "fixed" }}>
+            <thead className="sticky top-0 z-30">
               <tr className="bg-gradient-to-r from-secondary to-secondary/80">
-                {shareMode && <th className="sticky left-0 z-20 bg-secondary w-10 px-2" />}
-                {frozenCols.map(col => (
-                  <th key={col.key} className="text-[12px] font-bold uppercase tracking-wider text-muted-foreground px-3 py-2.5 text-left cursor-pointer hover:text-foreground select-none sticky z-20 bg-secondary" style={{ left: getFrozenLeft(col.key), width: col.width }} onClick={() => toggleSort(col.key)}>
+                {shareMode && <th className="bg-secondary w-10 px-2" />}
+                {mrdrAggColumns.map(col => (
+                  <th key={col.key} className="text-[12px] font-bold uppercase tracking-wider text-muted-foreground px-3 py-2.5 text-left cursor-pointer hover:text-foreground select-none bg-secondary" style={{ width: col.width }} onClick={() => toggleSort(col.key)}>
                     {col.label}
                     {sortCol === col.key && (sortDir === "asc" ? <ChevronUp className="h-3 w-3 inline ml-0.5" /> : <ChevronDown className="h-3 w-3 inline ml-0.5" />)}
                   </th>
                 ))}
-                {scrollCols.map(col => (
-                  <th key={col.key} className="text-[12px] font-bold uppercase tracking-wider text-muted-foreground px-3 py-2.5 text-left cursor-pointer hover:text-foreground select-none" style={{ width: col.width }} onClick={() => toggleSort(col.key)}>
-                    {col.label}
-                    {sortCol === col.key && (sortDir === "asc" ? <ChevronUp className="h-3 w-3 inline ml-0.5" /> : <ChevronDown className="h-3 w-3 inline ml-0.5" />)}
-                  </th>
-                ))}
+                <th className="text-[12px] font-bold uppercase tracking-wider text-muted-foreground px-3 py-2.5 text-left bg-secondary" style={{ width: 90 }}>Insights</th>
               </tr>
             </thead>
             <tbody>
-              {sortedData.map((row, i) => (
-                <tr key={row.riskId} className="border-b border-border/40 hover:bg-primary/[0.03] transition-colors">
-                  {shareMode && (
-                    <td className="sticky left-0 z-10 bg-card px-2">
-                      <Checkbox checked={selectedRows.has(i)} onCheckedChange={(c) => {
-                        const next = new Set(selectedRows);
-                        if (c) next.add(i); else next.delete(i);
-                        setSelectedRows(next);
-                      }} />
-                    </td>
-                  )}
-                  {frozenCols.map(col => (
-                    <td key={col.key} className="text-[11px] whitespace-nowrap px-3 py-2 sticky z-10 bg-card" style={{ left: getFrozenLeft(col.key) }}>
-                      {renderCell(row, col.key, i)}
-                    </td>
-                  ))}
-                  {scrollCols.map(col => (
-                    <td key={col.key} className="text-[11px] whitespace-nowrap px-3 py-2">
-                      {renderCell(row, col.key, i)}
-                    </td>
-                  ))}
-                </tr>
-              ))}
+              {mrdrAggData.map((agg) => {
+                const expanded = expandedMrdrs.has(agg.mrdr);
+                const childRows = data.filter(r => r.mrdr === agg.mrdr);
+                const hasMultiple = agg.lineCount > 1;
+                return (
+                  <>
+                    <tr key={agg.mrdr} className={`border-b border-border/40 hover:bg-primary/[0.03] transition-colors ${agg.isNew ? "bg-new-bg/30" : ""}`}>
+                      {shareMode && (
+                        <td className="px-2">
+                          <Checkbox checked={selectedRows.has(agg.mrdr)} onCheckedChange={(c) => {
+                            const next = new Set(selectedRows);
+                            if (c) next.add(agg.mrdr); else next.delete(agg.mrdr);
+                            setSelectedRows(next);
+                          }} />
+                        </td>
+                      )}
+                      <td className="text-[11px] whitespace-nowrap px-3 py-2 font-mono-tech">
+                        {agg.mrdr}
+                        {agg.isNew && <NewBadge />}
+                      </td>
+                      <td className="text-[11px] whitespace-nowrap px-3 py-2">{agg.mrdrDescription}</td>
+                      <td className="text-[11px] whitespace-nowrap px-3 py-2 font-mono-tech">{agg.gtin}</td>
+                      <td className="text-[11px] whitespace-nowrap px-3 py-2">{agg.msoCountry}</td>
+                      <td className="text-[11px] whitespace-nowrap px-3 py-2">{agg.site}</td>
+                      <td className="text-[11px] whitespace-nowrap px-3 py-2"><Badge variant="outline" className={`text-[10px] ${agg.riskType === "Out Of Stock" ? "bg-critical-bg text-critical border-critical-border" : "bg-medium-bg text-medium border-medium-border"}`}>{agg.riskType}</Badge></td>
+                      <td className="text-[11px] whitespace-nowrap px-3 py-2"><Badge variant="outline" className={`text-[10px] ${sevBadgeClass(agg.severity)}`}>{agg.severity}</Badge></td>
+                      <td className="text-[11px] whitespace-nowrap px-3 py-2"><Badge variant="outline" className={`text-[10px] ${priBadgeClass(agg.priority)}`}>{agg.priority}</Badge></td>
+                      <td className="text-[11px] whitespace-nowrap px-3 py-2"><Badge variant="outline" className={`text-[10px] ${agg.status === "Open" ? "bg-info-bg text-info border-info-border" : "bg-low-bg text-low border-low-border"}`}>{agg.status}</Badge></td>
+                      <td className="text-[11px] whitespace-nowrap px-3 py-2">{agg.uom}</td>
+                      <td className="text-[11px] whitespace-nowrap px-3 py-2">{agg.segmentation}</td>
+                      <td className="text-[11px] whitespace-nowrap px-3 py-2">{agg.category}</td>
+                      <td className="text-[11px] whitespace-nowrap px-3 py-2">{agg.startedOnWeek}</td>
+                      <td className="text-[11px] whitespace-nowrap px-3 py-2 font-mono-tech">{agg.riskInDays}</td>
+                      <td className="text-[11px] whitespace-nowrap px-3 py-2 font-mono-tech">{agg.stockCS.toLocaleString()}</td>
+                      <td className="text-[11px] whitespace-nowrap px-3 py-2 font-mono-tech">{agg.expectedLossCases.toLocaleString()}</td>
+                      <td className="text-[11px] whitespace-nowrap px-3 py-2 font-mono-tech">${agg.expectedLossValue.toLocaleString()}</td>
+                      <td className="text-[11px] whitespace-nowrap px-3 py-2">{agg.botReasonCode}</td>
+                      <td className="text-[11px] whitespace-nowrap px-3 py-2">{agg.plannerReasonCode}</td>
+                      <td className="text-[11px] whitespace-nowrap px-3 py-2">{agg.assignedTo}</td>
+                      <td className="text-[11px] whitespace-nowrap px-3 py-2">
+                        {hasMultiple ? (
+                          <button onClick={() => { const n = new Set(expandedMrdrs); if (expanded) n.delete(agg.mrdr); else n.add(agg.mrdr); setExpandedMrdrs(n); }} className="flex items-center gap-1 text-primary font-medium text-[11px]">
+                            {expanded ? <ChevronDown className="h-3 w-3" /> : <ChevronRight className="h-3 w-3" />}
+                            {agg.lineCount} Items
+                          </button>
+                        ) : (
+                          <span className="text-muted-foreground text-[11px]">1 Item</span>
+                        )}
+                      </td>
+                      <td className="text-[11px] whitespace-nowrap px-3 py-2">
+                        <button onClick={() => onOpenInsights(childRows[0])} className="flex items-center gap-1 text-primary hover:underline text-[11px]">
+                          <Eye className="h-3 w-3" /> View More
+                        </button>
+                      </td>
+                    </tr>
+                    {expanded && childRows.map(cr => (
+                      <tr key={cr.riskId} className={`bg-muted/20 border-b border-border/30 ${cr.isNew ? "bg-new-bg/20" : ""}`}>
+                        {shareMode && <td />}
+                        <td className="text-[11px] px-3 py-1.5 pl-8 font-mono-tech">
+                          {cr.mrdr}
+                          {cr.isNew && <NewBadge />}
+                        </td>
+                        <td className="text-[11px] px-3 py-1.5">{cr.mrdrDescription}</td>
+                        <td className="text-[11px] px-3 py-1.5 font-mono-tech">{cr.gtin}</td>
+                        <td className="text-[11px] px-3 py-1.5">{cr.msoCountry}</td>
+                        <td className="text-[11px] px-3 py-1.5">{cr.site}</td>
+                        <td className="text-[11px] px-3 py-1.5"><Badge variant="outline" className={`text-[10px] ${cr.riskType === "Out Of Stock" ? "bg-critical-bg text-critical border-critical-border" : "bg-medium-bg text-medium border-medium-border"}`}>{cr.riskType}</Badge></td>
+                        <td className="text-[11px] px-3 py-1.5"><Badge variant="outline" className={`text-[10px] ${sevBadgeClass(cr.severity)}`}>{cr.severity}</Badge></td>
+                        <td className="text-[11px] px-3 py-1.5"><Badge variant="outline" className={`text-[10px] ${priBadgeClass(cr.priority)}`}>{cr.priority}</Badge></td>
+                        <td className="text-[11px] px-3 py-1.5"><Badge variant="outline" className={`text-[10px] ${cr.status === "Open" ? "bg-info-bg text-info border-info-border" : "bg-low-bg text-low border-low-border"}`}>{cr.status}</Badge></td>
+                        <td className="text-[11px] px-3 py-1.5">{cr.uom}</td>
+                        <td className="text-[11px] px-3 py-1.5">{cr.segmentation}</td>
+                        <td className="text-[11px] px-3 py-1.5">{cr.category}</td>
+                        <td className="text-[11px] px-3 py-1.5">{cr.startedOnWeek}</td>
+                        <td className="text-[11px] px-3 py-1.5 font-mono-tech">{cr.riskInDays}</td>
+                        <td className="text-[11px] px-3 py-1.5 font-mono-tech">{cr.stockCS.toLocaleString()}</td>
+                        <td className="text-[11px] px-3 py-1.5 font-mono-tech">{cr.expectedLossCases.toLocaleString()}</td>
+                        <td className="text-[11px] px-3 py-1.5 font-mono-tech">${cr.expectedLossValue.toLocaleString()}</td>
+                        <td className="text-[11px] px-3 py-1.5">{cr.botReasonCode}</td>
+                        <td className="text-[11px] px-3 py-1.5">
+                          <Select value={cr.plannerReasonCode || "none"} onValueChange={(v) => {
+                            const idx = data.findIndex(r => r.riskId === cr.riskId);
+                            if (idx !== -1) onUpdateRow(idx, { plannerReasonCode: v === "none" ? "" : v });
+                          }}>
+                            <SelectTrigger className="h-6 min-w-[60px] text-[10px] border-border/40"><SelectValue /></SelectTrigger>
+                            <SelectContent>{reasonCodes.map(r => <SelectItem key={r} value={r}>{r}</SelectItem>)}</SelectContent>
+                          </Select>
+                        </td>
+                        <td className="text-[11px] px-3 py-1.5">{cr.assignedTo}</td>
+                        <td className="text-[11px] px-3 py-1.5">—</td>
+                        <td className="text-[11px] px-3 py-1.5">
+                          <button onClick={() => onOpenInsights(cr)} className="flex items-center gap-1 text-primary hover:underline text-[11px]">
+                            <Eye className="h-3 w-3" /> View
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </>
+                );
+              })}
             </tbody>
           </table>
         </div>
@@ -241,11 +338,11 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
       {view === "gtin" && (
         <div className="overflow-x-auto overflow-y-auto max-h-[60vh] -mx-5 -mb-5 relative">
           <table className="w-full border-collapse" style={{ minWidth: "1000px" }}>
-            <thead>
+            <thead className="sticky top-0 z-30">
               <tr className="bg-gradient-to-r from-secondary to-secondary/80">
-                {shareMode && <th className="w-10 px-2" />}
+                {shareMode && <th className="w-10 px-2 bg-secondary" />}
                 {gtinColumns.map(col => (
-                  <th key={col.key} className="text-[12px] font-bold uppercase tracking-wider text-muted-foreground px-3 py-2.5 text-left">{col.label}</th>
+                  <th key={col.key} className="text-[12px] font-bold uppercase tracking-wider text-muted-foreground px-3 py-2.5 text-left bg-secondary">{col.label}</th>
                 ))}
               </tr>
             </thead>
@@ -283,9 +380,12 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
                       <td className="text-[11px] px-3 py-2 font-mono-tech">${grow.expectedLossValue.toLocaleString()}</td>
                     </tr>
                     {expanded && childRows.map(cr => (
-                      <tr key={cr.riskId} className="bg-muted/20 border-b border-border/30">
+                      <tr key={cr.riskId} className={`bg-muted/20 border-b border-border/30 ${cr.isNew ? "bg-new-bg/20" : ""}`}>
                         {shareMode && <td />}
-                        <td className="text-[11px] px-3 py-1.5 pl-8 font-mono-tech">{cr.gtin}</td>
+                        <td className="text-[11px] px-3 py-1.5 pl-8 font-mono-tech">
+                          {cr.gtin}
+                          {cr.isNew && <NewBadge />}
+                        </td>
                         <td className="text-[11px] px-3 py-1.5 font-mono-tech">{cr.mrdr}</td>
                         <td className="text-[11px] px-3 py-1.5">{cr.msoCountry}</td>
                         <td className="text-[11px] px-3 py-1.5">{cr.site}</td>
@@ -301,6 +401,38 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
                   </>
                 );
               })}
+            </tbody>
+          </table>
+        </div>
+      )}
+
+      {/* UOM View */}
+      {view === "uom" && (
+        <div className="overflow-x-auto overflow-y-auto max-h-[60vh] -mx-5 -mb-5 relative">
+          <table className="w-full border-collapse" style={{ minWidth: "800px" }}>
+            <thead className="sticky top-0 z-30">
+              <tr className="bg-gradient-to-r from-secondary to-secondary/80">
+                <th className="text-[12px] font-bold uppercase tracking-wider text-muted-foreground px-3 py-2.5 text-left bg-secondary" style={{ width: 80 }}>UOM</th>
+                <th className="text-[12px] font-bold uppercase tracking-wider text-muted-foreground px-3 py-2.5 text-left bg-secondary" style={{ width: 90 }}>Item Count</th>
+                <th className="text-[12px] font-bold uppercase tracking-wider text-muted-foreground px-3 py-2.5 text-left bg-secondary" style={{ width: 100 }}>Max Severity</th>
+                <th className="text-[12px] font-bold uppercase tracking-wider text-muted-foreground px-3 py-2.5 text-left bg-secondary" style={{ width: 100 }}>Total Risk Days</th>
+                <th className="text-[12px] font-bold uppercase tracking-wider text-muted-foreground px-3 py-2.5 text-left bg-secondary" style={{ width: 100 }}>Total Stock</th>
+                <th className="text-[12px] font-bold uppercase tracking-wider text-muted-foreground px-3 py-2.5 text-left bg-secondary" style={{ width: 130 }}>Total Loss Cases</th>
+                <th className="text-[12px] font-bold uppercase tracking-wider text-muted-foreground px-3 py-2.5 text-left bg-secondary" style={{ width: 140 }}>Total Loss Value ($)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {uomData.map(u => (
+                <tr key={u.uom} className="border-b border-border/40 hover:bg-primary/[0.03]">
+                  <td className="text-[11px] px-3 py-2 font-semibold">{u.uom}</td>
+                  <td className="text-[11px] px-3 py-2 font-mono-tech">{u.count}</td>
+                  <td className="text-[11px] px-3 py-2"><Badge variant="outline" className={`text-[10px] ${sevBadgeClass(u.severity)}`}>{u.severity}</Badge></td>
+                  <td className="text-[11px] px-3 py-2 font-mono-tech">{u.totalRiskDays}</td>
+                  <td className="text-[11px] px-3 py-2 font-mono-tech">{u.totalStockCS.toLocaleString()}</td>
+                  <td className="text-[11px] px-3 py-2 font-mono-tech">{u.totalLossCases.toLocaleString()}</td>
+                  <td className="text-[11px] px-3 py-2 font-mono-tech">${u.totalLossValue.toLocaleString()}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
