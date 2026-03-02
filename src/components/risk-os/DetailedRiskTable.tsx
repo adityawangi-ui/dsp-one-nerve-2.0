@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import React, { useState, useMemo } from "react";
 import { RiskRow, allColumns, frozenColumns, gtinColumns, aggregateByGtin, aggregateByMrdr, mrdrAggColumns, reasonCodes, getSeverityColor, filterOptions } from "@/data/riskData";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -317,7 +317,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
                         </tr>
                       );
                     })}
-                  </>
+                  </React.Fragment>
                 );
               })}
             </tbody>
