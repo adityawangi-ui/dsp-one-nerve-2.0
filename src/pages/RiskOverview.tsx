@@ -10,7 +10,7 @@ import RiskAIAgent from "@/components/risk-os/RiskAIAgent";
 export default function RiskOverview() {
   const [rows, setRows] = useState<RiskRow[]>([...riskData]);
   const maxLoss = useMemo(() => Math.max(...rows.map(r => r.expectedLossCases)), [rows]);
-  const [filters, setFilters] = useState<FilterState>(() => ({ ...defaultFilters, lossRange: [0, Math.max(...riskData.map(r => r.expectedLossCases))] }));
+  const [filters, setFilters] = useState<FilterState>(() => ({ ...defaultFilters, lossRange: [0, 50000] }));
   const [insightsRow, setInsightsRow] = useState<RiskRow | null>(null);
 
   const filteredRows = useMemo(() => {

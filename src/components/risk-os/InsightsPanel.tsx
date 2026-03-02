@@ -1,7 +1,7 @@
 import { useState, useRef, useMemo } from "react";
 import { RiskRow, riskData } from "@/data/riskData";
 import { X, Package, Calendar, TrendingDown, Truck, Factory, BarChart3, Database, Table2, ToggleLeft } from "lucide-react";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, LineChart, Line, Legend, AreaChart, Area, ReferenceLine } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, LineChart, Line, Legend, AreaChart, Area, ReferenceLine, PieChart, Pie, Cell } from "recharts";
 import { Badge } from "@/components/ui/badge";
 
 const COLORS = [
@@ -91,14 +91,14 @@ export default function InsightsPanel({ row, onClose }: Props) {
   const ctpColumns = ctpMode === "daily" ? ctpDailyWeeks : ctpWeeklyWeeks;
   
   const ctpRawData = {
-    "Planned Demand": [0, 322, 286, 4, 100, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    "Total Supply": [3165, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    "Balance (Units)": [3165, 3133, 3131, 3103, 3097, 3056, 3056, 3056, 0, 0, 0, 0, 0, 0],
-    "Replenishment Stock (Units)": [0, 455, 512, 543, 537, 496, 558, 619, 0, 0, 0, 0, 0, 0],
-    "Max Stock (Units)": [0, 2777, 2811, 2819, 2849, 2844, 2879, 2879, 0, 0, 0, 0, 0, 0],
-    "Below RS QTY": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    "Planned Demand": [0, 322, 286, 4, 100, 0, 0, 0, 712, 540, 380, 620, 490, 310],
+    "Total Supply": [3165, 0, 0, 0, 0, 0, 0, 0, 1800, 1200, 950, 1500, 1100, 800],
+    "Balance (Units)": [3165, 3133, 3131, 3103, 3097, 3056, 3056, 3056, 4088, 4748, 5318, 6198, 6808, 7298],
+    "Replenishment Stock (Units)": [0, 455, 512, 543, 537, 496, 558, 619, 620, 580, 540, 610, 570, 530],
+    "Max Stock (Units)": [0, 2777, 2811, 2819, 2849, 2844, 2879, 2879, 3200, 3150, 3100, 3250, 3180, 3050],
+    "Below RS QTY": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 50, 0, 0, 80],
     "OOS QTY": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    "AboveMax QTY": [3165, 356, 320, 284, 248, 212, 177, 177, 0, 0, 0, 0, 0, 0],
+    "AboveMax QTY": [3165, 356, 320, 284, 248, 212, 177, 177, 888, 1598, 2218, 2948, 3628, 4248],
   };
   const ctpMetrics = Object.keys(ctpRawData);
   const ctpChartData = ctpColumns.map((w, i) => ({
@@ -176,7 +176,7 @@ export default function InsightsPanel({ row, onClose }: Props) {
   // ── Master Data (less line items, no graphs) ──
   const masterTableHeaders = ["Material Desc.", "EAN Code", "Site", "Country", "Category", "Orig. Factory", "Type of Code", "MSO", "UOM", "Small C", "Segment", "MRP", "Repack", "Pack Size", "Pack Family", "DRP Planner", "Master Scheduler"];
   const masterTableRows = [
-    [row.mrdr, row.gtin, row.site, row.msoCountry, row.category, "DM_SU", "Repack", "DK", row.uom, "AZ21Y", "VIENNETTA", "PLT", row.repackDependency, 16, "PF-100", "piecha, grzegorz", "ICE-UK SU Gloucester"],
+    [String(row.mrdr), row.gtin, row.site, row.msoCountry, row.category, "DM_SU", "Repack", "DK", row.uom, "AZ21Y", "VIENNETTA", "PLT", row.repackDependency, 16, "PF-100", "piecha, grzegorz", "ICE-UK SU Gloucester"],
   ];
 
   return (
@@ -285,17 +285,15 @@ export default function InsightsPanel({ row, onClose }: Props) {
               <SectionHeader icon={Package} title="Stock Info / Inventory" />
               <ChartCard title="Stock Type Breakdown">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={stockBarData} layout="vertical">
-                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                    <XAxis type="number" tick={{ fontSize: 9 }} />
-                    <YAxis dataKey="type" type="category" tick={{ fontSize: 9 }} width={90} />
-                    <Tooltip />
-                    <Bar dataKey="qty" fill={COLORS[0]}>
-                      {stockBarData.map((entry, i) => (
-                        <Bar key={i} dataKey="qty" fill={stockBreakdown[i]?.fill || COLORS[0]} />
+                  <PieChart>
+                    <Pie data={stockBreakdown} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={70} label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`} labelLine={true} fontSize={9}>
+                      {stockBreakdown.map((entry, i) => (
+                        <Cell key={i} fill={entry.fill} />
                       ))}
-                    </Bar>
-                  </BarChart>
+                    </Pie>
+                    <Tooltip />
+                    <Legend wrapperStyle={{ fontSize: 9 }} />
+                  </PieChart>
                 </ResponsiveContainer>
               </ChartCard>
               <DataTable headers={stockTableHeaders} rows={stockTableRows} minWidth="1800px" />
