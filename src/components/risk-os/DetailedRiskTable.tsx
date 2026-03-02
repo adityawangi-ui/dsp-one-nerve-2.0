@@ -342,7 +342,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
                 const expanded = expandedGtins.has(grow.gtin);
                 const childRows = data.filter(r => r.gtin === grow.gtin);
                 return (
-                  <>
+                  <React.Fragment key={grow.gtin}>
                     <tr key={grow.gtin} className="border-b border-border/50 hover:bg-primary/[0.04]">
                       {shareMode && (
                         <td className="px-2">
@@ -389,7 +389,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
                         <td className={`${childCellCls} font-mono`}>${cr.expectedLossValue.toLocaleString()}</td>
                       </tr>
                     ))}
-                  </>
+                  </React.Fragment>
                 );
               })}
             </tbody>
