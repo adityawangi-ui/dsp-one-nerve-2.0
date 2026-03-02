@@ -106,11 +106,8 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
     };
   };
 
-  const NewBadgeInline = () => (
-    <span className="inline-flex items-center gap-0.5 ml-1.5 px-1.5 py-0.5 rounded text-[9px] font-bold uppercase tracking-wider bg-destructive text-destructive-foreground shadow-sm animate-pulse">
-      <AlertTriangle className="h-2.5 w-2.5" />
-      NEW
-    </span>
+  const NewBadge = () => (
+    <Badge variant="outline" className="ml-1.5 text-[9px] font-bold uppercase bg-destructive/10 text-destructive border-destructive/30">NEW</Badge>
   );
 
   const cellCls = "text-[11px] whitespace-nowrap px-3 py-2.5";
