@@ -403,7 +403,7 @@ export default function Landing() {
                             onClick={(e) => {
                               e.preventDefault();
                               e.stopPropagation();
-                              navigate('/risk-monitor');
+                              navigate('/risk-monitor/risk-overview');
                             }}
                           >
                             <Shield className="h-3 w-3 mr-1" />

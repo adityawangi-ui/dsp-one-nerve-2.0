@@ -189,8 +189,8 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
 
       {/* MRDR View */}
       {view === "mrdr" && (
-        <div className="overflow-x-auto -mx-5 -mb-5">
-          <table className="w-full" style={{ minWidth: "2200px" }}>
+        <div className="overflow-x-auto overflow-y-auto max-h-[60vh] -mx-5 -mb-5 relative">
+          <table className="w-full border-collapse" style={{ minWidth: "2200px", tableLayout: "fixed" }}>
             <thead>
               <tr className="bg-gradient-to-r from-secondary to-secondary/80">
                 {shareMode && <th className="sticky left-0 z-20 bg-secondary w-10 px-2" />}
@@ -239,8 +239,8 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
 
       {/* GTIN View */}
       {view === "gtin" && (
-        <div className="overflow-x-auto -mx-5 -mb-5">
-          <table className="w-full" style={{ minWidth: "1000px" }}>
+        <div className="overflow-x-auto overflow-y-auto max-h-[60vh] -mx-5 -mb-5 relative">
+          <table className="w-full border-collapse" style={{ minWidth: "1000px" }}>
             <thead>
               <tr className="bg-gradient-to-r from-secondary to-secondary/80">
                 {shareMode && <th className="w-10 px-2" />}
