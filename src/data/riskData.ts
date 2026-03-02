@@ -172,7 +172,7 @@ export interface MrdrAggRow {
 }
 
 export const mrdrAggColumns: ColumnDef[] = [
-  { key: "mrdr", label: "MRDR", width: 100 },
+  { key: "mrdr", label: "MRDR", width: 120 },
   { key: "mrdrDescription", label: "MRDR Description", width: 200 },
   { key: "gtin", label: "GTIN", width: 130 },
   { key: "msoCountry", label: "MSO Country", width: 90 },
@@ -192,7 +192,6 @@ export const mrdrAggColumns: ColumnDef[] = [
   { key: "botReasonCode", label: "Bot Reason Code", width: 110 },
   { key: "plannerReasonCode", label: "Planner Reason Code", width: 130 },
   { key: "assignedTo", label: "Assigned To", width: 160 },
-  { key: "lineCount", label: "Line Items", width: 90 },
 ];
 
 export function aggregateByMrdr(rows: RiskRow[]): MrdrAggRow[] {
