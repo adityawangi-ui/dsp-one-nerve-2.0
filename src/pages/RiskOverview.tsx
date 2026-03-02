@@ -9,8 +9,8 @@ import RiskAIAgent from "@/components/risk-os/RiskAIAgent";
 
 export default function RiskOverview() {
   const [rows, setRows] = useState<RiskRow[]>([...riskData]);
-  const maxLoss = useMemo(() => Math.max(...rows.map(r => r.expectedLossCases)), [rows]);
-  const [filters, setFilters] = useState<FilterState>(() => ({ ...defaultFilters, lossRange: [0, 50000] }));
+  const maxLoss = 890000;
+  const [filters, setFilters] = useState<FilterState>(() => ({ ...defaultFilters, lossRange: [0, 890000] }));
   const [insightsRow, setInsightsRow] = useState<RiskRow | null>(null);
 
   const filteredRows = useMemo(() => {
@@ -22,7 +22,7 @@ export default function RiskOverview() {
       if (filters.country !== "all" && r.msoCountry !== filters.country) return false;
       if (filters.category !== "all" && r.category !== filters.category) return false;
       if (filters.assignedTo !== "all" && r.assignedTo !== filters.assignedTo) return false;
-      if (r.expectedLossCases < filters.lossRange[0] || r.expectedLossCases > filters.lossRange[1]) return false;
+      if (r.expectedLossValue < filters.lossRange[0] || r.expectedLossValue > filters.lossRange[1]) return false;
       if (filters.search) {
         const s = filters.search.toLowerCase();
         if (!r.mrdrDescription.toLowerCase().includes(s) && !String(r.riskId).includes(s)) return false;
@@ -54,7 +54,7 @@ export default function RiskOverview() {
         <span className="text-foreground font-medium">Risk Monitor</span>
       </nav>
       <AlertsSection />
-      <UnifiedFilters filters={filters} onChange={setFilters} maxLoss={maxLoss} />
+      <UnifiedFilters filters={filters} onChange={setFilters} maxLoss={890000} />
       <DetailedRiskTable data={filteredRows} onOpenInsights={setInsightsRow} onUpdateRow={handleUpdateRow} />
       {insightsRow && <InsightsPanel row={insightsRow} onClose={() => setInsightsRow(null)} />}
       <RiskAIAgent />
