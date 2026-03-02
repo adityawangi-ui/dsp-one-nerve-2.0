@@ -16,8 +16,8 @@ interface Props {
   onUpdateRow: (idx: number, updates: Partial<RiskRow>) => void;
 }
 
-const MRDR_FROZEN_KEYS = ["mrdr", "mrdrDescription", "gtin"];
-const MRDR_FROZEN_WIDTHS: Record<string, number> = { mrdr: 130, mrdrDescription: 210, gtin: 150 };
+const MRDR_FROZEN_KEYS = ["riskId", "mrdr", "mrdrDescription", "msoCountry"];
+const MRDR_FROZEN_WIDTHS: Record<string, number> = { riskId: 90, mrdr: 120, mrdrDescription: 220, msoCountry: 100 };
 
 export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }: Props) {
   const [view, setView] = useState<"mrdr" | "gtin" | "uom">("mrdr");
