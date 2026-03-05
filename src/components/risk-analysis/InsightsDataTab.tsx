@@ -207,21 +207,21 @@ export default function InsightsDataTab({ row }: Props) {
     <div className="flex gap-6">
       {/* Left nav - clean sidebar */}
       <div className="w-52 shrink-0">
-        <div className="sticky top-0 rounded-xl bg-card border border-border/60 overflow-hidden">
-          <div className="px-4 py-3 bg-secondary/50 border-b border-border/40">
+        <div className="sticky top-0 rounded-xl bg-card border border-border overflow-hidden">
+          <div className="px-4 py-3 bg-secondary border-b border-border">
             <p className="text-xs font-bold text-foreground">MRDR {row.mrdr}</p>
-            <p className="text-[10px] text-muted-foreground truncate mt-0.5">{row.mrdrDescription}</p>
-            <p className="text-[10px] text-primary/70 mt-0.5">{lineCount} line item(s)</p>
+            <p className="text-[10px] text-foreground/90 truncate mt-0.5">{row.mrdrDescription}</p>
+            <p className="text-[10px] text-foreground/80 mt-0.5">{lineCount} line item(s)</p>
           </div>
-          <nav className="p-2 space-y-0.5">
+          <nav className="p-2 space-y-1">
             {sections.map(s => (
               <button
                 key={s.id}
                 onClick={() => scrollTo(s.id)}
                 className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-[11px] font-medium transition-all text-left ${
-                  activeSection === s.id 
-                    ? "bg-primary/15 text-primary border border-primary/25 shadow-sm shadow-primary/10" 
-                    : "text-foreground/60 hover:bg-secondary/60 hover:text-foreground/90"
+                  activeSection === s.id
+                    ? "bg-primary text-primary-foreground border border-primary/40 shadow-sm"
+                    : "text-foreground hover:bg-secondary hover:text-foreground"
                 }`}
               >
                 <s.icon className="h-3.5 w-3.5 shrink-0" />
