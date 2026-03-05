@@ -45,7 +45,7 @@ function getAnswer(q: string): string {
 
   if ((lower.includes("s1") || lower.includes("s 1") || lower.includes("severity")) && lower.includes("p1") || lower.includes("p 1")) {
     const filtered = riskData.filter(r => r.severity === "S 1" && r.priority === "P 1");
-    return `**S 1 + P 1 Risks (${filtered.length} items):**\n\n${filtered.map(r => `- **${r.mrdrDescription}** (${r.msoCountry}, ${r.site}) — ${r.expectedLossCases.toLocaleString()} cases, $${r.expectedLossValue.toLocaleString()}`).join("\n")}`;
+    return `**S 1 + P 1 Risks (${filtered.length} items):**\n\n${filtered.map(r => `- **${r.mrdrDescription}** (${r.msoCountry}, ${r.site}) — ${r.expectedLossCases.toLocaleString()} cases, €${r.expectedLossValue.toLocaleString()}`).join("\n")}`;
   }
 
   if (lower.includes("gtin") && (lower.includes("longest") || lower.includes("duration"))) {
