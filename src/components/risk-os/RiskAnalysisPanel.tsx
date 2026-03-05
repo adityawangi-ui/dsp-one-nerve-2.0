@@ -94,7 +94,19 @@ export default function RiskAnalysisPanel({ row, onClose }: Props) {
                 </TabsContent>
 
                 <TabsContent value="recommendations">
-                  <InsightsTab row={row} />
+                  {/* Supply Chain Map */}
+                  <SupplyChainMap />
+
+                  {/* Risk DNA + Timeline side by side */}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-5">
+                    <RiskDNARadar row={row} />
+                    <RiskTimeline row={row} />
+                  </div>
+
+                  {/* AI Insights & Scenarios */}
+                  <div className="mt-5">
+                    <InsightsTab row={row} />
+                  </div>
                   <div className="mt-8">
                     <ScenarioSimulatorTab
                       row={row}
