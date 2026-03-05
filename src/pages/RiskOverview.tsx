@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { riskData, RiskRow } from "@/data/riskData";
-import { Home, ChevronRight, Shield, Activity, Zap, Clock, RefreshCw, Download, Bell } from "lucide-react";
+import { Home, ChevronRight, Shield, Clock, RefreshCw, Download, Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import AlertsSection from "@/components/risk-os/AlertsSection";
