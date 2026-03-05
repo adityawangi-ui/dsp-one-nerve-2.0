@@ -1,7 +1,7 @@
 import { useState, useRef, useMemo } from "react";
 import { RiskRow, riskData } from "@/data/riskData";
 import { X, Package, Calendar, TrendingDown, Truck, Factory, BarChart3, Database, Table2, ToggleLeft } from "lucide-react";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, Tooltip as RechartsTooltip, LineChart, Line, Legend, AreaChart, Area, ReferenceLine, PieChart, Pie, Cell } from "recharts";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, Tooltip as RechartsTooltip, LineChart, Line, Legend, AreaChart, Area, ReferenceLine, PieChart, Pie, Cell, ComposedChart } from "recharts";
 import { Badge } from "@/components/ui/badge";
 
 const COLORS = [
@@ -283,7 +283,7 @@ export default function InsightsPanel({ row, onClose }: Props) {
             {/* 2. Stock Info / Inventory */}
             <div id="insight-stock">
               <SectionHeader icon={Package} title="Stock Info / Inventory" />
-              <ChartCard title="Stock Type Breakdown" className="h-80">
+              <ChartCard title="Stock Type Breakdown" className="h-[420px]">
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                     <Pie
@@ -291,8 +291,8 @@ export default function InsightsPanel({ row, onClose }: Props) {
                       dataKey="value"
                       nameKey="name"
                       cx="50%"
-                      cy="45%"
-                      outerRadius={110}
+                      cy="50%"
+                      outerRadius={100}
                       innerRadius={0}
                       label={({ name, value, cx: pcx, cy: pcy, midAngle, outerRadius: or }) => {
                         const RADIAN = Math.PI / 180;
@@ -343,7 +343,7 @@ export default function InsightsPanel({ row, onClose }: Props) {
               <SectionHeader icon={Calendar} title="DOH (Day & Quantity)" />
               <ChartCard title="DOH & Quantity Combined" className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={dohData}>
+                  <ComposedChart data={dohData}>
                     <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                     <XAxis dataKey="week" tick={{ fontSize: 9 }} />
                     <YAxis yAxisId="left" tick={{ fontSize: 9 }} />
@@ -351,8 +351,8 @@ export default function InsightsPanel({ row, onClose }: Props) {
                     <Tooltip />
                     <Legend wrapperStyle={{ fontSize: 9 }} />
                     <Bar yAxisId="left" dataKey="doh" fill={COLORS[0]} name="DOH Days" />
-                    <Line yAxisId="right" type="monotone" dataKey="qty" stroke={COLORS[4]} strokeWidth={2} name="Quantity" />
-                  </BarChart>
+                    <Line yAxisId="right" type="monotone" dataKey="qty" stroke={COLORS[4]} strokeWidth={2} name="Quantity" dot={{ r: 4 }} />
+                  </ComposedChart>
                 </ResponsiveContainer>
               </ChartCard>
             </div>

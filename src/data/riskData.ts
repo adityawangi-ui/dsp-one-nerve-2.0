@@ -85,7 +85,7 @@ export const allColumns: ColumnDef[] = [
   { key: "riskInDays", label: "Risk in Days", width: 90 },
   { key: "stockCS", label: "Stock CS", width: 80 },
   { key: "expectedLossCases", label: "Expected Loss Cases", width: 130 },
-  { key: "expectedLossValue", label: "Expected Loss Value ($)", width: 140 },
+  { key: "expectedLossValue", label: "Expected Loss Value (€)", width: 140 },
   { key: "nextAvailableDate", label: "Next Available Date", width: 130 },
   { key: "botReasonCode", label: "Bot Reason Code", width: 110 },
   { key: "plannerReasonCode", label: "Planner Reason Code", width: 130 },
@@ -121,7 +121,7 @@ export const gtinColumns: ColumnDef[] = [
   { key: "riskInDays", label: "Total Risk Days" },
   { key: "stockCS", label: "Total Stock CS" },
   { key: "expectedLossCases", label: "Total Expected Loss Cases" },
-  { key: "expectedLossValue", label: "Total Expected Loss Value ($)" },
+  { key: "expectedLossValue", label: "Total Expected Loss Value (€)" },
 ];
 
 export function aggregateByGtin(rows: RiskRow[]): GtinRow[] {
@@ -175,6 +175,7 @@ export interface MrdrAggRow {
   category: string;
   gtin: number;
   status: string;
+  uom: string;
   lineCount: number;
   isNew: boolean;
 }
@@ -186,6 +187,7 @@ export const mrdrAggColumns: ColumnDef[] = [
   { key: "msoCountry", label: "MSO Country", width: 100 },
   { key: "site", label: "Site", width: 70 },
   { key: "su", label: "SU", width: 100 },
+  { key: "uom", label: "UOM", width: 80 },
   { key: "riskType", label: "Risk Type", width: 110 },
   { key: "severity", label: "Severity", width: 80 },
   { key: "priority", label: "Priority", width: 80 },
@@ -196,7 +198,7 @@ export const mrdrAggColumns: ColumnDef[] = [
   { key: "riskInDays", label: "Risk in Days", width: 100 },
   { key: "stockCS", label: "Stock CS", width: 90 },
   { key: "expectedLossCases", label: "Expected Loss Cases", width: 140 },
-  { key: "expectedLossValue", label: "Expected Loss Value ($)", width: 150 },
+  { key: "expectedLossValue", label: "Expected Loss Value (€)", width: 150 },
   { key: "nextAvailableDate", label: "Next Available Date", width: 140 },
   { key: "botReasonCode", label: "Bot Reason Code", width: 120 },
   { key: "plannerReasonCode", label: "Planner Reason Code", width: 140 },
@@ -248,6 +250,7 @@ export function aggregateByMrdr(rows: RiskRow[]): MrdrAggRow[] {
       repackDependency: earliest.repackDependency,
       category: earliest.category,
       status: items.some(i => i.status === "Open") ? "Open" : "Closed",
+      uom: earliest.uom,
       lineCount: items.length,
       isNew: items.some(i => i.isNew),
     };

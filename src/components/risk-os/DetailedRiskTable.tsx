@@ -23,7 +23,7 @@ const MRDR_FROZEN_WIDTHS: Record<string, number> = { riskId: 90, mrdr: 120, mrdr
 
 export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, onOpenAnalysis }: Props) {
   const navigate = useNavigate();
-  const [view, setView] = useState<"mrdr" | "gtin" | "uom">("mrdr");
+  const [view, setView] = useState<"mrdr" | "gtin">("mrdr");
   const [sortCol, setSortCol] = useState<string | null>(null);
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
   const [visibleCols, setVisibleCols] = useState<Set<string>>(new Set(allColumns.map(c => c.key)));
@@ -135,7 +135,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
         </div>
         <div className="flex items-center gap-2 flex-wrap">
           <div className="flex rounded-lg border border-border overflow-hidden">
-            {(["mrdr", "gtin", "uom"] as const).map(v => (
+            {(["mrdr", "gtin"] as const).map(v => (
               <button
                 key={v}
                 onClick={() => setView(v)}
@@ -264,6 +264,14 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                       {/* Scrollable columns */}
                       <td className={cellCls}>{agg.site}</td>
                       <td className={cellCls}>{agg.su}</td>
+                      <td className={cellCls}>
+                        <Select value={agg.uom} onValueChange={() => {}}>
+                          <SelectTrigger className="h-6 min-w-[55px] text-[10px] border-border/40"><SelectValue /></SelectTrigger>
+                          <SelectContent>
+                            {["CS", "EA", "KG", "L", "PAL"].map(u => <SelectItem key={u} value={u}>{u}</SelectItem>)}
+                          </SelectContent>
+                        </Select>
+                      </td>
                       <td className={cellCls}><Badge variant="outline" className={`text-[10px] ${agg.riskType === "Out Of Stock" ? "bg-critical-bg text-critical border-critical-border" : "bg-medium-bg text-medium border-medium-border"}`}>{agg.riskType}</Badge></td>
                       <td className={cellCls}><Badge variant="outline" className={`text-[10px] ${sevBadgeClass(agg.severity)}`}>{agg.severity}</Badge></td>
                       <td className={cellCls}><Badge variant="outline" className={`text-[10px] ${priBadgeClass(agg.priority)}`}>{agg.priority}</Badge></td>
@@ -274,7 +282,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                       <td className={`${cellCls} font-mono`}>{agg.riskInDays}</td>
                       <td className={`${cellCls} font-mono`}>{agg.stockCS.toLocaleString()}</td>
                       <td className={`${cellCls} font-mono`}>{agg.expectedLossCases.toLocaleString()}</td>
-                      <td className={`${cellCls} font-mono`}>${agg.expectedLossValue.toLocaleString()}</td>
+                      <td className={`${cellCls} font-mono`}>€{agg.expectedLossValue.toLocaleString()}</td>
                       <td className={cellCls}>{agg.nextAvailableDate || "—"}</td>
                       <td className={cellCls}>{agg.botReasonCode}</td>
                       <td className={cellCls}>{agg.plannerReasonCode}</td>
@@ -305,6 +313,14 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                           <td className={childCellCls} style={frozenCellStyle("msoCountry", childVariant)}>{cr.msoCountry}</td>
                           <td className={childCellCls}>{cr.site}</td>
                           <td className={childCellCls}>{cr.su}</td>
+                          <td className={childCellCls}>
+                            <Select value={cr.uom} onValueChange={() => {}}>
+                              <SelectTrigger className="h-6 min-w-[55px] text-[10px] border-border/40"><SelectValue /></SelectTrigger>
+                              <SelectContent>
+                                {["CS", "EA", "KG", "L", "PAL"].map(u => <SelectItem key={u} value={u}>{u}</SelectItem>)}
+                              </SelectContent>
+                            </Select>
+                          </td>
                           <td className={childCellCls}><Badge variant="outline" className={`text-[10px] ${cr.riskType === "Out Of Stock" ? "bg-critical-bg text-critical border-critical-border" : "bg-medium-bg text-medium border-medium-border"}`}>{cr.riskType}</Badge></td>
                           <td className={childCellCls}><Badge variant="outline" className={`text-[10px] ${sevBadgeClass(cr.severity)}`}>{cr.severity}</Badge></td>
                           <td className={childCellCls}><Badge variant="outline" className={`text-[10px] ${priBadgeClass(cr.priority)}`}>{cr.priority}</Badge></td>
@@ -315,7 +331,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                           <td className={`${childCellCls} font-mono`}>{cr.riskInDays}</td>
                           <td className={`${childCellCls} font-mono`}>{cr.stockCS.toLocaleString()}</td>
                           <td className={`${childCellCls} font-mono`}>{cr.expectedLossCases.toLocaleString()}</td>
-                          <td className={`${childCellCls} font-mono`}>${cr.expectedLossValue.toLocaleString()}</td>
+                          <td className={`${childCellCls} font-mono`}>€{cr.expectedLossValue.toLocaleString()}</td>
                           <td className={childCellCls}>{cr.nextAvailableDate || "—"}</td>
                           <td className={childCellCls}>{cr.botReasonCode}</td>
                           <td className={childCellCls}>
@@ -392,7 +408,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                       <td className={`${cellCls} font-mono`}>{grow.riskInDays}</td>
                       <td className={`${cellCls} font-mono`}>{grow.stockCS.toLocaleString()}</td>
                       <td className={`${cellCls} font-mono`}>{grow.expectedLossCases.toLocaleString()}</td>
-                      <td className={`${cellCls} font-mono`}>${grow.expectedLossValue.toLocaleString()}</td>
+                      <td className={`${cellCls} font-mono`}>€{grow.expectedLossValue.toLocaleString()}</td>
                     </tr>
                     {expanded && childRows.map(cr => (
                       <tr key={cr.riskId} className={`border-b border-border/30 ${cr.isNew ? "bg-destructive/[0.06]" : "bg-muted/30"}`}>
@@ -410,7 +426,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                         <td className={`${childCellCls} font-mono`}>{cr.riskInDays}</td>
                         <td className={`${childCellCls} font-mono`}>{cr.stockCS.toLocaleString()}</td>
                         <td className={`${childCellCls} font-mono`}>{cr.expectedLossCases.toLocaleString()}</td>
-                        <td className={`${childCellCls} font-mono`}>${cr.expectedLossValue.toLocaleString()}</td>
+                        <td className={`${childCellCls} font-mono`}>€{cr.expectedLossValue.toLocaleString()}</td>
                       </tr>
                     ))}
                   </React.Fragment>
@@ -421,37 +437,6 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
         </div>
       )}
 
-      {/* UOM View */}
-      {view === "uom" && (
-        <div className="overflow-x-auto overflow-y-auto max-h-[60vh] rounded-lg border border-border">
-          <table className="w-full border-collapse text-left" style={{ minWidth: "800px" }}>
-            <thead className="sticky top-0 z-30">
-              <tr>
-                <th className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground px-3 py-3 bg-secondary border-b border-border" style={{ width: 80 }}>UOM</th>
-                <th className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground px-3 py-3 bg-secondary border-b border-border" style={{ width: 90 }}>Item Count</th>
-                <th className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground px-3 py-3 bg-secondary border-b border-border" style={{ width: 100 }}>Max Severity</th>
-                <th className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground px-3 py-3 bg-secondary border-b border-border" style={{ width: 100 }}>Total Risk Days</th>
-                <th className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground px-3 py-3 bg-secondary border-b border-border" style={{ width: 100 }}>Total Stock</th>
-                <th className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground px-3 py-3 bg-secondary border-b border-border" style={{ width: 130 }}>Total Loss Cases</th>
-                <th className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground px-3 py-3 bg-secondary border-b border-border" style={{ width: 140 }}>Total Loss Value ($)</th>
-              </tr>
-            </thead>
-            <tbody>
-              {uomData.map(u => (
-                <tr key={u.uom} className="border-b border-border/50 hover:bg-primary/[0.04]">
-                  <td className={`${cellCls} font-semibold`}>{u.uom}</td>
-                  <td className={`${cellCls} font-mono`}>{u.count}</td>
-                  <td className={cellCls}><Badge variant="outline" className={`text-[10px] ${sevBadgeClass(u.severity)}`}>{u.severity}</Badge></td>
-                  <td className={`${cellCls} font-mono`}>{u.totalRiskDays}</td>
-                  <td className={`${cellCls} font-mono`}>{u.totalStockCS.toLocaleString()}</td>
-                  <td className={`${cellCls} font-mono`}>{u.totalLossCases.toLocaleString()}</td>
-                  <td className={`${cellCls} font-mono`}>${u.totalLossValue.toLocaleString()}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
 
       {/* Share Dialog */}
       <Dialog open={shareDialog} onOpenChange={setShareDialog}>
