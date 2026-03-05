@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { RiskRow } from "@/data/riskData";
 import { Play, CheckCircle2, ChevronDown, ChevronUp, Brain, TrendingUp, Shield, Zap, ArrowRight, Settings, RefreshCw, DollarSign, BarChart3, Target } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 
 interface Props {
