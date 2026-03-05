@@ -46,7 +46,6 @@ export default function LastMileExecution({ row, selectedScenario }: Props) {
   const [executionStarted, setExecutionStarted] = useState(false);
   const [executionComplete, setExecutionComplete] = useState(false);
 
-  // Comment dialog state
   const [commentDialog, setCommentDialog] = useState<{ open: boolean; index: number; action: "approve" | "reject" }>({ open: false, index: 0, action: "approve" });
   const [commentText, setCommentText] = useState("");
 
@@ -89,9 +88,9 @@ export default function LastMileExecution({ row, selectedScenario }: Props) {
   };
 
   const statusIcon = (status: string) => {
-    if (status === "approved") return <CheckCircle2 className="h-5 w-5 text-emerald-500" />;
+    if (status === "approved") return <CheckCircle2 className="h-5 w-5 text-success" />;
     if (status === "rejected") return <XCircle className="h-5 w-5 text-destructive" />;
-    return <Clock className="h-5 w-5 text-amber-500" />;
+    return <Clock className="h-5 w-5 text-warning" />;
   };
 
   return (
@@ -106,19 +105,18 @@ export default function LastMileExecution({ row, selectedScenario }: Props) {
         <p className="text-sm text-muted-foreground mb-4">{scenario.name}</p>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
-          <div><span className="text-xs text-primary font-semibold">Risk ID:</span><p className="text-sm font-bold">RISK-{String(row.riskId).padStart(3, "0")}</p></div>
-          <div><span className="text-xs text-primary font-semibold">Total Cost:</span><p className="text-sm font-bold">€{scenario.cost.toLocaleString()}</p></div>
-          <div><span className="text-xs text-primary font-semibold">Success Probability:</span><p className="text-sm font-bold">{scenario.successProbability}%</p></div>
-          <div><span className="text-xs text-primary font-semibold">Expected Service Level:</span><p className="text-sm font-bold">96%</p></div>
+          <div><span className="text-xs text-primary font-semibold">Risk ID:</span><p className="text-sm font-bold text-foreground">RISK-{String(row.riskId).padStart(3, "0")}</p></div>
+          <div><span className="text-xs text-primary font-semibold">Total Cost:</span><p className="text-sm font-bold text-foreground">€{scenario.cost.toLocaleString()}</p></div>
+          <div><span className="text-xs text-primary font-semibold">Success Probability:</span><p className="text-sm font-bold text-foreground">{scenario.successProbability}%</p></div>
+          <div><span className="text-xs text-primary font-semibold">Expected Service Level:</span><p className="text-sm font-bold text-foreground">96%</p></div>
         </div>
 
-        {/* Additional metadata row */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 border-t border-border pt-4">
           <div className="flex items-start gap-2">
             <CalendarDays className="h-4 w-4 text-primary mt-0.5 shrink-0" />
             <div>
               <span className="text-xs text-primary font-semibold">Request Date & Time:</span>
-              <p className="text-sm font-bold">{requestDate.toLocaleDateString()}</p>
+              <p className="text-sm font-bold text-foreground">{requestDate.toLocaleDateString()}</p>
               <p className="text-[10px] text-muted-foreground">{requestDate.toLocaleTimeString()}</p>
             </div>
           </div>
@@ -136,7 +134,7 @@ export default function LastMileExecution({ row, selectedScenario }: Props) {
           </div>
           <div>
             <span className="text-xs text-primary font-semibold">Expected Service Level:</span>
-            <p className="text-2xl font-bold text-emerald-600">96%</p>
+            <p className="text-2xl font-bold text-success">96%</p>
             <p className="text-[10px] text-muted-foreground">Post-mitigation target</p>
           </div>
         </div>
@@ -159,8 +157,8 @@ export default function LastMileExecution({ row, selectedScenario }: Props) {
                 <p className="text-[10px] text-muted-foreground">{task.owner}</p>
               </div>
               <Badge variant="outline" className={`text-[10px] ${
-                executionComplete ? "bg-emerald-50 text-emerald-700 border-emerald-200" :
-                executionStarted ? "bg-amber-50 text-amber-700 border-amber-200" :
+                executionComplete ? "bg-success/10 text-success border-success/30" :
+                executionStarted ? "bg-warning/10 text-warning border-warning/30" :
                 "bg-muted text-muted-foreground"
               }`}>
                 {executionComplete ? "Complete" : executionStarted ? "In Progress" : "Ready"}
@@ -175,7 +173,7 @@ export default function LastMileExecution({ row, selectedScenario }: Props) {
         <div className="flex items-center gap-2 mb-2">
           <CheckCircle2 className="h-5 w-5 text-primary" />
           <h3 className="text-sm font-bold text-foreground">Approval Workflow Progress</h3>
-          <Badge variant="outline" className="ml-auto bg-amber-50 text-amber-700 border-amber-200 text-[10px]">
+          <Badge variant="outline" className="ml-auto bg-warning/10 text-warning border-warning/30 text-[10px]">
             <Clock className="h-3 w-3 mr-1" /> {progress}% Complete
           </Badge>
         </div>
@@ -184,7 +182,7 @@ export default function LastMileExecution({ row, selectedScenario }: Props) {
         <div className="space-y-3">
           {steps.map((step, i) => (
             <div key={i} className={`border rounded-xl p-4 transition-all ${
-              step.status === "approved" ? "border-emerald-200 bg-emerald-50/30" :
+              step.status === "approved" ? "border-success/30 bg-success/5" :
               step.status === "rejected" ? "border-destructive/30 bg-destructive/5" :
               "border-border bg-card"
             }`}>
@@ -198,14 +196,14 @@ export default function LastMileExecution({ row, selectedScenario }: Props) {
                 </div>
                 {step.status === "pending" && (
                   <div className="flex gap-2">
-                    <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white text-[10px] h-7 px-3" onClick={() => handleOpenCommentDialog(i, "approve")}>Approve</Button>
+                    <Button size="sm" className="bg-success hover:bg-success/90 text-success-foreground text-[10px] h-7 px-3" onClick={() => handleOpenCommentDialog(i, "approve")}>Approve</Button>
                     <Button size="sm" variant="outline" className="text-destructive border-destructive/30 text-[10px] h-7 px-3" onClick={() => handleOpenCommentDialog(i, "reject")}>Reject</Button>
                   </div>
                 )}
                 {step.timestamp && <span className="text-[10px] text-muted-foreground">{step.timestamp}</span>}
               </div>
               {step.comments && (
-                <div className="mt-2 ml-8 bg-secondary/50 rounded-lg p-2">
+                <div className="mt-2 ml-8 bg-secondary rounded-lg p-2">
                   <div className="flex items-center gap-1 text-[10px] text-muted-foreground mb-1"><MessageSquare className="h-3 w-3" /> Comments</div>
                   <p className="text-[10px] text-foreground">{step.comments}</p>
                 </div>
@@ -218,7 +216,7 @@ export default function LastMileExecution({ row, selectedScenario }: Props) {
       {/* Execute Button */}
       {allApproved && !executionComplete && (
         <div className="flex justify-center">
-          <Button onClick={handleExecute} size="lg" className="gap-2 px-8 bg-emerald-600 hover:bg-emerald-700 text-white">
+          <Button onClick={handleExecute} size="lg" className="gap-2 px-8 bg-success hover:bg-success/90 text-success-foreground">
             <Play className="h-4 w-4" /> Execute Mitigation Plan
           </Button>
         </div>
@@ -226,27 +224,27 @@ export default function LastMileExecution({ row, selectedScenario }: Props) {
 
       {/* Execution Results */}
       {executionComplete && (
-        <div className="border-2 border-emerald-500/30 rounded-xl p-5 bg-emerald-50/50">
+        <div className="border-2 border-success/30 rounded-xl p-5 bg-success/5">
           <div className="flex items-center gap-2 mb-3">
-            <CheckCircle2 className="h-5 w-5 text-emerald-600" />
-            <h4 className="text-base font-bold text-emerald-800">Execution Complete</h4>
+            <CheckCircle2 className="h-5 w-5 text-success" />
+            <h4 className="text-base font-bold text-foreground">Execution Complete</h4>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            <div className="border border-emerald-200 rounded-xl p-3 text-center bg-white/50">
-              <span className="text-xl font-bold text-emerald-700">97%</span>
-              <p className="text-[10px] text-emerald-600">Actual Service Level</p>
+            <div className="border border-success/20 rounded-xl p-3 text-center bg-card">
+              <span className="text-xl font-bold text-success">97%</span>
+              <p className="text-[10px] text-muted-foreground">Actual Service Level</p>
             </div>
-            <div className="border border-emerald-200 rounded-xl p-3 text-center bg-white/50">
-              <span className="text-xl font-bold text-emerald-700">€15,369</span>
-              <p className="text-[10px] text-emerald-600">Actual Cost</p>
+            <div className="border border-success/20 rounded-xl p-3 text-center bg-card">
+              <span className="text-xl font-bold text-success">€15,369</span>
+              <p className="text-[10px] text-muted-foreground">Actual Cost</p>
             </div>
-            <div className="border border-emerald-200 rounded-xl p-3 text-center bg-white/50">
-              <span className="text-xl font-bold text-emerald-700">96%</span>
-              <p className="text-[10px] text-emerald-600">Success Rate</p>
+            <div className="border border-success/20 rounded-xl p-3 text-center bg-card">
+              <span className="text-xl font-bold text-success">96%</span>
+              <p className="text-[10px] text-muted-foreground">Success Rate</p>
             </div>
-            <div className="border border-emerald-200 rounded-xl p-3 text-center bg-white/50">
-              <CheckCircle2 className="h-5 w-5 text-emerald-600 mx-auto mb-1" />
-              <p className="text-[10px] text-emerald-600">Completed</p>
+            <div className="border border-success/20 rounded-xl p-3 text-center bg-card">
+              <CheckCircle2 className="h-5 w-5 text-success mx-auto mb-1" />
+              <p className="text-[10px] text-muted-foreground">Completed</p>
             </div>
           </div>
         </div>
@@ -254,11 +252,11 @@ export default function LastMileExecution({ row, selectedScenario }: Props) {
 
       {/* Comment Dialog */}
       <Dialog open={commentDialog.open} onOpenChange={(open) => setCommentDialog(prev => ({ ...prev, open }))}>
-        <DialogContent className="max-w-md">
+        <DialogContent className="max-w-md" aria-describedby={undefined}>
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               {commentDialog.action === "approve" ? (
-                <><CheckCircle2 className="h-5 w-5 text-emerald-600" /> Approve – {steps[commentDialog.index]?.level}</>
+                <><CheckCircle2 className="h-5 w-5 text-success" /> Approve – {steps[commentDialog.index]?.level}</>
               ) : (
                 <><XCircle className="h-5 w-5 text-destructive" /> Reject – {steps[commentDialog.index]?.level}</>
               )}
@@ -281,7 +279,7 @@ export default function LastMileExecution({ row, selectedScenario }: Props) {
             <div className="flex gap-3 justify-end">
               <Button variant="outline" onClick={() => setCommentDialog(prev => ({ ...prev, open: false }))}>Cancel</Button>
               <Button
-                className={`gap-2 ${commentDialog.action === "approve" ? "bg-emerald-600 hover:bg-emerald-700 text-white" : "bg-destructive hover:bg-destructive/90 text-destructive-foreground"}`}
+                className={`gap-2 ${commentDialog.action === "approve" ? "bg-success hover:bg-success/90 text-success-foreground" : "bg-destructive hover:bg-destructive/90 text-destructive-foreground"}`}
                 onClick={handleSubmitWithComment}
               >
                 {commentDialog.action === "approve" ? (

@@ -366,7 +366,7 @@ export default function ScenarioSimulatorTab({ row, onSelectScenario, selectedSc
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                   {details.impactKPIs.map((kpi, i) => (
                     <div key={i} className="bg-card border border-border rounded-lg p-3 text-center">
-                      <span className={`text-lg font-bold ${kpi.color.replace("emerald-600", "success")}`}>{kpi.value}</span>
+                      <span className={`text-lg font-bold ${kpi.color}`}>{kpi.value}</span>
                       <p className="text-[10px] text-muted-foreground">{kpi.label}</p>
                     </div>
                   ))}
