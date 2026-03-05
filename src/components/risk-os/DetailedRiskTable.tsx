@@ -283,7 +283,6 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                       {/* Scrollable columns */}
                       <td className={cellCls}>{agg.site}</td>
                       <td className={cellCls}>{agg.su}</td>
-                      </td>
                       <td className={cellCls}><Badge variant="outline" className={`text-[10px] ${agg.riskType === "Out Of Stock" ? "bg-critical-bg text-critical border-critical-border" : "bg-medium-bg text-medium border-medium-border"}`}>{agg.riskType}</Badge></td>
                       <td className={cellCls}><Badge variant="outline" className={`text-[10px] ${sevBadgeClass(agg.severity)}`}>{agg.severity}</Badge></td>
                       <td className={cellCls}><Badge variant="outline" className={`text-[10px] ${priBadgeClass(agg.priority)}`}>{agg.priority}</Badge></td>
@@ -323,16 +322,9 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                           <td className={`${childCellCls} font-mono`} style={frozenCellStyle("mrdr", childVariant)}>{cr.mrdr}</td>
                           <td className={childCellCls} style={frozenCellStyle("mrdrDescription", childVariant)}>{cr.mrdrDescription}</td>
                           <td className={childCellCls} style={frozenCellStyle("msoCountry", childVariant)}>{cr.msoCountry}</td>
+                          <td className={childCellCls} style={frozenCellStyle("uom", childVariant)}>{cr.uom}</td>
                           <td className={childCellCls}>{cr.site}</td>
                           <td className={childCellCls}>{cr.su}</td>
-                          <td className={childCellCls}>
-                            <Select value={cr.uom} onValueChange={() => {}}>
-                              <SelectTrigger className="h-6 min-w-[55px] text-[10px] border-border/40"><SelectValue /></SelectTrigger>
-                              <SelectContent>
-                                {["CS", "EA", "KG", "L", "PAL"].map(u => <SelectItem key={u} value={u}>{u}</SelectItem>)}
-                              </SelectContent>
-                            </Select>
-                          </td>
                           <td className={childCellCls}><Badge variant="outline" className={`text-[10px] ${cr.riskType === "Out Of Stock" ? "bg-critical-bg text-critical border-critical-border" : "bg-medium-bg text-medium border-medium-border"}`}>{cr.riskType}</Badge></td>
                           <td className={childCellCls}><Badge variant="outline" className={`text-[10px] ${sevBadgeClass(cr.severity)}`}>{cr.severity}</Badge></td>
                           <td className={childCellCls}><Badge variant="outline" className={`text-[10px] ${priBadgeClass(cr.priority)}`}>{cr.priority}</Badge></td>
