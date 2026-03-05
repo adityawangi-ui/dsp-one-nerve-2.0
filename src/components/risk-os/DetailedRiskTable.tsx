@@ -421,37 +421,6 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
         </div>
       )}
 
-      {/* UOM View */}
-      {view === "uom" && (
-        <div className="overflow-x-auto overflow-y-auto max-h-[60vh] rounded-lg border border-border">
-          <table className="w-full border-collapse text-left" style={{ minWidth: "800px" }}>
-            <thead className="sticky top-0 z-30">
-              <tr>
-                <th className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground px-3 py-3 bg-secondary border-b border-border" style={{ width: 80 }}>UOM</th>
-                <th className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground px-3 py-3 bg-secondary border-b border-border" style={{ width: 90 }}>Item Count</th>
-                <th className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground px-3 py-3 bg-secondary border-b border-border" style={{ width: 100 }}>Max Severity</th>
-                <th className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground px-3 py-3 bg-secondary border-b border-border" style={{ width: 100 }}>Total Risk Days</th>
-                <th className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground px-3 py-3 bg-secondary border-b border-border" style={{ width: 100 }}>Total Stock</th>
-                <th className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground px-3 py-3 bg-secondary border-b border-border" style={{ width: 130 }}>Total Loss Cases</th>
-                <th className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground px-3 py-3 bg-secondary border-b border-border" style={{ width: 140 }}>Total Loss Value ($)</th>
-              </tr>
-            </thead>
-            <tbody>
-              {uomData.map(u => (
-                <tr key={u.uom} className="border-b border-border/50 hover:bg-primary/[0.04]">
-                  <td className={`${cellCls} font-semibold`}>{u.uom}</td>
-                  <td className={`${cellCls} font-mono`}>{u.count}</td>
-                  <td className={cellCls}><Badge variant="outline" className={`text-[10px] ${sevBadgeClass(u.severity)}`}>{u.severity}</Badge></td>
-                  <td className={`${cellCls} font-mono`}>{u.totalRiskDays}</td>
-                  <td className={`${cellCls} font-mono`}>{u.totalStockCS.toLocaleString()}</td>
-                  <td className={`${cellCls} font-mono`}>{u.totalLossCases.toLocaleString()}</td>
-                  <td className={`${cellCls} font-mono`}>${u.totalLossValue.toLocaleString()}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
 
       {/* Share Dialog */}
       <Dialog open={shareDialog} onOpenChange={setShareDialog}>
