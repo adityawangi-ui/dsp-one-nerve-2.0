@@ -334,7 +334,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                           <td className={childCellCls}>{cr.repackDependency}</td>
                           <td className={childCellCls}>{cr.category}</td>
                           <td className={childCellCls}>
-                            <button onClick={() => navigate(`/risk-analysis?riskId=${cr.riskId}`)} className="flex items-center gap-1 text-primary hover:underline text-[11px]">
+                            <button onClick={() => onOpenAnalysis ? onOpenAnalysis(cr) : navigate(`/risk-analysis?riskId=${cr.riskId}`)} className="flex items-center gap-1 text-primary hover:underline text-[11px]">
                               <Search className="h-3 w-3" /> Analyse
                             </button>
                           </td>

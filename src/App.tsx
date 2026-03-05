@@ -55,7 +55,7 @@ const App = () => (
           <Route path="/waste-optimizer" element={<WasteOptimizer />} />
           <Route path="/capacity-rebalancer" element={<CapacityRebalancer />} />
           <Route path="/learning-hub" element={<LearningHub />} />
-          <Route path="/risk-monitor" element={<MainLayout><RiskOverview /></MainLayout>} />
+          <Route path="/risk-monitor" element={<RiskOverview />} />
           <Route path="/risk-analysis" element={<RiskAnalysisWorkflow />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
