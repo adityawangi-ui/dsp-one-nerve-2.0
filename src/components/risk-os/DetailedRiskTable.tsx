@@ -253,6 +253,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                         <td className="px-2 border-b border-border/50" style={{ position: "sticky", left: 0, zIndex: 10, backgroundColor: agg.isNew ? "hsl(0 80% 96%)" : "hsl(var(--card))" }}>
                           <Checkbox checked={selectedRows.has(agg.mrdr)} onCheckedChange={(c) => {
                             const next = new Set(selectedRows);
+
                             if (c) next.add(agg.mrdr); else next.delete(agg.mrdr);
                             setSelectedRows(next);
                           }} />
