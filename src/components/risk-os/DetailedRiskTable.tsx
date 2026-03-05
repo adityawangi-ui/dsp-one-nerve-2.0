@@ -288,6 +288,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                         <button onClick={() => onOpenAnalysis ? onOpenAnalysis(childRows[0]) : navigate(`/risk-analysis?riskId=${childRows[0].riskId}`)} className="flex items-center gap-1 text-primary hover:underline text-[11px]">
                           <Search className="h-3 w-3" /> Insights & Analyse
                         </button>
+                      </td>
                     </tr>
                     {expanded && childRows.map(cr => {
                       const childVariant = cr.isNew ? "childNew" : "child";
