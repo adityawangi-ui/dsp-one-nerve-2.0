@@ -55,8 +55,8 @@ export default function RiskAnalysisPanel({ row, onClose }: Props) {
             </span>
             <Badge variant="outline" className="text-[10px] font-mono">RISK-{String(row.riskId).padStart(3, "0")}</Badge>
           </div>
-          <button onClick={onClose} className="h-8 w-8 flex items-center justify-center rounded-lg hover:bg-[hsl(220,20%,94%)] transition-colors">
-            <X className="h-4 w-4 text-[hsl(220,10%,46%)]" />
+          <button onClick={onClose} className="h-8 w-8 flex items-center justify-center rounded-lg hover:bg-secondary transition-colors">
+            <X className="h-4 w-4 text-muted-foreground" />
           </button>
         </div>
 
