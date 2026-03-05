@@ -136,7 +136,7 @@ export default function AlertsSection() {
               <DollarSign className="h-3 w-3" /> VAR
             </div>
             <div className="flex items-center justify-center gap-2 mt-0.5">
-              <span className="text-[15px] font-extrabold font-mono-tech text-primary">$2.4M</span>
+              <span className="text-[15px] font-extrabold font-mono-tech text-primary neon-text">€2.4M</span>
               <span className="text-[10px] text-critical font-semibold flex items-center gap-0.5">
                 <TrendingUp className="h-2.5 w-2.5" /> +8%
               </span>

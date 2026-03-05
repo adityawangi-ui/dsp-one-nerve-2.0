@@ -18,7 +18,7 @@ function getAnswer(q: string): string {
 
   if (lower.includes("top") && lower.includes("loss")) {
     const sorted = [...riskData].sort((a, b) => b.expectedLossCases - a.expectedLossCases).slice(0, 5);
-    return `**Top 5 Risks by Expected Loss Cases:**\n\n${sorted.map((r, i) => `${i + 1}. **${r.mrdrDescription}** (${r.msoCountry}) — ${r.expectedLossCases.toLocaleString()} cases, $${r.expectedLossValue.toLocaleString()}, Severity: ${r.severity}`).join("\n")}`;
+    return `**Top 5 Risks by Expected Loss Cases:**\n\n${sorted.map((r, i) => `${i + 1}. **${r.mrdrDescription}** (${r.msoCountry}) — ${r.expectedLossCases.toLocaleString()} cases, €${r.expectedLossValue.toLocaleString()}, Severity: ${r.severity}`).join("\n")}`;
   }
 
   if (lower.includes("out of stock") || lower.includes("oos")) {
@@ -26,7 +26,7 @@ function getAnswer(q: string): string {
     const countries = [...new Set(oos.map(r => r.msoCountry))];
     const totalLoss = oos.reduce((s, r) => s + r.expectedLossValue, 0);
     const avgDays = Math.round(oos.reduce((s, r) => s + r.riskInDays, 0) / oos.length);
-    return `**Out Of Stock Summary:**\n\n- **Count:** ${oos.length} items\n- **Countries:** ${countries.join(", ")}\n- **Total Loss Value:** $${totalLoss.toLocaleString()}\n- **Avg Duration:** ${avgDays} days`;
+    return `**Out Of Stock Summary:**\n\n- **Count:** ${oos.length} items\n- **Countries:** ${countries.join(", ")}\n- **Total Loss Value:** €${totalLoss.toLocaleString()}\n- **Avg Duration:** ${avgDays} days`;
   }
 
   if (lower.includes("country") && (lower.includes("critical") || lower.includes("most"))) {
@@ -40,12 +40,12 @@ function getAnswer(q: string): string {
   if (lower.includes("total value") || lower.includes("value at risk")) {
     const totalVal = riskData.reduce((s, r) => s + r.expectedLossValue, 0);
     const totalCases = riskData.reduce((s, r) => s + r.expectedLossCases, 0);
-    return `**Value at Risk Summary:**\n\n- **Total Expected Loss Value:** $${totalVal.toLocaleString()}\n- **Total Expected Loss Cases:** ${totalCases.toLocaleString()}\n- **Open Items:** ${riskData.filter(r => r.status === "Open").length}\n- **Avg Loss per Item:** $${Math.round(totalVal / riskData.length).toLocaleString()}`;
+    return `**Value at Risk Summary:**\n\n- **Total Expected Loss Value:** €${totalVal.toLocaleString()}\n- **Total Expected Loss Cases:** ${totalCases.toLocaleString()}\n- **Open Items:** ${riskData.filter(r => r.status === "Open").length}\n- **Avg Loss per Item:** €${Math.round(totalVal / riskData.length).toLocaleString()}`;
   }
 
   if ((lower.includes("s1") || lower.includes("s 1") || lower.includes("severity")) && lower.includes("p1") || lower.includes("p 1")) {
     const filtered = riskData.filter(r => r.severity === "S 1" && r.priority === "P 1");
-    return `**S 1 + P 1 Risks (${filtered.length} items):**\n\n${filtered.map(r => `- **${r.mrdrDescription}** (${r.msoCountry}, ${r.site}) — ${r.expectedLossCases.toLocaleString()} cases, $${r.expectedLossValue.toLocaleString()}`).join("\n")}`;
+    return `**S 1 + P 1 Risks (${filtered.length} items):**\n\n${filtered.map(r => `- **${r.mrdrDescription}** (${r.msoCountry}, ${r.site}) — ${r.expectedLossCases.toLocaleString()} cases, €${r.expectedLossValue.toLocaleString()}`).join("\n")}`;
   }
 
   if (lower.includes("gtin") && (lower.includes("longest") || lower.includes("duration"))) {
@@ -55,7 +55,7 @@ function getAnswer(q: string): string {
 
   const open = riskData.filter(r => r.status === "Open").length;
   const totalVal = riskData.reduce((s, r) => s + r.expectedLossValue, 0);
-  return `**Risk Overview:**\n\n- **Total Risks:** ${riskData.length}\n- **Open:** ${open}\n- **Total Value at Risk:** $${totalVal.toLocaleString()}\n\nTry asking:\n- "Top 5 risks by expected loss"\n- "Which country has the most critical risks?"`;
+  return `**Risk Overview:**\n\n- **Total Risks:** ${riskData.length}\n- **Open:** ${open}\n- **Total Value at Risk:** €${totalVal.toLocaleString()}\n\nTry asking:\n- "Top 5 risks by expected loss"\n- "Which country has the most critical risks?"`;
 }
 
 interface Message { role: "user" | "assistant"; text: string; }

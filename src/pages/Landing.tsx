@@ -356,7 +356,7 @@ export default function Landing() {
 
   return (
     <MainLayout>
-      <div className="min-h-[calc(100vh-4rem)] misty-bg px-4 md:px-8 lg:px-12 xl:px-16 overflow-auto flex flex-col relative">
+      <div className="min-h-[calc(100vh-4rem)] gradient-mesh px-4 md:px-8 lg:px-12 xl:px-16 overflow-auto flex flex-col relative">
         <div className="w-full flex flex-col py-4 md:py-6 mx-auto max-w-6xl">
           <div className="flex flex-col space-y-4 md:space-y-5">
             {/* Personal Greeting Section - Centered */}
@@ -506,8 +506,8 @@ export default function Landing() {
                 >
                   <Card className={`relative p-3 md:p-4 rounded-[18px] transition-all duration-300 hover:-translate-y-1 cursor-pointer flex flex-col min-h-[140px] md:min-h-[155px] items-center text-center overflow-hidden ${
                     isActionItem 
-                      ? 'bg-gradient-to-br from-destructive/5 via-warning/5 to-background border-2 border-destructive/40 shadow-[0_4px_20px_rgba(239,68,68,0.15)] hover:shadow-[0_8px_30px_rgba(239,68,68,0.25)] hover:border-destructive/60' 
-                      : 'bg-white border border-border/30 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-intense)] card-shimmer'
+                      ? 'bg-gradient-to-br from-destructive/10 via-warning/5 to-card border-2 border-destructive/40 shadow-[var(--shadow-danger)] hover:shadow-[0_8px_30px_hsl(0_72%_51%_/_0.3)] hover:border-destructive/60' 
+                      : 'bg-card border border-border/50 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-neon)] card-shimmer hover:border-primary/30'
                   }`}>
                     {/* Gradient header strip - action items get attention-grabbing colors */}
                     <div className={`absolute top-0 left-0 right-0 h-1.5 rounded-t-[18px] ${
@@ -638,7 +638,7 @@ export default function Landing() {
             {/* Conversational Prompt Box - Gemini Style */}
             <div className="animate-fade-in w-full" style={{ animationDelay: '0.5s' }}>
             <div className="relative">
-              <div className="frosted-glass breathing-border rounded-2xl border-2 border-primary/30 shadow-[var(--shadow-glow)]">
+              <div className="glass-panel breathing-border rounded-2xl border-2 border-primary/30 shadow-[var(--shadow-glow)]">
                 <div className="flex items-center gap-3 pl-4 pr-3 py-2.5">
                   {/* Left Icons */}
                   <div className="flex items-center gap-2">

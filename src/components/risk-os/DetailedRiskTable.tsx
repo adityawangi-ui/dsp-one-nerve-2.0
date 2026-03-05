@@ -97,7 +97,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
       width: MRDR_FROZEN_WIDTHS[key],
       minWidth: MRDR_FROZEN_WIDTHS[key],
       maxWidth: MRDR_FROZEN_WIDTHS[key],
-      boxShadow: isLastFrozen(key) ? "2px 0 4px rgba(0,0,0,0.06)" : undefined,
+      boxShadow: isLastFrozen(key) ? "2px 0 8px hsl(0 0% 0% / 0.3)" : undefined,
       backgroundColor: "hsl(var(--secondary))",
     };
   };
@@ -106,9 +106,9 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
     if (!MRDR_FROZEN_KEYS.includes(key)) return {};
     const bgMap = {
       normal: "hsl(var(--card))",
-      new: "hsl(0 80% 96%)",
+      new: "hsl(var(--critical-bg))",
       child: "hsl(var(--muted))",
-      childNew: "hsl(0 80% 95%)",
+      childNew: "hsl(var(--critical-bg))",
     };
     return {
       position: "sticky",
@@ -117,13 +117,13 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
       width: MRDR_FROZEN_WIDTHS[key],
       minWidth: MRDR_FROZEN_WIDTHS[key],
       maxWidth: MRDR_FROZEN_WIDTHS[key],
-      boxShadow: isLastFrozen(key) ? "2px 0 4px rgba(0,0,0,0.08)" : undefined,
+      boxShadow: isLastFrozen(key) ? "2px 0 8px hsl(0 0% 0% / 0.3)" : undefined,
       backgroundColor: bgMap[variant],
     };
   };
 
   const NewBadge = () => (
-    <Badge variant="outline" className="ml-1.5 text-[9px] font-bold uppercase bg-destructive/10 text-destructive border-destructive/30">NEW</Badge>
+    <Badge variant="outline" className="ml-1.5 text-[9px] font-bold uppercase bg-destructive/15 text-destructive border-destructive/40 neon-text-red animate-pulse">NEW</Badge>
   );
 
   const cellCls = "text-[11px] whitespace-nowrap px-3 py-2.5";
@@ -247,8 +247,8 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
 
                 return (
                   <React.Fragment key={agg.mrdr}>
-                    <tr className={`border-b border-border/50 hover:bg-primary/[0.04] transition-colors`}
-                        style={{ backgroundColor: agg.isNew ? "hsl(0 80% 96%)" : "hsl(var(--card))", height: "44px" }}>
+                    <tr className={`border-b border-border/50 data-row-hover transition-colors ${agg.isNew ? "risk-detect-pulse" : ""}`}
+                        style={{ backgroundColor: agg.isNew ? "hsl(var(--critical-bg))" : "hsl(var(--card))", height: "44px" }}>
                       {shareMode && (
                         <td className="px-2 border-b border-border/50" style={{ position: "sticky", left: 0, zIndex: 10, backgroundColor: agg.isNew ? "hsl(0 80% 96%)" : "hsl(var(--card))" }}>
                           <Checkbox checked={selectedRows.has(agg.mrdr)} onCheckedChange={(c) => {
@@ -311,7 +311,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                     </tr>
                     {expanded && childRows.map(cr => {
                       const childVariant = cr.isNew ? "childNew" : "child";
-                      const childRowBg = cr.isNew ? "hsl(0 80% 95%)" : "hsl(var(--muted))";
+                      const childRowBg = cr.isNew ? "hsl(var(--critical-bg))" : "hsl(var(--muted))";
                       return (
                         <tr key={cr.riskId} className="border-b border-border/30" style={{ backgroundColor: childRowBg, height: "40px" }}>
                           {shareMode && <td style={{ position: "sticky", left: 0, zIndex: 10, backgroundColor: childRowBg }} />}

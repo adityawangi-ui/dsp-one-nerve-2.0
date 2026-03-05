@@ -4,6 +4,7 @@ import { Home, ChevronRight, Shield, Activity, Zap, Clock, RefreshCw, Download, 
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import AlertsSection from "@/components/risk-os/AlertsSection";
+import SituationPanel from "@/components/risk-os/SituationPanel";
 import UnifiedFilters, { FilterState, defaultFilters } from "@/components/risk-os/UnifiedFilters";
 import DetailedRiskTable from "@/components/risk-os/DetailedRiskTable";
 import InsightsPanel from "@/components/risk-os/InsightsPanel";
@@ -54,37 +55,40 @@ export default function RiskOverview() {
   };
 
   return (
-    <div className="min-h-screen bg-[hsl(220,20%,97%)] flex flex-col">
-      {/* Modern Top Header */}
-      <header className="h-14 border-b border-[hsl(220,13%,91%)] bg-white flex items-center justify-between px-6 shrink-0 sticky top-0 z-50">
+    <div className="min-h-screen bg-background flex flex-col gradient-mesh">
+      {/* Command Center Header */}
+      <header className="h-14 border-b border-border bg-card/80 backdrop-blur-xl flex items-center justify-between px-6 shrink-0 sticky top-0 z-50">
         <div className="flex items-center gap-3">
-          <div className="h-8 w-8 rounded-lg bg-[hsl(220,90%,54%)] flex items-center justify-center">
-            <Shield className="h-4 w-4 text-white" />
+          <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-primary to-primary-glow flex items-center justify-center tech-glow">
+            <Shield className="h-4 w-4 text-primary-foreground" />
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-sm font-bold text-[hsl(220,25%,10%)]">Risk Monitor</span>
-            <Badge className="bg-[hsl(152,60%,94%)] text-[hsl(152,60%,32%)] border-[hsl(152,60%,84%)] text-[10px] font-semibold">Live</Badge>
+            <span className="text-sm font-bold text-foreground">Risk Monitor</span>
+            <Badge className="bg-success/15 text-success border-success/30 text-[10px] font-semibold pulse-glow-green">
+              <span className="mr-1 h-1.5 w-1.5 rounded-full bg-success inline-block animate-pulse" />
+              Live
+            </Badge>
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="sm" className="h-8 text-xs gap-1.5 text-[hsl(220,10%,46%)]">
+          <Button variant="ghost" size="sm" className="h-8 text-xs gap-1.5 text-muted-foreground hover:text-primary">
             <RefreshCw className="h-3.5 w-3.5" /> Refresh
           </Button>
-          <Button variant="ghost" size="sm" className="h-8 text-xs gap-1.5 text-[hsl(220,10%,46%)]">
+          <Button variant="ghost" size="sm" className="h-8 text-xs gap-1.5 text-muted-foreground hover:text-primary">
             <Download className="h-3.5 w-3.5" /> Export
           </Button>
-          <div className="h-6 w-px bg-[hsl(220,13%,91%)]" />
+          <div className="h-6 w-px bg-border" />
           <Button variant="ghost" size="sm" className="h-8 w-8 p-0 relative">
-            <Bell className="h-4 w-4 text-[hsl(220,10%,46%)]" />
-            <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-[hsl(0,72%,51%)]" />
+            <Bell className="h-4 w-4 text-muted-foreground" />
+            <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-destructive pulse-glow-red" />
           </Button>
-          <div className="flex items-center gap-2 ml-1 bg-[hsl(220,20%,97%)] rounded-lg px-3 py-1.5">
-            <div className="h-6 w-6 rounded-full bg-[hsl(220,90%,54%)] flex items-center justify-center">
-              <span className="text-[10px] font-bold text-white">JS</span>
+          <div className="flex items-center gap-2 ml-1 bg-secondary/60 rounded-lg px-3 py-1.5 border border-border/50">
+            <div className="h-6 w-6 rounded-full bg-gradient-to-br from-primary to-primary-glow flex items-center justify-center">
+              <span className="text-[10px] font-bold text-primary-foreground">JS</span>
             </div>
-            <span className="text-xs font-medium text-[hsl(220,25%,10%)]">John Smith</span>
+            <span className="text-xs font-medium text-foreground">John Smith</span>
           </div>
-          <span className="flex items-center gap-1.5 text-[11px] text-[hsl(220,10%,46%)] ml-1">
+          <span className="flex items-center gap-1.5 text-[11px] text-muted-foreground ml-1">
             <Clock className="h-3 w-3" /> {timestamp}
           </span>
         </div>
@@ -92,15 +96,19 @@ export default function RiskOverview() {
 
       {/* Content */}
       <main className="flex-1 overflow-auto">
-        <div className="p-6 space-y-5 max-w-[1600px] mx-auto">
+        <div className="p-6 space-y-4 max-w-[1600px] mx-auto">
           {/* Breadcrumb */}
-          <nav className="flex items-center gap-1.5 text-xs text-[hsl(220,10%,46%)]">
-            <a href="/" className="hover:text-[hsl(220,90%,54%)] transition-colors cursor-pointer flex items-center gap-1">
+          <nav className="flex items-center gap-1.5 text-xs text-muted-foreground">
+            <a href="/" className="hover:text-primary transition-colors cursor-pointer flex items-center gap-1">
               <Home className="h-3 w-3" /> Home
             </a>
             <ChevronRight className="h-3 w-3" />
-            <span className="text-[hsl(220,25%,10%)] font-medium">Risk Monitor</span>
+            <span className="text-foreground font-medium">Risk Monitor</span>
           </nav>
+
+          {/* Global Situation Panel */}
+          <SituationPanel />
+
           <AlertsSection />
           <UnifiedFilters filters={filters} onChange={setFilters} maxLoss={890000} />
           <DetailedRiskTable data={filteredRows} onOpenInsights={setInsightsRow} onUpdateRow={handleUpdateRow} onOpenAnalysis={handleOpenAnalysis} />
