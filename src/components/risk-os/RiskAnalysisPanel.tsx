@@ -68,20 +68,20 @@ export default function RiskAnalysisPanel({ row, onClose }: Props) {
             ) : (
               <Tabs value={activeTab} onValueChange={setActiveTab}>
                 {/* Always-visible tabs */}
-                <TabsList className="w-full justify-start h-10 bg-white border border-[hsl(220,13%,91%)] rounded-xl p-1 mb-5 sticky top-0 z-10 shadow-sm">
-                  <TabsTrigger value="insights-data" className="text-xs gap-1.5 data-[state=active]:bg-[hsl(220,90%,54%)] data-[state=active]:text-white rounded-lg px-4">
+                <TabsList className="w-full justify-start h-10 bg-card border border-border rounded-xl p-1 mb-5 sticky top-0 z-10 shadow-sm">
+                  <TabsTrigger value="insights-data" className="text-xs gap-1.5 text-foreground data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg px-4">
                     <Database className="h-3.5 w-3.5" /> Insights & Data
                   </TabsTrigger>
-                  <TabsTrigger value="recommendations" className="text-xs gap-1.5 data-[state=active]:bg-[hsl(220,90%,54%)] data-[state=active]:text-white rounded-lg px-4">
+                  <TabsTrigger value="recommendations" className="text-xs gap-1.5 text-foreground data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg px-4">
                     <Search className="h-3.5 w-3.5" /> Recommendations
                   </TabsTrigger>
-                  <TabsTrigger value="workflow" className="text-xs gap-1.5 data-[state=active]:bg-[hsl(220,90%,54%)] data-[state=active]:text-white rounded-lg px-4">
+                  <TabsTrigger value="workflow" className="text-xs gap-1.5 text-foreground data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg px-4">
                     <SettingsIcon className="h-3.5 w-3.5" /> Workflow Management
                   </TabsTrigger>
-                  <TabsTrigger value="poc" className="text-xs gap-1.5 data-[state=active]:bg-[hsl(220,90%,54%)] data-[state=active]:text-white rounded-lg px-4">
+                  <TabsTrigger value="poc" className="text-xs gap-1.5 text-foreground data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg px-4">
                     <MessageSquare className="h-3.5 w-3.5" /> POC Communication
                   </TabsTrigger>
-                  <TabsTrigger value="chat-history" className="text-xs gap-1.5 data-[state=active]:bg-[hsl(220,90%,54%)] data-[state=active]:text-white rounded-lg px-4">
+                  <TabsTrigger value="chat-history" className="text-xs gap-1.5 text-foreground data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg px-4">
                     <Clock className="h-3.5 w-3.5" /> Chat History
                   </TabsTrigger>
                 </TabsList>
