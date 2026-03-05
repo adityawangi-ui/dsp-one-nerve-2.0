@@ -638,7 +638,7 @@ export default function Landing() {
             {/* Conversational Prompt Box - Gemini Style */}
             <div className="animate-fade-in w-full" style={{ animationDelay: '0.5s' }}>
             <div className="relative">
-              <div className="frosted-glass breathing-border rounded-2xl border-2 border-primary/30 shadow-[var(--shadow-glow)]">
+              <div className="glass-panel breathing-border rounded-2xl border-2 border-primary/30 shadow-[var(--shadow-glow)]">
                 <div className="flex items-center gap-3 pl-4 pr-3 py-2.5">
                   {/* Left Icons */}
                   <div className="flex items-center gap-2">
