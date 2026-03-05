@@ -36,6 +36,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
   const [shareSubject, setShareSubject] = useState("Risk Data Share");
   const [shareMsg, setShareMsg] = useState("");
   const [addDialog, setAddDialog] = useState(false);
+  const [uomFilter, setUomFilter] = useState<string>("all");
 
   const toggleSort = (col: string) => {
     if (sortCol === col) setSortDir(d => d === "asc" ? "desc" : "asc");
