@@ -35,6 +35,11 @@ const executionTasks = [
 export default function LastMileExecution({ row, selectedScenario }: Props) {
   const scenario = selectedScenario;
   const requestDate = new Date();
+  const topRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    topRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, []);
 
   const [steps, setSteps] = useState<ApprovalStep[]>([
     { level: "L1", title: "Planner Approval", person: "John Smith", role: "Senior Planner", status: "pending", comments: "", required: "All mitigation scenarios requiring resource reallocation" },
