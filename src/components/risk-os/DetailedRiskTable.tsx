@@ -15,6 +15,7 @@ interface Props {
   data: RiskRow[];
   onOpenInsights: (row: RiskRow) => void;
   onUpdateRow: (idx: number, updates: Partial<RiskRow>) => void;
+  onOpenAnalysis?: (row: RiskRow) => void;
 }
 
 const MRDR_FROZEN_KEYS = ["riskId", "mrdr", "mrdrDescription", "msoCountry"];
