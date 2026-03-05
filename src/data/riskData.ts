@@ -175,6 +175,7 @@ export interface MrdrAggRow {
   category: string;
   gtin: number;
   status: string;
+  uom: string;
   lineCount: number;
   isNew: boolean;
 }
