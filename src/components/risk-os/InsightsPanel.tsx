@@ -272,14 +272,14 @@ export default function InsightsPanel({ row, onClose }: Props) {
                 </ResponsiveContainer>
               </ChartCard>
 
-              <div className="overflow-x-auto mt-4 rounded-xl border border-border/60 bg-card/60 backdrop-blur-sm">
+              <div className="overflow-x-auto mt-4 rounded-xl border border-border bg-card">
                 <table className="w-full text-[11px]" style={{ minWidth: `${(ctpColumns.length + 3) * 90}px` }}>
                   <thead>
-                    <tr className="bg-secondary/80 border-b border-border/60">
-                      <th className="sticky left-0 z-10 bg-secondary px-3 py-2.5 text-left text-[10px] font-bold uppercase tracking-wider text-foreground/70 w-32">Part Name</th>
-                      <th className="px-3 py-2.5 text-left text-[10px] font-bold uppercase text-foreground/70 w-16">Site</th>
-                      <th className="px-3 py-2.5 text-left text-[10px] font-bold uppercase text-foreground/70 w-48">Description</th>
-                      {ctpColumns.map(w => <th key={w} className="px-3 py-2.5 text-center text-[10px] font-bold uppercase tracking-wider text-foreground/70 whitespace-nowrap">{w}</th>)}
+                    <tr className="bg-secondary border-b border-border">
+                      <th className="sticky left-0 z-10 bg-secondary px-3 py-2.5 text-left text-[10px] font-bold uppercase tracking-wider text-foreground w-32">Part Name</th>
+                      <th className="px-3 py-2.5 text-left text-[10px] font-bold uppercase text-foreground w-16">Site</th>
+                      <th className="px-3 py-2.5 text-left text-[10px] font-bold uppercase text-foreground w-48">Description</th>
+                      {ctpColumns.map(w => <th key={w} className="px-3 py-2.5 text-center text-[10px] font-bold uppercase tracking-wider text-foreground whitespace-nowrap">{w}</th>)}
                     </tr>
                   </thead>
                   <tbody>
@@ -289,18 +289,18 @@ export default function InsightsPanel({ row, onClose }: Props) {
                       const isBalance = metric.includes("Balance");
                       const isBelowRS = metric.includes("Below RS");
                       return (
-                        <tr key={metric} className={`border-b border-border/30 ${isBalance ? "bg-primary/5 font-semibold" : isBelowRS ? "bg-destructive/5" : "hover:bg-primary/[0.03]"}`}>
+                        <tr key={metric} className={`border-b border-border/50 ${isBalance ? "bg-primary/10 font-semibold" : isBelowRS ? "bg-destructive/10" : "hover:bg-secondary/40"}`}>
                           {mi === 0 && (
                             <>
-                              <td className="sticky left-0 z-10 bg-card px-3 py-2 font-mono text-foreground/90 whitespace-nowrap" rowSpan={ctpMetrics.length}>{row.mrdr}</td>
-                              <td className="px-3 py-2 text-foreground/80 whitespace-nowrap" rowSpan={ctpMetrics.length}>A283</td>
-                              <td className="px-3 py-2 text-foreground/70 whitespace-nowrap text-[10px]" rowSpan={ctpMetrics.length}>{row.mrdrDescription}</td>
+                              <td className="sticky left-0 z-10 bg-card px-3 py-2 font-mono text-foreground whitespace-nowrap" rowSpan={ctpMetrics.length}>{row.mrdr}</td>
+                              <td className="px-3 py-2 text-foreground whitespace-nowrap" rowSpan={ctpMetrics.length}>A283</td>
+                              <td className="px-3 py-2 text-foreground whitespace-nowrap text-[10px]" rowSpan={ctpMetrics.length}>{row.mrdrDescription}</td>
                             </>
                           )}
                           {sliced.map((v, i) => {
                             const isNegative = isBelowRS && v > 0;
                             return (
-                              <td key={i} className={`px-3 py-2 text-center font-mono ${isNegative ? "text-destructive font-bold" : "text-foreground/90"}`}>
+                              <td key={i} className={`px-3 py-2 text-center font-mono ${isNegative ? "text-destructive font-bold" : "text-foreground"}`}>
                                 {v.toLocaleString()}
                               </td>
                             );
