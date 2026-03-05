@@ -84,19 +84,19 @@ function KpiBox({ label, value }: { label: string; value: string | number }) {
 
 const customTooltipStyle = {
   contentStyle: {
-    backgroundColor: 'hsl(222, 47%, 14%)',
-    border: '1px solid hsl(217, 33%, 25%)',
+    backgroundColor: 'hsl(var(--popover))',
+    border: '1px solid hsl(var(--border))',
     borderRadius: '10px',
-    color: 'hsl(210, 40%, 96%)',
+    color: 'hsl(var(--popover-foreground))',
     fontSize: '11px',
     padding: '8px 12px',
-    boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
+    boxShadow: 'var(--shadow-card)',
   },
-  labelStyle: { color: 'hsl(210, 40%, 80%)', fontWeight: 600, marginBottom: '4px' },
-  itemStyle: { color: 'hsl(210, 40%, 96%)', padding: '1px 0' },
+  labelStyle: { color: 'hsl(var(--foreground))', fontWeight: 600, marginBottom: '4px' },
+  itemStyle: { color: 'hsl(var(--foreground))', padding: '1px 0' },
 };
 
-const axisTickStyle = { fontSize: 10, fill: 'hsl(215, 20%, 65%)' };
+const axisTickStyle = { fontSize: 10, fill: 'hsl(var(--muted-foreground))' };
 const legendStyle = { fontSize: 10, paddingTop: 8 };
 
 export default function InsightsDataTab({ row }: Props) {
