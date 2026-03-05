@@ -100,6 +100,7 @@ export default function LastMileExecution({ row, selectedScenario }: Props) {
 
   return (
     <div className="space-y-6">
+      <div ref={topRef} />
       {/* Last Mile Execution Header */}
       <div className="border-2 border-primary/20 rounded-xl p-5 bg-primary/[0.03]">
         <div className="flex items-center gap-2 mb-3">
