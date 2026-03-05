@@ -343,7 +343,7 @@ export default function InsightsPanel({ row, onClose }: Props) {
               <SectionHeader icon={Calendar} title="DOH (Day & Quantity)" />
               <ChartCard title="DOH & Quantity Combined" className="h-64">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={dohData}>
+                  <ComposedChart data={dohData}>
                     <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
                     <XAxis dataKey="week" tick={{ fontSize: 9 }} />
                     <YAxis yAxisId="left" tick={{ fontSize: 9 }} />
@@ -351,8 +351,8 @@ export default function InsightsPanel({ row, onClose }: Props) {
                     <Tooltip />
                     <Legend wrapperStyle={{ fontSize: 9 }} />
                     <Bar yAxisId="left" dataKey="doh" fill={COLORS[0]} name="DOH Days" />
-                    <Line yAxisId="right" type="monotone" dataKey="qty" stroke={COLORS[4]} strokeWidth={2} name="Quantity" />
-                  </BarChart>
+                    <Line yAxisId="right" type="monotone" dataKey="qty" stroke={COLORS[4]} strokeWidth={2} name="Quantity" dot={{ r: 4 }} />
+                  </ComposedChart>
                 </ResponsiveContainer>
               </ChartCard>
             </div>
