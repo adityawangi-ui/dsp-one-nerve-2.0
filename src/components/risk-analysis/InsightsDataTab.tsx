@@ -347,7 +347,7 @@ export default function InsightsDataTab({ row }: Props) {
                 <YAxis yAxisId="left" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} label={{ value: 'DOH Days', angle: -90, position: 'insideLeft', style: { fontSize: 9, fill: 'hsl(var(--muted-foreground))' } }} />
                 <YAxis yAxisId="right" orientation="right" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} label={{ value: 'Quantity', angle: 90, position: 'insideRight', style: { fontSize: 9, fill: 'hsl(var(--muted-foreground))' } }} />
                 <Tooltip {...customTooltipStyle} />
-                <Legend wrapperStyle={legendStyle} formatter={(value: string) => <span style={{ color: 'hsl(210, 40%, 80%)' }}>{value}</span>} />
+                <Legend wrapperStyle={legendStyle} formatter={(value: string) => <span style={{ color: 'hsl(var(--foreground))' }}>{value}</span>} />
                 <Bar yAxisId="left" dataKey="doh" fill={CHART_BLUE} name="DOH Days" radius={[4, 4, 0, 0]} />
                 <Line yAxisId="right" type="monotone" dataKey="qty" stroke={CHART_AMBER} strokeWidth={2.5} name="Quantity" dot={{ r: 4, fill: CHART_AMBER, stroke: 'hsl(var(--background))', strokeWidth: 2 }} />
               </ComposedChart>
