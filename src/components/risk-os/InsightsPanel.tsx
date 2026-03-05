@@ -47,20 +47,20 @@ function ChartCard({ children, title, className = "" }: { children: React.ReactN
 
 function DataTable({ headers, rows, minWidth }: { headers: string[]; rows: (string | number)[][]; minWidth?: string }) {
   return (
-    <div className="overflow-x-auto mt-4 rounded-xl border border-border/60 bg-card/60 backdrop-blur-sm">
+    <div className="overflow-x-auto mt-4 rounded-xl border border-border bg-card">
       <table className="w-full text-[11px]" style={{ minWidth: minWidth || `${Math.max(headers.length * 110, 600)}px` }}>
         <thead>
-          <tr className="bg-secondary/80 border-b border-border/60">
+          <tr className="bg-secondary border-b border-border">
             {headers.map(h => (
-              <th key={h} className="px-3 py-2.5 text-left text-[10px] font-bold uppercase tracking-wider text-foreground/70 whitespace-nowrap">{h}</th>
+              <th key={h} className="px-3 py-2.5 text-left text-[10px] font-bold uppercase tracking-wider text-foreground whitespace-nowrap">{h}</th>
             ))}
           </tr>
         </thead>
         <tbody>
           {rows.map((r, i) => (
-            <tr key={i} className="border-b border-border/30 transition-colors hover:bg-primary/5">
+            <tr key={i} className="border-b border-border/50 hover:bg-secondary/40">
               {r.map((c, j) => (
-                <td key={j} className="px-3 py-2 whitespace-nowrap font-mono text-foreground/90">
+                <td key={j} className="px-3 py-2 whitespace-nowrap font-mono text-foreground">
                   {typeof c === "number" ? c.toLocaleString() : c}
                 </td>
               ))}
