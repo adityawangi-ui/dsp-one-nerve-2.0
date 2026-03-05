@@ -156,7 +156,7 @@ export default function InsightsTab({ row }: Props) {
               <XAxis dataKey="week" tick={{ fontSize: 10 }} />
               <YAxis tick={{ fontSize: 10 }} domain={[0, 100]} />
               <Tooltip />
-              <Area type="monotone" dataKey="probability" stroke="hsl(0, 70%, 55%)" fill="hsl(0, 70%, 55%, 0.15)" strokeWidth={2} name="OOS %" />
+              <Area type="monotone" dataKey="probability" stroke="hsl(var(--destructive))" fill="hsl(var(--destructive) / 0.15)" strokeWidth={2} name="OOS %" />
             </AreaChart>
           </ResponsiveContainer>
         </ChartCard>
