@@ -97,7 +97,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
       width: MRDR_FROZEN_WIDTHS[key],
       minWidth: MRDR_FROZEN_WIDTHS[key],
       maxWidth: MRDR_FROZEN_WIDTHS[key],
-      boxShadow: isLastFrozen(key) ? "2px 0 4px rgba(0,0,0,0.06)" : undefined,
+      boxShadow: isLastFrozen(key) ? "2px 0 8px hsl(0 0% 0% / 0.3)" : undefined,
       backgroundColor: "hsl(var(--secondary))",
     };
   };
