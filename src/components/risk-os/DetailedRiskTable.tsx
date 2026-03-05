@@ -18,8 +18,8 @@ interface Props {
   onOpenAnalysis?: (row: RiskRow) => void;
 }
 
-const MRDR_FROZEN_KEYS = ["riskId", "mrdr", "mrdrDescription", "msoCountry"];
-const MRDR_FROZEN_WIDTHS: Record<string, number> = { riskId: 90, mrdr: 120, mrdrDescription: 220, msoCountry: 100 };
+const MRDR_FROZEN_KEYS = ["riskId", "mrdr", "mrdrDescription", "msoCountry", "uom"];
+const MRDR_FROZEN_WIDTHS: Record<string, number> = { riskId: 90, mrdr: 120, mrdrDescription: 220, msoCountry: 100, uom: 80 };
 
 export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, onOpenAnalysis }: Props) {
   const navigate = useNavigate();
@@ -36,13 +36,18 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
   const [shareSubject, setShareSubject] = useState("Risk Data Share");
   const [shareMsg, setShareMsg] = useState("");
   const [addDialog, setAddDialog] = useState(false);
+  const [uomFilter, setUomFilter] = useState<string>("all");
 
   const toggleSort = (col: string) => {
     if (sortCol === col) setSortDir(d => d === "asc" ? "desc" : "asc");
     else { setSortCol(col); setSortDir("asc"); }
   };
 
-  const mrdrAggData = useMemo(() => aggregateByMrdr(data), [data]);
+  const mrdrAggData = useMemo(() => {
+    const agg = aggregateByMrdr(data);
+    if (uomFilter === "all") return agg;
+    return agg.filter(a => a.uom === uomFilter);
+  }, [data, uomFilter]);
   const gtinData = useMemo(() => aggregateByGtin(data), [data]);
 
   const uomData = useMemo(() => {
@@ -211,12 +216,24 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                     key={col.key}
                     className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground px-3 py-3 cursor-pointer hover:text-foreground select-none border-b border-border bg-secondary"
                     style={{ width: col.width, ...frozenHeaderStyle(col.key) }}
-                    onClick={() => col.key !== "insights" && toggleSort(col.key)}
+                    onClick={() => col.key !== "insights" && col.key !== "uom" && toggleSort(col.key)}
                   >
-                    <span className="flex items-center gap-1">
-                      {col.label}
-                      {sortCol === col.key && (sortDir === "asc" ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />)}
-                    </span>
+                    {col.key === "uom" ? (
+                      <Select value={uomFilter} onValueChange={setUomFilter}>
+                        <SelectTrigger className="h-6 min-w-[60px] text-[10px] font-semibold uppercase border-border/40 bg-secondary">
+                          <SelectValue placeholder="UOM" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">All UOM</SelectItem>
+                          {["CS", "EA", "KG", "L", "PAL"].map(u => <SelectItem key={u} value={u}>{u}</SelectItem>)}
+                        </SelectContent>
+                      </Select>
+                    ) : (
+                      <span className="flex items-center gap-1">
+                        {col.label}
+                        {sortCol === col.key && (sortDir === "asc" ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />)}
+                      </span>
+                    )}
                   </th>
                 ))}
               </tr>
@@ -261,17 +278,11 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                       <td className={cellCls} style={frozenCellStyle("mrdrDescription", rowNewVariant)}>{agg.mrdrDescription}</td>
                       {/* MSO Country - frozen */}
                       <td className={cellCls} style={frozenCellStyle("msoCountry", rowNewVariant)}>{agg.msoCountry}</td>
+                      {/* UOM - frozen */}
+                      <td className={cellCls} style={frozenCellStyle("uom", rowNewVariant)}>{agg.uom}</td>
                       {/* Scrollable columns */}
                       <td className={cellCls}>{agg.site}</td>
                       <td className={cellCls}>{agg.su}</td>
-                      <td className={cellCls}>
-                        <Select value={agg.uom} onValueChange={() => {}}>
-                          <SelectTrigger className="h-6 min-w-[55px] text-[10px] border-border/40"><SelectValue /></SelectTrigger>
-                          <SelectContent>
-                            {["CS", "EA", "KG", "L", "PAL"].map(u => <SelectItem key={u} value={u}>{u}</SelectItem>)}
-                          </SelectContent>
-                        </Select>
-                      </td>
                       <td className={cellCls}><Badge variant="outline" className={`text-[10px] ${agg.riskType === "Out Of Stock" ? "bg-critical-bg text-critical border-critical-border" : "bg-medium-bg text-medium border-medium-border"}`}>{agg.riskType}</Badge></td>
                       <td className={cellCls}><Badge variant="outline" className={`text-[10px] ${sevBadgeClass(agg.severity)}`}>{agg.severity}</Badge></td>
                       <td className={cellCls}><Badge variant="outline" className={`text-[10px] ${priBadgeClass(agg.priority)}`}>{agg.priority}</Badge></td>
@@ -311,16 +322,9 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                           <td className={`${childCellCls} font-mono`} style={frozenCellStyle("mrdr", childVariant)}>{cr.mrdr}</td>
                           <td className={childCellCls} style={frozenCellStyle("mrdrDescription", childVariant)}>{cr.mrdrDescription}</td>
                           <td className={childCellCls} style={frozenCellStyle("msoCountry", childVariant)}>{cr.msoCountry}</td>
+                          <td className={childCellCls} style={frozenCellStyle("uom", childVariant)}>{cr.uom}</td>
                           <td className={childCellCls}>{cr.site}</td>
                           <td className={childCellCls}>{cr.su}</td>
-                          <td className={childCellCls}>
-                            <Select value={cr.uom} onValueChange={() => {}}>
-                              <SelectTrigger className="h-6 min-w-[55px] text-[10px] border-border/40"><SelectValue /></SelectTrigger>
-                              <SelectContent>
-                                {["CS", "EA", "KG", "L", "PAL"].map(u => <SelectItem key={u} value={u}>{u}</SelectItem>)}
-                              </SelectContent>
-                            </Select>
-                          </td>
                           <td className={childCellCls}><Badge variant="outline" className={`text-[10px] ${cr.riskType === "Out Of Stock" ? "bg-critical-bg text-critical border-critical-border" : "bg-medium-bg text-medium border-medium-border"}`}>{cr.riskType}</Badge></td>
                           <td className={childCellCls}><Badge variant="outline" className={`text-[10px] ${sevBadgeClass(cr.severity)}`}>{cr.severity}</Badge></td>
                           <td className={childCellCls}><Badge variant="outline" className={`text-[10px] ${priBadgeClass(cr.priority)}`}>{cr.priority}</Badge></td>
