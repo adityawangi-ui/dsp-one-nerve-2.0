@@ -187,6 +187,7 @@ export const mrdrAggColumns: ColumnDef[] = [
   { key: "msoCountry", label: "MSO Country", width: 100 },
   { key: "site", label: "Site", width: 70 },
   { key: "su", label: "SU", width: 100 },
+  { key: "uom", label: "UOM", width: 80 },
   { key: "riskType", label: "Risk Type", width: 110 },
   { key: "severity", label: "Severity", width: 80 },
   { key: "priority", label: "Priority", width: 80 },
