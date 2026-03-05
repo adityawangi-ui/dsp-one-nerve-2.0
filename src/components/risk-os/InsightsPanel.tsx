@@ -74,8 +74,8 @@ function DataTable({ headers, rows, minWidth }: { headers: string[]; rows: (stri
 
 function KpiBox({ label, value }: { label: string; value: string | number }) {
   return (
-    <div className="bg-card/80 backdrop-blur-sm border border-border/60 rounded-xl px-4 py-3 flex flex-col items-center text-center">
-      <span className="text-[9px] text-muted-foreground uppercase tracking-wider font-medium">{label}</span>
+    <div className="bg-card border border-border rounded-xl px-4 py-3 flex flex-col items-center text-center">
+      <span className="text-[9px] text-foreground/60 uppercase tracking-wider font-medium">{label}</span>
       <span className="text-base font-bold text-foreground mt-0.5">{value}</span>
     </div>
   );
