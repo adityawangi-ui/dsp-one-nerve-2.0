@@ -102,7 +102,7 @@ export default function InsightsTab({ row }: Props) {
           "Demand spike probability: 72% in W3",
           "Promotional uplift expected: 35%",
         ]} />
-        <InsightCard icon={Package} title="Supply Insights" color="bg-emerald-500" items={[
+        <InsightCard icon={Package} title="Supply Insights" color="bg-success" items={[
           "Supplier delays: 2 confirmed",
           "Raw material shortage: RMPM-A",
           "Lead time extended by 5 days",
