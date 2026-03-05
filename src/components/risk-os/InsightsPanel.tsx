@@ -238,7 +238,7 @@ export default function InsightsPanel({ row, onClose }: Props) {
           <div className="h-12 flex items-center justify-between px-5 border-b border-border/50 shrink-0 bg-card">
             <div>
               <span className="text-sm font-bold text-foreground">Risk Insights</span>
-              <span className="text-[11px] text-muted-foreground ml-3">
+              <span className="text-[11px] text-foreground/80 ml-3">
                 MRDR: {row.mrdr} · {row.mrdrDescription} · Site: {row.site} · {row.msoCountry}
               </span>
             </div>
