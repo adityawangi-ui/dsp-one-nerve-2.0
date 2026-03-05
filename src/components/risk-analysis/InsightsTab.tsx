@@ -107,7 +107,7 @@ export default function InsightsTab({ row }: Props) {
           "Raw material shortage: RMPM-A",
           "Lead time extended by 5 days",
         ]} />
-        <InsightCard icon={Factory} title="Operations Insights" color="bg-amber-500" items={[
+        <InsightCard icon={Factory} title="Operations Insights" color="bg-warning" items={[
           "PU2 line capacity at 35%",
           "Labor availability: 88%",
           "Maintenance window: W3-W4",
