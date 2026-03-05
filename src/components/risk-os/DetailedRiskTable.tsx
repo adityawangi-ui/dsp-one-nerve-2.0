@@ -212,12 +212,24 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                     key={col.key}
                     className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground px-3 py-3 cursor-pointer hover:text-foreground select-none border-b border-border bg-secondary"
                     style={{ width: col.width, ...frozenHeaderStyle(col.key) }}
-                    onClick={() => col.key !== "insights" && toggleSort(col.key)}
+                    onClick={() => col.key !== "insights" && col.key !== "uom" && toggleSort(col.key)}
                   >
-                    <span className="flex items-center gap-1">
-                      {col.label}
-                      {sortCol === col.key && (sortDir === "asc" ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />)}
-                    </span>
+                    {col.key === "uom" ? (
+                      <Select value={uomFilter} onValueChange={setUomFilter}>
+                        <SelectTrigger className="h-6 min-w-[60px] text-[10px] font-semibold uppercase border-border/40 bg-secondary">
+                          <SelectValue placeholder="UOM" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="all">All UOM</SelectItem>
+                          {["CS", "EA", "KG", "L", "PAL"].map(u => <SelectItem key={u} value={u}>{u}</SelectItem>)}
+                        </SelectContent>
+                      </Select>
+                    ) : (
+                      <span className="flex items-center gap-1">
+                        {col.label}
+                        {sortCol === col.key && (sortDir === "asc" ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />)}
+                      </span>
+                    )}
                   </th>
                 ))}
               </tr>
