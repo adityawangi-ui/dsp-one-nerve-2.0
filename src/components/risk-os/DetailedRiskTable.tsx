@@ -285,8 +285,10 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                       <td className={cellCls}>{agg.repackDependency}</td>
                       <td className={cellCls}>{agg.category}</td>
                       <td className={cellCls}>
-                        <button onClick={() => navigate(`/risk-analysis?riskId=${childRows[0].riskId}`)} className="flex items-center gap-1 text-primary hover:underline text-[11px]">
+                        <button onClick={() => onOpenAnalysis ? onOpenAnalysis(childRows[0]) : navigate(`/risk-analysis?riskId=${childRows[0].riskId}`)} className="flex items-center gap-1 text-primary hover:underline text-[11px]">
                           <Search className="h-3 w-3" /> Insights & Analyse
+                        </button>
+                      </td>
                         </button>
                       </td>
                     </tr>
