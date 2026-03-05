@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { RiskRow } from "@/data/riskData";
 import { Play, CheckCircle2, ChevronDown, ChevronUp, Brain, TrendingUp, Shield, Zap, ArrowRight, Settings, RefreshCw, DollarSign, BarChart3, Target } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 
 interface Props {
@@ -126,6 +127,7 @@ export default function ScenarioSimulatorTab({ row, onSelectScenario, selectedSc
   const [expandedScenario, setExpandedScenario] = useState<number | null>(null);
   const [scenarios, setScenarios] = useState<Scenario[]>(originalScenarios);
   const [isRefined, setIsRefined] = useState(false);
+  const proceedRef = useRef<HTMLDivElement>(null);
 
   const handleScenarioClick = (id: number) => {
     setExpandedScenario(expandedScenario === id ? null : id);
@@ -133,6 +135,10 @@ export default function ScenarioSimulatorTab({ row, onSelectScenario, selectedSc
 
   const handleSelectScenario = (s: Scenario) => {
     onSelectScenario(s);
+    // Scroll to proceed button after state update
+    setTimeout(() => {
+      proceedRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 100);
   };
 
   const handleRefineScenarios = (targetScenarios: number[], feedback: string) => {
@@ -437,7 +443,7 @@ export default function ScenarioSimulatorTab({ row, onSelectScenario, selectedSc
 
       {/* Trigger Approval if scenario selected */}
       {selectedScenario && (
-        <div className="flex justify-center">
+        <div ref={proceedRef} className="flex justify-center">
           <Button onClick={onTriggerApproval} size="lg" className="gap-2 px-8 bg-success hover:bg-success/90 text-success-foreground">
             <CheckCircle2 className="h-4 w-4" /> Proceed with Selected Scenario
           </Button>
@@ -504,24 +510,55 @@ function PlannerRefinementDialog({
           <div className="space-y-5">
             <div>
               <Label className="text-sm font-semibold text-foreground">Select Scenarios to Refine</Label>
-              <div className="mt-3 space-y-2">
-                <div className="flex items-center gap-2 border border-border rounded-lg p-3 bg-secondary/30">
-                  <Checkbox id="all" checked={selectAll} onCheckedChange={(c) => handleSelectAll(!!c)} />
-                  <Label htmlFor="all" className="text-xs font-medium cursor-pointer">All Scenarios</Label>
-                </div>
-                {scenarios.map(s => (
-                  <div key={s.id} className="flex items-center gap-2 border border-border rounded-lg p-3">
-                    <Checkbox
-                      id={`s-${s.id}`}
-                      checked={selectedIds.includes(s.id)}
-                      onCheckedChange={() => toggleScenario(s.id)}
-                    />
-                    <Label htmlFor={`s-${s.id}`} className="text-xs cursor-pointer flex-1">
-                      <span className="font-medium">Scenario {s.id}:</span> {s.name}
-                    </Label>
-                    {s.recommended && <Badge className="bg-success text-success-foreground border-0 text-[9px]">REC</Badge>}
+              <div className="mt-3 space-y-3">
+                <Select
+                  value={selectAll ? "all" : selectedIds.length === 1 ? String(selectedIds[0]) : selectedIds.length > 1 ? "multiple" : ""}
+                  onValueChange={(val) => {
+                    if (val === "all") {
+                      handleSelectAll(true);
+                    } else {
+                      setSelectAll(false);
+                      const id = Number(val);
+                      setSelectedIds([id]);
+                    }
+                  }}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue placeholder="Choose scenarios to refine">
+                      {selectAll ? "All Scenarios" : selectedIds.length > 1 ? `${selectedIds.length} scenarios selected` : selectedIds.length === 1 ? `Scenario ${selectedIds[0]}: ${scenarios.find(s => s.id === selectedIds[0])?.name}` : "Choose scenarios to refine"}
+                    </SelectValue>
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All Scenarios</SelectItem>
+                    {scenarios.map(s => (
+                      <SelectItem key={s.id} value={String(s.id)}>
+                        Scenario {s.id}: {s.name} {s.recommended ? "(Recommended)" : ""}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                
+                {/* Multi-select checkboxes below dropdown */}
+                <div className="border border-border rounded-lg p-3 space-y-2 bg-secondary/20">
+                  <p className="text-[10px] text-muted-foreground uppercase tracking-wider mb-1">Or select multiple:</p>
+                  <div className="flex items-center gap-2">
+                    <Checkbox id="all" checked={selectAll} onCheckedChange={(c) => handleSelectAll(!!c)} />
+                    <Label htmlFor="all" className="text-xs font-medium cursor-pointer">Select All</Label>
                   </div>
-                ))}
+                  {scenarios.map(s => (
+                    <div key={s.id} className="flex items-center gap-2">
+                      <Checkbox
+                        id={`s-${s.id}`}
+                        checked={selectedIds.includes(s.id)}
+                        onCheckedChange={() => toggleScenario(s.id)}
+                      />
+                      <Label htmlFor={`s-${s.id}`} className="text-xs cursor-pointer flex-1">
+                        <span className="font-medium">S{s.id}:</span> {s.name}
+                      </Label>
+                      {s.recommended && <Badge className="bg-success text-success-foreground border-0 text-[9px]">REC</Badge>}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
 

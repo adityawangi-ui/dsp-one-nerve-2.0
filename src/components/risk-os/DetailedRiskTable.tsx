@@ -106,9 +106,9 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
     if (!MRDR_FROZEN_KEYS.includes(key)) return {};
     const bgMap = {
       normal: "hsl(var(--card))",
-      new: "hsl(var(--critical-bg))",
+      new: "hsl(var(--new-bg))",
       child: "hsl(var(--muted))",
-      childNew: "hsl(var(--critical-bg))",
+      childNew: "hsl(var(--new-bg))",
     };
     return {
       position: "sticky",
@@ -123,7 +123,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
   };
 
   const NewBadge = () => (
-    <Badge variant="outline" className="ml-1.5 text-[9px] font-bold uppercase bg-destructive/15 text-destructive border-destructive/40 neon-text-red animate-pulse">NEW</Badge>
+    <Badge variant="outline" className="ml-1.5 text-[9px] font-bold uppercase bg-new-bg text-new border-new-border neon-text-amber animate-pulse">NEW</Badge>
   );
 
   const cellCls = "text-[11px] whitespace-nowrap px-3 py-2.5";
@@ -248,11 +248,12 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                 return (
                   <React.Fragment key={agg.mrdr}>
                     <tr className={`border-b border-border/50 data-row-hover transition-colors ${agg.isNew ? "risk-detect-pulse" : ""}`}
-                        style={{ backgroundColor: agg.isNew ? "hsl(var(--critical-bg))" : "hsl(var(--card))", height: "44px" }}>
+                        style={{ backgroundColor: agg.isNew ? "hsl(var(--new-bg))" : "hsl(var(--card))", height: "44px" }}>
                       {shareMode && (
-                        <td className="px-2 border-b border-border/50" style={{ position: "sticky", left: 0, zIndex: 10, backgroundColor: agg.isNew ? "hsl(0 80% 96%)" : "hsl(var(--card))" }}>
+                        <td className="px-2 border-b border-border/50" style={{ position: "sticky", left: 0, zIndex: 10, backgroundColor: agg.isNew ? "hsl(var(--new-bg))" : "hsl(var(--card))" }}>
                           <Checkbox checked={selectedRows.has(agg.mrdr)} onCheckedChange={(c) => {
                             const next = new Set(selectedRows);
+
                             if (c) next.add(agg.mrdr); else next.delete(agg.mrdr);
                             setSelectedRows(next);
                           }} />
@@ -311,7 +312,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                     </tr>
                     {expanded && childRows.map(cr => {
                       const childVariant = cr.isNew ? "childNew" : "child";
-                      const childRowBg = cr.isNew ? "hsl(var(--critical-bg))" : "hsl(var(--muted))";
+                      const childRowBg = cr.isNew ? "hsl(var(--new-bg))" : "hsl(var(--muted))";
                       return (
                         <tr key={cr.riskId} className="border-b border-border/30" style={{ backgroundColor: childRowBg, height: "40px" }}>
                           {shareMode && <td style={{ position: "sticky", left: 0, zIndex: 10, backgroundColor: childRowBg }} />}

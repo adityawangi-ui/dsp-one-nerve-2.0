@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Textarea } from "@/components/ui/textarea";
 import { CheckCircle2, Clock, XCircle, FileText, MessageSquare, Truck, Factory, Package, Users, Play, AlertTriangle, CalendarDays } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { toast } from "sonner";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
@@ -35,6 +35,11 @@ const executionTasks = [
 export default function LastMileExecution({ row, selectedScenario }: Props) {
   const scenario = selectedScenario;
   const requestDate = new Date();
+  const topRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    topRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, []);
 
   const [steps, setSteps] = useState<ApprovalStep[]>([
     { level: "L1", title: "Planner Approval", person: "John Smith", role: "Senior Planner", status: "pending", comments: "", required: "All mitigation scenarios requiring resource reallocation" },
@@ -95,6 +100,7 @@ export default function LastMileExecution({ row, selectedScenario }: Props) {
 
   return (
     <div className="space-y-6">
+      <div ref={topRef} />
       {/* Last Mile Execution Header */}
       <div className="border-2 border-primary/20 rounded-xl p-5 bg-primary/[0.03]">
         <div className="flex items-center gap-2 mb-3">
