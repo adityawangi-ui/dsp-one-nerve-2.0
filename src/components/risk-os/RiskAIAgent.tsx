@@ -55,7 +55,7 @@ function getAnswer(q: string): string {
 
   const open = riskData.filter(r => r.status === "Open").length;
   const totalVal = riskData.reduce((s, r) => s + r.expectedLossValue, 0);
-  return `**Risk Overview:**\n\n- **Total Risks:** ${riskData.length}\n- **Open:** ${open}\n- **Total Value at Risk:** $${totalVal.toLocaleString()}\n\nTry asking:\n- "Top 5 risks by expected loss"\n- "Which country has the most critical risks?"`;
+  return `**Risk Overview:**\n\n- **Total Risks:** ${riskData.length}\n- **Open:** ${open}\n- **Total Value at Risk:** €${totalVal.toLocaleString()}\n\nTry asking:\n- "Top 5 risks by expected loss"\n- "Which country has the most critical risks?"`;
 }
 
 interface Message { role: "user" | "assistant"; text: string; }
