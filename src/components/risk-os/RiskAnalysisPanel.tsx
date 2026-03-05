@@ -36,7 +36,7 @@ export default function RiskAnalysisPanel({ row, onClose }: Props) {
       <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" onClick={onClose} />
 
       {/* Panel sliding from right - 95% width */}
-      <div className="ml-auto relative flex flex-col w-[95%] h-full bg-[hsl(220,20%,97%)] shadow-2xl animate-slide-in-right overflow-hidden">
+      <div className="ml-auto relative flex flex-col w-[95%] h-full bg-background shadow-2xl animate-slide-in-right overflow-hidden">
         {/* Panel Header */}
         <div className="h-12 flex items-center justify-between px-5 border-b border-[hsl(220,13%,91%)] shrink-0 bg-white">
           <div className="flex items-center gap-3">
