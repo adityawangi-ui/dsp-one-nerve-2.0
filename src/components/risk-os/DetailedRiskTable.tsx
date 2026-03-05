@@ -15,12 +15,13 @@ interface Props {
   data: RiskRow[];
   onOpenInsights: (row: RiskRow) => void;
   onUpdateRow: (idx: number, updates: Partial<RiskRow>) => void;
+  onOpenAnalysis?: (row: RiskRow) => void;
 }
 
 const MRDR_FROZEN_KEYS = ["riskId", "mrdr", "mrdrDescription", "msoCountry"];
 const MRDR_FROZEN_WIDTHS: Record<string, number> = { riskId: 90, mrdr: 120, mrdrDescription: 220, msoCountry: 100 };
 
-export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }: Props) {
+export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, onOpenAnalysis }: Props) {
   const navigate = useNavigate();
   const [view, setView] = useState<"mrdr" | "gtin" | "uom">("mrdr");
   const [sortCol, setSortCol] = useState<string | null>(null);
@@ -284,7 +285,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
                       <td className={cellCls}>{agg.repackDependency}</td>
                       <td className={cellCls}>{agg.category}</td>
                       <td className={cellCls}>
-                        <button onClick={() => navigate(`/risk-analysis?riskId=${childRows[0].riskId}`)} className="flex items-center gap-1 text-primary hover:underline text-[11px]">
+                        <button onClick={() => onOpenAnalysis ? onOpenAnalysis(childRows[0]) : navigate(`/risk-analysis?riskId=${childRows[0].riskId}`)} className="flex items-center gap-1 text-primary hover:underline text-[11px]">
                           <Search className="h-3 w-3" /> Insights & Analyse
                         </button>
                       </td>
@@ -333,7 +334,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
                           <td className={childCellCls}>{cr.repackDependency}</td>
                           <td className={childCellCls}>{cr.category}</td>
                           <td className={childCellCls}>
-                            <button onClick={() => navigate(`/risk-analysis?riskId=${cr.riskId}`)} className="flex items-center gap-1 text-primary hover:underline text-[11px]">
+                            <button onClick={() => onOpenAnalysis ? onOpenAnalysis(cr) : navigate(`/risk-analysis?riskId=${cr.riskId}`)} className="flex items-center gap-1 text-primary hover:underline text-[11px]">
                               <Search className="h-3 w-3" /> Analyse
                             </button>
                           </td>
