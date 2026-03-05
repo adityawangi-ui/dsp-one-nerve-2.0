@@ -49,8 +49,8 @@ export default function RiskAnalysisPanel({ row, onClose }: Props) {
                 <ArrowLeft className="h-3.5 w-3.5" /> Back to Risk Overview
               </Button>
             )}
-            <div className="h-4 w-px bg-[hsl(220,13%,91%)]" />
-            <span className="text-sm font-bold text-[hsl(220,25%,10%)]">
+            <div className="h-4 w-px bg-border" />
+            <span className="text-sm font-bold text-foreground">
               {showLastMile ? "Last Mile Execution & Approval" : "Risk Analysis & Mitigation"}
             </span>
             <Badge variant="outline" className="text-[10px] font-mono">RISK-{String(row.riskId).padStart(3, "0")}</Badge>
