@@ -135,7 +135,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
         </div>
         <div className="flex items-center gap-2 flex-wrap">
           <div className="flex rounded-lg border border-border overflow-hidden">
-            {(["mrdr", "gtin", "uom"] as const).map(v => (
+            {(["mrdr", "gtin"] as const).map(v => (
               <button
                 key={v}
                 onClick={() => setView(v)}
