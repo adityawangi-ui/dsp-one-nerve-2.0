@@ -168,7 +168,7 @@ export default function InsightsTab({ row }: Props) {
               <XAxis type="number" domain={[0, 100]} tick={{ fontSize: 10 }} />
               <YAxis type="category" dataKey="method" tick={{ fontSize: 10 }} width={80} />
               <Tooltip />
-              <Bar dataKey="rate" fill="hsl(160, 60%, 45%)" name="Success %" radius={[0, 4, 4, 0]} />
+              <Bar dataKey="rate" fill="hsl(var(--success))" name="Success %" radius={[0, 4, 4, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </ChartCard>
