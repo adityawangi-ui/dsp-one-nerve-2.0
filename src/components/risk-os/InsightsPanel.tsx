@@ -1,13 +1,15 @@
 import { useState, useRef, useMemo } from "react";
 import { RiskRow, riskData } from "@/data/riskData";
-import { X, Package, Calendar, TrendingDown, Truck, Factory, BarChart3, Database, Table2, ToggleLeft } from "lucide-react";
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, Tooltip as RechartsTooltip, LineChart, Line, Legend, AreaChart, Area, ReferenceLine, PieChart, Pie, Cell, ComposedChart } from "recharts";
+import { X, Package, Calendar, TrendingDown, Truck, Factory, BarChart3, Database, Table2 } from "lucide-react";
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, LineChart, Line, Legend, PieChart, Pie, Cell, ComposedChart, ReferenceLine } from "recharts";
 import { Badge } from "@/components/ui/badge";
 
-const COLORS = [
-  "hsl(200, 80%, 50%)", "hsl(200, 60%, 65%)", "hsl(160, 60%, 45%)", "hsl(35, 90%, 55%)",
-  "hsl(0, 70%, 55%)", "hsl(270, 50%, 55%)", "hsl(200, 90%, 40%)", "hsl(120, 50%, 45%)"
-];
+// High-contrast colors for dark mode
+const CHART_BLUE = "hsl(199, 89%, 60%)";
+const CHART_GREEN = "hsl(160, 84%, 50%)";
+const CHART_AMBER = "hsl(38, 92%, 60%)";
+const CHART_RED = "hsl(0, 84%, 65%)";
+const CHART_CYAN = "hsl(185, 80%, 55%)";
 
 const sections = [
   { id: "ctp", title: "Exception Daily/Weekly CTP", icon: Table2 },
@@ -24,36 +26,44 @@ interface Props { row: RiskRow; onClose: () => void; }
 
 function SectionHeader({ icon: Icon, title, badge }: { icon: React.ElementType; title: string; badge?: string }) {
   return (
-    <div className="flex items-center gap-2 mb-3">
-      <Icon className="h-4 w-4 text-primary" />
-      <h3 className="text-sm font-semibold text-foreground">{title}</h3>
-      {badge && <Badge variant="outline" className="text-[9px] ml-1">{badge}</Badge>}
+    <div className="flex items-center gap-2.5 mb-4 pb-3 border-b border-border/50">
+      <div className="h-7 w-7 rounded-lg bg-primary/15 flex items-center justify-center">
+        <Icon className="h-3.5 w-3.5 text-primary" />
+      </div>
+      <h3 className="text-sm font-bold text-foreground tracking-wide">{title}</h3>
+      {badge && <Badge variant="outline" className="text-[9px] ml-1 border-primary/30 text-primary">{badge}</Badge>}
     </div>
   );
 }
 
 function ChartCard({ children, title, className = "" }: { children: React.ReactNode; title?: string; className?: string }) {
   return (
-    <div className={`section-card h-56 flex flex-col overflow-hidden ${className}`}>
-      {title && <span className="text-[10px] text-muted-foreground uppercase tracking-wider mb-1">{title}</span>}
-      <div className="flex-1 min-h-0">{children}</div>
+    <div className={`bg-card/80 backdrop-blur-sm rounded-xl border border-border/60 p-4 ${className}`}>
+      {title && <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-semibold mb-2 block">{title}</span>}
+      <div className="h-52">{children}</div>
     </div>
   );
 }
 
 function DataTable({ headers, rows, minWidth }: { headers: string[]; rows: (string | number)[][]; minWidth?: string }) {
   return (
-    <div className="overflow-x-auto mt-3 border border-border/40 rounded-lg">
+    <div className="overflow-x-auto mt-4 rounded-xl border border-border/60 bg-card/60 backdrop-blur-sm">
       <table className="w-full text-[11px]" style={{ minWidth: minWidth || `${Math.max(headers.length * 110, 600)}px` }}>
         <thead>
-          <tr className="bg-gradient-to-r from-secondary to-secondary/80">
-            {headers.map(h => <th key={h} className="px-2 py-1.5 text-left text-[10px] font-bold uppercase tracking-wider text-muted-foreground whitespace-nowrap">{h}</th>)}
+          <tr className="bg-secondary/80 border-b border-border/60">
+            {headers.map(h => (
+              <th key={h} className="px-3 py-2.5 text-left text-[10px] font-bold uppercase tracking-wider text-foreground/70 whitespace-nowrap">{h}</th>
+            ))}
           </tr>
         </thead>
         <tbody>
           {rows.map((r, i) => (
-            <tr key={i} className="border-b border-border/40 hover:bg-primary/[0.02]">
-              {r.map((c, j) => <td key={j} className="px-2 py-1.5 whitespace-nowrap font-mono">{typeof c === "number" ? c.toLocaleString() : c}</td>)}
+            <tr key={i} className="border-b border-border/30 transition-colors hover:bg-primary/5">
+              {r.map((c, j) => (
+                <td key={j} className="px-3 py-2 whitespace-nowrap font-mono text-foreground/90">
+                  {typeof c === "number" ? c.toLocaleString() : c}
+                </td>
+              ))}
             </tr>
           ))}
         </tbody>
@@ -64,12 +74,29 @@ function DataTable({ headers, rows, minWidth }: { headers: string[]; rows: (stri
 
 function KpiBox({ label, value }: { label: string; value: string | number }) {
   return (
-    <div className="section-card px-3 py-2 flex flex-col items-center">
-      <span className="text-[9px] text-muted-foreground uppercase tracking-wider">{label}</span>
-      <span className="text-sm font-bold text-foreground">{value}</span>
+    <div className="bg-card/80 backdrop-blur-sm border border-border/60 rounded-xl px-4 py-3 flex flex-col items-center text-center">
+      <span className="text-[9px] text-muted-foreground uppercase tracking-wider font-medium">{label}</span>
+      <span className="text-base font-bold text-foreground mt-0.5">{value}</span>
     </div>
   );
 }
+
+const customTooltipStyle = {
+  contentStyle: {
+    backgroundColor: 'hsl(222, 47%, 14%)',
+    border: '1px solid hsl(217, 33%, 25%)',
+    borderRadius: '10px',
+    color: 'hsl(210, 40%, 96%)',
+    fontSize: '11px',
+    padding: '8px 12px',
+    boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
+  },
+  labelStyle: { color: 'hsl(210, 40%, 80%)', fontWeight: 600, marginBottom: '4px' },
+  itemStyle: { color: 'hsl(210, 40%, 96%)', padding: '1px 0' },
+};
+
+const axisTickStyle = { fontSize: 10, fill: 'hsl(215, 20%, 65%)' };
+const legendStyle = { fontSize: 10, paddingTop: 8 };
 
 export default function InsightsPanel({ row, onClose }: Props) {
   const [activeSection, setActiveSection] = useState("ctp");
@@ -94,8 +121,8 @@ export default function InsightsPanel({ row, onClose }: Props) {
     "Planned Demand": [0, 322, 286, 4, 100, 0, 0, 0, 712, 540, 380, 620, 490, 310],
     "Total Supply": [3165, 0, 0, 0, 0, 0, 0, 0, 1800, 1200, 950, 1500, 1100, 800],
     "Balance (Units)": [3165, 3133, 3131, 3103, 3097, 3056, 3056, 3056, 4088, 4748, 5318, 6198, 6808, 7298],
-    "Replenishment Stock (Units)": [0, 455, 512, 543, 537, 496, 558, 619, 620, 580, 540, 610, 570, 530],
-    "Max Stock (Units)": [0, 2777, 2811, 2819, 2849, 2844, 2879, 2879, 3200, 3150, 3100, 3250, 3180, 3050],
+    "Replenishment Stock": [0, 455, 512, 543, 537, 496, 558, 619, 620, 580, 540, 610, 570, 530],
+    "Max Stock": [0, 2777, 2811, 2819, 2849, 2844, 2879, 2879, 3200, 3150, 3100, 3250, 3180, 3050],
     "Below RS QTY": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 50, 0, 0, 80],
     "OOS QTY": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     "AboveMax QTY": [3165, 356, 320, 284, 248, 212, 177, 177, 888, 1598, 2218, 2948, 3628, 4248],
@@ -105,11 +132,10 @@ export default function InsightsPanel({ row, onClose }: Props) {
     week: w,
     demand: ctpRawData["Planned Demand"][i] || 0,
     supply: ctpRawData["Total Supply"][i] || 0,
-    balance: ctpRawData["Balance (Units)"][i] || 0,
   }));
 
-  // ── Stock Data (no first 4 cols, DR% at end) ──
-  const stockTableHeaders = ["VF Code - Descr", "Alternate MRDR", "Alternate Stock", "Stock in Cluster", "Current Stock Unrestricted", "Current Stock Restricted", "Blocked Stock", "Quarantine Stock", "Release Date", "Transition Date", "Transition Type", "DR% MSO Level", "DR% MRDR MSO Level", "DR% MRDR Site Level"];
+  // ── Stock Data ──
+  const stockTableHeaders = ["VF Code", "Alt MRDR", "Alt Stock", "Cluster Stock", "Unrestricted", "Restricted", "Blocked", "Quarantine", "Release Date", "Transition Date", "Type", "DR% MSO", "DR% MRDR MSO", "DR% MRDR Site"];
   const stockTableRows = mrdrLineItems.map((item, i) => [
     `SU-${item.msoCountry}-${String(i+1).padStart(2,"0")}`,
     50100 + i, Math.round(500 + Math.random() * 2000),
@@ -124,23 +150,21 @@ export default function InsightsPanel({ row, onClose }: Props) {
     `${(70 + Math.random() * 25).toFixed(1)}%`,
   ]);
   
-  // Stock type breakdown pie data
   const stockBreakdown = [
-    { name: "Unrestricted", value: 77, fill: "#38bdf8" },
-    { name: "Restricted", value: 15, fill: "#7dd3fc" },
-    { name: "Blocked", value: 5, fill: "#ef4444" },
-    { name: "Quarantine", value: 3, fill: "#f59e0b" },
+    { name: "Unrestricted", value: 77, fill: CHART_BLUE },
+    { name: "Restricted", value: 15, fill: CHART_CYAN },
+    { name: "Blocked", value: 5, fill: CHART_RED },
+    { name: "Quarantine", value: 3, fill: CHART_AMBER },
   ];
-  const stockBarData = stockBreakdown.map(s => ({ type: s.name, qty: s.value }));
 
-  // ── DOH Data (merged graph, no table) ──
+  // ── DOH Data ──
   const dohData = [
     { week: "W 06_2026", doh: 10, qty: 2030 },
     { week: "W 07_2026", doh: 20, qty: 3060 },
     { week: "W 08_2026", doh: 30, qty: 4500 },
   ];
 
-  // ── Forecast / Promo (6 week line trend) ──
+  // ── Forecast / Promo ──
   const forecastWeeks = ["WK 1", "WK 2", "WK 3", "WK 4", "WK 5", "WK 6"];
   const forecastData = forecastWeeks.map((w, i) => ({
     week: w,
@@ -150,7 +174,7 @@ export default function InsightsPanel({ row, onClose }: Props) {
   const forecast4WBias = 584;
   const forecast1WBias = "Fb 1";
 
-  // ── STO Data (Top 5 table, no graph) ──
+  // ── STO Data ──
   const stoTableHeaders = ["PO No", "Open PO Qty", "Delivery Date", "Shipment No", "Delivery Number"];
   const stoTableRows = [
     ["4519202784", 1440, "10.02.2026", "15810702", "04252776966"],
@@ -160,9 +184,9 @@ export default function InsightsPanel({ row, onClose }: Props) {
     ["4519220644", 3200, "18.02.2026", "15811940", "64252821030"],
   ];
 
-  // ── Production Data (2 line items, thousands qty, combined graph) ──
+  // ── Production Data ──
   const prodWeeks = ["WK-16", "WK-17", "WK-18", "WK-19", "WK-20", "WK-21"];
-  const prodData = prodWeeks.map((w, i) => ({
+  const prodData = prodWeeks.map((w) => ({
     week: w,
     qty: Math.round(5000 + Math.random() * 15000),
     ccu: Math.round(65 + Math.random() * 30),
@@ -173,23 +197,23 @@ export default function InsightsPanel({ row, onClose }: Props) {
     ["WK-20-2026", "ICE-UK SU Gloucester", 54300, "82%", 50100 + 1],
   ];
 
-  // ── Master Data (less line items, no graphs) ──
-  const masterTableHeaders = ["Material Desc.", "EAN Code", "Site", "Country", "Category", "Orig. Factory", "Type of Code", "MSO", "UOM", "Small C", "Segment", "MRP", "Repack", "Pack Size", "Pack Family", "DRP Planner", "Master Scheduler"];
+  // ── Master Data ──
+  const masterTableHeaders = ["Material Desc.", "EAN Code", "Site", "Country", "Category", "Orig. Factory", "Type", "MSO", "UOM", "Small C", "Segment", "MRP", "Repack", "Pack Size", "Pack Family", "DRP Planner", "Master Scheduler"];
   const masterTableRows = [
     [String(row.mrdr), row.gtin, row.site, row.msoCountry, row.category, "DM_SU", "Repack", "DK", row.uom, "AZ21Y", "VIENNETTA", "PLT", row.repackDependency, 16, "PF-100", "piecha, grzegorz", "ICE-UK SU Gloucester"],
   ];
 
   return (
     <div className="fixed inset-0 z-[100] flex">
-      <div className="absolute inset-0 bg-black/50 backdrop-blur-sm" onClick={onClose} />
+      <div className="absolute inset-0 bg-black/60 backdrop-blur-sm" onClick={onClose} />
 
       <div className="ml-auto relative flex w-[95%] h-full bg-background shadow-2xl animate-slide-in-right overflow-hidden">
         {/* Left nav */}
-        <div className="w-56 bg-sidebar border-r border-sidebar-border flex flex-col shrink-0">
-          <div className="p-4 border-b border-sidebar-border shrink-0">
-            <p className="text-xs font-semibold text-sidebar-primary-foreground">Insights — MRDR {row.mrdr}</p>
-            <p className="text-[10px] text-sidebar-foreground mt-1 truncate">{row.mrdrDescription}</p>
-            <p className="text-[10px] text-sidebar-foreground/60 mt-0.5">{lineCount} line item(s)</p>
+        <div className="w-56 bg-card border-r border-border/60 flex flex-col shrink-0">
+          <div className="p-4 border-b border-border/50 bg-secondary/30 shrink-0">
+            <p className="text-xs font-bold text-foreground">Insights — MRDR {row.mrdr}</p>
+            <p className="text-[10px] text-muted-foreground mt-1 truncate">{row.mrdrDescription}</p>
+            <p className="text-[10px] text-primary/70 mt-0.5">{lineCount} line item(s)</p>
           </div>
           <nav className="p-2 space-y-0.5 flex-1 overflow-y-auto">
             {sections.map(s => (
@@ -197,7 +221,9 @@ export default function InsightsPanel({ row, onClose }: Props) {
                 key={s.id}
                 onClick={() => scrollTo(s.id)}
                 className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-[11px] font-medium transition-all text-left ${
-                  activeSection === s.id ? "bg-primary/10 text-primary border border-primary/20" : "text-sidebar-foreground hover:bg-sidebar-accent"
+                  activeSection === s.id 
+                    ? "bg-primary/15 text-primary border border-primary/25 shadow-sm shadow-primary/10" 
+                    : "text-foreground/60 hover:bg-secondary/60 hover:text-foreground/90"
                 }`}
               >
                 <s.icon className="h-3.5 w-3.5 shrink-0" />
@@ -209,11 +235,11 @@ export default function InsightsPanel({ row, onClose }: Props) {
 
         {/* Content */}
         <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-          <div className="h-12 flex items-center justify-between px-5 border-b border-border shrink-0 bg-card">
+          <div className="h-12 flex items-center justify-between px-5 border-b border-border/50 shrink-0 bg-card/80 backdrop-blur-sm">
             <div>
-              <span className="text-sm font-semibold text-foreground">Risk Insights</span>
+              <span className="text-sm font-bold text-foreground">Risk Insights</span>
               <span className="text-[11px] text-muted-foreground ml-3">
-                MRDR: {row.mrdr} · {row.mrdrDescription} · Site: {row.site} · {row.msoCountry} · {row.riskType}
+                MRDR: {row.mrdr} · {row.mrdrDescription} · Site: {row.site} · {row.msoCountry}
               </span>
             </div>
             <button onClick={onClose} className="h-8 w-8 flex items-center justify-center rounded-lg hover:bg-secondary transition-colors">
@@ -221,224 +247,196 @@ export default function InsightsPanel({ row, onClose }: Props) {
             </button>
           </div>
 
-          <div ref={contentRef} className="flex-1 overflow-y-auto overflow-x-hidden p-5 space-y-8">
+          <div ref={contentRef} className="flex-1 overflow-y-auto overflow-x-hidden p-6 space-y-10">
 
-            {/* 1. Exception CTP View */}
-            <div id="insight-ctp">
-              <div className="flex items-center justify-between mb-3">
-                <SectionHeader icon={Table2} title="Exception Daily / Weekly CTP with Projected DR%" />
-                <div className="flex rounded-lg border border-border overflow-hidden">
-                  <button onClick={() => setCtpMode("daily")} className={`px-3 py-1 text-[10px] font-semibold ${ctpMode === "daily" ? "bg-primary text-primary-foreground" : "bg-card text-muted-foreground"}`}>Daily</button>
-                  <button onClick={() => setCtpMode("weekly")} className={`px-3 py-1 text-[10px] font-semibold ${ctpMode === "weekly" ? "bg-primary text-primary-foreground" : "bg-card text-muted-foreground"}`}>Weekly</button>
+            {/* 1. CTP */}
+            <section id="insight-ctp">
+              <div className="flex items-center justify-between">
+                <SectionHeader icon={Table2} title="Exception Daily / Weekly CTP" />
+                <div className="flex rounded-lg border border-border/60 overflow-hidden mb-4">
+                  <button onClick={() => setCtpMode("daily")} className={`px-3 py-1.5 text-[10px] font-semibold transition-colors ${ctpMode === "daily" ? "bg-primary text-primary-foreground" : "bg-card text-foreground/60 hover:text-foreground"}`}>Daily</button>
+                  <button onClick={() => setCtpMode("weekly")} className={`px-3 py-1.5 text-[10px] font-semibold transition-colors ${ctpMode === "weekly" ? "bg-primary text-primary-foreground" : "bg-card text-foreground/60 hover:text-foreground"}`}>Weekly</button>
                 </div>
               </div>
-              <ChartCard title="Demand vs Supply vs Balance" className="h-64">
+              <ChartCard title="Planned Demand vs Total Supply">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={ctpChartData}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                    <XAxis dataKey="week" tick={{ fontSize: 9 }} />
-                    <YAxis tick={{ fontSize: 9 }} />
-                    <Tooltip />
-                    <Legend wrapperStyle={{ fontSize: 9 }} />
-                    <Bar dataKey="demand" fill={COLORS[0]} name="Planned Demand" />
-                    <Bar dataKey="supply" fill={COLORS[2]} name="Total Supply" />
-                    <Line type="monotone" dataKey="balance" stroke={COLORS[4]} strokeWidth={2} name="Balance" />
+                  <BarChart data={ctpChartData} barCategoryGap="20%">
+                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" strokeOpacity={0.5} />
+                    <XAxis dataKey="week" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
+                    <YAxis tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
+                    <Tooltip {...customTooltipStyle} />
+                    <Legend wrapperStyle={legendStyle} formatter={(value: string) => <span style={{ color: 'hsl(210, 40%, 80%)' }}>{value}</span>} />
+                    <Bar dataKey="demand" fill={CHART_BLUE} name="Planned Demand" radius={[4, 4, 0, 0]} />
+                    <Bar dataKey="supply" fill={CHART_GREEN} name="Total Supply" radius={[4, 4, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </ChartCard>
-              <div className="overflow-x-auto mt-3 border border-border/40 rounded-lg">
-                <table className="w-full text-[11px]" style={{ minWidth: `${(ctpColumns.length + 2) * 90}px` }}>
+
+              <div className="overflow-x-auto mt-4 rounded-xl border border-border/60 bg-card/60 backdrop-blur-sm">
+                <table className="w-full text-[11px]" style={{ minWidth: `${(ctpColumns.length + 3) * 90}px` }}>
                   <thead>
-                    <tr className="bg-gradient-to-r from-secondary to-secondary/80">
-                      <th className="sticky left-0 z-10 bg-secondary px-2 py-1.5 text-left text-[10px] font-bold uppercase tracking-wider text-muted-foreground w-32">Part Name</th>
-                      <th className="px-2 py-1.5 text-left text-[10px] font-bold uppercase text-muted-foreground w-16">Site</th>
-                      <th className="px-2 py-1.5 text-left text-[10px] font-bold uppercase text-muted-foreground w-48">Description</th>
-                      {ctpColumns.map(w => <th key={w} className="px-2 py-1.5 text-center text-[10px] font-bold uppercase tracking-wider text-muted-foreground whitespace-nowrap">{w}</th>)}
+                    <tr className="bg-secondary/80 border-b border-border/60">
+                      <th className="sticky left-0 z-10 bg-secondary px-3 py-2.5 text-left text-[10px] font-bold uppercase tracking-wider text-foreground/70 w-32">Part Name</th>
+                      <th className="px-3 py-2.5 text-left text-[10px] font-bold uppercase text-foreground/70 w-16">Site</th>
+                      <th className="px-3 py-2.5 text-left text-[10px] font-bold uppercase text-foreground/70 w-48">Description</th>
+                      {ctpColumns.map(w => <th key={w} className="px-3 py-2.5 text-center text-[10px] font-bold uppercase tracking-wider text-foreground/70 whitespace-nowrap">{w}</th>)}
                     </tr>
                   </thead>
                   <tbody>
                     {ctpMetrics.map((metric, mi) => {
                       const vals = ctpRawData[metric as keyof typeof ctpRawData];
                       const sliced = ctpMode === "daily" ? vals.slice(0, 8) : vals.slice(8, 14);
+                      const isBalance = metric.includes("Balance");
+                      const isBelowRS = metric.includes("Below RS");
                       return (
-                        <tr key={metric} className={`border-b border-border/40 ${metric.includes("Balance") ? "bg-medium/5 font-semibold" : "hover:bg-primary/[0.02]"}`}>
+                        <tr key={metric} className={`border-b border-border/30 ${isBalance ? "bg-primary/5 font-semibold" : isBelowRS ? "bg-destructive/5" : "hover:bg-primary/[0.03]"}`}>
                           {mi === 0 && (
                             <>
-                              <td className="sticky left-0 z-10 bg-card px-2 py-1.5 font-mono whitespace-nowrap" rowSpan={ctpMetrics.length}>{row.mrdr}</td>
-                              <td className="px-2 py-1.5 whitespace-nowrap" rowSpan={ctpMetrics.length}>A283</td>
-                              <td className="px-2 py-1.5 whitespace-nowrap text-[10px]" rowSpan={ctpMetrics.length}>{row.mrdrDescription}</td>
+                              <td className="sticky left-0 z-10 bg-card px-3 py-2 font-mono text-foreground/90 whitespace-nowrap" rowSpan={ctpMetrics.length}>{row.mrdr}</td>
+                              <td className="px-3 py-2 text-foreground/80 whitespace-nowrap" rowSpan={ctpMetrics.length}>A283</td>
+                              <td className="px-3 py-2 text-foreground/70 whitespace-nowrap text-[10px]" rowSpan={ctpMetrics.length}>{row.mrdrDescription}</td>
                             </>
                           )}
-                          {sliced.map((v, i) => (
-                            <td key={i} className="px-2 py-1.5 text-center font-mono">{v.toLocaleString()}</td>
-                          ))}
+                          {sliced.map((v, i) => {
+                            const isNegative = isBelowRS && v > 0;
+                            return (
+                              <td key={i} className={`px-3 py-2 text-center font-mono ${isNegative ? "text-destructive font-bold" : "text-foreground/90"}`}>
+                                {v.toLocaleString()}
+                              </td>
+                            );
+                          })}
                         </tr>
                       );
                     })}
                   </tbody>
                 </table>
               </div>
-            </div>
+            </section>
 
-            {/* 2. Stock Info / Inventory */}
-            <div id="insight-stock">
+            {/* 2. Stock Info */}
+            <section id="insight-stock">
               <SectionHeader icon={Package} title="Stock Info / Inventory" />
-              <ChartCard title="Stock Type Breakdown" className="h-[420px]">
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie
-                      data={stockBreakdown}
-                      dataKey="value"
-                      nameKey="name"
-                      cx="50%"
-                      cy="50%"
-                      outerRadius={100}
-                      innerRadius={0}
-                      label={({ name, value, cx: pcx, cy: pcy, midAngle, outerRadius: or }) => {
-                        const RADIAN = Math.PI / 180;
-                        const radius = (or as number) + 28;
-                        const x = (pcx as number) + radius * Math.cos(-midAngle * RADIAN);
-                        const y = (pcy as number) + radius * Math.sin(-midAngle * RADIAN);
-                        return (
-                          <text x={x} y={y} textAnchor={x > (pcx as number) ? "start" : "end"} dominantBaseline="central" fontSize={11} fontWeight={600} fill="hsl(var(--foreground))">
-                            {name} {value}%
-                          </text>
-                        );
-                      }}
-                      labelLine={{ stroke: "hsl(var(--muted-foreground))", strokeWidth: 1 }}
-                      strokeWidth={1}
-                      stroke="hsl(var(--background))"
-                    >
-                      {stockBreakdown.map((entry, i) => (
-                        <Cell key={i} fill={entry.fill} />
-                      ))}
-                    </Pie>
-                    <RechartsTooltip
-                      content={({ active, payload }) => {
-                        if (!active || !payload?.length) return null;
-                        const d = payload[0];
-                        return (
-                          <div className="bg-card border border-border rounded-lg shadow-lg px-3 py-2 text-xs">
-                            <span className="font-semibold text-foreground">{d.name}</span>
-                            <span className="text-muted-foreground ml-2">{d.value}%</span>
-                          </div>
-                        );
-                      }}
-                    />
-                    <Legend
-                      verticalAlign="bottom"
-                      iconType="circle"
-                      iconSize={8}
-                      wrapperStyle={{ fontSize: 11, paddingTop: 12 }}
-                      formatter={(value: string) => <span className="text-foreground ml-1">{value}</span>}
-                    />
-                  </PieChart>
-                </ResponsiveContainer>
-              </ChartCard>
-              <DataTable headers={stockTableHeaders} rows={stockTableRows} minWidth="1800px" />
-            </div>
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                <ChartCard title="Stock Type Breakdown" className="!h-auto">
+                  <div className="h-64">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <PieChart>
+                        <Pie data={stockBreakdown} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} innerRadius={35}
+                          label={({ name, value, cx: pcx, cy: pcy, midAngle, outerRadius: or }) => {
+                            const RADIAN = Math.PI / 180;
+                            const radius = (or as number) + 22;
+                            const x = (pcx as number) + radius * Math.cos(-midAngle * RADIAN);
+                            const y = (pcy as number) + radius * Math.sin(-midAngle * RADIAN);
+                            return <text x={x} y={y} textAnchor={x > (pcx as number) ? "start" : "end"} dominantBaseline="central" fontSize={10} fontWeight={600} fill="hsl(210, 40%, 85%)">{name} {value}%</text>;
+                          }}
+                          labelLine={{ stroke: "hsl(215, 20%, 45%)", strokeWidth: 1 }} strokeWidth={2} stroke="hsl(var(--background))"
+                        >
+                          {stockBreakdown.map((entry, i) => <Cell key={i} fill={entry.fill} />)}
+                        </Pie>
+                        <Tooltip {...customTooltipStyle} />
+                        <Legend verticalAlign="bottom" iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 10, paddingTop: 8 }} formatter={(value: string) => <span style={{ color: 'hsl(210, 40%, 80%)' }}>{value}</span>} />
+                      </PieChart>
+                    </ResponsiveContainer>
+                  </div>
+                </ChartCard>
+                <div className="grid grid-cols-2 gap-3 content-start">
+                  <KpiBox label="Total Unrestricted" value="4,230" />
+                  <KpiBox label="Total Restricted" value="824" />
+                  <KpiBox label="Blocked Stock" value="287" />
+                  <KpiBox label="Quarantine" value="56" />
+                </div>
+              </div>
+              <DataTable headers={stockTableHeaders} rows={stockTableRows} minWidth="1600px" />
+            </section>
 
-            {/* 3. DOH (merged graph, no table) */}
-            <div id="insight-doh">
+            {/* 3. DOH */}
+            <section id="insight-doh">
               <SectionHeader icon={Calendar} title="DOH (Day & Quantity)" />
-              <ChartCard title="DOH & Quantity Combined" className="h-64">
+              <ChartCard title="DOH & Quantity Combined">
                 <ResponsiveContainer width="100%" height="100%">
                   <ComposedChart data={dohData}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                    <XAxis dataKey="week" tick={{ fontSize: 9 }} />
-                    <YAxis yAxisId="left" tick={{ fontSize: 9 }} />
-                    <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 9 }} />
-                    <Tooltip />
-                    <Legend wrapperStyle={{ fontSize: 9 }} />
-                    <Bar yAxisId="left" dataKey="doh" fill={COLORS[0]} name="DOH Days" />
-                    <Line yAxisId="right" type="monotone" dataKey="qty" stroke={COLORS[4]} strokeWidth={2} name="Quantity" dot={{ r: 4 }} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" strokeOpacity={0.5} />
+                    <XAxis dataKey="week" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
+                    <YAxis yAxisId="left" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
+                    <YAxis yAxisId="right" orientation="right" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
+                    <Tooltip {...customTooltipStyle} />
+                    <Legend wrapperStyle={legendStyle} formatter={(value: string) => <span style={{ color: 'hsl(210, 40%, 80%)' }}>{value}</span>} />
+                    <Bar yAxisId="left" dataKey="doh" fill={CHART_BLUE} name="DOH Days" radius={[4, 4, 0, 0]} />
+                    <Line yAxisId="right" type="monotone" dataKey="qty" stroke={CHART_AMBER} strokeWidth={2.5} name="Quantity" dot={{ r: 4, fill: CHART_AMBER, stroke: 'hsl(var(--background))', strokeWidth: 2 }} />
                   </ComposedChart>
                 </ResponsiveContainer>
               </ChartCard>
-            </div>
+            </section>
 
-            {/* 4. Forecast / Promo Details */}
-            <div id="insight-forecast">
+            {/* 4. Forecast */}
+            <section id="insight-forecast">
               <SectionHeader icon={BarChart3} title="Forecast / Promo Details" />
-              <div className="grid grid-cols-4 gap-2 mb-3">
+              <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
                 <KpiBox label="4WL Forecast Bias" value={forecast4WBias} />
                 <KpiBox label="1WL Forecast Bias" value={forecast1WBias} />
                 <KpiBox label="Base Forecast 6W" value={forecastData.reduce((s, d) => s + d.baselineForecast, 0).toLocaleString()} />
                 <KpiBox label="Promo Forecast 6W" value={forecastData.reduce((s, d) => s + d.promoForecast, 0).toLocaleString()} />
               </div>
-              <ChartCard title="Baseline Forecast vs Promo Forecast (6 Weeks)" className="h-64">
+              <ChartCard title="Baseline Forecast vs Promo Forecast (6 Weeks)">
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={forecastData}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                    <XAxis dataKey="week" tick={{ fontSize: 9 }} />
-                    <YAxis tick={{ fontSize: 9 }} />
-                    <Tooltip />
-                    <Legend wrapperStyle={{ fontSize: 9 }} />
-                    <Line type="monotone" dataKey="baselineForecast" stroke={COLORS[0]} strokeWidth={2} name="Baseline Forecast" dot={{ r: 3 }} />
-                    <Line type="monotone" dataKey="promoForecast" stroke={COLORS[3]} strokeWidth={2} name="Promo Forecast" dot={{ r: 3 }} />
-                    <ReferenceLine y={forecast4WBias} stroke={COLORS[2]} strokeDasharray="5 5" label={{ value: `4W Bias: ${forecast4WBias}`, fontSize: 9, fill: COLORS[2] }} />
+                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" strokeOpacity={0.5} />
+                    <XAxis dataKey="week" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
+                    <YAxis tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
+                    <Tooltip {...customTooltipStyle} />
+                    <Legend wrapperStyle={legendStyle} formatter={(value: string) => <span style={{ color: 'hsl(210, 40%, 80%)' }}>{value}</span>} />
+                    <Line type="monotone" dataKey="baselineForecast" stroke={CHART_BLUE} strokeWidth={2.5} name="Baseline Forecast" dot={{ r: 4, fill: CHART_BLUE, stroke: 'hsl(var(--background))', strokeWidth: 2 }} />
+                    <Line type="monotone" dataKey="promoForecast" stroke={CHART_AMBER} strokeWidth={2.5} name="Promo Forecast" dot={{ r: 4, fill: CHART_AMBER, stroke: 'hsl(var(--background))', strokeWidth: 2 }} />
+                    <ReferenceLine y={forecast4WBias} stroke={CHART_GREEN} strokeDasharray="5 5" label={{ value: `4W Bias: ${forecast4WBias}`, fontSize: 9, fill: CHART_GREEN }} />
                   </LineChart>
                 </ResponsiveContainer>
               </ChartCard>
-              <DataTable
-                headers={["Week", "Baseline Forecast", "Promo Forecast"]}
-                rows={forecastData.map(d => [d.week, d.baselineForecast, d.promoForecast])}
-              />
-            </div>
+              <DataTable headers={["Week", "Baseline Forecast", "Promo Forecast"]} rows={forecastData.map(d => [d.week, d.baselineForecast, d.promoForecast])} />
+            </section>
 
-            {/* 5. STO Data (Top 5 table, no graph) */}
-            <div id="insight-sto">
+            {/* 5. STO */}
+            <section id="insight-sto">
               <SectionHeader icon={Truck} title="STO Data" badge="Top 5" />
               <DataTable headers={stoTableHeaders} rows={stoTableRows} minWidth="700px" />
-            </div>
+            </section>
 
-            {/* 6. Production Data */}
-            <div id="insight-production">
+            {/* 6. Production */}
+            <section id="insight-production">
               <SectionHeader icon={Factory} title="Production Data" />
-              <ChartCard title="Production Qty & CCU % by Week" className="h-64">
+              <ChartCard title="Production Qty & CCU % by Week">
                 <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={prodData}>
-                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                    <XAxis dataKey="week" tick={{ fontSize: 9 }} />
-                    <YAxis yAxisId="left" tick={{ fontSize: 9 }} />
-                    <YAxis yAxisId="right" orientation="right" domain={[0, 100]} tick={{ fontSize: 9 }} />
-                    <Tooltip />
-                    <Legend wrapperStyle={{ fontSize: 9 }} />
-                    <Bar yAxisId="left" dataKey="qty" fill={COLORS[0]} name="Production Qty" />
-                    <Line yAxisId="right" type="monotone" dataKey="ccu" stroke={COLORS[3]} strokeWidth={2} name="CCU %" />
-                  </BarChart>
+                  <ComposedChart data={prodData}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" strokeOpacity={0.5} />
+                    <XAxis dataKey="week" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
+                    <YAxis yAxisId="left" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
+                    <YAxis yAxisId="right" orientation="right" domain={[0, 100]} tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
+                    <Tooltip {...customTooltipStyle} />
+                    <Legend wrapperStyle={legendStyle} formatter={(value: string) => <span style={{ color: 'hsl(210, 40%, 80%)' }}>{value}</span>} />
+                    <Bar yAxisId="left" dataKey="qty" fill={CHART_BLUE} name="Production Qty" radius={[4, 4, 0, 0]} />
+                    <Line yAxisId="right" type="monotone" dataKey="ccu" stroke={CHART_AMBER} strokeWidth={2.5} name="CCU %" dot={{ r: 4, fill: CHART_AMBER, stroke: 'hsl(var(--background))', strokeWidth: 2 }} />
+                  </ComposedChart>
                 </ResponsiveContainer>
               </ChartCard>
               <DataTable headers={prodTableHeaders} rows={prodTableRows} minWidth="700px" />
-            </div>
+            </section>
 
-            {/* 7. Master Data (no graphs, less items) */}
-            <div id="insight-master">
+            {/* 7. Master Data */}
+            <section id="insight-master">
               <SectionHeader icon={Database} title="Master Data" />
               <DataTable headers={masterTableHeaders} rows={masterTableRows} minWidth="1800px" />
-            </div>
+            </section>
 
-            {/* 8. Projected DR% — TBD */}
-            <div id="insight-dr">
+            {/* 8. Projected DR% */}
+            <section id="insight-dr">
               <SectionHeader icon={TrendingDown} title="Projected DR%" badge="TBD" />
-              <div className="section-card p-8 flex items-center justify-center text-muted-foreground text-sm">
-                <span>Projected DR% module is under development — TBD</span>
+              <div className="bg-card/60 backdrop-blur-sm border border-border/60 rounded-xl p-10 flex items-center justify-center">
+                <span className="text-muted-foreground text-sm">Projected DR% module is under development — TBD</span>
               </div>
-            </div>
+            </section>
 
           </div>
         </div>
       </div>
-
-      <style>{`
-        @keyframes slide-in-right {
-          from { transform: translateX(100%); }
-          to { transform: translateX(0); }
-        }
-        .animate-slide-in-right {
-          animation: slide-in-right 0.3s ease-out;
-        }
-      `}</style>
     </div>
   );
 }
