@@ -106,9 +106,9 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
     if (!MRDR_FROZEN_KEYS.includes(key)) return {};
     const bgMap = {
       normal: "hsl(var(--card))",
-      new: "hsl(0 80% 96%)",
+      new: "hsl(var(--critical-bg))",
       child: "hsl(var(--muted))",
-      childNew: "hsl(0 80% 95%)",
+      childNew: "hsl(var(--critical-bg))",
     };
     return {
       position: "sticky",
@@ -117,7 +117,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
       width: MRDR_FROZEN_WIDTHS[key],
       minWidth: MRDR_FROZEN_WIDTHS[key],
       maxWidth: MRDR_FROZEN_WIDTHS[key],
-      boxShadow: isLastFrozen(key) ? "2px 0 4px rgba(0,0,0,0.08)" : undefined,
+      boxShadow: isLastFrozen(key) ? "2px 0 8px hsl(0 0% 0% / 0.3)" : undefined,
       backgroundColor: bgMap[variant],
     };
   };
