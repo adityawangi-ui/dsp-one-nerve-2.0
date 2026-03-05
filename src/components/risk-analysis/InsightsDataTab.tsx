@@ -39,8 +39,8 @@ function SectionHeader({ icon: Icon, title, badge }: { icon: React.ElementType; 
 
 function ChartCard({ children, title, className = "" }: { children: React.ReactNode; title?: string; className?: string }) {
   return (
-    <div className={`bg-card/80 backdrop-blur-sm rounded-xl border border-border/60 p-4 ${className}`}>
-      {title && <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-semibold mb-2 block">{title}</span>}
+    <div className={`bg-card rounded-xl border border-border p-4 ${className}`}>
+      {title && <span className="text-xs text-foreground/80 uppercase tracking-widest font-semibold mb-2 block">{title}</span>}
       <div className="h-52">{children}</div>
     </div>
   );
@@ -48,20 +48,20 @@ function ChartCard({ children, title, className = "" }: { children: React.ReactN
 
 function DataTable({ headers, rows, minWidth, highlightRows }: { headers: string[]; rows: (string | number)[][]; minWidth?: string; highlightRows?: number[] }) {
   return (
-    <div className="overflow-x-auto mt-4 rounded-xl border border-border/60 bg-card/60 backdrop-blur-sm">
+    <div className="overflow-x-auto mt-4 rounded-xl border border-border bg-card">
       <table className="w-full text-[11px]" style={{ minWidth: minWidth || `${Math.max(headers.length * 110, 600)}px` }}>
         <thead>
-          <tr className="bg-secondary/80 border-b border-border/60">
+          <tr className="bg-secondary border-b border-border">
             {headers.map(h => (
-              <th key={h} className="px-3 py-2.5 text-left text-[10px] font-bold uppercase tracking-wider text-foreground/70 whitespace-nowrap">{h}</th>
+              <th key={h} className="px-3 py-2.5 text-left text-[10px] font-bold uppercase tracking-wider text-foreground whitespace-nowrap">{h}</th>
             ))}
           </tr>
         </thead>
         <tbody>
           {rows.map((r, i) => (
-            <tr key={i} className={`border-b border-border/30 transition-colors hover:bg-primary/5 ${highlightRows?.includes(i) ? "bg-destructive/5" : ""}`}>
+            <tr key={i} className={`border-b border-border/50 hover:bg-secondary/40 ${highlightRows?.includes(i) ? "bg-destructive/10" : ""}`}>
               {r.map((c, j) => (
-                <td key={j} className="px-3 py-2 whitespace-nowrap font-mono text-foreground/90">
+                <td key={j} className="px-3 py-2 whitespace-nowrap font-mono text-foreground">
                   {typeof c === "number" ? c.toLocaleString() : c}
                 </td>
               ))}
@@ -75,8 +75,8 @@ function DataTable({ headers, rows, minWidth, highlightRows }: { headers: string
 
 function KpiBox({ label, value }: { label: string; value: string | number }) {
   return (
-    <div className="bg-card/80 backdrop-blur-sm border border-border/60 rounded-xl px-4 py-3 flex flex-col items-center text-center">
-      <span className="text-[9px] text-muted-foreground uppercase tracking-wider font-medium">{label}</span>
+    <div className="bg-card border border-border rounded-xl px-4 py-3 flex flex-col items-center text-center">
+      <span className="text-[9px] text-foreground/60 uppercase tracking-wider font-medium">{label}</span>
       <span className="text-base font-bold text-foreground mt-0.5">{value}</span>
     </div>
   );
