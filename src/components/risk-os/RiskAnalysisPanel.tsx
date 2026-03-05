@@ -9,9 +9,6 @@ import InsightsDataTab from "@/components/risk-analysis/InsightsDataTab";
 import InsightsTab from "@/components/risk-analysis/InsightsTab";
 import ScenarioSimulatorTab, { Scenario } from "@/components/risk-analysis/ScenarioSimulatorTab";
 import LastMileExecution from "@/components/risk-analysis/LastMileExecution";
-import SupplyChainMap from "@/components/risk-os/SupplyChainMap";
-import RiskDNARadar from "@/components/risk-os/RiskDNARadar";
-import RiskTimeline from "@/components/risk-os/RiskTimeline";
 
 interface Props {
   row: RiskRow;
@@ -94,19 +91,7 @@ export default function RiskAnalysisPanel({ row, onClose }: Props) {
                 </TabsContent>
 
                 <TabsContent value="recommendations">
-                  {/* Supply Chain Map */}
-                  <SupplyChainMap />
-
-                  {/* Risk DNA + Timeline side by side */}
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-5">
-                    <RiskDNARadar row={row} />
-                    <RiskTimeline row={row} />
-                  </div>
-
-                  {/* AI Insights & Scenarios */}
-                  <div className="mt-5">
-                    <InsightsTab row={row} />
-                  </div>
+                  <InsightsTab row={row} />
                   <div className="mt-8">
                     <ScenarioSimulatorTab
                       row={row}

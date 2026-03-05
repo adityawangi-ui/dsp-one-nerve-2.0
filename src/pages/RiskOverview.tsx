@@ -9,7 +9,6 @@ import DetailedRiskTable from "@/components/risk-os/DetailedRiskTable";
 import InsightsPanel from "@/components/risk-os/InsightsPanel";
 import RiskAIAgent from "@/components/risk-os/RiskAIAgent";
 import RiskAnalysisPanel from "@/components/risk-os/RiskAnalysisPanel";
-import RiskHeatMatrix from "@/components/risk-os/RiskHeatMatrix";
 
 export default function RiskOverview() {
   const [rows, setRows] = useState<RiskRow[]>([...riskData]);
@@ -109,7 +108,6 @@ export default function RiskOverview() {
 
           <AlertsSection />
           <UnifiedFilters filters={filters} onChange={setFilters} maxLoss={890000} />
-          <RiskHeatMatrix data={filteredRows} />
           <DetailedRiskTable data={filteredRows} onOpenInsights={setInsightsRow} onUpdateRow={handleUpdateRow} onOpenAnalysis={handleOpenAnalysis} />
         </div>
       </main>
