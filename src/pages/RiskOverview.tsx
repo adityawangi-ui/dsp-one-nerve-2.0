@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import AlertsSection from "@/components/risk-os/AlertsSection";
 import SituationPanel from "@/components/risk-os/SituationPanel";
+import OrchestratorPanel from "@/components/risk-os/OrchestratorPanel";
 import UnifiedFilters, { FilterState, defaultFilters } from "@/components/risk-os/UnifiedFilters";
 import DetailedRiskTable from "@/components/risk-os/DetailedRiskTable";
 import InsightsPanel from "@/components/risk-os/InsightsPanel";
@@ -106,8 +107,11 @@ export default function RiskOverview() {
             <span className="text-foreground font-medium">Risk Monitor</span>
           </nav>
 
-          {/* Global Situation Panel */}
-          <SituationPanel />
+          {/* Global Situation Panel + Orchestrator */}
+          <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-4">
+            <SituationPanel />
+            <OrchestratorPanel />
+          </div>
 
           <AlertsSection />
           <UnifiedFilters filters={filters} onChange={setFilters} maxLoss={890000} />
