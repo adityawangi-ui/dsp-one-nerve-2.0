@@ -110,10 +110,10 @@ const scenarioDetails: Record<number, { aiInsights: string[]; actions: string[];
       { label: "Material Availability", value: "96%", trend: "↑ 5%" },
     ],
     impactKPIs: [
-      { label: "Service Level After Mitigation", value: "98%", color: "text-emerald-600" },
+      { label: "Service Level After Mitigation", value: "98%", color: "text-success" },
       { label: "Revenue Preserved", value: "€235K", color: "text-primary" },
-      { label: "OSA Improvement", value: "+11%", color: "text-emerald-600" },
-      { label: "OOS Reduction", value: "-92%", color: "text-emerald-600" },
+      { label: "OSA Improvement", value: "+11%", color: "text-success" },
+      { label: "OOS Reduction", value: "-92%", color: "text-success" },
     ],
     costBreakdown: [
       { label: "Flex Labor", value: 10000 },
