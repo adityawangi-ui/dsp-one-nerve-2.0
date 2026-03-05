@@ -127,6 +127,7 @@ export default function ScenarioSimulatorTab({ row, onSelectScenario, selectedSc
   const [expandedScenario, setExpandedScenario] = useState<number | null>(null);
   const [scenarios, setScenarios] = useState<Scenario[]>(originalScenarios);
   const [isRefined, setIsRefined] = useState(false);
+  const proceedRef = useRef<HTMLDivElement>(null);
 
   const handleScenarioClick = (id: number) => {
     setExpandedScenario(expandedScenario === id ? null : id);
@@ -134,6 +135,10 @@ export default function ScenarioSimulatorTab({ row, onSelectScenario, selectedSc
 
   const handleSelectScenario = (s: Scenario) => {
     onSelectScenario(s);
+    // Scroll to proceed button after state update
+    setTimeout(() => {
+      proceedRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
+    }, 100);
   };
 
   const handleRefineScenarios = (targetScenarios: number[], feedback: string) => {
