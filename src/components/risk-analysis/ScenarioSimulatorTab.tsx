@@ -519,7 +519,7 @@ function PlannerRefinementDialog({
                     <Label htmlFor={`s-${s.id}`} className="text-xs cursor-pointer flex-1">
                       <span className="font-medium">Scenario {s.id}:</span> {s.name}
                     </Label>
-                    {s.recommended && <Badge className="bg-emerald-500 text-white border-0 text-[9px]">REC</Badge>}
+                    {s.recommended && <Badge className="bg-success text-success-foreground border-0 text-[9px]">REC</Badge>}
                   </div>
                 ))}
               </div>
