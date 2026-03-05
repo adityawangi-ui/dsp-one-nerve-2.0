@@ -123,7 +123,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
   };
 
   const NewBadge = () => (
-    <Badge variant="outline" className="ml-1.5 text-[9px] font-bold uppercase bg-destructive/10 text-destructive border-destructive/30">NEW</Badge>
+    <Badge variant="outline" className="ml-1.5 text-[9px] font-bold uppercase bg-destructive/15 text-destructive border-destructive/40 neon-text-red animate-pulse">NEW</Badge>
   );
 
   const cellCls = "text-[11px] whitespace-nowrap px-3 py-2.5";
