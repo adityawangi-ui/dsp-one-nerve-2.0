@@ -4,12 +4,12 @@ import { X, Package, Calendar, TrendingDown, Truck, Factory, BarChart3, Database
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, LineChart, Line, Legend, PieChart, Pie, Cell, ComposedChart, ReferenceLine } from "recharts";
 import { Badge } from "@/components/ui/badge";
 
-// High-contrast colors for dark mode
-const CHART_BLUE = "hsl(199, 89%, 60%)";
-const CHART_GREEN = "hsl(160, 84%, 50%)";
-const CHART_AMBER = "hsl(38, 92%, 60%)";
-const CHART_RED = "hsl(0, 84%, 65%)";
-const CHART_CYAN = "hsl(185, 80%, 55%)";
+// Theme-token chart palette for consistent contrast
+const CHART_BLUE = "hsl(var(--primary))";
+const CHART_GREEN = "hsl(var(--success))";
+const CHART_AMBER = "hsl(var(--warning))";
+const CHART_RED = "hsl(var(--destructive))";
+const CHART_CYAN = "hsl(var(--primary-glow))";
 
 const sections = [
   { id: "ctp", title: "Exception Daily/Weekly CTP", icon: Table2 },
@@ -36,11 +36,11 @@ function SectionHeader({ icon: Icon, title, badge }: { icon: React.ElementType; 
   );
 }
 
-function ChartCard({ children, title, className = "" }: { children: React.ReactNode; title?: string; className?: string }) {
+function ChartCard({ children, title, className = "", contentClassName = "h-52" }: { children: React.ReactNode; title?: string; className?: string; contentClassName?: string }) {
   return (
-    <div className={`bg-card rounded-xl border border-border p-4 ${className}`}>
+    <div className={`bg-card rounded-xl border border-border p-4 overflow-hidden ${className}`}>
       {title && <span className="text-xs text-foreground/80 uppercase tracking-widest font-semibold mb-2 block">{title}</span>}
-      <div className="h-52">{children}</div>
+      <div className={contentClassName}>{children}</div>
     </div>
   );
 }
@@ -83,19 +83,19 @@ function KpiBox({ label, value }: { label: string; value: string | number }) {
 
 const customTooltipStyle = {
   contentStyle: {
-    backgroundColor: 'hsl(222, 47%, 14%)',
-    border: '1px solid hsl(217, 33%, 25%)',
+    backgroundColor: 'hsl(var(--popover))',
+    border: '1px solid hsl(var(--border))',
     borderRadius: '10px',
-    color: 'hsl(210, 40%, 96%)',
+    color: 'hsl(var(--popover-foreground))',
     fontSize: '11px',
     padding: '8px 12px',
-    boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
+    boxShadow: 'var(--shadow-card)',
   },
-  labelStyle: { color: 'hsl(210, 40%, 80%)', fontWeight: 600, marginBottom: '4px' },
-  itemStyle: { color: 'hsl(210, 40%, 96%)', padding: '1px 0' },
+  labelStyle: { color: 'hsl(var(--foreground))', fontWeight: 600, marginBottom: '4px' },
+  itemStyle: { color: 'hsl(var(--foreground))', padding: '1px 0' },
 };
 
-const axisTickStyle = { fontSize: 10, fill: 'hsl(215, 20%, 65%)' };
+const axisTickStyle = { fontSize: 10, fill: 'hsl(var(--muted-foreground))' };
 const legendStyle = { fontSize: 10, paddingTop: 8 };
 
 export default function InsightsPanel({ row, onClose }: Props) {
@@ -235,7 +235,7 @@ export default function InsightsPanel({ row, onClose }: Props) {
 
         {/* Content */}
         <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-          <div className="h-12 flex items-center justify-between px-5 border-b border-border/50 shrink-0 bg-card/80 backdrop-blur-sm">
+          <div className="h-12 flex items-center justify-between px-5 border-b border-border/50 shrink-0 bg-card">
             <div>
               <span className="text-sm font-bold text-foreground">Risk Insights</span>
               <span className="text-[11px] text-muted-foreground ml-3">
@@ -265,7 +265,7 @@ export default function InsightsPanel({ row, onClose }: Props) {
                     <XAxis dataKey="week" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
                     <YAxis tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
                     <Tooltip {...customTooltipStyle} />
-                    <Legend wrapperStyle={legendStyle} formatter={(value: string) => <span style={{ color: 'hsl(210, 40%, 80%)' }}>{value}</span>} />
+                    <Legend wrapperStyle={legendStyle} formatter={(value: string) => <span style={{ color: 'hsl(var(--foreground))' }}>{value}</span>} />
                     <Bar dataKey="demand" fill={CHART_BLUE} name="Planned Demand" radius={[4, 4, 0, 0]} />
                     <Bar dataKey="supply" fill={CHART_GREEN} name="Total Supply" radius={[4, 4, 0, 0]} />
                   </BarChart>
@@ -317,27 +317,28 @@ export default function InsightsPanel({ row, onClose }: Props) {
             <section id="insight-stock">
               <SectionHeader icon={Package} title="Stock Info / Inventory" />
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                <ChartCard title="Stock Type Breakdown" className="!h-auto">
-                  <div className="h-64">
-                    <ResponsiveContainer width="100%" height="100%">
-                      <PieChart>
-                        <Pie data={stockBreakdown} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} innerRadius={35}
-                          label={({ name, value, cx: pcx, cy: pcy, midAngle, outerRadius: or }) => {
-                            const RADIAN = Math.PI / 180;
-                            const radius = (or as number) + 22;
-                            const x = (pcx as number) + radius * Math.cos(-midAngle * RADIAN);
-                            const y = (pcy as number) + radius * Math.sin(-midAngle * RADIAN);
-                            return <text x={x} y={y} textAnchor={x > (pcx as number) ? "start" : "end"} dominantBaseline="central" fontSize={10} fontWeight={600} fill="hsl(210, 40%, 85%)">{name} {value}%</text>;
-                          }}
-                          labelLine={{ stroke: "hsl(215, 20%, 45%)", strokeWidth: 1 }} strokeWidth={2} stroke="hsl(var(--background))"
-                        >
-                          {stockBreakdown.map((entry, i) => <Cell key={i} fill={entry.fill} />)}
-                        </Pie>
-                        <Tooltip {...customTooltipStyle} />
-                        <Legend verticalAlign="bottom" iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 10, paddingTop: 8 }} formatter={(value: string) => <span style={{ color: 'hsl(210, 40%, 80%)' }}>{value}</span>} />
-                      </PieChart>
-                    </ResponsiveContainer>
-                  </div>
+                <ChartCard title="Stock Type Breakdown" contentClassName="h-72">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={stockBreakdown}
+                        dataKey="value"
+                        nameKey="name"
+                        cx="50%"
+                        cy="45%"
+                        outerRadius={82}
+                        innerRadius={36}
+                        label={false}
+                        labelLine={false}
+                        strokeWidth={2}
+                        stroke="hsl(var(--background))"
+                      >
+                        {stockBreakdown.map((entry, i) => <Cell key={i} fill={entry.fill} />)}
+                      </Pie>
+                      <Tooltip {...customTooltipStyle} />
+                      <Legend verticalAlign="bottom" iconType="circle" iconSize={8} wrapperStyle={legendStyle} formatter={(value: string) => <span style={{ color: 'hsl(var(--foreground))' }}>{value}</span>} />
+                    </PieChart>
+                  </ResponsiveContainer>
                 </ChartCard>
                 <div className="grid grid-cols-2 gap-3 content-start">
                   <KpiBox label="Total Unrestricted" value="4,230" />
@@ -360,7 +361,7 @@ export default function InsightsPanel({ row, onClose }: Props) {
                     <YAxis yAxisId="left" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
                     <YAxis yAxisId="right" orientation="right" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
                     <Tooltip {...customTooltipStyle} />
-                    <Legend wrapperStyle={legendStyle} formatter={(value: string) => <span style={{ color: 'hsl(210, 40%, 80%)' }}>{value}</span>} />
+                    <Legend wrapperStyle={legendStyle} formatter={(value: string) => <span style={{ color: 'hsl(var(--foreground))' }}>{value}</span>} />
                     <Bar yAxisId="left" dataKey="doh" fill={CHART_BLUE} name="DOH Days" radius={[4, 4, 0, 0]} />
                     <Line yAxisId="right" type="monotone" dataKey="qty" stroke={CHART_AMBER} strokeWidth={2.5} name="Quantity" dot={{ r: 4, fill: CHART_AMBER, stroke: 'hsl(var(--background))', strokeWidth: 2 }} />
                   </ComposedChart>
@@ -384,7 +385,7 @@ export default function InsightsPanel({ row, onClose }: Props) {
                     <XAxis dataKey="week" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
                     <YAxis tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
                     <Tooltip {...customTooltipStyle} />
-                    <Legend wrapperStyle={legendStyle} formatter={(value: string) => <span style={{ color: 'hsl(210, 40%, 80%)' }}>{value}</span>} />
+                    <Legend wrapperStyle={legendStyle} formatter={(value: string) => <span style={{ color: 'hsl(var(--foreground))' }}>{value}</span>} />
                     <Line type="monotone" dataKey="baselineForecast" stroke={CHART_BLUE} strokeWidth={2.5} name="Baseline Forecast" dot={{ r: 4, fill: CHART_BLUE, stroke: 'hsl(var(--background))', strokeWidth: 2 }} />
                     <Line type="monotone" dataKey="promoForecast" stroke={CHART_AMBER} strokeWidth={2.5} name="Promo Forecast" dot={{ r: 4, fill: CHART_AMBER, stroke: 'hsl(var(--background))', strokeWidth: 2 }} />
                     <ReferenceLine y={forecast4WBias} stroke={CHART_GREEN} strokeDasharray="5 5" label={{ value: `4W Bias: ${forecast4WBias}`, fontSize: 9, fill: CHART_GREEN }} />
@@ -411,7 +412,7 @@ export default function InsightsPanel({ row, onClose }: Props) {
                     <YAxis yAxisId="left" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
                     <YAxis yAxisId="right" orientation="right" domain={[0, 100]} tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
                     <Tooltip {...customTooltipStyle} />
-                    <Legend wrapperStyle={legendStyle} formatter={(value: string) => <span style={{ color: 'hsl(210, 40%, 80%)' }}>{value}</span>} />
+                    <Legend wrapperStyle={legendStyle} formatter={(value: string) => <span style={{ color: 'hsl(var(--foreground))' }}>{value}</span>} />
                     <Bar yAxisId="left" dataKey="qty" fill={CHART_BLUE} name="Production Qty" radius={[4, 4, 0, 0]} />
                     <Line yAxisId="right" type="monotone" dataKey="ccu" stroke={CHART_AMBER} strokeWidth={2.5} name="CCU %" dot={{ r: 4, fill: CHART_AMBER, stroke: 'hsl(var(--background))', strokeWidth: 2 }} />
                   </ComposedChart>
@@ -429,8 +430,8 @@ export default function InsightsPanel({ row, onClose }: Props) {
             {/* 8. Projected DR% */}
             <section id="insight-dr">
               <SectionHeader icon={TrendingDown} title="Projected DR%" badge="TBD" />
-              <div className="bg-card/60 backdrop-blur-sm border border-border/60 rounded-xl p-10 flex items-center justify-center">
-                <span className="text-muted-foreground text-sm">Projected DR% module is under development — TBD</span>
+              <div className="bg-card border border-border rounded-xl p-10 flex items-center justify-center">
+                <span className="text-foreground text-sm">Projected DR% module is under development — TBD</span>
               </div>
             </section>
 
