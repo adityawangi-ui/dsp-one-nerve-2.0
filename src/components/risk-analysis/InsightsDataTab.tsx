@@ -4,13 +4,13 @@ import { Package, Calendar, TrendingDown, Truck, Factory, BarChart3, Database, T
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, LineChart, Line, Legend, PieChart, Pie, Cell, ComposedChart, ReferenceLine } from "recharts";
 import { Badge } from "@/components/ui/badge";
 
-// Bright, high-contrast palette for dark backgrounds
-const CHART_BLUE = "hsl(199, 89%, 60%)";
-const CHART_GREEN = "hsl(160, 84%, 50%)";
-const CHART_AMBER = "hsl(38, 92%, 60%)";
-const CHART_RED = "hsl(0, 84%, 65%)";
-const CHART_PURPLE = "hsl(270, 70%, 70%)";
-const CHART_CYAN = "hsl(185, 80%, 55%)";
+// Theme-token chart palette for consistent contrast
+const CHART_BLUE = "hsl(var(--primary))";
+const CHART_GREEN = "hsl(var(--success))";
+const CHART_AMBER = "hsl(var(--warning))";
+const CHART_RED = "hsl(var(--destructive))";
+const CHART_PURPLE = "hsl(var(--agent-utility))";
+const CHART_CYAN = "hsl(var(--primary-glow))";
 
 const sections = [
   { id: "ctp", title: "Exception Daily/Weekly CTP", icon: Table2 },
