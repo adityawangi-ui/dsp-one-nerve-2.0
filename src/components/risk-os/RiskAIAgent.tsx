@@ -18,7 +18,7 @@ function getAnswer(q: string): string {
 
   if (lower.includes("top") && lower.includes("loss")) {
     const sorted = [...riskData].sort((a, b) => b.expectedLossCases - a.expectedLossCases).slice(0, 5);
-    return `**Top 5 Risks by Expected Loss Cases:**\n\n${sorted.map((r, i) => `${i + 1}. **${r.mrdrDescription}** (${r.msoCountry}) — ${r.expectedLossCases.toLocaleString()} cases, $${r.expectedLossValue.toLocaleString()}, Severity: ${r.severity}`).join("\n")}`;
+    return `**Top 5 Risks by Expected Loss Cases:**\n\n${sorted.map((r, i) => `${i + 1}. **${r.mrdrDescription}** (${r.msoCountry}) — ${r.expectedLossCases.toLocaleString()} cases, €${r.expectedLossValue.toLocaleString()}, Severity: ${r.severity}`).join("\n")}`;
   }
 
   if (lower.includes("out of stock") || lower.includes("oos")) {
