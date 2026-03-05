@@ -112,7 +112,7 @@ export default function InsightsTab({ row }: Props) {
           "Labor availability: 88%",
           "Maintenance window: W3-W4",
         ]} />
-        <InsightCard icon={Truck} title="Logistics Insights" color="bg-violet-500" items={[
+        <InsightCard icon={Truck} title="Logistics Insights" color="bg-primary" items={[
           "Shipment delays: 3 pending",
           "Warehouse imbalance: DC-North",
           "Transit time variance: +2 days",
