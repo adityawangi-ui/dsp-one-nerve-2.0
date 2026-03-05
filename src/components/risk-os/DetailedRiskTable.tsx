@@ -311,7 +311,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                     </tr>
                     {expanded && childRows.map(cr => {
                       const childVariant = cr.isNew ? "childNew" : "child";
-                      const childRowBg = cr.isNew ? "hsl(0 80% 95%)" : "hsl(var(--muted))";
+                      const childRowBg = cr.isNew ? "hsl(var(--critical-bg))" : "hsl(var(--muted))";
                       return (
                         <tr key={cr.riskId} className="border-b border-border/30" style={{ backgroundColor: childRowBg, height: "40px" }}>
                           {shareMode && <td style={{ position: "sticky", left: 0, zIndex: 10, backgroundColor: childRowBg }} />}
