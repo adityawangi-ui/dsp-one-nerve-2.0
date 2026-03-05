@@ -274,7 +274,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                       <td className={`${cellCls} font-mono`}>{agg.riskInDays}</td>
                       <td className={`${cellCls} font-mono`}>{agg.stockCS.toLocaleString()}</td>
                       <td className={`${cellCls} font-mono`}>{agg.expectedLossCases.toLocaleString()}</td>
-                      <td className={`${cellCls} font-mono`}>${agg.expectedLossValue.toLocaleString()}</td>
+                      <td className={`${cellCls} font-mono`}>€{agg.expectedLossValue.toLocaleString()}</td>
                       <td className={cellCls}>{agg.nextAvailableDate || "—"}</td>
                       <td className={cellCls}>{agg.botReasonCode}</td>
                       <td className={cellCls}>{agg.plannerReasonCode}</td>
@@ -315,7 +315,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                           <td className={`${childCellCls} font-mono`}>{cr.riskInDays}</td>
                           <td className={`${childCellCls} font-mono`}>{cr.stockCS.toLocaleString()}</td>
                           <td className={`${childCellCls} font-mono`}>{cr.expectedLossCases.toLocaleString()}</td>
-                          <td className={`${childCellCls} font-mono`}>${cr.expectedLossValue.toLocaleString()}</td>
+                          <td className={`${childCellCls} font-mono`}>€{cr.expectedLossValue.toLocaleString()}</td>
                           <td className={childCellCls}>{cr.nextAvailableDate || "—"}</td>
                           <td className={childCellCls}>{cr.botReasonCode}</td>
                           <td className={childCellCls}>
@@ -392,7 +392,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                       <td className={`${cellCls} font-mono`}>{grow.riskInDays}</td>
                       <td className={`${cellCls} font-mono`}>{grow.stockCS.toLocaleString()}</td>
                       <td className={`${cellCls} font-mono`}>{grow.expectedLossCases.toLocaleString()}</td>
-                      <td className={`${cellCls} font-mono`}>${grow.expectedLossValue.toLocaleString()}</td>
+                      <td className={`${cellCls} font-mono`}>€{grow.expectedLossValue.toLocaleString()}</td>
                     </tr>
                     {expanded && childRows.map(cr => (
                       <tr key={cr.riskId} className={`border-b border-border/30 ${cr.isNew ? "bg-destructive/[0.06]" : "bg-muted/30"}`}>
@@ -410,7 +410,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                         <td className={`${childCellCls} font-mono`}>{cr.riskInDays}</td>
                         <td className={`${childCellCls} font-mono`}>{cr.stockCS.toLocaleString()}</td>
                         <td className={`${childCellCls} font-mono`}>{cr.expectedLossCases.toLocaleString()}</td>
-                        <td className={`${childCellCls} font-mono`}>${cr.expectedLossValue.toLocaleString()}</td>
+                        <td className={`${childCellCls} font-mono`}>€{cr.expectedLossValue.toLocaleString()}</td>
                       </tr>
                     ))}
                   </React.Fragment>
