@@ -235,7 +235,7 @@ export default function InsightsPanel({ row, onClose }: Props) {
 
         {/* Content */}
         <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-          <div className="h-12 flex items-center justify-between px-5 border-b border-border/50 shrink-0 bg-card/80 backdrop-blur-sm">
+          <div className="h-12 flex items-center justify-between px-5 border-b border-border/50 shrink-0 bg-card">
             <div>
               <span className="text-sm font-bold text-foreground">Risk Insights</span>
               <span className="text-[11px] text-muted-foreground ml-3">
