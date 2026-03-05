@@ -7,7 +7,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Checkbox } from "@/components/ui/checkbox";
-import { LayoutList, Download, Share2, Plus, Eye, ChevronRight, ChevronDown, ChevronUp, Columns3, Send } from "lucide-react";
+import { LayoutList, Download, Share2, Plus, Eye, ChevronRight, ChevronDown, ChevronUp, Columns3, Send, Search } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 interface Props {
@@ -20,6 +21,7 @@ const MRDR_FROZEN_KEYS = ["riskId", "mrdr", "mrdrDescription", "msoCountry"];
 const MRDR_FROZEN_WIDTHS: Record<string, number> = { riskId: 90, mrdr: 120, mrdrDescription: 220, msoCountry: 100 };
 
 export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }: Props) {
+  const navigate = useNavigate();
   const [view, setView] = useState<"mrdr" | "gtin" | "uom">("mrdr");
   const [sortCol, setSortCol] = useState<string | null>(null);
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
@@ -282,8 +284,8 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
                       <td className={cellCls}>{agg.repackDependency}</td>
                       <td className={cellCls}>{agg.category}</td>
                       <td className={cellCls}>
-                        <button onClick={() => onOpenInsights(childRows[0])} className="flex items-center gap-1 text-primary hover:underline text-[11px]">
-                          <Eye className="h-3 w-3" /> View More
+                        <button onClick={() => navigate(`/risk-analysis?riskId=${childRows[0].riskId}`)} className="flex items-center gap-1 text-primary hover:underline text-[11px]">
+                          <Search className="h-3 w-3" /> Insights & Analyse
                         </button>
                       </td>
                     </tr>
@@ -331,8 +333,8 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }:
                           <td className={childCellCls}>{cr.repackDependency}</td>
                           <td className={childCellCls}>{cr.category}</td>
                           <td className={childCellCls}>
-                            <button onClick={() => onOpenInsights(cr)} className="flex items-center gap-1 text-primary hover:underline text-[11px]">
-                              <Eye className="h-3 w-3" /> View
+                            <button onClick={() => navigate(`/risk-analysis?riskId=${cr.riskId}`)} className="flex items-center gap-1 text-primary hover:underline text-[11px]">
+                              <Search className="h-3 w-3" /> Analyse
                             </button>
                           </td>
                         </tr>
