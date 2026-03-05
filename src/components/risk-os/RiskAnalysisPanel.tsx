@@ -87,7 +87,7 @@ export default function RiskAnalysisPanel({ row, onClose }: Props) {
                 </TabsList>
 
                 <TabsContent value="insights-data">
-                  <InsightsDataTab row={row} />
+                  <InsightsDataTab key={row.riskId} row={row} />
                 </TabsContent>
 
                 <TabsContent value="recommendations">
