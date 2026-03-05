@@ -27,12 +27,12 @@ interface Props { row: RiskRow; }
 
 function SectionHeader({ icon: Icon, title, badge }: { icon: React.ElementType; title: string; badge?: string }) {
   return (
-    <div className="flex items-center gap-2.5 mb-4 pb-3 border-b border-border/50">
-      <div className="h-7 w-7 rounded-lg bg-primary/15 flex items-center justify-center">
-        <Icon className="h-3.5 w-3.5 text-primary" />
+    <div className="flex items-center gap-3 mb-4 rounded-lg border border-border bg-secondary px-3 py-2">
+      <div className="h-8 w-8 rounded-md border border-border bg-background flex items-center justify-center">
+        <Icon className="h-4 w-4 text-foreground" />
       </div>
-      <h3 className="text-sm font-bold text-foreground tracking-wide">{title}</h3>
-      {badge && <Badge variant="outline" className="text-[9px] ml-1 border-primary/30 text-primary">{badge}</Badge>}
+      <h3 className="text-base font-semibold text-foreground leading-none">{title}</h3>
+      {badge && <Badge variant="outline" className="text-[10px] ml-1 border-border bg-background text-foreground">{badge}</Badge>}
     </div>
   );
 }
@@ -40,7 +40,7 @@ function SectionHeader({ icon: Icon, title, badge }: { icon: React.ElementType; 
 function ChartCard({ children, title, className = "", contentClassName = "h-52" }: { children: React.ReactNode; title?: string; className?: string; contentClassName?: string }) {
   return (
     <div className={`bg-card rounded-xl border border-border p-4 overflow-hidden ${className}`}>
-      {title && <span className="text-xs text-foreground/80 uppercase tracking-widest font-semibold mb-2 block">{title}</span>}
+      {title && <span className="text-xs text-foreground uppercase tracking-widest font-semibold mb-2 block">{title}</span>}
       <div className={contentClassName}>{children}</div>
     </div>
   );
@@ -76,7 +76,7 @@ function DataTable({ headers, rows, minWidth, highlightRows }: { headers: string
 function KpiBox({ label, value }: { label: string; value: string | number }) {
   return (
     <div className="bg-card border border-border rounded-xl px-4 py-3 flex flex-col items-center text-center">
-      <span className="text-[9px] text-foreground/60 uppercase tracking-wider font-medium">{label}</span>
+      <span className="text-[9px] text-foreground uppercase tracking-wider font-medium">{label}</span>
       <span className="text-base font-bold text-foreground mt-0.5">{value}</span>
     </div>
   );
