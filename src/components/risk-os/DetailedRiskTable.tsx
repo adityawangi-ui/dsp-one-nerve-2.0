@@ -43,7 +43,11 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
     else { setSortCol(col); setSortDir("asc"); }
   };
 
-  const mrdrAggData = useMemo(() => aggregateByMrdr(data), [data]);
+  const mrdrAggData = useMemo(() => {
+    const agg = aggregateByMrdr(data);
+    if (uomFilter === "all") return agg;
+    return agg.filter(a => a.uom === uomFilter);
+  }, [data, uomFilter]);
   const gtinData = useMemo(() => aggregateByGtin(data), [data]);
 
   const uomData = useMemo(() => {
