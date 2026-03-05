@@ -303,27 +303,28 @@ export default function InsightsDataTab({ row }: Props) {
         <section id="tab-insight-stock">
           <SectionHeader icon={Package} title="Stock Info / Inventory" />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <ChartCard title="Stock Type Breakdown" className="!h-auto">
-              <div className="h-64">
-                <ResponsiveContainer width="100%" height="100%">
-                  <PieChart>
-                    <Pie data={stockBreakdown} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} innerRadius={35}
-                      label={({ name, value, cx: pcx, cy: pcy, midAngle, outerRadius: or }) => {
-                        const RADIAN = Math.PI / 180;
-                        const radius = (or as number) + 22;
-                        const x = (pcx as number) + radius * Math.cos(-midAngle * RADIAN);
-                        const y = (pcy as number) + radius * Math.sin(-midAngle * RADIAN);
-                        return <text x={x} y={y} textAnchor={x > (pcx as number) ? "start" : "end"} dominantBaseline="central" fontSize={10} fontWeight={600} fill="hsl(210, 40%, 85%)">{name} {value}%</text>;
-                      }}
-                      labelLine={{ stroke: "hsl(215, 20%, 45%)", strokeWidth: 1 }} strokeWidth={2} stroke="hsl(var(--background))"
-                    >
-                      {stockBreakdown.map((entry, i) => <Cell key={i} fill={entry.fill} />)}
-                    </Pie>
-                    <Tooltip {...customTooltipStyle} />
-                    <Legend verticalAlign="bottom" iconType="circle" iconSize={8} wrapperStyle={{ fontSize: 10, paddingTop: 8 }} formatter={(value: string) => <span style={{ color: 'hsl(210, 40%, 80%)' }}>{value}</span>} />
-                  </PieChart>
-                </ResponsiveContainer>
-              </div>
+            <ChartCard title="Stock Type Breakdown" contentClassName="h-72">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={stockBreakdown}
+                    dataKey="value"
+                    nameKey="name"
+                    cx="50%"
+                    cy="45%"
+                    outerRadius={82}
+                    innerRadius={36}
+                    label={false}
+                    labelLine={false}
+                    strokeWidth={2}
+                    stroke="hsl(var(--background))"
+                  >
+                    {stockBreakdown.map((entry, i) => <Cell key={i} fill={entry.fill} />)}
+                  </Pie>
+                  <Tooltip {...customTooltipStyle} />
+                  <Legend verticalAlign="bottom" iconType="circle" iconSize={8} wrapperStyle={legendStyle} formatter={(value: string) => <span style={{ color: 'hsl(var(--foreground))' }}>{value}</span>} />
+                </PieChart>
+              </ResponsiveContainer>
             </ChartCard>
             <div className="grid grid-cols-2 gap-3 content-start">
               <KpiBox label="Total Unrestricted" value="4,230" />
