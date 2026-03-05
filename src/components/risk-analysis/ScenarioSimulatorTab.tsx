@@ -443,7 +443,7 @@ export default function ScenarioSimulatorTab({ row, onSelectScenario, selectedSc
 
       {/* Trigger Approval if scenario selected */}
       {selectedScenario && (
-        <div className="flex justify-center">
+        <div ref={proceedRef} className="flex justify-center">
           <Button onClick={onTriggerApproval} size="lg" className="gap-2 px-8 bg-success hover:bg-success/90 text-success-foreground">
             <CheckCircle2 className="h-4 w-4" /> Proceed with Selected Scenario
           </Button>
