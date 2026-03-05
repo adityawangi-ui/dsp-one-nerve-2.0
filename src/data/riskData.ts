@@ -85,7 +85,7 @@ export const allColumns: ColumnDef[] = [
   { key: "riskInDays", label: "Risk in Days", width: 90 },
   { key: "stockCS", label: "Stock CS", width: 80 },
   { key: "expectedLossCases", label: "Expected Loss Cases", width: 130 },
-  { key: "expectedLossValue", label: "Expected Loss Value ($)", width: 140 },
+  { key: "expectedLossValue", label: "Expected Loss Value (€)", width: 140 },
   { key: "nextAvailableDate", label: "Next Available Date", width: 130 },
   { key: "botReasonCode", label: "Bot Reason Code", width: 110 },
   { key: "plannerReasonCode", label: "Planner Reason Code", width: 130 },
@@ -121,7 +121,7 @@ export const gtinColumns: ColumnDef[] = [
   { key: "riskInDays", label: "Total Risk Days" },
   { key: "stockCS", label: "Total Stock CS" },
   { key: "expectedLossCases", label: "Total Expected Loss Cases" },
-  { key: "expectedLossValue", label: "Total Expected Loss Value ($)" },
+  { key: "expectedLossValue", label: "Total Expected Loss Value (€)" },
 ];
 
 export function aggregateByGtin(rows: RiskRow[]): GtinRow[] {
@@ -196,7 +196,7 @@ export const mrdrAggColumns: ColumnDef[] = [
   { key: "riskInDays", label: "Risk in Days", width: 100 },
   { key: "stockCS", label: "Stock CS", width: 90 },
   { key: "expectedLossCases", label: "Expected Loss Cases", width: 140 },
-  { key: "expectedLossValue", label: "Expected Loss Value ($)", width: 150 },
+  { key: "expectedLossValue", label: "Expected Loss Value (€)", width: 150 },
   { key: "nextAvailableDate", label: "Next Available Date", width: 140 },
   { key: "botReasonCode", label: "Bot Reason Code", width: 120 },
   { key: "plannerReasonCode", label: "Planner Reason Code", width: 140 },
