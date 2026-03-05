@@ -52,10 +52,10 @@ const scenarioDetails: Record<number, { aiInsights: string[]; actions: string[];
       { label: "Material Availability", value: "91%", trend: "Stable" },
     ],
     impactKPIs: [
-      { label: "Service Level After Mitigation", value: "94%", color: "text-emerald-600" },
+      { label: "Service Level After Mitigation", value: "94%", color: "text-success" },
       { label: "Revenue Preserved", value: "€185K", color: "text-primary" },
-      { label: "OSA Improvement", value: "+6%", color: "text-emerald-600" },
-      { label: "OOS Reduction", value: "-78%", color: "text-emerald-600" },
+      { label: "OSA Improvement", value: "+6%", color: "text-success" },
+      { label: "OOS Reduction", value: "-78%", color: "text-success" },
     ],
     costBreakdown: [
       { label: "Express Logistics", value: 12000 },
