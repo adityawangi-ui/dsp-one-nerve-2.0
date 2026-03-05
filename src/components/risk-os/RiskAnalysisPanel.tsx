@@ -103,26 +103,26 @@ export default function RiskAnalysisPanel({ row, onClose }: Props) {
                 </TabsContent>
 
                 <TabsContent value="workflow">
-                  <div className="border border-[hsl(220,13%,91%)] rounded-xl p-12 bg-white text-center">
-                    <SettingsIcon className="h-10 w-10 text-[hsl(220,10%,80%)] mx-auto mb-3" />
-                    <h3 className="text-base font-semibold text-[hsl(220,25%,10%)] mb-1">Workflow Management</h3>
-                    <p className="text-sm text-[hsl(220,10%,46%)]">Workflow management features are coming soon.</p>
+                  <div className="border border-border rounded-xl p-12 bg-card text-center">
+                    <SettingsIcon className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
+                    <h3 className="text-base font-semibold text-foreground mb-1">Workflow Management</h3>
+                    <p className="text-sm text-muted-foreground">Workflow management features are coming soon.</p>
                   </div>
                 </TabsContent>
 
                 <TabsContent value="poc">
-                  <div className="border border-[hsl(220,13%,91%)] rounded-xl p-12 bg-white text-center">
-                    <MessageSquare className="h-10 w-10 text-[hsl(220,10%,80%)] mx-auto mb-3" />
-                    <h3 className="text-base font-semibold text-[hsl(220,25%,10%)] mb-1">POC Communication</h3>
-                    <p className="text-sm text-[hsl(220,10%,46%)]">Point of contact communication features are coming soon.</p>
+                  <div className="border border-border rounded-xl p-12 bg-card text-center">
+                    <MessageSquare className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
+                    <h3 className="text-base font-semibold text-foreground mb-1">POC Communication</h3>
+                    <p className="text-sm text-muted-foreground">Point of contact communication features are coming soon.</p>
                   </div>
                 </TabsContent>
 
                 <TabsContent value="chat-history">
-                  <div className="border border-[hsl(220,13%,91%)] rounded-xl p-12 bg-white text-center">
-                    <Clock className="h-10 w-10 text-[hsl(220,10%,80%)] mx-auto mb-3" />
-                    <h3 className="text-base font-semibold text-[hsl(220,25%,10%)] mb-1">Chat History</h3>
-                    <p className="text-sm text-[hsl(220,10%,46%)]">Chat history and communication logs will appear here.</p>
+                  <div className="border border-border rounded-xl p-12 bg-card text-center">
+                    <Clock className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
+                    <h3 className="text-base font-semibold text-foreground mb-1">Chat History</h3>
+                    <p className="text-sm text-muted-foreground">Chat history and communication logs will appear here.</p>
                   </div>
                 </TabsContent>
               </Tabs>
