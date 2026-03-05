@@ -412,7 +412,7 @@ export default function InsightsPanel({ row, onClose }: Props) {
                     <YAxis yAxisId="left" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
                     <YAxis yAxisId="right" orientation="right" domain={[0, 100]} tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
                     <Tooltip {...customTooltipStyle} />
-                    <Legend wrapperStyle={legendStyle} formatter={(value: string) => <span style={{ color: 'hsl(210, 40%, 80%)' }}>{value}</span>} />
+                    <Legend wrapperStyle={legendStyle} formatter={(value: string) => <span style={{ color: 'hsl(var(--foreground))' }}>{value}</span>} />
                     <Bar yAxisId="left" dataKey="qty" fill={CHART_BLUE} name="Production Qty" radius={[4, 4, 0, 0]} />
                     <Line yAxisId="right" type="monotone" dataKey="ccu" stroke={CHART_AMBER} strokeWidth={2.5} name="CCU %" dot={{ r: 4, fill: CHART_AMBER, stroke: 'hsl(var(--background))', strokeWidth: 2 }} />
                   </ComposedChart>
