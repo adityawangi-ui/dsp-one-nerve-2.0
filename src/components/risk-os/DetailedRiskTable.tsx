@@ -21,7 +21,7 @@ interface Props {
 const MRDR_FROZEN_KEYS = ["riskId", "mrdr", "mrdrDescription", "msoCountry"];
 const MRDR_FROZEN_WIDTHS: Record<string, number> = { riskId: 90, mrdr: 120, mrdrDescription: 220, msoCountry: 100 };
 
-export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow }: Props) {
+export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, onOpenAnalysis }: Props) {
   const navigate = useNavigate();
   const [view, setView] = useState<"mrdr" | "gtin" | "uom">("mrdr");
   const [sortCol, setSortCol] = useState<string | null>(null);
