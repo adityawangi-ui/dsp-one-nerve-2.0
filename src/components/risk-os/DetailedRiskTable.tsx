@@ -106,9 +106,9 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
     if (!MRDR_FROZEN_KEYS.includes(key)) return {};
     const bgMap = {
       normal: "hsl(var(--card))",
-      new: "hsl(var(--critical-bg))",
+      new: "hsl(var(--new-bg))",
       child: "hsl(var(--muted))",
-      childNew: "hsl(var(--critical-bg))",
+      childNew: "hsl(var(--new-bg))",
     };
     return {
       position: "sticky",
