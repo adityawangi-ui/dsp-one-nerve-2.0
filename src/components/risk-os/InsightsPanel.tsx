@@ -209,21 +209,21 @@ export default function InsightsPanel({ row, onClose }: Props) {
 
       <div className="ml-auto relative flex w-[95%] h-full bg-background shadow-2xl animate-slide-in-right overflow-hidden">
         {/* Left nav */}
-        <div className="w-56 bg-card border-r border-border/60 flex flex-col shrink-0">
-          <div className="p-4 border-b border-border/50 bg-secondary/30 shrink-0">
+        <div className="w-56 bg-card border-r border-border flex flex-col shrink-0">
+          <div className="p-4 border-b border-border bg-secondary shrink-0">
             <p className="text-xs font-bold text-foreground">Insights — MRDR {row.mrdr}</p>
-            <p className="text-[10px] text-muted-foreground mt-1 truncate">{row.mrdrDescription}</p>
-            <p className="text-[10px] text-primary/70 mt-0.5">{lineCount} line item(s)</p>
+            <p className="text-[10px] text-foreground/90 mt-1 truncate">{row.mrdrDescription}</p>
+            <p className="text-[10px] text-foreground/80 mt-0.5">{lineCount} line item(s)</p>
           </div>
-          <nav className="p-2 space-y-0.5 flex-1 overflow-y-auto">
+          <nav className="p-2 space-y-1 flex-1 overflow-y-auto">
             {sections.map(s => (
               <button
                 key={s.id}
                 onClick={() => scrollTo(s.id)}
                 className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-[11px] font-medium transition-all text-left ${
-                  activeSection === s.id 
-                    ? "bg-primary/15 text-primary border border-primary/25 shadow-sm shadow-primary/10" 
-                    : "text-foreground/60 hover:bg-secondary/60 hover:text-foreground/90"
+                  activeSection === s.id
+                    ? "bg-primary text-primary-foreground border border-primary/40 shadow-sm"
+                    : "text-foreground hover:bg-secondary hover:text-foreground"
                 }`}
               >
                 <s.icon className="h-3.5 w-3.5 shrink-0" />
