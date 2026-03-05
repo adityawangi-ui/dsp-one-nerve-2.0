@@ -26,12 +26,12 @@ interface Props { row: RiskRow; onClose: () => void; }
 
 function SectionHeader({ icon: Icon, title, badge }: { icon: React.ElementType; title: string; badge?: string }) {
   return (
-    <div className="flex items-center gap-2.5 mb-4 pb-3 border-b border-border/50">
-      <div className="h-7 w-7 rounded-lg bg-primary/15 flex items-center justify-center">
-        <Icon className="h-3.5 w-3.5 text-primary" />
+    <div className="flex items-center gap-3 mb-4 rounded-lg border border-border bg-secondary px-3 py-2">
+      <div className="h-8 w-8 rounded-md border border-border bg-background flex items-center justify-center">
+        <Icon className="h-4 w-4 text-foreground" />
       </div>
-      <h3 className="text-sm font-bold text-foreground tracking-wide">{title}</h3>
-      {badge && <Badge variant="outline" className="text-[9px] ml-1 border-primary/30 text-primary">{badge}</Badge>}
+      <h3 className="text-base font-semibold text-foreground leading-none">{title}</h3>
+      {badge && <Badge variant="outline" className="text-[10px] ml-1 border-border bg-background text-foreground">{badge}</Badge>}
     </div>
   );
 }
@@ -39,7 +39,7 @@ function SectionHeader({ icon: Icon, title, badge }: { icon: React.ElementType; 
 function ChartCard({ children, title, className = "", contentClassName = "h-52" }: { children: React.ReactNode; title?: string; className?: string; contentClassName?: string }) {
   return (
     <div className={`bg-card rounded-xl border border-border p-4 overflow-hidden ${className}`}>
-      {title && <span className="text-xs text-foreground/80 uppercase tracking-widest font-semibold mb-2 block">{title}</span>}
+      {title && <span className="text-xs text-foreground uppercase tracking-widest font-semibold mb-2 block">{title}</span>}
       <div className={contentClassName}>{children}</div>
     </div>
   );
@@ -75,7 +75,7 @@ function DataTable({ headers, rows, minWidth }: { headers: string[]; rows: (stri
 function KpiBox({ label, value }: { label: string; value: string | number }) {
   return (
     <div className="bg-card border border-border rounded-xl px-4 py-3 flex flex-col items-center text-center">
-      <span className="text-[9px] text-foreground/60 uppercase tracking-wider font-medium">{label}</span>
+      <span className="text-[9px] text-foreground uppercase tracking-wider font-medium">{label}</span>
       <span className="text-base font-bold text-foreground mt-0.5">{value}</span>
     </div>
   );
@@ -209,21 +209,21 @@ export default function InsightsPanel({ row, onClose }: Props) {
 
       <div className="ml-auto relative flex w-[95%] h-full bg-background shadow-2xl animate-slide-in-right overflow-hidden">
         {/* Left nav */}
-        <div className="w-56 bg-card border-r border-border/60 flex flex-col shrink-0">
-          <div className="p-4 border-b border-border/50 bg-secondary/30 shrink-0">
+        <div className="w-56 bg-card border-r border-border flex flex-col shrink-0">
+          <div className="p-4 border-b border-border bg-secondary shrink-0">
             <p className="text-xs font-bold text-foreground">Insights — MRDR {row.mrdr}</p>
-            <p className="text-[10px] text-muted-foreground mt-1 truncate">{row.mrdrDescription}</p>
-            <p className="text-[10px] text-primary/70 mt-0.5">{lineCount} line item(s)</p>
+            <p className="text-[10px] text-foreground/90 mt-1 truncate">{row.mrdrDescription}</p>
+            <p className="text-[10px] text-foreground/80 mt-0.5">{lineCount} line item(s)</p>
           </div>
-          <nav className="p-2 space-y-0.5 flex-1 overflow-y-auto">
+          <nav className="p-2 space-y-1 flex-1 overflow-y-auto">
             {sections.map(s => (
               <button
                 key={s.id}
                 onClick={() => scrollTo(s.id)}
                 className={`w-full flex items-center gap-2 px-3 py-2 rounded-lg text-[11px] font-medium transition-all text-left ${
-                  activeSection === s.id 
-                    ? "bg-primary/15 text-primary border border-primary/25 shadow-sm shadow-primary/10" 
-                    : "text-foreground/60 hover:bg-secondary/60 hover:text-foreground/90"
+                  activeSection === s.id
+                    ? "bg-primary text-primary-foreground border border-primary/40 shadow-sm"
+                    : "text-foreground hover:bg-secondary hover:text-foreground"
                 }`}
               >
                 <s.icon className="h-3.5 w-3.5 shrink-0" />
@@ -238,7 +238,7 @@ export default function InsightsPanel({ row, onClose }: Props) {
           <div className="h-12 flex items-center justify-between px-5 border-b border-border/50 shrink-0 bg-card">
             <div>
               <span className="text-sm font-bold text-foreground">Risk Insights</span>
-              <span className="text-[11px] text-muted-foreground ml-3">
+              <span className="text-[11px] text-foreground/80 ml-3">
                 MRDR: {row.mrdr} · {row.mrdrDescription} · Site: {row.site} · {row.msoCountry}
               </span>
             </div>
@@ -253,9 +253,9 @@ export default function InsightsPanel({ row, onClose }: Props) {
             <section id="insight-ctp">
               <div className="flex items-center justify-between">
                 <SectionHeader icon={Table2} title="Exception Daily / Weekly CTP" />
-                <div className="flex rounded-lg border border-border/60 overflow-hidden mb-4">
-                  <button onClick={() => setCtpMode("daily")} className={`px-3 py-1.5 text-[10px] font-semibold transition-colors ${ctpMode === "daily" ? "bg-primary text-primary-foreground" : "bg-card text-foreground/60 hover:text-foreground"}`}>Daily</button>
-                  <button onClick={() => setCtpMode("weekly")} className={`px-3 py-1.5 text-[10px] font-semibold transition-colors ${ctpMode === "weekly" ? "bg-primary text-primary-foreground" : "bg-card text-foreground/60 hover:text-foreground"}`}>Weekly</button>
+                <div className="flex rounded-lg border border-border overflow-hidden mb-4">
+                  <button onClick={() => setCtpMode("daily")} className={`px-3 py-1.5 text-[10px] font-semibold transition-colors ${ctpMode === "daily" ? "bg-primary text-primary-foreground" : "bg-secondary text-foreground hover:bg-secondary/80"}`}>Daily</button>
+                  <button onClick={() => setCtpMode("weekly")} className={`px-3 py-1.5 text-[10px] font-semibold transition-colors ${ctpMode === "weekly" ? "bg-primary text-primary-foreground" : "bg-secondary text-foreground hover:bg-secondary/80"}`}>Weekly</button>
                 </div>
               </div>
               <ChartCard title="Planned Demand vs Total Supply">
