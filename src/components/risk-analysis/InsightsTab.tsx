@@ -102,17 +102,17 @@ export default function InsightsTab({ row }: Props) {
           "Demand spike probability: 72% in W3",
           "Promotional uplift expected: 35%",
         ]} />
-        <InsightCard icon={Package} title="Supply Insights" color="bg-emerald-500" items={[
+        <InsightCard icon={Package} title="Supply Insights" color="bg-success" items={[
           "Supplier delays: 2 confirmed",
           "Raw material shortage: RMPM-A",
           "Lead time extended by 5 days",
         ]} />
-        <InsightCard icon={Factory} title="Operations Insights" color="bg-amber-500" items={[
+        <InsightCard icon={Factory} title="Operations Insights" color="bg-warning" items={[
           "PU2 line capacity at 35%",
           "Labor availability: 88%",
           "Maintenance window: W3-W4",
         ]} />
-        <InsightCard icon={Truck} title="Logistics Insights" color="bg-violet-500" items={[
+        <InsightCard icon={Truck} title="Logistics Insights" color="bg-primary" items={[
           "Shipment delays: 3 pending",
           "Warehouse imbalance: DC-North",
           "Transit time variance: +2 days",
@@ -130,7 +130,7 @@ export default function InsightsTab({ row }: Props) {
               <Tooltip />
               <Legend wrapperStyle={{ fontSize: 10 }} />
               <Bar dataKey="demand" fill="hsl(var(--primary))" name="Demand" radius={[4, 4, 0, 0]} />
-              <Bar dataKey="supply" fill="hsl(160, 60%, 45%)" name="Supply" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="supply" fill="hsl(var(--success))" name="Supply" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </ChartCard>
@@ -144,7 +144,7 @@ export default function InsightsTab({ row }: Props) {
               <Tooltip />
               <Legend wrapperStyle={{ fontSize: 10 }} />
               <Line type="monotone" dataKey="coverage" stroke="hsl(var(--primary))" strokeWidth={2} name="Coverage" dot={{ r: 3 }} />
-              <Line type="monotone" dataKey="target" stroke="hsl(0, 70%, 55%)" strokeWidth={2} strokeDasharray="5 5" name="Target" dot={false} />
+              <Line type="monotone" dataKey="target" stroke="hsl(var(--destructive))" strokeWidth={2} strokeDasharray="5 5" name="Target" dot={false} />
             </LineChart>
           </ResponsiveContainer>
         </ChartCard>
@@ -156,7 +156,7 @@ export default function InsightsTab({ row }: Props) {
               <XAxis dataKey="week" tick={{ fontSize: 10 }} />
               <YAxis tick={{ fontSize: 10 }} domain={[0, 100]} />
               <Tooltip />
-              <Area type="monotone" dataKey="probability" stroke="hsl(0, 70%, 55%)" fill="hsl(0, 70%, 55%, 0.15)" strokeWidth={2} name="OOS %" />
+              <Area type="monotone" dataKey="probability" stroke="hsl(var(--destructive))" fill="hsl(var(--destructive) / 0.15)" strokeWidth={2} name="OOS %" />
             </AreaChart>
           </ResponsiveContainer>
         </ChartCard>
@@ -168,7 +168,7 @@ export default function InsightsTab({ row }: Props) {
               <XAxis type="number" domain={[0, 100]} tick={{ fontSize: 10 }} />
               <YAxis type="category" dataKey="method" tick={{ fontSize: 10 }} width={80} />
               <Tooltip />
-              <Bar dataKey="rate" fill="hsl(160, 60%, 45%)" name="Success %" radius={[0, 4, 4, 0]} />
+              <Bar dataKey="rate" fill="hsl(var(--success))" name="Success %" radius={[0, 4, 4, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </ChartCard>

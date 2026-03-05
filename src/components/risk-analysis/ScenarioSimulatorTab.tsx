@@ -52,10 +52,10 @@ const scenarioDetails: Record<number, { aiInsights: string[]; actions: string[];
       { label: "Material Availability", value: "91%", trend: "Stable" },
     ],
     impactKPIs: [
-      { label: "Service Level After Mitigation", value: "94%", color: "text-emerald-600" },
+      { label: "Service Level After Mitigation", value: "94%", color: "text-success" },
       { label: "Revenue Preserved", value: "€185K", color: "text-primary" },
-      { label: "OSA Improvement", value: "+6%", color: "text-emerald-600" },
-      { label: "OOS Reduction", value: "-78%", color: "text-emerald-600" },
+      { label: "OSA Improvement", value: "+6%", color: "text-success" },
+      { label: "OOS Reduction", value: "-78%", color: "text-success" },
     ],
     costBreakdown: [
       { label: "Express Logistics", value: 12000 },
@@ -81,10 +81,10 @@ const scenarioDetails: Record<number, { aiInsights: string[]; actions: string[];
       { label: "Material Availability", value: "94%", trend: "↑ 3%" },
     ],
     impactKPIs: [
-      { label: "Service Level After Mitigation", value: "96%", color: "text-emerald-600" },
+      { label: "Service Level After Mitigation", value: "96%", color: "text-success" },
       { label: "Revenue Preserved", value: "€210K", color: "text-primary" },
-      { label: "OSA Improvement", value: "+8%", color: "text-emerald-600" },
-      { label: "OOS Reduction", value: "-85%", color: "text-emerald-600" },
+      { label: "OSA Improvement", value: "+8%", color: "text-success" },
+      { label: "OOS Reduction", value: "-85%", color: "text-success" },
     ],
     costBreakdown: [
       { label: "Labor (Extra Shift)", value: 8000 },
@@ -110,10 +110,10 @@ const scenarioDetails: Record<number, { aiInsights: string[]; actions: string[];
       { label: "Material Availability", value: "96%", trend: "↑ 5%" },
     ],
     impactKPIs: [
-      { label: "Service Level After Mitigation", value: "98%", color: "text-emerald-600" },
+      { label: "Service Level After Mitigation", value: "98%", color: "text-success" },
       { label: "Revenue Preserved", value: "€235K", color: "text-primary" },
-      { label: "OSA Improvement", value: "+11%", color: "text-emerald-600" },
-      { label: "OOS Reduction", value: "-92%", color: "text-emerald-600" },
+      { label: "OSA Improvement", value: "+11%", color: "text-success" },
+      { label: "OOS Reduction", value: "-92%", color: "text-success" },
     ],
     costBreakdown: [
       { label: "Flex Labor", value: 10000 },
@@ -366,7 +366,7 @@ export default function ScenarioSimulatorTab({ row, onSelectScenario, selectedSc
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                   {details.impactKPIs.map((kpi, i) => (
                     <div key={i} className="bg-card border border-border rounded-lg p-3 text-center">
-                      <span className={`text-lg font-bold ${kpi.color.replace("emerald-600", "success")}`}>{kpi.value}</span>
+                      <span className={`text-lg font-bold ${kpi.color}`}>{kpi.value}</span>
                       <p className="text-[10px] text-muted-foreground">{kpi.label}</p>
                     </div>
                   ))}
