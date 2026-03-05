@@ -130,7 +130,7 @@ export default function InsightsTab({ row }: Props) {
               <Tooltip />
               <Legend wrapperStyle={{ fontSize: 10 }} />
               <Bar dataKey="demand" fill="hsl(var(--primary))" name="Demand" radius={[4, 4, 0, 0]} />
-              <Bar dataKey="supply" fill="hsl(160, 60%, 45%)" name="Supply" radius={[4, 4, 0, 0]} />
+              <Bar dataKey="supply" fill="hsl(var(--success))" name="Supply" radius={[4, 4, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </ChartCard>
