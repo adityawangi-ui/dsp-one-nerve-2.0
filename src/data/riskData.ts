@@ -249,6 +249,7 @@ export function aggregateByMrdr(rows: RiskRow[]): MrdrAggRow[] {
       repackDependency: earliest.repackDependency,
       category: earliest.category,
       status: items.some(i => i.status === "Open") ? "Open" : "Closed",
+      uom: earliest.uom,
       lineCount: items.length,
       isNew: items.some(i => i.isNew),
     };
