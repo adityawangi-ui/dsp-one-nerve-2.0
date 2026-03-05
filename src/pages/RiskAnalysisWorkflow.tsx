@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { riskData, RiskRow } from "@/data/riskData";
-import { ArrowLeft, Search, Settings as SettingsIcon, RefreshCw, Download, User } from "lucide-react";
+import { riskData } from "@/data/riskData";
+import { ArrowLeft, Search, Settings as SettingsIcon, RefreshCw, Download, User, Database, MessageSquare, Clock } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import InsightsTab from "@/components/risk-analysis/InsightsTab";
+import InsightsDataTab from "@/components/risk-analysis/InsightsDataTab";
 import ScenarioSimulatorTab, { Scenario } from "@/components/risk-analysis/ScenarioSimulatorTab";
 import PlannerInputTab from "@/components/risk-analysis/PlannerInputTab";
 import OutcomeEvaluationTab from "@/components/risk-analysis/OutcomeEvaluationTab";
@@ -16,7 +17,7 @@ export default function RiskAnalysisWorkflow() {
   const riskId = Number(searchParams.get("riskId")) || riskData[0].riskId;
   const row = riskData.find(r => r.riskId === riskId) || riskData[0];
 
-  const [activeTab, setActiveTab] = useState("insights");
+  const [activeTab, setActiveTab] = useState("recommendations");
   const [selectedScenario, setSelectedScenario] = useState<Scenario | null>(null);
 
   return (
@@ -48,42 +49,72 @@ export default function RiskAnalysisWorkflow() {
             <h1 className="text-xl font-bold text-foreground">Risk Analysis & Mitigation Workflow</h1>
           </div>
 
-          {/* Tabs */}
+          {/* 5 Tabs */}
           <Tabs value={activeTab} onValueChange={setActiveTab}>
             <TabsList className="w-full justify-start h-11 bg-card border border-border rounded-xl p-1 mb-6">
-              <TabsTrigger value="insights" className="text-xs gap-1.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg px-5">
+              <TabsTrigger value="recommendations" className="text-xs gap-1.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg px-4">
                 <Search className="h-3.5 w-3.5" /> Recommendations
               </TabsTrigger>
-              <TabsTrigger value="scenarios" className="text-xs gap-1.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg px-5">
+              <TabsTrigger value="insights-data" className="text-xs gap-1.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg px-4">
+                <Database className="h-3.5 w-3.5" /> Insights & Data
+              </TabsTrigger>
+              <TabsTrigger value="workflow" className="text-xs gap-1.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg px-4">
                 <SettingsIcon className="h-3.5 w-3.5" /> Workflow Management
               </TabsTrigger>
-              <TabsTrigger value="planner" className="text-xs gap-1.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg px-5">
-                POC Communication
+              <TabsTrigger value="poc" className="text-xs gap-1.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg px-4">
+                <MessageSquare className="h-3.5 w-3.5" /> POC Communication
               </TabsTrigger>
-              <TabsTrigger value="outcome" className="text-xs gap-1.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg px-5">
-                Chat History
+              <TabsTrigger value="chat-history" className="text-xs gap-1.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg px-4">
+                <Clock className="h-3.5 w-3.5" /> Chat History
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="insights">
+            {/* Tab 1: Recommendations */}
+            <TabsContent value="recommendations">
               <InsightsTab row={row} />
-              {/* Scenario section below insights */}
               <div className="mt-8">
                 <ScenarioSimulatorTab row={row} onSelectScenario={setSelectedScenario} selectedScenario={selectedScenario} />
               </div>
-            </TabsContent>
-            <TabsContent value="scenarios">
-              <PlannerInputTab row={row} />
               <div className="mt-8">
-                <OutcomeEvaluationTab row={row} selectedScenario={selectedScenario} onTriggerApproval={() => setActiveTab("outcome")} />
+                <PlannerInputTab row={row} />
+              </div>
+              <div className="mt-8">
+                <OutcomeEvaluationTab row={row} selectedScenario={selectedScenario} onTriggerApproval={() => {}} />
+              </div>
+              <div className="mt-8">
+                <ApprovalWorkflowTab row={row} selectedScenario={selectedScenario} />
               </div>
             </TabsContent>
-            <TabsContent value="planner">
-              <ApprovalWorkflowTab row={row} selectedScenario={selectedScenario} />
+
+            {/* Tab 2: Insights & Data — original tables and charts */}
+            <TabsContent value="insights-data">
+              <InsightsDataTab row={row} />
             </TabsContent>
-            <TabsContent value="outcome">
-              <div className="border border-border rounded-xl p-8 bg-card text-center">
-                <p className="text-muted-foreground text-sm">Chat history and communication logs will appear here.</p>
+
+            {/* Tab 3: Workflow Management — placeholder */}
+            <TabsContent value="workflow">
+              <div className="border border-border rounded-xl p-12 bg-card text-center">
+                <SettingsIcon className="h-10 w-10 text-muted-foreground/30 mx-auto mb-3" />
+                <h3 className="text-base font-semibold text-foreground mb-1">Workflow Management</h3>
+                <p className="text-sm text-muted-foreground">Workflow management features are coming soon.</p>
+              </div>
+            </TabsContent>
+
+            {/* Tab 4: POC Communication — placeholder */}
+            <TabsContent value="poc">
+              <div className="border border-border rounded-xl p-12 bg-card text-center">
+                <MessageSquare className="h-10 w-10 text-muted-foreground/30 mx-auto mb-3" />
+                <h3 className="text-base font-semibold text-foreground mb-1">POC Communication</h3>
+                <p className="text-sm text-muted-foreground">Point of contact communication features are coming soon.</p>
+              </div>
+            </TabsContent>
+
+            {/* Tab 5: Chat History — placeholder */}
+            <TabsContent value="chat-history">
+              <div className="border border-border rounded-xl p-12 bg-card text-center">
+                <Clock className="h-10 w-10 text-muted-foreground/30 mx-auto mb-3" />
+                <h3 className="text-base font-semibold text-foreground mb-1">Chat History</h3>
+                <p className="text-sm text-muted-foreground">Chat history and communication logs will appear here.</p>
               </div>
             </TabsContent>
           </Tabs>
