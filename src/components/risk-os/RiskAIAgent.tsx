@@ -26,7 +26,7 @@ function getAnswer(q: string): string {
     const countries = [...new Set(oos.map(r => r.msoCountry))];
     const totalLoss = oos.reduce((s, r) => s + r.expectedLossValue, 0);
     const avgDays = Math.round(oos.reduce((s, r) => s + r.riskInDays, 0) / oos.length);
-    return `**Out Of Stock Summary:**\n\n- **Count:** ${oos.length} items\n- **Countries:** ${countries.join(", ")}\n- **Total Loss Value:** $${totalLoss.toLocaleString()}\n- **Avg Duration:** ${avgDays} days`;
+    return `**Out Of Stock Summary:**\n\n- **Count:** ${oos.length} items\n- **Countries:** ${countries.join(", ")}\n- **Total Loss Value:** €${totalLoss.toLocaleString()}\n- **Avg Duration:** ${avgDays} days`;
   }
 
   if (lower.includes("country") && (lower.includes("critical") || lower.includes("most"))) {
