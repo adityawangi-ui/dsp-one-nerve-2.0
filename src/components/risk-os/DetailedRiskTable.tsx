@@ -247,8 +247,8 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
 
                 return (
                   <React.Fragment key={agg.mrdr}>
-                    <tr className={`border-b border-border/50 hover:bg-primary/[0.04] transition-colors`}
-                        style={{ backgroundColor: agg.isNew ? "hsl(0 80% 96%)" : "hsl(var(--card))", height: "44px" }}>
+                    <tr className={`border-b border-border/50 data-row-hover transition-colors ${agg.isNew ? "risk-detect-pulse" : ""}`}
+                        style={{ backgroundColor: agg.isNew ? "hsl(var(--critical-bg))" : "hsl(var(--card))", height: "44px" }}>
                       {shareMode && (
                         <td className="px-2 border-b border-border/50" style={{ position: "sticky", left: 0, zIndex: 10, backgroundColor: agg.isNew ? "hsl(0 80% 96%)" : "hsl(var(--card))" }}>
                           <Checkbox checked={selectedRows.has(agg.mrdr)} onCheckedChange={(c) => {
