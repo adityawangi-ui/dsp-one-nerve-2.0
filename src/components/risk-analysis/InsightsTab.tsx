@@ -144,7 +144,7 @@ export default function InsightsTab({ row }: Props) {
               <Tooltip />
               <Legend wrapperStyle={{ fontSize: 10 }} />
               <Line type="monotone" dataKey="coverage" stroke="hsl(var(--primary))" strokeWidth={2} name="Coverage" dot={{ r: 3 }} />
-              <Line type="monotone" dataKey="target" stroke="hsl(0, 70%, 55%)" strokeWidth={2} strokeDasharray="5 5" name="Target" dot={false} />
+              <Line type="monotone" dataKey="target" stroke="hsl(var(--destructive))" strokeWidth={2} strokeDasharray="5 5" name="Target" dot={false} />
             </LineChart>
           </ResponsiveContainer>
         </ChartCard>
