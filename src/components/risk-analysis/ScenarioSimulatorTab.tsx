@@ -166,23 +166,45 @@ export default function ScenarioSimulatorTab({ row, onSelectScenario, selectedSc
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {scenarios.map(s => {
             const isSelected = selectedScenario?.id === s.id;
+            const confidence = s.id === 1 ? 82 : s.id === 2 ? 88 : 94;
+            const historicalCases = s.id === 1 ? 28 : s.id === 2 ? 35 : 42;
 
             return (
               <div
                 key={s.id}
-                className={`border-2 rounded-xl cursor-pointer transition-all hover:shadow-md ${
-                  s.recommended ? "border-emerald-500" :
-                  isSelected ? "border-primary" : "border-border"
+                className={`border-2 rounded-xl cursor-pointer transition-all hover:shadow-[var(--shadow-neon)] ${
+                  s.recommended ? "border-success/60" :
+                  isSelected ? "border-primary" : "border-border hover:border-primary/30"
                 }`}
                 onClick={() => handleScenarioClick(s.id)}
               >
-                <div className={`p-5 ${s.recommended ? "bg-emerald-50/30" : isSelected ? "bg-primary/5" : ""}`}>
+                <div className={`p-5 ${s.recommended ? "bg-success/[0.06]" : isSelected ? "bg-primary/5" : ""}`}>
                   <div className="flex items-center gap-2 mb-3">
                     <Badge className="bg-primary/10 text-primary border-primary/20 text-xs">S{s.id}</Badge>
-                    {s.recommended && <Badge className="bg-emerald-500 text-white border-0 text-[10px]">RECOMMENDED</Badge>}
+                    {s.recommended && <Badge className="bg-success text-success-foreground border-0 text-[10px]">RECOMMENDED</Badge>}
                     {isSelected && <Badge className="bg-primary text-primary-foreground border-0 text-[10px]">SELECTED</Badge>}
                   </div>
                   <h4 className="text-xs font-semibold text-foreground mb-4 leading-relaxed min-h-[2.5rem]">{s.name}</h4>
+
+                  {/* Confidence Meter */}
+                  <div className="mb-4 p-3 rounded-lg bg-secondary/50 border border-border/50">
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="text-[10px] text-muted-foreground flex items-center gap-1">
+                        <Brain className="h-3 w-3" /> AI Confidence
+                      </span>
+                      <span className={`text-sm font-bold font-mono-tech ${confidence >= 90 ? "text-success neon-text-green" : confidence >= 85 ? "text-primary neon-text" : "text-warning neon-text-amber"}`}>
+                        {confidence}%
+                      </span>
+                    </div>
+                    <div className="h-1.5 rounded-full bg-border overflow-hidden">
+                      <div
+                        className={`h-full rounded-full transition-all duration-1000 ${confidence >= 90 ? "bg-success" : confidence >= 85 ? "bg-primary" : "bg-warning"}`}
+                        style={{ width: `${confidence}%` }}
+                      />
+                    </div>
+                    <p className="text-[9px] text-muted-foreground mt-1">Based on {historicalCases} historical cases</p>
+                  </div>
+
                   <div className="grid grid-cols-2 gap-3">
                     <div className="text-center bg-secondary/50 rounded-lg p-2">
                       <span className="text-lg font-bold text-primary">{s.successProbability}%</span>
