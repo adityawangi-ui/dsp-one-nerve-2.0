@@ -430,8 +430,8 @@ export default function InsightsPanel({ row, onClose }: Props) {
             {/* 8. Projected DR% */}
             <section id="insight-dr">
               <SectionHeader icon={TrendingDown} title="Projected DR%" badge="TBD" />
-              <div className="bg-card/60 backdrop-blur-sm border border-border/60 rounded-xl p-10 flex items-center justify-center">
-                <span className="text-muted-foreground text-sm">Projected DR% module is under development — TBD</span>
+              <div className="bg-card border border-border rounded-xl p-10 flex items-center justify-center">
+                <span className="text-foreground text-sm">Projected DR% module is under development — TBD</span>
               </div>
             </section>
 
