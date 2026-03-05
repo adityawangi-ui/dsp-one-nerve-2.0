@@ -23,7 +23,7 @@ const MRDR_FROZEN_WIDTHS: Record<string, number> = { riskId: 90, mrdr: 120, mrdr
 
 export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, onOpenAnalysis }: Props) {
   const navigate = useNavigate();
-  const [view, setView] = useState<"mrdr" | "gtin" | "uom">("mrdr");
+  const [view, setView] = useState<"mrdr" | "gtin">("mrdr");
   const [sortCol, setSortCol] = useState<string | null>(null);
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
   const [visibleCols, setVisibleCols] = useState<Set<string>>(new Set(allColumns.map(c => c.key)));
