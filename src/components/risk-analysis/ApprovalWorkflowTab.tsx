@@ -4,9 +4,10 @@ import { Scenario } from "./ScenarioSimulatorTab";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Clock, CheckCircle2, XCircle, FileText, MessageSquare } from "lucide-react";
+import { Clock, CheckCircle2, XCircle, FileText, MessageSquare, AlertTriangle, CalendarDays } from "lucide-react";
 import { toast } from "sonner";
 import { Progress } from "@/components/ui/progress";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 interface Props {
   row: RiskRow;
@@ -26,24 +27,43 @@ interface ApprovalStep {
 
 export default function ApprovalWorkflowTab({ row, selectedScenario }: Props) {
   const scenario = selectedScenario || { id: 3, name: "Rescheduling + Short-Term Labor + Stock Rebalancing", successProbability: 91, cost: 16000 };
+  const requestDate = new Date();
   
   const [steps, setSteps] = useState<ApprovalStep[]>([
-    { level: "L1", title: "Planner Approval", person: "John Smith", role: "Senior Planner", status: "pending", comments: "Scenario validated against capacity constraints. Approved for implementation.", required: "All mitigation scenarios requiring resource reallocation" },
-    { level: "L2", title: "Operations Manager", person: "Sarah Johnson", role: "Operations Manager", status: "pending", comments: "Operational feasibility confirmed. Resource allocation approved.", required: "Scenarios impacting production schedules or logistics" },
+    { level: "L1", title: "Planner Approval", person: "John Smith", role: "Senior Planner", status: "pending", comments: "", required: "All mitigation scenarios requiring resource reallocation" },
+    { level: "L2", title: "Operations Manager", person: "Sarah Johnson", role: "Operations Manager", status: "pending", comments: "", required: "Scenarios impacting production schedules or logistics" },
     { level: "L3", title: "Finance Approval", person: "Mike Chen", role: "Finance Director", status: "pending", comments: "", required: "Scenarios with cost impact >€15K or strategic resource reallocation" },
     { level: "L4", title: "Supply Chain Director", person: "Emma Rodriguez", role: "SC Director", status: "pending", comments: "", required: "Cross-functional scenarios affecting multiple departments" },
   ]);
 
   const [executionComplete, setExecutionComplete] = useState(false);
+  const [commentDialog, setCommentDialog] = useState<{ open: boolean; index: number; action: "approve" | "reject" }>({ open: false, index: 0, action: "approve" });
+  const [commentText, setCommentText] = useState("");
 
-  const handleApprove = (index: number) => {
-    setSteps(prev => prev.map((s, i) => i === index ? { ...s, status: "approved", timestamp: new Date().toLocaleString() } : s));
-    toast.success(`${steps[index].level} - ${steps[index].title} approved`);
+  const handleOpenCommentDialog = (index: number, action: "approve" | "reject") => {
+    setCommentDialog({ open: true, index, action });
+    setCommentText("");
   };
 
-  const handleReject = (index: number) => {
-    setSteps(prev => prev.map((s, i) => i === index ? { ...s, status: "rejected", timestamp: new Date().toLocaleString() } : s));
-    toast.error(`${steps[index].level} - ${steps[index].title} rejected`);
+  const handleSubmitWithComment = () => {
+    const { index, action } = commentDialog;
+    const status = action === "approve" ? "approved" : "rejected";
+    const defaultComment = action === "approve" ? "Approved – no objections." : "Rejected – requires revision.";
+    
+    setSteps(prev => prev.map((s, i) => i === index ? {
+      ...s,
+      status: status as "approved" | "rejected",
+      timestamp: new Date().toLocaleString(),
+      comments: commentText.trim() || defaultComment,
+    } : s));
+
+    if (action === "approve") {
+      toast.success(`${steps[index].level} - ${steps[index].title} approved`);
+    } else {
+      toast.error(`${steps[index].level} - ${steps[index].title} rejected`);
+    }
+    setCommentDialog({ open: false, index: 0, action: "approve" });
+    setCommentText("");
   };
 
   const allApproved = steps.every(s => s.status === "approved");
@@ -77,11 +97,20 @@ export default function ApprovalWorkflowTab({ row, selectedScenario }: Props) {
           <div><span className="text-xs text-primary font-semibold">Total Cost:</span><p className="text-sm font-bold">€{scenario.cost.toLocaleString()}</p></div>
           <div><span className="text-xs text-primary font-semibold">Requested By:</span><p className="text-sm font-bold">John Smith</p></div>
           <div><span className="text-xs text-primary font-semibold">Expected Service Level:</span><p className="text-sm font-bold">96%</p></div>
-          <div><span className="text-xs text-primary font-semibold">Request Date:</span><p className="text-sm font-bold">{new Date().toLocaleString()}</p></div>
+          <div className="flex items-start gap-2">
+            <CalendarDays className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+            <div>
+              <span className="text-xs text-primary font-semibold">Request Date & Time:</span>
+              <p className="text-sm font-bold">{requestDate.toLocaleDateString()} {requestDate.toLocaleTimeString()}</p>
+            </div>
+          </div>
           <div><span className="text-xs text-primary font-semibold">Business Impact:</span><p className="text-sm font-bold">Risk mitigation execution</p></div>
-          <div>
-            <span className="text-xs text-primary font-semibold">Urgency:</span>
-            <div><Badge className="bg-destructive/10 text-destructive border-destructive/30 text-xs mt-0.5">High</Badge></div>
+          <div className="flex items-start gap-2">
+            <AlertTriangle className="h-4 w-4 text-destructive mt-0.5 shrink-0" />
+            <div>
+              <span className="text-xs text-primary font-semibold">Urgency:</span>
+              <div><Badge className="bg-destructive/10 text-destructive border-destructive/30 text-xs mt-0.5">High</Badge></div>
+            </div>
           </div>
           <div>
             <span className="text-xs text-primary font-semibold">Current Progress:</span>
@@ -112,8 +141,8 @@ export default function ApprovalWorkflowTab({ row, selectedScenario }: Props) {
               </div>
               {step.status === "pending" && (
                 <div className="flex gap-2">
-                  <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs" onClick={() => handleApprove(i)}>Approve</Button>
-                  <Button size="sm" variant="outline" className="text-destructive border-destructive/30 text-xs" onClick={() => handleReject(i)}>Reject</Button>
+                  <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700 text-white text-xs" onClick={() => handleOpenCommentDialog(i, "approve")}>Approve</Button>
+                  <Button size="sm" variant="outline" className="text-destructive border-destructive/30 text-xs" onClick={() => handleOpenCommentDialog(i, "reject")}>Reject</Button>
                 </div>
               )}
               {step.timestamp && <span className="text-[10px] text-muted-foreground">{step.timestamp}</span>}
@@ -150,12 +179,10 @@ export default function ApprovalWorkflowTab({ row, selectedScenario }: Props) {
             <div className="border border-border rounded-xl p-3 text-center bg-card">
               <span className="text-xl font-bold text-primary">97%</span>
               <p className="text-xs text-muted-foreground">Actual Service Level</p>
-              <p className="text-[10px] text-muted-foreground">Target: 96%</p>
             </div>
             <div className="border border-border rounded-xl p-3 text-center bg-card">
               <span className="text-xl font-bold text-primary">€15,369</span>
               <p className="text-xs text-muted-foreground">Actual Cost</p>
-              <p className="text-[10px] text-muted-foreground">Budget: €{scenario.cost.toLocaleString()}</p>
             </div>
             <div className="border border-border rounded-xl p-3 text-center bg-card">
               <span className="text-xl font-bold text-primary">96%</span>
@@ -163,16 +190,54 @@ export default function ApprovalWorkflowTab({ row, selectedScenario }: Props) {
             </div>
             <div className="border border-border rounded-xl p-3 text-center bg-card">
               <CheckCircle2 className="h-5 w-5 text-primary mx-auto mb-1" />
-              <p className="text-xs text-muted-foreground">Status</p>
-              <p className="text-[10px] text-muted-foreground">Completed</p>
+              <p className="text-xs text-muted-foreground">Completed</p>
             </div>
-          </div>
-          <div className="border border-border rounded-xl p-4 bg-card">
-            <h5 className="text-sm font-semibold text-primary">Customer Impact</h5>
-            <p className="text-xs text-emerald-600 mt-1">Positive - risk successfully mitigated</p>
           </div>
         </div>
       )}
+
+      {/* Comment Dialog */}
+      <Dialog open={commentDialog.open} onOpenChange={(open) => setCommentDialog(prev => ({ ...prev, open }))}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              {commentDialog.action === "approve" ? (
+                <><CheckCircle2 className="h-5 w-5 text-emerald-600" /> Approve – {steps[commentDialog.index]?.level}</>
+              ) : (
+                <><XCircle className="h-5 w-5 text-destructive" /> Reject – {steps[commentDialog.index]?.level}</>
+              )}
+            </DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4">
+            <div>
+              <p className="text-xs text-muted-foreground mb-2">
+                {commentDialog.action === "approve" 
+                  ? "Add any comments or notes for this approval (optional):" 
+                  : "Please provide a reason for rejection:"}
+              </p>
+              <Textarea
+                value={commentText}
+                onChange={e => setCommentText(e.target.value)}
+                placeholder={commentDialog.action === "approve" ? "Optional comments..." : "Reason for rejection..."}
+                className="min-h-[80px]"
+              />
+            </div>
+            <div className="flex gap-3 justify-end">
+              <Button variant="outline" onClick={() => setCommentDialog(prev => ({ ...prev, open: false }))}>Cancel</Button>
+              <Button
+                className={`gap-2 ${commentDialog.action === "approve" ? "bg-emerald-600 hover:bg-emerald-700 text-white" : "bg-destructive hover:bg-destructive/90 text-destructive-foreground"}`}
+                onClick={handleSubmitWithComment}
+              >
+                {commentDialog.action === "approve" ? (
+                  <><CheckCircle2 className="h-4 w-4" /> Confirm Approval</>
+                ) : (
+                  <><XCircle className="h-4 w-4" /> Confirm Rejection</>
+                )}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
