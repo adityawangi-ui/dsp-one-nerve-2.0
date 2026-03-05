@@ -1,11 +1,9 @@
 import { useState, useMemo } from "react";
 import { riskData, RiskRow } from "@/data/riskData";
-import { Home, ChevronRight, Shield, Activity, Zap, Clock, RefreshCw, Download, Bell } from "lucide-react";
+import { Home, ChevronRight, Shield, Clock, RefreshCw, Download, Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import AlertsSection from "@/components/risk-os/AlertsSection";
-import SituationPanel from "@/components/risk-os/SituationPanel";
-import OrchestratorPanel from "@/components/risk-os/OrchestratorPanel";
 import UnifiedFilters, { FilterState, defaultFilters } from "@/components/risk-os/UnifiedFilters";
 import DetailedRiskTable from "@/components/risk-os/DetailedRiskTable";
 import InsightsPanel from "@/components/risk-os/InsightsPanel";
@@ -107,11 +105,6 @@ export default function RiskOverview() {
             <span className="text-foreground font-medium">Risk Monitor</span>
           </nav>
 
-          {/* Global Situation Panel + Orchestrator */}
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-4">
-            <SituationPanel />
-            <OrchestratorPanel />
-          </div>
 
           <AlertsSection />
           <UnifiedFilters filters={filters} onChange={setFilters} maxLoss={890000} />

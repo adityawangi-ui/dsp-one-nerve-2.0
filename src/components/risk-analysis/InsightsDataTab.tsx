@@ -39,8 +39,8 @@ function SectionHeader({ icon: Icon, title, badge }: { icon: React.ElementType; 
 
 function ChartCard({ children, title, className = "" }: { children: React.ReactNode; title?: string; className?: string }) {
   return (
-    <div className={`bg-card/80 backdrop-blur-sm rounded-xl border border-border/60 p-4 ${className}`}>
-      {title && <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-semibold mb-2 block">{title}</span>}
+    <div className={`bg-card rounded-xl border border-border p-4 ${className}`}>
+      {title && <span className="text-xs text-foreground/80 uppercase tracking-widest font-semibold mb-2 block">{title}</span>}
       <div className="h-52">{children}</div>
     </div>
   );
@@ -48,20 +48,20 @@ function ChartCard({ children, title, className = "" }: { children: React.ReactN
 
 function DataTable({ headers, rows, minWidth, highlightRows }: { headers: string[]; rows: (string | number)[][]; minWidth?: string; highlightRows?: number[] }) {
   return (
-    <div className="overflow-x-auto mt-4 rounded-xl border border-border/60 bg-card/60 backdrop-blur-sm">
+    <div className="overflow-x-auto mt-4 rounded-xl border border-border bg-card">
       <table className="w-full text-[11px]" style={{ minWidth: minWidth || `${Math.max(headers.length * 110, 600)}px` }}>
         <thead>
-          <tr className="bg-secondary/80 border-b border-border/60">
+          <tr className="bg-secondary border-b border-border">
             {headers.map(h => (
-              <th key={h} className="px-3 py-2.5 text-left text-[10px] font-bold uppercase tracking-wider text-foreground/70 whitespace-nowrap">{h}</th>
+              <th key={h} className="px-3 py-2.5 text-left text-[10px] font-bold uppercase tracking-wider text-foreground whitespace-nowrap">{h}</th>
             ))}
           </tr>
         </thead>
         <tbody>
           {rows.map((r, i) => (
-            <tr key={i} className={`border-b border-border/30 transition-colors hover:bg-primary/5 ${highlightRows?.includes(i) ? "bg-destructive/5" : ""}`}>
+            <tr key={i} className={`border-b border-border/50 hover:bg-secondary/40 ${highlightRows?.includes(i) ? "bg-destructive/10" : ""}`}>
               {r.map((c, j) => (
-                <td key={j} className="px-3 py-2 whitespace-nowrap font-mono text-foreground/90">
+                <td key={j} className="px-3 py-2 whitespace-nowrap font-mono text-foreground">
                   {typeof c === "number" ? c.toLocaleString() : c}
                 </td>
               ))}
@@ -75,8 +75,8 @@ function DataTable({ headers, rows, minWidth, highlightRows }: { headers: string
 
 function KpiBox({ label, value }: { label: string; value: string | number }) {
   return (
-    <div className="bg-card/80 backdrop-blur-sm border border-border/60 rounded-xl px-4 py-3 flex flex-col items-center text-center">
-      <span className="text-[9px] text-muted-foreground uppercase tracking-wider font-medium">{label}</span>
+    <div className="bg-card border border-border rounded-xl px-4 py-3 flex flex-col items-center text-center">
+      <span className="text-[9px] text-foreground/60 uppercase tracking-wider font-medium">{label}</span>
       <span className="text-base font-bold text-foreground mt-0.5">{value}</span>
     </div>
   );
@@ -258,15 +258,14 @@ export default function InsightsDataTab({ row }: Props) {
             </ResponsiveContainer>
           </ChartCard>
 
-          {/* CTP Table */}
-          <div className="overflow-x-auto mt-4 rounded-xl border border-border/60 bg-card/60 backdrop-blur-sm">
+          <div className="overflow-x-auto mt-4 rounded-xl border border-border bg-card">
             <table className="w-full text-[11px]" style={{ minWidth: `${(ctpColumns.length + 3) * 90}px` }}>
               <thead>
-                <tr className="bg-secondary/80 border-b border-border/60">
-                  <th className="sticky left-0 z-10 bg-secondary px-3 py-2.5 text-left text-[10px] font-bold uppercase tracking-wider text-foreground/70 w-32">Part Name</th>
-                  <th className="px-3 py-2.5 text-left text-[10px] font-bold uppercase text-foreground/70 w-16">Site</th>
-                  <th className="px-3 py-2.5 text-left text-[10px] font-bold uppercase text-foreground/70 w-48">Description</th>
-                  {ctpColumns.map(w => <th key={w} className="px-3 py-2.5 text-center text-[10px] font-bold uppercase tracking-wider text-foreground/70 whitespace-nowrap">{w}</th>)}
+                <tr className="bg-secondary border-b border-border">
+                  <th className="sticky left-0 z-10 bg-secondary px-3 py-2.5 text-left text-[10px] font-bold uppercase tracking-wider text-foreground w-32">Part Name</th>
+                  <th className="px-3 py-2.5 text-left text-[10px] font-bold uppercase text-foreground w-16">Site</th>
+                  <th className="px-3 py-2.5 text-left text-[10px] font-bold uppercase text-foreground w-48">Description</th>
+                  {ctpColumns.map(w => <th key={w} className="px-3 py-2.5 text-center text-[10px] font-bold uppercase tracking-wider text-foreground whitespace-nowrap">{w}</th>)}
                 </tr>
               </thead>
               <tbody>
@@ -276,18 +275,18 @@ export default function InsightsDataTab({ row }: Props) {
                   const isBalance = metric.includes("Balance");
                   const isBelowRS = metric.includes("Below RS");
                   return (
-                    <tr key={metric} className={`border-b border-border/30 transition-colors ${isBalance ? "bg-primary/5 font-semibold" : isBelowRS ? "bg-destructive/5" : "hover:bg-primary/[0.03]"}`}>
+                    <tr key={metric} className={`border-b border-border/50 ${isBalance ? "bg-primary/10 font-semibold" : isBelowRS ? "bg-destructive/10" : "hover:bg-secondary/40"}`}>
                       {mi === 0 && (
                         <>
-                          <td className="sticky left-0 z-10 bg-card px-3 py-2 font-mono text-foreground/90 whitespace-nowrap" rowSpan={ctpMetrics.length}>{row.mrdr}</td>
-                          <td className="px-3 py-2 text-foreground/80 whitespace-nowrap" rowSpan={ctpMetrics.length}>A283</td>
-                          <td className="px-3 py-2 text-foreground/70 whitespace-nowrap text-[10px]" rowSpan={ctpMetrics.length}>{row.mrdrDescription}</td>
+                          <td className="sticky left-0 z-10 bg-card px-3 py-2 font-mono text-foreground whitespace-nowrap" rowSpan={ctpMetrics.length}>{row.mrdr}</td>
+                          <td className="px-3 py-2 text-foreground whitespace-nowrap" rowSpan={ctpMetrics.length}>A283</td>
+                          <td className="px-3 py-2 text-foreground whitespace-nowrap text-[10px]" rowSpan={ctpMetrics.length}>{row.mrdrDescription}</td>
                         </>
                       )}
                       {sliced.map((v, i) => {
                         const isNegative = isBelowRS && v > 0;
                         return (
-                          <td key={i} className={`px-3 py-2 text-center font-mono ${isNegative ? "text-destructive font-bold" : "text-foreground/90"}`}>
+                          <td key={i} className={`px-3 py-2 text-center font-mono ${isNegative ? "text-destructive font-bold" : "text-foreground"}`}>
                             {v.toLocaleString()}
                           </td>
                         );
