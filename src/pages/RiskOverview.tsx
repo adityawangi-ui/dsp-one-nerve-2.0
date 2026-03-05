@@ -112,8 +112,8 @@ export default function RiskOverview() {
         </div>
       </main>
 
-      {insightsRow && <InsightsPanel row={insightsRow} onClose={() => setInsightsRow(null)} />}
-      {analysisRow && <RiskAnalysisPanel row={analysisRow} onClose={() => setAnalysisRow(null)} />}
+      {insightsRow && <InsightsPanel key={insightsRow.riskId} row={insightsRow} onClose={() => setInsightsRow(null)} />}
+      {analysisRow && <RiskAnalysisPanel key={analysisRow.riskId} row={analysisRow} onClose={() => setAnalysisRow(null)} />}
       <RiskAIAgent />
     </div>
   );
