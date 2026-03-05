@@ -105,11 +105,6 @@ export default function RiskOverview() {
             <span className="text-foreground font-medium">Risk Monitor</span>
           </nav>
 
-          {/* Global Situation Panel + Orchestrator */}
-          <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-4">
-            <SituationPanel />
-            <OrchestratorPanel />
-          </div>
 
           <AlertsSection />
           <UnifiedFilters filters={filters} onChange={setFilters} maxLoss={890000} />
