@@ -136,34 +136,34 @@ export default function RiskAnalysisPanel({ row, onClose }: Props) {
         <DialogContent className="max-w-lg">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
-              <CheckCircle2 className="h-5 w-5 text-[hsl(152,60%,42%)]" />
+              <CheckCircle2 className="h-5 w-5 text-success" />
               Approval Workflow Triggered
             </DialogTitle>
           </DialogHeader>
 
-          <p className="text-sm text-[hsl(220,10%,46%)] mb-4">Your selected mitigation scenario has been submitted for approval and execution.</p>
+          <p className="text-sm text-muted-foreground mb-4">Your selected mitigation scenario has been submitted for approval and execution.</p>
 
           {selectedScenario && (
-            <div className="border border-[hsl(152,60%,84%)] rounded-xl p-4 bg-[hsl(152,55%,96%)] space-y-2 mb-4">
+            <div className="border border-success/40 rounded-xl p-4 bg-success/10 space-y-2 mb-4">
               <div className="flex items-center gap-1.5">
-                <span className="h-2 w-2 rounded-full bg-[hsl(220,90%,54%)]" />
-                <span className="text-sm font-semibold text-[hsl(220,90%,54%)]">Scenario {selectedScenario.id} Selected</span>
+                <span className="h-2 w-2 rounded-full bg-primary" />
+                <span className="text-sm font-semibold text-primary">Scenario {selectedScenario.id} Selected</span>
               </div>
-              <p className="text-xs text-[hsl(220,10%,46%)] ml-3.5">{selectedScenario.name}</p>
+              <p className="text-xs text-muted-foreground ml-3.5">{selectedScenario.name}</p>
               <div className="flex items-center gap-1.5">
-                <span className="h-2 w-2 rounded-full bg-[hsl(220,90%,54%)]" />
-                <span className="text-sm text-[hsl(220,25%,10%)]"><strong>Cost:</strong> €{selectedScenario.cost.toLocaleString()}</span>
+                <span className="h-2 w-2 rounded-full bg-primary" />
+                <span className="text-sm text-foreground"><strong>Cost:</strong> €{selectedScenario.cost.toLocaleString()}</span>
               </div>
               <div className="flex items-center gap-1.5">
-                <span className="h-2 w-2 rounded-full bg-[hsl(220,90%,54%)]" />
-                <span className="text-sm text-[hsl(220,25%,10%)]"><strong>Success:</strong> {selectedScenario.successProbability}%</span>
+                <span className="h-2 w-2 rounded-full bg-primary" />
+                <span className="text-sm text-foreground"><strong>Success:</strong> {selectedScenario.successProbability}%</span>
               </div>
             </div>
           )}
 
-          <div className="border border-[hsl(220,90%,54%)/0.2] rounded-xl p-4 bg-[hsl(220,90%,54%)/0.03] space-y-2 mb-4">
-            <p className="text-sm font-semibold text-[hsl(220,90%,54%)]">Next Steps:</p>
-            <ul className="text-xs text-[hsl(220,10%,46%)] space-y-1 ml-2">
+          <div className="border border-primary/30 rounded-xl p-4 bg-primary/10 space-y-2 mb-4">
+            <p className="text-sm font-semibold text-primary">Next Steps:</p>
+            <ul className="text-xs text-muted-foreground space-y-1 ml-2">
               <li>• L1 Planner approval required</li>
               <li>• Operations Manager review</li>
               <li>• Finance approval (if cost &gt; €15K)</li>
@@ -173,7 +173,7 @@ export default function RiskAnalysisPanel({ row, onClose }: Props) {
 
           <div className="flex gap-3 justify-end">
             <Button variant="outline" onClick={() => setShowApprovalDialog(false)}>Stay Here</Button>
-            <Button className="gap-2 bg-[hsl(152,60%,42%)] hover:bg-[hsl(152,60%,36%)] text-white" onClick={handleProceedToWorkflow}>
+            <Button className="gap-2 bg-success hover:bg-success/90 text-success-foreground" onClick={handleProceedToWorkflow}>
               <Play className="h-4 w-4" /> Proceed to Workflow
             </Button>
           </div>
