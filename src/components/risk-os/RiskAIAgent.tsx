@@ -40,7 +40,7 @@ function getAnswer(q: string): string {
   if (lower.includes("total value") || lower.includes("value at risk")) {
     const totalVal = riskData.reduce((s, r) => s + r.expectedLossValue, 0);
     const totalCases = riskData.reduce((s, r) => s + r.expectedLossCases, 0);
-    return `**Value at Risk Summary:**\n\n- **Total Expected Loss Value:** $${totalVal.toLocaleString()}\n- **Total Expected Loss Cases:** ${totalCases.toLocaleString()}\n- **Open Items:** ${riskData.filter(r => r.status === "Open").length}\n- **Avg Loss per Item:** $${Math.round(totalVal / riskData.length).toLocaleString()}`;
+    return `**Value at Risk Summary:**\n\n- **Total Expected Loss Value:** €${totalVal.toLocaleString()}\n- **Total Expected Loss Cases:** ${totalCases.toLocaleString()}\n- **Open Items:** ${riskData.filter(r => r.status === "Open").length}\n- **Avg Loss per Item:** €${Math.round(totalVal / riskData.length).toLocaleString()}`;
   }
 
   if ((lower.includes("s1") || lower.includes("s 1") || lower.includes("severity")) && lower.includes("p1") || lower.includes("p 1")) {
