@@ -41,11 +41,11 @@ export default function RiskAnalysisPanel({ row, onClose }: Props) {
         <div className="h-12 flex items-center justify-between px-5 border-b border-border shrink-0 bg-card">
           <div className="flex items-center gap-3">
             {showLastMile ? (
-              <Button variant="ghost" size="sm" className="gap-1.5 text-xs h-7" onClick={() => setShowLastMile(false)}>
+              <Button variant="ghost" size="sm" className="gap-1.5 text-xs h-7 text-foreground hover:bg-secondary" onClick={() => setShowLastMile(false)}>
                 <ArrowLeft className="h-3.5 w-3.5" /> Back to Analysis
               </Button>
             ) : (
-              <Button variant="ghost" size="sm" className="gap-1.5 text-xs h-7" onClick={onClose}>
+              <Button variant="ghost" size="sm" className="gap-1.5 text-xs h-7 text-foreground hover:bg-secondary" onClick={onClose}>
                 <ArrowLeft className="h-3.5 w-3.5" /> Back to Risk Overview
               </Button>
             )}
