@@ -344,8 +344,8 @@ export default function InsightsDataTab({ row }: Props) {
               <ComposedChart data={dohData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" strokeOpacity={0.5} />
                 <XAxis dataKey="week" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
-                <YAxis yAxisId="left" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} label={{ value: 'DOH Days', angle: -90, position: 'insideLeft', style: { fontSize: 9, fill: 'hsl(215, 20%, 55%)' } }} />
-                <YAxis yAxisId="right" orientation="right" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} label={{ value: 'Quantity', angle: 90, position: 'insideRight', style: { fontSize: 9, fill: 'hsl(215, 20%, 55%)' } }} />
+                <YAxis yAxisId="left" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} label={{ value: 'DOH Days', angle: -90, position: 'insideLeft', style: { fontSize: 9, fill: 'hsl(var(--muted-foreground))' } }} />
+                <YAxis yAxisId="right" orientation="right" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} label={{ value: 'Quantity', angle: 90, position: 'insideRight', style: { fontSize: 9, fill: 'hsl(var(--muted-foreground))' } }} />
                 <Tooltip {...customTooltipStyle} />
                 <Legend wrapperStyle={legendStyle} formatter={(value: string) => <span style={{ color: 'hsl(210, 40%, 80%)' }}>{value}</span>} />
                 <Bar yAxisId="left" dataKey="doh" fill={CHART_BLUE} name="DOH Days" radius={[4, 4, 0, 0]} />
