@@ -356,7 +356,7 @@ export default function Landing() {
 
   return (
     <MainLayout>
-      <div className="min-h-[calc(100vh-4rem)] misty-bg px-4 md:px-8 lg:px-12 xl:px-16 overflow-auto flex flex-col relative">
+      <div className="min-h-[calc(100vh-4rem)] gradient-mesh px-4 md:px-8 lg:px-12 xl:px-16 overflow-auto flex flex-col relative">
         <div className="w-full flex flex-col py-4 md:py-6 mx-auto max-w-6xl">
           <div className="flex flex-col space-y-4 md:space-y-5">
             {/* Personal Greeting Section - Centered */}
