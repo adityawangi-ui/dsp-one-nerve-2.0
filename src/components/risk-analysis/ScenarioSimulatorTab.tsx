@@ -242,7 +242,7 @@ export default function ScenarioSimulatorTab({ row, onSelectScenario, selectedSc
               <div className="flex items-center gap-2">
                 <Badge className="bg-primary/10 text-primary border-primary/20">Scenario {s.id}</Badge>
                 <h3 className="text-sm font-bold text-foreground">{s.name}</h3>
-                {s.recommended && <Badge className="bg-emerald-500 text-white border-0 text-[10px]">RECOMMENDED</Badge>}
+                {s.recommended && <Badge className="bg-success text-success-foreground border-0 text-[10px]">RECOMMENDED</Badge>}
               </div>
               <Button variant="ghost" size="sm" onClick={() => setExpandedScenario(null)}>
                 <ChevronUp className="h-4 w-4" />
@@ -250,10 +250,47 @@ export default function ScenarioSimulatorTab({ row, onSelectScenario, selectedSc
             </div>
 
             <div className="p-5 space-y-5">
+              {/* AI Reasoning — "Why AI Recommended This" */}
+              <div className="border border-primary/20 rounded-xl p-4 bg-primary/[0.03]">
+                <div className="flex items-center gap-2 mb-3">
+                  <Brain className="h-4 w-4 text-primary neon-text" />
+                  <h5 className="text-sm font-semibold text-foreground">Why AI Recommended This</h5>
+                  <Badge className="bg-primary/10 text-primary border-primary/20 text-[9px] ml-auto">
+                    Confidence: {s.id === 1 ? "82%" : s.id === 2 ? "88%" : "94%"}
+                  </Badge>
+                </div>
+                <div className="space-y-2">
+                  {(s.id === 3 ? [
+                    "Similar disruption occurred in Q1 2025 — this approach achieved 89% success",
+                    "Supplier reliability score dropped from 92% → 78%, favoring stock rebalancing",
+                    "Demand forecast increased 22% for W3 — requires immediate capacity uplift",
+                    "Cost-efficiency ratio is 40% better than alternative scenarios",
+                  ] : s.id === 2 ? [
+                    "PU3 backup line has 88% reliability based on last 12 activations",
+                    "Extra shift pattern matched 91% success in Jan 2025 similar case",
+                    "Critical SKU prioritization preserves highest-margin items first",
+                  ] : [
+                    "Transshipment from DC-South has 82% success for logistics disruptions",
+                    "SKU substitution can recover 60% of volume within 48 hours",
+                    "Combined approach shows synergy based on Q4 2025 precedent",
+                  ]).map((reason, i) => (
+                    <div key={i} className="flex items-start gap-2">
+                      <span className="h-1.5 w-1.5 rounded-full bg-primary mt-1.5 shrink-0" />
+                      <p className="text-xs text-muted-foreground">{reason}</p>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-3 pt-3 border-t border-border/30 flex items-center gap-4 text-[10px] text-muted-foreground">
+                  <span>📊 {s.id === 3 ? 42 : s.id === 2 ? 35 : 28} historical cases analyzed</span>
+                  <span>📈 Demand patterns matched</span>
+                  <span>🔧 Supplier reliability factored</span>
+                </div>
+              </div>
+
               {/* AI Insights */}
               <div>
                 <div className="flex items-center gap-2 mb-3">
-                  <Brain className="h-4 w-4 text-primary" />
+                  <Zap className="h-4 w-4 text-primary" />
                   <h5 className="text-sm font-semibold text-foreground">AI Insights</h5>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -270,13 +307,13 @@ export default function ScenarioSimulatorTab({ row, onSelectScenario, selectedSc
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <div className="flex items-center gap-2 mb-2">
-                    <TrendingUp className="h-4 w-4 text-emerald-600" />
+                    <TrendingUp className="h-4 w-4 text-success" />
                     <h5 className="text-xs font-semibold text-foreground">Mitigation Actions</h5>
                   </div>
                   <ul className="space-y-1.5">
                     {details.actions.map((a, i) => (
                       <li key={i} className="text-xs text-muted-foreground flex items-start gap-1.5">
-                        <CheckCircle2 className="h-3 w-3 text-emerald-500 mt-0.5 shrink-0" />
+                        <CheckCircle2 className="h-3 w-3 text-success mt-0.5 shrink-0" />
                         {a}
                       </li>
                     ))}
@@ -284,13 +321,13 @@ export default function ScenarioSimulatorTab({ row, onSelectScenario, selectedSc
                 </div>
                 <div>
                   <div className="flex items-center gap-2 mb-2">
-                    <Shield className="h-4 w-4 text-amber-500" />
+                    <Shield className="h-4 w-4 text-warning" />
                     <h5 className="text-xs font-semibold text-foreground">Risk Factors</h5>
                   </div>
                   <ul className="space-y-1.5">
                     {details.risks.map((r, i) => (
                       <li key={i} className="text-xs text-muted-foreground flex items-start gap-1.5">
-                        <span className="text-amber-500 mt-0.5">⚠</span>
+                        <span className="text-warning mt-0.5">⚠</span>
                         {r}
                       </li>
                     ))}
@@ -314,7 +351,7 @@ export default function ScenarioSimulatorTab({ row, onSelectScenario, selectedSc
                     <div key={i} className="bg-card border border-border rounded-lg p-3 text-center">
                       <span className="text-lg font-bold text-foreground">{kpi.value}</span>
                       <p className="text-[10px] text-muted-foreground">{kpi.label}</p>
-                      <p className="text-[10px] text-emerald-600 font-medium">{kpi.trend}</p>
+                      <p className="text-[10px] text-success font-medium">{kpi.trend}</p>
                     </div>
                   ))}
                 </div>
@@ -323,13 +360,13 @@ export default function ScenarioSimulatorTab({ row, onSelectScenario, selectedSc
               {/* Impact Evaluation KPIs */}
               <div>
                 <div className="flex items-center gap-2 mb-3">
-                  <Target className="h-4 w-4 text-emerald-600" />
+                  <Target className="h-4 w-4 text-success" />
                   <h5 className="text-sm font-semibold text-foreground">Impact Evaluation</h5>
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
                   {details.impactKPIs.map((kpi, i) => (
                     <div key={i} className="bg-card border border-border rounded-lg p-3 text-center">
-                      <span className={`text-lg font-bold ${kpi.color}`}>{kpi.value}</span>
+                      <span className={`text-lg font-bold ${kpi.color.replace("emerald-600", "success")}`}>{kpi.value}</span>
                       <p className="text-[10px] text-muted-foreground">{kpi.label}</p>
                     </div>
                   ))}
@@ -339,7 +376,7 @@ export default function ScenarioSimulatorTab({ row, onSelectScenario, selectedSc
               {/* Cost Breakdown */}
               <div>
                 <div className="flex items-center gap-2 mb-3">
-                  <DollarSign className="h-4 w-4 text-amber-600" />
+                  <DollarSign className="h-4 w-4 text-warning" />
                   <h5 className="text-sm font-semibold text-foreground">Cost Breakdown</h5>
                 </div>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -359,7 +396,7 @@ export default function ScenarioSimulatorTab({ row, onSelectScenario, selectedSc
               {/* Select Scenario Button */}
               <div className="flex justify-end pt-2">
                 <Button
-                  className={`gap-2 ${isSelected ? "bg-emerald-600 hover:bg-emerald-700 text-white" : ""}`}
+                  className={`gap-2 ${isSelected ? "bg-success hover:bg-success/90 text-success-foreground" : ""}`}
                   onClick={(e) => {
                     e.stopPropagation();
                     handleSelectScenario(s);
@@ -381,19 +418,19 @@ export default function ScenarioSimulatorTab({ row, onSelectScenario, selectedSc
       <div className="flex justify-center gap-3">
         <PlannerRefinementDialog scenarios={scenarios} onRefine={handleRefineScenarios} />
         {isRefined && (
-          <Button variant="outline" className="gap-2 border-amber-300 text-amber-700 hover:bg-amber-100" onClick={handleRevertScenarios}>
+          <Button variant="outline" className="gap-2 border-warning/40 text-warning hover:bg-warning/10" onClick={handleRevertScenarios}>
             <RefreshCw className="h-4 w-4" /> Revert to Original
           </Button>
         )}
       </div>
 
       {/* Recommendation Banner */}
-      <div className="border-2 border-emerald-500/30 rounded-xl p-4 bg-emerald-50/50">
+      <div className="border-2 border-success/30 rounded-xl p-4 bg-success/[0.06]">
         <div className="flex items-center gap-2 mb-1">
-          <CheckCircle2 className="h-5 w-5 text-emerald-600" />
-          <h4 className="text-sm font-bold text-emerald-800">Recommendation: {scenarios.find(s => s.recommended)?.name}</h4>
+          <CheckCircle2 className="h-5 w-5 text-success" />
+          <h4 className="text-sm font-bold text-success">Recommendation: {scenarios.find(s => s.recommended)?.name}</h4>
         </div>
-        <p className="text-xs text-emerald-700">
+        <p className="text-xs text-success/80">
           Offers the best balance of success probability, cost efficiency, and resource optimization.
         </p>
       </div>
