@@ -36,11 +36,11 @@ function SectionHeader({ icon: Icon, title, badge }: { icon: React.ElementType; 
   );
 }
 
-function ChartCard({ children, title, className = "" }: { children: React.ReactNode; title?: string; className?: string }) {
+function ChartCard({ children, title, className = "", contentClassName = "h-52" }: { children: React.ReactNode; title?: string; className?: string; contentClassName?: string }) {
   return (
-    <div className={`bg-card rounded-xl border border-border p-4 ${className}`}>
+    <div className={`bg-card rounded-xl border border-border p-4 overflow-hidden ${className}`}>
       {title && <span className="text-xs text-foreground/80 uppercase tracking-widest font-semibold mb-2 block">{title}</span>}
-      <div className="h-52">{children}</div>
+      <div className={contentClassName}>{children}</div>
     </div>
   );
 }
