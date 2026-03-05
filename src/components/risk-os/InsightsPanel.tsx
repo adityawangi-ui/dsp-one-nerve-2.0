@@ -38,8 +38,8 @@ function SectionHeader({ icon: Icon, title, badge }: { icon: React.ElementType; 
 
 function ChartCard({ children, title, className = "" }: { children: React.ReactNode; title?: string; className?: string }) {
   return (
-    <div className={`bg-card/80 backdrop-blur-sm rounded-xl border border-border/60 p-4 ${className}`}>
-      {title && <span className="text-[10px] text-muted-foreground uppercase tracking-widest font-semibold mb-2 block">{title}</span>}
+    <div className={`bg-card rounded-xl border border-border p-4 ${className}`}>
+      {title && <span className="text-xs text-foreground/80 uppercase tracking-widest font-semibold mb-2 block">{title}</span>}
       <div className="h-52">{children}</div>
     </div>
   );
