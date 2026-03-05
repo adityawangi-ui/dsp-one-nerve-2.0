@@ -278,16 +278,11 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                       <td className={cellCls} style={frozenCellStyle("mrdrDescription", rowNewVariant)}>{agg.mrdrDescription}</td>
                       {/* MSO Country - frozen */}
                       <td className={cellCls} style={frozenCellStyle("msoCountry", rowNewVariant)}>{agg.msoCountry}</td>
+                      {/* UOM - frozen */}
+                      <td className={cellCls} style={frozenCellStyle("uom", rowNewVariant)}>{agg.uom}</td>
                       {/* Scrollable columns */}
                       <td className={cellCls}>{agg.site}</td>
                       <td className={cellCls}>{agg.su}</td>
-                      <td className={cellCls}>
-                        <Select value={agg.uom} onValueChange={() => {}}>
-                          <SelectTrigger className="h-6 min-w-[55px] text-[10px] border-border/40"><SelectValue /></SelectTrigger>
-                          <SelectContent>
-                            {["CS", "EA", "KG", "L", "PAL"].map(u => <SelectItem key={u} value={u}>{u}</SelectItem>)}
-                          </SelectContent>
-                        </Select>
                       </td>
                       <td className={cellCls}><Badge variant="outline" className={`text-[10px] ${agg.riskType === "Out Of Stock" ? "bg-critical-bg text-critical border-critical-border" : "bg-medium-bg text-medium border-medium-border"}`}>{agg.riskType}</Badge></td>
                       <td className={cellCls}><Badge variant="outline" className={`text-[10px] ${sevBadgeClass(agg.severity)}`}>{agg.severity}</Badge></td>
