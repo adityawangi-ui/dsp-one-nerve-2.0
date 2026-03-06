@@ -55,7 +55,7 @@ const mockNotifications: NotificationItem[] = [
 ];
 
 interface Props {
-  onNavigateToConversations?: (riskId: number) => void;
+  onNavigateToConversations?: () => void;
 }
 
 export default function NotificationBell({ onNavigateToConversations }: Props) {
@@ -143,7 +143,6 @@ export default function NotificationBell({ onNavigateToConversations }: Props) {
 
   return (
     <>
-      {/* Bell icon */}
       <div className="relative">
         <Button
           variant="outline"
@@ -159,7 +158,6 @@ export default function NotificationBell({ onNavigateToConversations }: Props) {
           )}
         </Button>
 
-        {/* Dropdown */}
         {showDropdown && (
           <div className="absolute right-0 top-10 w-96 bg-card border border-border rounded-xl shadow-[var(--shadow-elevated)] z-50 overflow-hidden flex flex-col" style={{ maxHeight: "480px" }}>
             <div className="px-4 py-2.5 border-b border-border flex items-center justify-between shrink-0">
@@ -182,7 +180,6 @@ export default function NotificationBell({ onNavigateToConversations }: Props) {
                         <span className="text-[10px] text-muted-foreground font-medium">{notif.sender} · {formatTime(notif.timestamp)}</span>
                       </div>
 
-                      {/* Quick reply */}
                       <div className="flex gap-1.5 mt-2">
                         <Input
                           placeholder="Reply..."
@@ -196,22 +193,29 @@ export default function NotificationBell({ onNavigateToConversations }: Props) {
                         </Button>
                       </div>
 
-                      {/* Actions */}
                       <div className="flex gap-1.5 mt-1.5">
                         <Button variant="ghost" size="sm" className="h-5 text-[9px] px-1.5 gap-1 text-primary" onClick={() => handlePopout(notif)}>
                           <ExternalLink className="h-2.5 w-2.5" /> Pop out
                         </Button>
-                        {onNavigateToConversations && (
-                          <Button variant="ghost" size="sm" className="h-5 text-[9px] px-1.5 gap-1 text-primary" onClick={() => { setShowDropdown(false); onNavigateToConversations(notif.riskId); }}>
-                            <MessageSquare className="h-2.5 w-2.5" /> Go to Conversations
-                          </Button>
-                        )}
                       </div>
                     </div>
                   </div>
                 </div>
               ))}
             </ScrollArea>
+            {/* Single persistent Go to Conversations button */}
+            {onNavigateToConversations && (
+              <div className="px-4 py-2.5 border-t border-border shrink-0 bg-muted/30">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="w-full h-7 text-xs gap-1.5 text-primary border-primary/30 hover:bg-primary/5"
+                  onClick={() => { setShowDropdown(false); onNavigateToConversations(); }}
+                >
+                  <MessageSquare className="h-3 w-3" /> Go to Conversations
+                </Button>
+              </div>
+            )}
           </div>
         )}
       </div>
