@@ -17,6 +17,7 @@ export default function RiskOverview() {
   const [filters, setFilters] = useState<FilterState>(() => ({ ...defaultFilters, lossRange: [0, 890000] }));
   const [insightsRow, setInsightsRow] = useState<RiskRow | null>(null);
   const [analysisRow, setAnalysisRow] = useState<RiskRow | null>(null);
+  const [showVisualCentre, setShowVisualCentre] = useState(false);
 
   const now = new Date();
   const timestamp = now.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" }) + ", " + now.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
