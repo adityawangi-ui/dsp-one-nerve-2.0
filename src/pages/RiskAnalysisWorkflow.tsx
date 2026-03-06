@@ -16,8 +16,9 @@ export default function RiskAnalysisWorkflow() {
   const [searchParams] = useSearchParams();
   const riskId = Number(searchParams.get("riskId")) || riskData[0].riskId;
   const row = riskData.find(r => r.riskId === riskId) || riskData[0];
+  const initialTab = searchParams.get("tab") || "insights-data";
 
-  const [activeTab, setActiveTab] = useState("insights-data");
+  const [activeTab, setActiveTab] = useState(initialTab);
   const [selectedScenario, setSelectedScenario] = useState<Scenario | null>(null);
   const [showApprovalDialog, setShowApprovalDialog] = useState(false);
   const [showLastMile, setShowLastMile] = useState(false);
