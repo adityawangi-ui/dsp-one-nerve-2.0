@@ -61,7 +61,7 @@ function DataTable({ headers, rows, minWidth, highlightRows }: { headers: string
           {rows.map((r, i) => (
             <tr key={i} className={`border-b border-border/50 hover:bg-secondary/40 ${highlightRows?.includes(i) ? "bg-destructive/10" : ""}`}>
               {r.map((c, j) => (
-                <td key={j} className="px-3 py-2 whitespace-nowrap font-mono text-foreground">
+                <td key={j} className="px-3 py-2 whitespace-nowrap font-sans text-foreground">
                   {typeof c === "number" ? c.toLocaleString() : c}
                 </td>
               ))}

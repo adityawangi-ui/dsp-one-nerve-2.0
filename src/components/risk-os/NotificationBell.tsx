@@ -194,8 +194,8 @@ export default function NotificationBell({ onNavigateToConversations }: Props) {
                       </div>
 
                       <div className="flex gap-1.5 mt-1.5">
-                        <Button variant="ghost" size="sm" className="h-5 text-[9px] px-1.5 gap-1 text-primary" onClick={() => handlePopout(notif)}>
-                          <ExternalLink className="h-2.5 w-2.5" /> Pop out
+                        <Button variant="ghost" size="sm" className="h-5 w-5 p-0 text-primary" onClick={() => handlePopout(notif)} title="Pop out chat">
+                          <ExternalLink className="h-2.5 w-2.5" />
                         </Button>
                       </div>
                     </div>

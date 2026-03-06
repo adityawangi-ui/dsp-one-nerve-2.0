@@ -343,7 +343,17 @@
   }
   .risk-detect-pulse {
     animation: risk-detect 2s ease-in-out infinite;
-    border: 1px solid hsl(0 72% 51% / 0.8);
+    position: relative;
+  }
+  .risk-detect-pulse td {
+    border-top: 1px solid hsl(0 72% 51% / 0.6);
+    border-bottom: 1px solid hsl(0 72% 51% / 0.6);
+  }
+  .risk-detect-pulse td:first-child {
+    border-left: 2px solid hsl(0 72% 51% / 0.8);
+  }
+  .risk-detect-pulse td:last-child {
+    border-right: 2px solid hsl(0 72% 51% / 0.8);
   }
 
   /* Value count up animation */
