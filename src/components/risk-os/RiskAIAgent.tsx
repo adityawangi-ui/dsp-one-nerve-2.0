@@ -49,7 +49,7 @@ function getAnswer(q: string): string {
   return `**Risk Overview:**\n\n**AI Confidence: 95%**\n\n- **Total Risks:** ${riskData.length}\n- **Open:** ${open}\n- **Total Value at Risk:** €${totalVal.toLocaleString()}\n\nTry one of the suggested actions below.`;
 }
 
-interface Message { role: "user" | "assistant"; text: string; }
+interface Message { role: "user" | "assistant"; text: string; streaming?: boolean; }
 
 interface ChatSession {
   id: string;
