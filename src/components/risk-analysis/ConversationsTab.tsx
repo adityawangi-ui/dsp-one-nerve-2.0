@@ -227,38 +227,82 @@ export default function ConversationsTab({ row, initialRiskId }: Props) {
             </div>
           </div>
 
-          {/* New Chat — select user */}
+          {/* New Chat — step 1: select user, step 2: select risk ID */}
           {showNewChat && (
             <div className="p-3 border-b border-border bg-primary/5 space-y-2">
               <div className="flex items-center justify-between">
-                <p className="text-xs font-medium text-foreground">Start New Conversation</p>
-                <Button size="sm" variant="ghost" className="h-5 text-[9px] px-1" onClick={() => setShowNewChat(false)}>Cancel</Button>
+                <p className="text-xs font-medium text-foreground">
+                  {newChatStep === "user" ? "1. Select Team Member" : `2. Select Risk ID (for ${selectedNewChatUser})`}
+                </p>
+                <div className="flex gap-1">
+                  {newChatStep === "risk" && (
+                    <Button size="sm" variant="ghost" className="h-5 text-[9px] px-1" onClick={() => { setNewChatStep("user"); setSelectedNewChatUser(""); }}>Back</Button>
+                  )}
+                  <Button size="sm" variant="ghost" className="h-5 text-[9px] px-1" onClick={() => { setShowNewChat(false); setNewChatStep("user"); setSelectedNewChatUser(""); }}>Cancel</Button>
+                </div>
               </div>
-              <Input
-                placeholder="Search team member..."
-                className="h-7 text-xs"
-                value={newChatUser}
-                onChange={e => setNewChatUser(e.target.value)}
-              />
-              <div className="space-y-0.5 max-h-32 overflow-y-auto">
-                {filteredMembers.map(member => (
-                  <button
-                    key={member}
-                    onClick={() => handleNewConversation(member)}
-                    className="w-full text-left flex items-center gap-2 px-2 py-1.5 rounded hover:bg-muted/50 transition-colors"
-                  >
-                    <div className="h-5 w-5 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                      <User className="h-3 w-3 text-primary" />
-                    </div>
-                    <span className="text-xs text-foreground">{member}</span>
-                  </button>
-                ))}
-                {filteredMembers.length === 0 && (
-                  <p className="text-[10px] text-muted-foreground text-center py-2">No members found</p>
-                )}
-              </div>
-              {row && (
-                <p className="text-[9px] text-muted-foreground">For RISK-{String(currentRiskId).padStart(3, "0")}: {row.mrdrDescription}</p>
+
+              {newChatStep === "user" ? (
+                <>
+                  <Input
+                    placeholder="Search team member..."
+                    className="h-7 text-xs"
+                    value={newChatUser}
+                    onChange={e => setNewChatUser(e.target.value)}
+                  />
+                  <div className="space-y-0.5 max-h-32 overflow-y-auto">
+                    {filteredMembers.map(member => (
+                      <button
+                        key={member}
+                        onClick={() => handleSelectUser(member)}
+                        className="w-full text-left flex items-center gap-2 px-2 py-1.5 rounded hover:bg-muted/50 transition-colors"
+                      >
+                        <div className="h-5 w-5 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                          <User className="h-3 w-3 text-primary" />
+                        </div>
+                        <span className="text-xs text-foreground">{member}</span>
+                      </button>
+                    ))}
+                    {filteredMembers.length === 0 && (
+                      <p className="text-[10px] text-muted-foreground text-center py-2">No members found</p>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <>
+                  <Input
+                    placeholder="Search risk ID..."
+                    className="h-7 text-xs"
+                    value={newChatRiskId}
+                    onChange={e => setNewChatRiskId(e.target.value)}
+                  />
+                  <div className="space-y-0.5 max-h-40 overflow-y-auto">
+                    {mrdrRiskIds
+                      .filter(id => !newChatRiskId || String(id).includes(newChatRiskId))
+                      .map(riskId => {
+                        const risk = riskData.find(r => r.riskId === riskId);
+                        return (
+                          <button
+                            key={riskId}
+                            onClick={() => handleNewConversation(riskId)}
+                            className="w-full text-left flex items-center gap-2 px-2 py-1.5 rounded hover:bg-muted/50 transition-colors"
+                          >
+                            <div className="h-5 w-5 rounded-full bg-warning/10 flex items-center justify-center shrink-0">
+                              <AlertTriangle className="h-3 w-3 text-warning" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <span className="text-xs font-medium text-foreground">RISK-{String(riskId).padStart(3, "0")}</span>
+                              {risk && <span className="text-[10px] text-muted-foreground ml-1.5">{risk.mrdrDescription}</span>}
+                            </div>
+                            <Badge variant="outline" className="text-[9px]">{risk?.severity}</Badge>
+                          </button>
+                        );
+                      })}
+                  </div>
+                  {row && (
+                    <p className="text-[9px] text-muted-foreground">MRDR {row.mrdr}: {row.mrdrDescription}</p>
+                  )}
+                </>
               )}
             </div>
           )}
