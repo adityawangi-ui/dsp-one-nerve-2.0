@@ -297,7 +297,7 @@ export default function InsightsDataTab({ row }: Props) {
                       {sliced.map((v, i) => {
                         const isNegative = isBelowRS && v > 0;
                         return (
-                          <td key={i} className={`px-3 py-2 text-center font-mono ${isNegative ? "text-destructive font-bold" : "text-foreground"}`}>
+                          <td key={i} className={`px-3 py-2 text-center font-sans ${isNegative ? "text-destructive font-bold" : "text-foreground"}`}>
                             {v.toLocaleString()}
                           </td>
                         );
