@@ -76,14 +76,8 @@ export default function RiskAnalysisPanel({ row, onClose }: Props) {
                   <TabsTrigger value="recommendations" className="text-xs gap-1.5 text-foreground data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg px-4">
                     <Search className="h-3.5 w-3.5" /> Recommendations
                   </TabsTrigger>
-                  <TabsTrigger value="workflow" className="text-xs gap-1.5 text-foreground data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg px-4">
-                    <SettingsIcon className="h-3.5 w-3.5" /> Workflow Management
-                  </TabsTrigger>
-                  <TabsTrigger value="poc" className="text-xs gap-1.5 text-foreground data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg px-4">
-                    <MessageSquare className="h-3.5 w-3.5" /> POC Communication
-                  </TabsTrigger>
-                  <TabsTrigger value="chat-history" className="text-xs gap-1.5 text-foreground data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg px-4">
-                    <Clock className="h-3.5 w-3.5" /> Chat History
+                  <TabsTrigger value="conversations" className="text-xs gap-1.5 text-foreground data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg px-4">
+                    <MessageSquare className="h-3.5 w-3.5" /> Conversations
                   </TabsTrigger>
                 </TabsList>
 
@@ -103,28 +97,8 @@ export default function RiskAnalysisPanel({ row, onClose }: Props) {
                   </div>
                 </TabsContent>
 
-                <TabsContent value="workflow">
-                  <div className="border border-border rounded-xl p-12 bg-card text-center">
-                    <SettingsIcon className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
-                    <h3 className="text-base font-semibold text-foreground mb-1">Workflow Management</h3>
-                    <p className="text-sm text-muted-foreground">Workflow management features are coming soon.</p>
-                  </div>
-                </TabsContent>
-
-                <TabsContent value="poc">
-                  <div className="border border-border rounded-xl p-12 bg-card text-center">
-                    <MessageSquare className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
-                    <h3 className="text-base font-semibold text-foreground mb-1">POC Communication</h3>
-                    <p className="text-sm text-muted-foreground">Point of contact communication features are coming soon.</p>
-                  </div>
-                </TabsContent>
-
-                <TabsContent value="chat-history">
-                  <div className="border border-border rounded-xl p-12 bg-card text-center">
-                    <Clock className="h-10 w-10 text-muted-foreground mx-auto mb-3" />
-                    <h3 className="text-base font-semibold text-foreground mb-1">Chat History</h3>
-                    <p className="text-sm text-muted-foreground">Chat history and communication logs will appear here.</p>
-                  </div>
+                <TabsContent value="conversations">
+                  <ConversationsTab row={row} />
                 </TabsContent>
               </Tabs>
             )}
