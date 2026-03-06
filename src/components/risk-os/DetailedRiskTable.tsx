@@ -381,10 +381,10 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                           <td className={childCellCls}>{cr.segmentation}</td>
                           <td className={childCellCls}>{cr.startedOnWeek}</td>
                           <td className={childCellCls}>{cr.endedOnWeek || "—"}</td>
-                          <td className={`${childCellCls} font-mono`}>{cr.riskInDays}</td>
-                          <td className={`${childCellCls} font-mono`}>{convertQty(cr.stockCS, cr.uom).toLocaleString()}</td>
-                          <td className={`${childCellCls} font-mono`}>{convertQty(cr.expectedLossCases, cr.uom).toLocaleString()}</td>
-                          <td className={`${childCellCls} font-mono`}>€{cr.expectedLossValue.toLocaleString()}</td>
+                          <td className={childCellCls}>{cr.riskInDays}</td>
+                          <td className={childCellCls}>{convertQty(cr.stockCS, cr.uom).toLocaleString()}</td>
+                          <td className={childCellCls}>{convertQty(cr.expectedLossCases, cr.uom).toLocaleString()}</td>
+                          <td className={childCellCls}>€{cr.expectedLossValue.toLocaleString()}</td>
                           <td className={childCellCls}>{cr.nextAvailableDate || "—"}</td>
                           <td className={childCellCls}>{cr.botReasonCode}</td>
                           <td className={childCellCls}>
