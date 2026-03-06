@@ -49,11 +49,29 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
     else { setSortCol(col); setSortDir("asc"); }
   };
 
-  const mrdrAggData = useMemo(() => {
+  const mrdrAggDataRaw = useMemo(() => {
     const agg = aggregateByMrdr(data);
     if (uomFilter === "all") return agg;
     return agg.filter(a => a.uom === uomFilter);
   }, [data, uomFilter]);
+
+  const mrdrAggData = useMemo(() => {
+    if (!sortCol) return mrdrAggDataRaw;
+    return [...mrdrAggDataRaw].sort((a, b) => {
+      const va = (a as any)[sortCol];
+      const vb = (b as any)[sortCol];
+      if (va == null && vb == null) return 0;
+      if (va == null) return sortDir === "asc" ? -1 : 1;
+      if (vb == null) return sortDir === "asc" ? 1 : -1;
+      if (typeof va === "number" && typeof vb === "number") {
+        return sortDir === "asc" ? va - vb : vb - va;
+      }
+      return sortDir === "asc"
+        ? String(va).localeCompare(String(vb))
+        : String(vb).localeCompare(String(va));
+    });
+  }, [mrdrAggDataRaw, sortCol, sortDir]);
+
   const gtinData = useMemo(() => aggregateByGtin(data), [data]);
 
   const uomData = useMemo(() => {
