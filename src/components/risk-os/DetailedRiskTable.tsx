@@ -493,7 +493,6 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
       {/* Pagination Controls */}
       {view === "mrdr" && (() => {
         const totalPages = Math.ceil(mrdrAggData.length / ROWS_PER_PAGE);
-        if (totalPages <= 1) return null;
         return (
           <div className="flex items-center justify-between mt-4 px-2">
             <div className="flex items-center gap-3">
