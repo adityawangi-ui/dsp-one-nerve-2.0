@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { RiskRow } from "@/data/riskData";
 import { riskData } from "@/data/riskData";
 import { Send, Plus, Search, MessageSquare, Clock, User, Bot, Hash, ArrowLeft, Trash2, Users, AlertTriangle } from "lucide-react";

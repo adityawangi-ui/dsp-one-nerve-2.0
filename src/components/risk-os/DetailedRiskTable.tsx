@@ -197,9 +197,9 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
             <DialogTrigger asChild>
               <Button variant="outline" size="sm" className="h-8 text-xs gap-1"><Plus className="h-3 w-3" /> Add Risk</Button>
             </DialogTrigger>
-            <DialogContent className="max-w-2xl">
+            <DialogContent className="max-w-2xl max-h-[85vh] overflow-y-auto">
               <DialogHeader><DialogTitle>Add New Risk</DialogTitle></DialogHeader>
-              <p className="text-xs text-muted-foreground">Risk creation form — coming soon.</p>
+              <AddRiskForm onAdd={(newRow) => { onUpdateRow(-1, newRow); setAddDialog(false); toast.success("New risk added successfully"); }} onCancel={() => setAddDialog(false)} />
             </DialogContent>
           </Dialog>
 
