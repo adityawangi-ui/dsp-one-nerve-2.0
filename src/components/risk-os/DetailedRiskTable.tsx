@@ -38,7 +38,8 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
   const [addDialog, setAddDialog] = useState(false);
   const [uomFilter, setUomFilter] = useState<string>("all");
   const [currentPage, setCurrentPage] = useState(1);
-  const ROWS_PER_PAGE = 10;
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const ROWS_PER_PAGE = rowsPerPage;
 
   // UOM conversion factors relative to CS (cases)
   const uomConversionFactors: Record<string, number> = { CS: 1, EA: 12, KG: 0.5, L: 0.75, PAL: 0.02 };
