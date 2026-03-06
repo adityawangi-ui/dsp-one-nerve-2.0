@@ -256,57 +256,20 @@ export default function ScenarioSimulatorTab({ row, onSelectScenario, selectedSc
             </div>
 
             <div className="p-5 space-y-5">
-              {/* AI Reasoning & Insights (merged) */}
+              {/* AI Summary */}
                <div className="border border-primary/20 rounded-xl p-4 bg-primary/[0.03]">
-                 <div className="flex items-center gap-2 mb-3">
-                   <Brain className="h-4 w-4 text-primary neon-text" />
-                   <h5 className="text-sm font-semibold text-foreground">AI Reasoning & Insights</h5>
+                 <div className="flex items-center gap-2 mb-2">
+                   <Brain className="h-4 w-4 text-primary" />
+                   <h5 className="text-sm font-semibold text-foreground">AI Summary</h5>
                    <Badge className="bg-primary/10 text-primary border-primary/20 text-[9px] ml-auto">
-                     Confidence: {s.id === 1 ? "82%" : s.id === 2 ? "88%" : "94%"}
+                     Confidence: {s.id === 1 ? "82%" : s.id === 2 ? "88%" : "94%"} · {s.id === 3 ? 42 : s.id === 2 ? 35 : 28} cases
                    </Badge>
                  </div>
-                 <div className="space-y-2">
-                   {[
-                     ...(s.id === 3 ? [
-                       "Similar disruption occurred in Q1 2025 — this approach achieved 89% success",
-                       "Supplier reliability score dropped from 92% → 78%, favoring stock rebalancing",
-                       "Demand forecast increased 22% for W3 — requires immediate capacity uplift",
-                       "Cost-efficiency ratio is 40% better than alternative scenarios",
-                     ] : s.id === 2 ? [
-                       "PU3 backup line has 88% reliability based on last 12 activations",
-                       "Extra shift pattern matched 91% success in Jan 2025 similar case",
-                       "Critical SKU prioritization preserves highest-margin items first",
-                     ] : [
-                       "Transshipment from DC-South has 82% success for logistics disruptions",
-                       "SKU substitution can recover 60% of volume within 48 hours",
-                       "Combined approach shows synergy based on Q4 2025 precedent",
-                     ]),
-                     ...details.aiInsights,
-                   ].map((reason, i) => (
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                   {details.aiInsights.slice(0, 2).map((insight, i) => (
                      <div key={i} className="flex items-start gap-2">
                        <span className="h-1.5 w-1.5 rounded-full bg-primary mt-1.5 shrink-0" />
-                       <p className="text-xs text-muted-foreground">{reason}</p>
-                     </div>
-                   ))}
-                 </div>
-                 <div className="mt-3 pt-3 border-t border-border/30 flex items-center gap-4 text-[10px] text-muted-foreground">
-                   <span>📊 {s.id === 3 ? 42 : s.id === 2 ? 35 : 28} historical cases analyzed</span>
-                   <span>📈 Demand patterns matched</span>
-                   <span>🔧 Supplier reliability factored</span>
-                 </div>
-               </div>
-
-               {/* AI Insights (merged) */}
-               <div>
-                 <div className="flex items-center gap-2 mb-3">
-                   <Zap className="h-4 w-4 text-primary" />
-                   <h5 className="text-sm font-semibold text-foreground">AI Insights & Analysis</h5>
-                 </div>
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                   {details.aiInsights.map((insight, i) => (
-                     <div key={i} className="flex items-start gap-2 bg-primary/5 rounded-lg p-3">
-                       <Zap className="h-3.5 w-3.5 text-primary mt-0.5 shrink-0" />
-                       <p className="text-xs text-foreground">{insight}</p>
+                       <p className="text-xs text-muted-foreground">{insight}</p>
                      </div>
                    ))}
                  </div>

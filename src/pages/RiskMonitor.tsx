@@ -183,26 +183,26 @@ export default function RiskMonitor() {
           </div>
         </div>
 
-        {/* Alerts & Risk Summary */}
-        <Card className="p-5 border border-border/60 shadow-[var(--shadow-card)]">
-          <h2 className="text-sm font-semibold text-foreground mb-4 flex items-center gap-2">
-            <BarChart3 className="h-4 w-4 text-primary" /> Alerts & Risk Summary
+        {/* Alerts & Risk Summary — Compact */}
+        <Card className="p-4 border border-border/60 shadow-[var(--shadow-card)]">
+          <h2 className="text-xs font-semibold text-foreground mb-3 flex items-center gap-2">
+            <BarChart3 className="h-3.5 w-3.5 text-primary" /> Alerts & Risk Summary
           </h2>
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
             {/* Left - Alert Rows */}
-            <div className="lg:col-span-4 space-y-2">
+            <div className="lg:col-span-4 space-y-0.5">
               {alertRows.map((row) => {
                 const Icon = row.icon;
                 const barWidth = row.label === "Total Risks" ? 100 : (parseInt(row.value.replace(",", "")) / 1281) * 100;
                 return (
                   <Tooltip key={row.label}>
                     <TooltipTrigger asChild>
-                      <div className="flex items-center gap-3 p-2.5 rounded-lg hover:bg-muted/50 transition-colors cursor-default group">
-                        <span className={`w-2.5 h-2.5 rounded-full flex-shrink-0 ${severityColor[row.severity]}`} />
-                        <Icon className="h-4 w-4 text-muted-foreground flex-shrink-0" />
-                        <span className="text-xs text-foreground flex-1">{row.label}</span>
-                        <span className="text-sm font-bold font-mono text-foreground">{row.value}</span>
-                        <div className="w-16 h-1.5 bg-muted rounded-full overflow-hidden flex-shrink-0">
+                      <div className="flex items-center gap-2.5 px-2 py-1.5 rounded-md hover:bg-muted/50 transition-colors cursor-default">
+                        <span className={`w-2 h-2 rounded-full flex-shrink-0 ${severityColor[row.severity]}`} />
+                        <Icon className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0" />
+                        <span className="text-[11px] text-foreground flex-1">{row.label}</span>
+                        <span className="text-xs font-bold font-mono text-foreground">{row.value}</span>
+                        <div className="w-12 h-1 bg-muted rounded-full overflow-hidden flex-shrink-0">
                           <div className={`h-full rounded-full ${severityColor[row.severity]}`} style={{ width: `${barWidth}%` }} />
                         </div>
                       </div>
@@ -217,9 +217,9 @@ export default function RiskMonitor() {
 
             {/* Center - Donut */}
             <div className="lg:col-span-4 flex flex-col items-center justify-center">
-              <ResponsiveContainer width="100%" height={180}>
+              <ResponsiveContainer width="100%" height={140}>
                 <PieChart>
-                  <Pie data={donutData} cx="50%" cy="50%" innerRadius={50} outerRadius={75} paddingAngle={3} dataKey="value">
+                  <Pie data={donutData} cx="50%" cy="50%" innerRadius={40} outerRadius={60} paddingAngle={3} dataKey="value">
                     {donutData.map((entry, i) => (
                       <Cell key={i} fill={entry.color} />
                     ))}
@@ -227,21 +227,21 @@ export default function RiskMonitor() {
                   <RechartsTooltip formatter={(value: number, name: string) => [`${value} items`, name]} />
                 </PieChart>
               </ResponsiveContainer>
-              <div className="flex gap-4 mt-2">
+              <div className="flex gap-3 mt-1">
                 {donutData.map((d) => (
-                  <div key={d.name} className="flex items-center gap-1.5 text-xs">
-                    <span className="w-2.5 h-2.5 rounded-full" style={{ background: d.color }} />
+                  <div key={d.name} className="flex items-center gap-1 text-[10px]">
+                    <span className="w-2 h-2 rounded-full" style={{ background: d.color }} />
                     <span className="text-muted-foreground">{d.name}</span>
                     <span className="font-mono font-bold text-foreground">{d.value}</span>
                   </div>
                 ))}
               </div>
-              <div className="mt-3 text-center">
-                <span className="text-xs text-muted-foreground">Value at Risk</span>
-                <div className="flex items-center justify-center gap-2">
-                  <span className="text-2xl font-bold font-mono text-foreground">$2.4M</span>
-                  <Badge className="bg-destructive/10 text-destructive border-destructive/20 text-[10px]">
-                    <TrendingUp className="h-3 w-3 mr-0.5" /> +8%
+              <div className="mt-2 text-center">
+                <span className="text-[10px] text-muted-foreground">Value at Risk</span>
+                <div className="flex items-center justify-center gap-1.5">
+                  <span className="text-lg font-bold font-mono text-foreground">$2.4M</span>
+                  <Badge className="bg-destructive/10 text-destructive border-destructive/20 text-[9px]">
+                    <TrendingUp className="h-2.5 w-2.5 mr-0.5" /> +8%
                   </Badge>
                 </div>
               </div>
@@ -249,14 +249,14 @@ export default function RiskMonitor() {
 
             {/* Right - Weekly Bar Chart */}
             <div className="lg:col-span-4">
-              <p className="text-xs font-medium text-muted-foreground mb-2">5-Week Trend</p>
-              <ResponsiveContainer width="100%" height={200}>
+              <p className="text-[10px] font-medium text-muted-foreground mb-1">5-Week Trend</p>
+              <ResponsiveContainer width="100%" height={160}>
                 <BarChart data={weeklyData}>
                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                  <XAxis dataKey="week" tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} />
-                  <YAxis tick={{ fontSize: 11, fill: "hsl(var(--muted-foreground))" }} />
+                  <XAxis dataKey="week" tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }} />
+                  <YAxis tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }} />
                   <RechartsTooltip />
-                  <Legend wrapperStyle={{ fontSize: 11 }} />
+                  <Legend wrapperStyle={{ fontSize: 10 }} />
                   <Bar dataKey="critical" stackId="a" fill="hsl(0, 72%, 51%)" radius={[0, 0, 0, 0]} />
                   <Bar dataKey="medium" stackId="a" fill="hsl(27, 96%, 54%)" />
                   <Bar dataKey="low" stackId="a" fill="hsl(152, 60%, 42%)" radius={[4, 4, 0, 0]} />
