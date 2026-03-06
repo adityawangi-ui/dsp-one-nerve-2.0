@@ -278,43 +278,34 @@ export default function ScenarioSimulatorTab({ row, onSelectScenario, selectedSc
                 </div>
               </div>
 
-              {/* Risks */}
-              <div>
-                <h5 className="text-xs font-semibold text-foreground mb-2 flex items-center gap-1.5"><Shield className="h-3.5 w-3.5 text-warning" /> Risks</h5>
-                <div className="space-y-1.5">
-                  {details.risks.map((r, i) => (
-                    <div key={i} className="flex items-start gap-2 text-xs text-muted-foreground">
-                      <span className="h-1.5 w-1.5 rounded-full bg-warning mt-1.5 shrink-0" />
-                      <span>{r}</span>
-                    </div>
-                  ))}
+              {/* Impact & Cost - Modern glassmorphism style */}
+              <div className="rounded-xl overflow-hidden bg-gradient-to-br from-secondary/30 to-transparent">
+                <div className="px-5 py-3 flex items-center gap-2">
+                  <Target className="h-4 w-4 text-success" />
+                  <span className="text-sm font-semibold text-foreground">Impact & Cost</span>
                 </div>
-              </div>
-
-              {/* Compact KPIs - inline rows instead of cards */}
-              <div className="border border-border rounded-xl overflow-hidden">
-                <div className="bg-secondary/50 px-4 py-2 border-b border-border flex items-center gap-2">
-                  <Target className="h-3.5 w-3.5 text-success" />
-                  <span className="text-xs font-semibold text-foreground">Impact & Cost</span>
-                </div>
-                <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-border">
-                  {details.impactKPIs.map((kpi, i) => (
-                    <div key={i} className="px-4 py-3 text-center">
-                      <span className={`text-base font-bold ${kpi.color}`}>{kpi.value}</span>
-                      <p className="text-[10px] text-muted-foreground mt-0.5">{kpi.label}</p>
+                <div className="px-5 pb-4">
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
+                    {details.impactKPIs.map((kpi, i) => (
+                      <div key={i} className="rounded-lg bg-card/80 backdrop-blur-sm border border-border/30 px-4 py-3 hover:border-primary/20 transition-colors">
+                        <span className={`text-lg font-bold ${kpi.color}`}>{kpi.value}</span>
+                        <p className="text-[10px] text-muted-foreground mt-1">{kpi.label}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="flex items-center gap-3 flex-wrap">
+                    {details.costBreakdown.map((item, i) => (
+                      <div key={i} className="flex items-center gap-2 text-xs text-muted-foreground">
+                        <span className="h-2 w-2 rounded-full bg-primary/60" />
+                        <span>{item.label}:</span>
+                        <span className="font-semibold text-foreground">€{item.value.toLocaleString()}</span>
+                        {i < details.costBreakdown.length - 1 && <span className="text-border">·</span>}
+                      </div>
+                    ))}
+                    <div className="ml-auto flex items-center gap-2 bg-primary/10 rounded-full px-3 py-1">
+                      <DollarSign className="h-3 w-3 text-primary" />
+                      <span className="text-xs font-bold text-primary">Total: €{s.cost.toLocaleString()}</span>
                     </div>
-                  ))}
-                </div>
-                <div className="border-t border-border grid grid-cols-2 md:grid-cols-4 divide-x divide-border">
-                  {details.costBreakdown.map((item, i) => (
-                    <div key={i} className="px-4 py-2.5 text-center">
-                      <span className="text-sm font-bold text-foreground">€{item.value.toLocaleString()}</span>
-                      <p className="text-[10px] text-muted-foreground">{item.label}</p>
-                    </div>
-                  ))}
-                  <div className="px-4 py-2.5 text-center bg-primary/5">
-                    <span className="text-sm font-bold text-primary">€{s.cost.toLocaleString()}</span>
-                    <p className="text-[10px] text-primary font-semibold">Total</p>
                   </div>
                 </div>
               </div>
