@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { riskData } from "@/data/riskData";
-import { ArrowLeft, Search, Settings as SettingsIcon, RefreshCw, Download, User, Database, MessageSquare, Clock, CheckCircle2, Play } from "lucide-react";
+import { ArrowLeft, Search, Settings as SettingsIcon, User, Database, MessageSquare, Play, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -9,6 +9,7 @@ import InsightsTab from "@/components/risk-analysis/InsightsTab";
 import InsightsDataTab from "@/components/risk-analysis/InsightsDataTab";
 import ScenarioSimulatorTab, { Scenario } from "@/components/risk-analysis/ScenarioSimulatorTab";
 import LastMileExecution from "@/components/risk-analysis/LastMileExecution";
+import ConversationsTab from "@/components/risk-analysis/ConversationsTab";
 
 export default function RiskAnalysisWorkflow() {
   const navigate = useNavigate();
