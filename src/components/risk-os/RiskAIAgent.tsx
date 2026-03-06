@@ -84,26 +84,46 @@ export default function RiskAIAgent() {
     setMessages(newMessages);
     setInput("");
     setTyping(true);
+
+    // Simulate "thinking" phase, then stream text character by character
+    const thinkTime = 1500 + Math.random() * 1000;
     setTimeout(() => {
-      const answer = getAnswer(text);
-      const finalMessages = [...newMessages, { role: "assistant" as const, text: answer }];
-      setMessages(finalMessages);
+      const fullAnswer = getAnswer(text);
       setTyping(false);
 
-      // Auto-save to session
-      if (activeSessionId) {
-        setSessions(prev => prev.map(s => s.id === activeSessionId ? { ...s, messages: finalMessages } : s));
-      } else {
-        const newSession: ChatSession = {
-          id: `s-${Date.now()}`,
-          title: text.slice(0, 40),
-          messages: finalMessages,
-          createdAt: new Date(),
-        };
-        setSessions(prev => [newSession, ...prev]);
-        setActiveSessionId(newSession.id);
-      }
-    }, 1200);
+      // Start streaming
+      const streamMsg: Message = { role: "assistant", text: "", streaming: true };
+      const withStream = [...newMessages, streamMsg];
+      setMessages(withStream);
+
+      let charIndex = 0;
+      const speed = 8; // ms per character
+      const interval = setInterval(() => {
+        charIndex += Math.floor(Math.random() * 3) + 1; // vary speed slightly
+        if (charIndex >= fullAnswer.length) {
+          charIndex = fullAnswer.length;
+          clearInterval(interval);
+          const finalMessages = [...newMessages, { role: "assistant" as const, text: fullAnswer }];
+          setMessages(finalMessages);
+
+          // Auto-save to session
+          if (activeSessionId) {
+            setSessions(prev => prev.map(s => s.id === activeSessionId ? { ...s, messages: finalMessages } : s));
+          } else {
+            const newSession: ChatSession = {
+              id: `s-${Date.now()}`,
+              title: text.slice(0, 40),
+              messages: finalMessages,
+              createdAt: new Date(),
+            };
+            setSessions(prev => [newSession, ...prev]);
+            setActiveSessionId(newSession.id);
+          }
+        } else {
+          setMessages([...newMessages, { role: "assistant", text: fullAnswer.slice(0, charIndex), streaming: true }]);
+        }
+      }, speed);
+    }, thinkTime);
   };
 
   const startNewChat = () => {
