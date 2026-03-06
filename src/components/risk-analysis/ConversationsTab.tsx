@@ -27,6 +27,7 @@ interface Conversation {
   unread: number;
   participants: string[];
   isGroup?: boolean;
+  status: "in-progress" | "completed";
 }
 
 const teamMembers = ["Sarah Johnson", "Pierre Dupont", "Maria Garcia", "James Wilson", "Anna Mueller", "Carlos Ruiz"];
