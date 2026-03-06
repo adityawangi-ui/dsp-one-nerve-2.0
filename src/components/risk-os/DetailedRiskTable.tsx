@@ -575,3 +575,162 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
     </div>
   );
 }
+
+// ── Add Risk Form ──
+function AddRiskForm({ onAdd, onCancel }: { onAdd: (row: Partial<RiskRow>) => void; onCancel: () => void }) {
+  const [form, setForm] = useState({
+    mrdrDescription: "",
+    msoCountry: "DE",
+    site: "C402",
+    riskType: "Out Of Stock" as "Out Of Stock" | "Below RS",
+    severity: "S 1",
+    priority: "P 1",
+    riskHorizon: "Short" as "Short" | "Med" | "Long",
+    segmentation: "A" as "A" | "B" | "C" | "D" | "I",
+    category: "Personal Care" as "Personal Care" | "Home Care" | "Foods" | "Refreshment",
+    uom: "CS" as "CS" | "EA" | "KG" | "L" | "PAL",
+    expectedLossCases: 0,
+    expectedLossValue: 0,
+    stockCS: 0,
+    comments: "",
+    assignedTo: "",
+  });
+
+  const handleSubmit = () => {
+    if (!form.mrdrDescription.trim()) { toast.error("Description is required"); return; }
+    const newRow: Partial<RiskRow> = {
+      riskId: 1100 + Math.floor(Math.random() * 900),
+      gtin: 1100000000000 + Math.floor(Math.random() * 100),
+      mrdr: 50100 + Math.floor(Math.random() * 100),
+      mrdrDescription: form.mrdrDescription,
+      msoCountry: form.msoCountry,
+      site: form.site,
+      su: `SU-${form.msoCountry}-NEW`,
+      riskType: form.riskType,
+      severity: form.severity,
+      priority: form.priority,
+      riskHorizon: form.riskHorizon,
+      segmentation: form.segmentation,
+      startedOnWeek: "2026-W10",
+      endedOnWeek: "",
+      riskInDays: 0,
+      stockCS: form.stockCS,
+      expectedLossCases: form.expectedLossCases,
+      expectedLossValue: form.expectedLossValue,
+      nextAvailableDate: "",
+      botReasonCode: "R01",
+      plannerReasonCode: "",
+      comments: form.comments,
+      assignedTo: form.assignedTo,
+      insights: "View More",
+      promoFlag: "N",
+      typeCode: "Standard",
+      repackDependency: "N",
+      category: form.category,
+      status: "Open",
+      uom: form.uom,
+      isNew: true,
+    };
+    onAdd(newRow);
+  };
+
+  const fieldCls = "h-8 text-xs";
+
+  return (
+    <div className="space-y-4">
+      <div className="grid grid-cols-2 gap-3">
+        <div className="col-span-2">
+          <Label className="text-xs">MRDR Description *</Label>
+          <Input value={form.mrdrDescription} onChange={e => setForm(p => ({ ...p, mrdrDescription: e.target.value }))} className={fieldCls + " mt-1"} placeholder="e.g. Dove Body Wash 250ml" />
+        </div>
+        <div>
+          <Label className="text-xs">Country</Label>
+          <Select value={form.msoCountry} onValueChange={v => setForm(p => ({ ...p, msoCountry: v }))}>
+            <SelectTrigger className={fieldCls + " mt-1"}><SelectValue /></SelectTrigger>
+            <SelectContent>{["DE", "FR", "IT", "ES", "NL", "PL", "UK"].map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}</SelectContent>
+          </Select>
+        </div>
+        <div>
+          <Label className="text-xs">Site</Label>
+          <Select value={form.site} onValueChange={v => setForm(p => ({ ...p, site: v }))}>
+            <SelectTrigger className={fieldCls + " mt-1"}><SelectValue /></SelectTrigger>
+            <SelectContent>{["C400", "C402", "C405", "C410", "C420", "C450"].map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}</SelectContent>
+          </Select>
+        </div>
+        <div>
+          <Label className="text-xs">Risk Type</Label>
+          <Select value={form.riskType} onValueChange={(v: any) => setForm(p => ({ ...p, riskType: v }))}>
+            <SelectTrigger className={fieldCls + " mt-1"}><SelectValue /></SelectTrigger>
+            <SelectContent><SelectItem value="Out Of Stock">Out Of Stock</SelectItem><SelectItem value="Below RS">Below RS</SelectItem></SelectContent>
+          </Select>
+        </div>
+        <div>
+          <Label className="text-xs">Severity</Label>
+          <Select value={form.severity} onValueChange={v => setForm(p => ({ ...p, severity: v }))}>
+            <SelectTrigger className={fieldCls + " mt-1"}><SelectValue /></SelectTrigger>
+            <SelectContent>{["S 1", "S 2", "S 3", "S 4", "S 5", "S 6"].map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}</SelectContent>
+          </Select>
+        </div>
+        <div>
+          <Label className="text-xs">Priority</Label>
+          <Select value={form.priority} onValueChange={v => setForm(p => ({ ...p, priority: v }))}>
+            <SelectTrigger className={fieldCls + " mt-1"}><SelectValue /></SelectTrigger>
+            <SelectContent>{["P 1", "P 2", "P 3"].map(p => <SelectItem key={p} value={p}>{p}</SelectItem>)}</SelectContent>
+          </Select>
+        </div>
+        <div>
+          <Label className="text-xs">Category</Label>
+          <Select value={form.category} onValueChange={(v: any) => setForm(p => ({ ...p, category: v }))}>
+            <SelectTrigger className={fieldCls + " mt-1"}><SelectValue /></SelectTrigger>
+            <SelectContent>{["Personal Care", "Home Care", "Foods", "Refreshment"].map(c => <SelectItem key={c} value={c}>{c}</SelectItem>)}</SelectContent>
+          </Select>
+        </div>
+        <div>
+          <Label className="text-xs">UOM</Label>
+          <Select value={form.uom} onValueChange={(v: any) => setForm(p => ({ ...p, uom: v }))}>
+            <SelectTrigger className={fieldCls + " mt-1"}><SelectValue /></SelectTrigger>
+            <SelectContent>{["CS", "EA", "KG", "L", "PAL"].map(u => <SelectItem key={u} value={u}>{u}</SelectItem>)}</SelectContent>
+          </Select>
+        </div>
+        <div>
+          <Label className="text-xs">Risk Horizon</Label>
+          <Select value={form.riskHorizon} onValueChange={(v: any) => setForm(p => ({ ...p, riskHorizon: v }))}>
+            <SelectTrigger className={fieldCls + " mt-1"}><SelectValue /></SelectTrigger>
+            <SelectContent><SelectItem value="Short">Short</SelectItem><SelectItem value="Med">Med</SelectItem><SelectItem value="Long">Long</SelectItem></SelectContent>
+          </Select>
+        </div>
+        <div>
+          <Label className="text-xs">Segmentation</Label>
+          <Select value={form.segmentation} onValueChange={(v: any) => setForm(p => ({ ...p, segmentation: v }))}>
+            <SelectTrigger className={fieldCls + " mt-1"}><SelectValue /></SelectTrigger>
+            <SelectContent>{["A", "B", "C", "D", "I"].map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}</SelectContent>
+          </Select>
+        </div>
+        <div>
+          <Label className="text-xs">Expected Loss (Cases)</Label>
+          <Input type="number" value={form.expectedLossCases} onChange={e => setForm(p => ({ ...p, expectedLossCases: Number(e.target.value) }))} className={fieldCls + " mt-1"} />
+        </div>
+        <div>
+          <Label className="text-xs">Expected Loss (Value €)</Label>
+          <Input type="number" value={form.expectedLossValue} onChange={e => setForm(p => ({ ...p, expectedLossValue: Number(e.target.value) }))} className={fieldCls + " mt-1"} />
+        </div>
+        <div>
+          <Label className="text-xs">Stock (Cases)</Label>
+          <Input type="number" value={form.stockCS} onChange={e => setForm(p => ({ ...p, stockCS: Number(e.target.value) }))} className={fieldCls + " mt-1"} />
+        </div>
+        <div>
+          <Label className="text-xs">Assigned To</Label>
+          <Input value={form.assignedTo} onChange={e => setForm(p => ({ ...p, assignedTo: e.target.value }))} className={fieldCls + " mt-1"} placeholder="e.g. John Smith" />
+        </div>
+        <div className="col-span-2">
+          <Label className="text-xs">Comments</Label>
+          <Input value={form.comments} onChange={e => setForm(p => ({ ...p, comments: e.target.value }))} className={fieldCls + " mt-1"} placeholder="Additional notes..." />
+        </div>
+      </div>
+      <div className="flex justify-end gap-2 pt-2">
+        <Button variant="outline" size="sm" onClick={onCancel}>Cancel</Button>
+        <Button size="sm" className="bg-gradient-to-r from-primary to-primary-glow text-primary-foreground" onClick={handleSubmit}>Add Risk</Button>
+      </div>
+    </div>
+  );
+}
