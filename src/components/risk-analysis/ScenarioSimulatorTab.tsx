@@ -256,79 +256,78 @@ export default function ScenarioSimulatorTab({ row, onSelectScenario, selectedSc
             </div>
 
             <div className="p-5 space-y-5">
-              {/* AI Summary */}
-               <div className="border border-primary/20 rounded-xl p-4 bg-primary/[0.03]">
-                 <div className="flex items-center gap-2 mb-2">
-                   <Brain className="h-4 w-4 text-primary" />
-                   <h5 className="text-sm font-semibold text-foreground">AI Summary</h5>
-                   <Badge className="bg-primary/10 text-primary border-primary/20 text-[9px] ml-auto">
-                     Confidence: {s.id === 1 ? "82%" : s.id === 2 ? "88%" : "94%"} · {s.id === 3 ? 42 : s.id === 2 ? 35 : 28} cases
-                   </Badge>
-                 </div>
-                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                   {details.aiInsights.slice(0, 2).map((insight, i) => (
-                     <div key={i} className="flex items-start gap-2">
-                       <span className="h-1.5 w-1.5 rounded-full bg-primary mt-1.5 shrink-0" />
-                       <p className="text-xs text-muted-foreground">{insight}</p>
-                     </div>
-                   ))}
-                 </div>
-               </div>
-
-              {/* Timeline */}
-              <div className="bg-secondary rounded-lg px-4 py-2">
-                <p className="text-xs text-muted-foreground"><span className="font-semibold text-foreground">Timeline:</span> {details.timeline}</p>
-              </div>
-
-              {/* Primary KPIs */}
-              <div>
+              {/* AI Summary + Timeline combined */}
+              <div className="border border-primary/20 rounded-xl p-4 bg-primary/[0.03]">
                 <div className="flex items-center gap-2 mb-3">
-                  <BarChart3 className="h-4 w-4 text-primary" />
-                  <h5 className="text-sm font-semibold text-foreground">Primary KPIs</h5>
+                  <Brain className="h-4 w-4 text-primary" />
+                  <h5 className="text-sm font-semibold text-foreground">AI Summary</h5>
+                  <Badge className="bg-primary/10 text-primary border-primary/20 text-[9px] ml-auto">
+                    Confidence: {s.id === 1 ? "82%" : s.id === 2 ? "88%" : "94%"} · {s.id === 3 ? 42 : s.id === 2 ? 35 : 28} cases
+                  </Badge>
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-                  {details.primaryKPIs.map((kpi, i) => (
-                    <div key={i} className="bg-card border border-border rounded-lg p-3 text-center">
-                      <span className="text-lg font-bold text-foreground">{kpi.value}</span>
-                      <p className="text-[10px] text-muted-foreground">{kpi.label}</p>
-                      <p className="text-[10px] text-success font-medium">{kpi.trend}</p>
+                <div className="space-y-2 mb-3">
+                  {details.aiInsights.map((insight, i) => (
+                    <div key={i} className="flex items-start gap-2">
+                      <span className="h-1.5 w-1.5 rounded-full bg-primary mt-1.5 shrink-0" />
+                      <p className="text-xs text-muted-foreground">{insight}</p>
                     </div>
                   ))}
                 </div>
+                <div className="bg-secondary rounded-lg px-3 py-2">
+                  <p className="text-xs text-muted-foreground"><span className="font-semibold text-foreground">Timeline:</span> {details.timeline}</p>
+                </div>
               </div>
 
-              {/* Impact Evaluation KPIs */}
-              <div>
-                <div className="flex items-center gap-2 mb-3">
-                  <Target className="h-4 w-4 text-success" />
-                  <h5 className="text-sm font-semibold text-foreground">Impact Evaluation</h5>
+              {/* Actions & Risks side by side */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <h5 className="text-xs font-semibold text-foreground mb-2 flex items-center gap-1.5"><Zap className="h-3.5 w-3.5 text-primary" /> Actions</h5>
+                  <div className="space-y-1.5">
+                    {details.actions.map((a, i) => (
+                      <div key={i} className="flex items-start gap-2 text-xs text-muted-foreground">
+                        <ArrowRight className="h-3 w-3 text-primary mt-0.5 shrink-0" />
+                        <span>{a}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div>
+                  <h5 className="text-xs font-semibold text-foreground mb-2 flex items-center gap-1.5"><Shield className="h-3.5 w-3.5 text-warning" /> Risks</h5>
+                  <div className="space-y-1.5">
+                    {details.risks.map((r, i) => (
+                      <div key={i} className="flex items-start gap-2 text-xs text-muted-foreground">
+                        <span className="h-1.5 w-1.5 rounded-full bg-warning mt-1.5 shrink-0" />
+                        <span>{r}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              {/* Compact KPIs - inline rows instead of cards */}
+              <div className="border border-border rounded-xl overflow-hidden">
+                <div className="bg-secondary/50 px-4 py-2 border-b border-border flex items-center gap-2">
+                  <Target className="h-3.5 w-3.5 text-success" />
+                  <span className="text-xs font-semibold text-foreground">Impact & Cost</span>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-border">
                   {details.impactKPIs.map((kpi, i) => (
-                    <div key={i} className="bg-card border border-border rounded-lg p-3 text-center">
-                      <span className={`text-lg font-bold ${kpi.color}`}>{kpi.value}</span>
-                      <p className="text-[10px] text-muted-foreground">{kpi.label}</p>
+                    <div key={i} className="px-4 py-3 text-center">
+                      <span className={`text-base font-bold ${kpi.color}`}>{kpi.value}</span>
+                      <p className="text-[10px] text-muted-foreground mt-0.5">{kpi.label}</p>
                     </div>
                   ))}
                 </div>
-              </div>
-
-              {/* Cost Breakdown */}
-              <div>
-                <div className="flex items-center gap-2 mb-3">
-                  <DollarSign className="h-4 w-4 text-warning" />
-                  <h5 className="text-sm font-semibold text-foreground">Cost Breakdown</h5>
-                </div>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <div className="border-t border-border grid grid-cols-2 md:grid-cols-4 divide-x divide-border">
                   {details.costBreakdown.map((item, i) => (
-                    <div key={i} className="bg-card border border-border rounded-lg p-3 text-center">
-                      <span className="text-lg font-bold text-foreground">€{item.value.toLocaleString()}</span>
+                    <div key={i} className="px-4 py-2.5 text-center">
+                      <span className="text-sm font-bold text-foreground">€{item.value.toLocaleString()}</span>
                       <p className="text-[10px] text-muted-foreground">{item.label}</p>
                     </div>
                   ))}
-                  <div className="bg-primary/5 border-2 border-primary/20 rounded-lg p-3 text-center">
-                    <span className="text-lg font-bold text-primary">€{s.cost.toLocaleString()}</span>
-                    <p className="text-[10px] text-primary font-semibold">Total Cost</p>
+                  <div className="px-4 py-2.5 text-center bg-primary/5">
+                    <span className="text-sm font-bold text-primary">€{s.cost.toLocaleString()}</span>
+                    <p className="text-[10px] text-primary font-semibold">Total</p>
                   </div>
                 </div>
               </div>

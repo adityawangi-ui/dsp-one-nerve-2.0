@@ -61,7 +61,7 @@ function DataTable({ headers, rows, minWidth, highlightRows }: { headers: string
           {rows.map((r, i) => (
             <tr key={i} className={`border-b border-border/50 hover:bg-secondary/40 ${highlightRows?.includes(i) ? "bg-destructive/10" : ""}`}>
               {r.map((c, j) => (
-                <td key={j} className="px-3 py-2 whitespace-nowrap font-mono text-foreground">
+                <td key={j} className="px-3 py-2 whitespace-nowrap font-sans text-foreground">
                   {typeof c === "number" ? c.toLocaleString() : c}
                 </td>
               ))}
@@ -289,7 +289,7 @@ export default function InsightsDataTab({ row }: Props) {
                     <tr key={metric} className={`border-b border-border/50 ${isBalance ? "bg-primary/10 font-semibold" : isBelowRS ? "bg-destructive/10" : "hover:bg-secondary/40"}`}>
                       {mi === 0 && (
                         <>
-                          <td className="sticky left-0 z-10 bg-card px-3 py-2 font-mono text-foreground whitespace-nowrap" rowSpan={ctpMetrics.length}>{row.mrdr}</td>
+                          <td className="sticky left-0 z-10 bg-card px-3 py-2 font-sans text-foreground whitespace-nowrap" rowSpan={ctpMetrics.length}>{row.mrdr}</td>
                           <td className="px-3 py-2 text-foreground whitespace-nowrap" rowSpan={ctpMetrics.length}>A283</td>
                           <td className="px-3 py-2 text-foreground whitespace-nowrap text-[10px]" rowSpan={ctpMetrics.length}>{row.mrdrDescription}</td>
                         </>
@@ -297,7 +297,7 @@ export default function InsightsDataTab({ row }: Props) {
                       {sliced.map((v, i) => {
                         const isNegative = isBelowRS && v > 0;
                         return (
-                          <td key={i} className={`px-3 py-2 text-center font-mono ${isNegative ? "text-destructive font-bold" : "text-foreground"}`}>
+                          <td key={i} className={`px-3 py-2 text-center font-sans ${isNegative ? "text-destructive font-bold" : "text-foreground"}`}>
                             {v.toLocaleString()}
                           </td>
                         );
