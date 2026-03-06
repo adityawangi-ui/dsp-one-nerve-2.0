@@ -1,12 +1,12 @@
 import { useState, useRef, useEffect } from "react";
 import { RiskRow } from "@/data/riskData";
 import { riskData } from "@/data/riskData";
-import { Send, Plus, Search, MessageSquare, Clock, User, Bot, Hash, ArrowLeft, Trash2, Users } from "lucide-react";
+import { Send, Plus, Search, MessageSquare, Clock, User, Bot, Hash, ArrowLeft, Trash2, Users, AlertTriangle } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogFooter } from "@/components/ui/dialog";
 import { Checkbox } from "@/components/ui/checkbox";
 import { cn } from "@/lib/utils";
 
@@ -29,7 +29,7 @@ interface Conversation {
   isGroup?: boolean;
 }
 
-const teamMembers = ["John Smith", "Sarah Johnson", "Pierre Dupont", "Maria Garcia", "James Wilson", "Anna Mueller", "Carlos Ruiz"];
+const teamMembers = ["Sarah Johnson", "Pierre Dupont", "Maria Garcia", "James Wilson", "Anna Mueller", "Carlos Ruiz"];
 
 const mockConversations: Conversation[] = [
   {
@@ -95,18 +95,26 @@ export default function ConversationsTab({ row, initialRiskId }: Props) {
   const [input, setInput] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
   const [showNewChat, setShowNewChat] = useState(false);
-  const [newChatRiskId, setNewChatRiskId] = useState("");
+  const [newChatUser, setNewChatUser] = useState("");
+  const [newChatRiskId, setNewChatRiskId] = useState(row ? String(row.riskId) : "");
   const [showGroupDialog, setShowGroupDialog] = useState(false);
-  const [groupRiskId, setGroupRiskId] = useState("");
+  const [groupRiskId, setGroupRiskId] = useState(row ? String(row.riskId) : "");
   const [groupName, setGroupName] = useState("");
   const [selectedMembers, setSelectedMembers] = useState<Set<string>>(new Set());
+  const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const activeConv = conversations.find(c => c.id === activeConvId);
+  const currentRiskId = row?.riskId ?? riskData[0].riskId;
 
   useEffect(() => {
     if (scrollRef.current) scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   }, [activeConv?.messages]);
+
+  // Filter team members by search
+  const filteredMembers = newChatUser
+    ? teamMembers.filter(m => m.toLowerCase().includes(newChatUser.toLowerCase()))
+    : teamMembers;
 
   const filteredConvs = conversations.filter(c => {
     if (!searchQuery) return true;
@@ -124,29 +132,36 @@ export default function ConversationsTab({ row, initialRiskId }: Props) {
     }, 1000);
   };
 
-  const handleNewConversation = () => {
-    const riskId = parseInt(newChatRiskId) || (row?.riskId ?? riskData[0].riskId);
+  const handleNewConversation = (memberName: string) => {
+    const riskId = parseInt(newChatRiskId) || currentRiskId;
     const risk = riskData.find(r => r.riskId === riskId);
     const conv: Conversation = {
       id: `conv-${Date.now()}`, riskId,
-      title: `${risk?.mrdrDescription || "New discussion"} — RISK-${String(riskId).padStart(3, "0")}`,
-      messages: [{ id: `m-${Date.now()}`, role: "system", text: `Conversation started for RISK-${String(riskId).padStart(3, "0")}${risk ? `: ${risk.mrdrDescription}` : ""}`, timestamp: new Date(), sender: "System" }],
-      lastActivity: new Date(), unread: 0, participants: ["John Smith", "Risk AI"],
+      title: `Chat with ${memberName} — RISK-${String(riskId).padStart(3, "0")}`,
+      messages: [{ id: `m-${Date.now()}`, role: "system", text: `Conversation started with ${memberName} for RISK-${String(riskId).padStart(3, "0")}${risk ? `: ${risk.mrdrDescription}` : ""}`, timestamp: new Date(), sender: "System" }],
+      lastActivity: new Date(), unread: 0, participants: ["John Smith", memberName, "Risk AI"],
     };
     setConversations(prev => [conv, ...prev]);
     setActiveConvId(conv.id);
     setShowNewChat(false);
-    setNewChatRiskId("");
+    setNewChatUser("");
+    setNewChatRiskId(row ? String(row.riskId) : "");
   };
 
   const handleDeleteConversation = (convId: string) => {
-    setConversations(prev => prev.filter(c => c.id !== convId));
-    if (activeConvId === convId) setActiveConvId(null);
+    setDeleteConfirm(convId);
+  };
+
+  const confirmDelete = () => {
+    if (!deleteConfirm) return;
+    setConversations(prev => prev.filter(c => c.id !== deleteConfirm));
+    if (activeConvId === deleteConfirm) setActiveConvId(null);
+    setDeleteConfirm(null);
   };
 
   const handleCreateGroup = () => {
     if (selectedMembers.size === 0) return;
-    const riskId = parseInt(groupRiskId) || (row?.riskId ?? riskData[0].riskId);
+    const riskId = parseInt(groupRiskId) || currentRiskId;
     const risk = riskData.find(r => r.riskId === riskId);
     const members = Array.from(selectedMembers);
     const conv: Conversation = {
@@ -158,7 +173,7 @@ export default function ConversationsTab({ row, initialRiskId }: Props) {
     setConversations(prev => [conv, ...prev]);
     setActiveConvId(conv.id);
     setShowGroupDialog(false);
-    setGroupRiskId(""); setGroupName(""); setSelectedMembers(new Set());
+    setGroupRiskId(row ? String(row.riskId) : ""); setGroupName(""); setSelectedMembers(new Set());
   };
 
   const formatTime = (d: Date) => {
@@ -192,14 +207,39 @@ export default function ConversationsTab({ row, initialRiskId }: Props) {
             </div>
           </div>
 
+          {/* New Chat — select user */}
           {showNewChat && (
             <div className="p-3 border-b border-border bg-primary/5 space-y-2">
-              <p className="text-xs font-medium text-foreground">Start New Conversation</p>
-              <Input placeholder="Enter Risk ID (e.g., 1, 5, 8)" className="h-7 text-xs" value={newChatRiskId} onChange={e => setNewChatRiskId(e.target.value)} />
-              <div className="flex gap-2">
-                <Button size="sm" className="h-6 text-[10px] flex-1" onClick={handleNewConversation}>Create</Button>
-                <Button size="sm" variant="outline" className="h-6 text-[10px]" onClick={() => setShowNewChat(false)}>Cancel</Button>
+              <div className="flex items-center justify-between">
+                <p className="text-xs font-medium text-foreground">Start New Conversation</p>
+                <Button size="sm" variant="ghost" className="h-5 text-[9px] px-1" onClick={() => setShowNewChat(false)}>Cancel</Button>
               </div>
+              <Input
+                placeholder="Search team member..."
+                className="h-7 text-xs"
+                value={newChatUser}
+                onChange={e => setNewChatUser(e.target.value)}
+              />
+              <div className="space-y-0.5 max-h-32 overflow-y-auto">
+                {filteredMembers.map(member => (
+                  <button
+                    key={member}
+                    onClick={() => handleNewConversation(member)}
+                    className="w-full text-left flex items-center gap-2 px-2 py-1.5 rounded hover:bg-muted/50 transition-colors"
+                  >
+                    <div className="h-5 w-5 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                      <User className="h-3 w-3 text-primary" />
+                    </div>
+                    <span className="text-xs text-foreground">{member}</span>
+                  </button>
+                ))}
+                {filteredMembers.length === 0 && (
+                  <p className="text-[10px] text-muted-foreground text-center py-2">No members found</p>
+                )}
+              </div>
+              {row && (
+                <p className="text-[9px] text-muted-foreground">For RISK-{String(currentRiskId).padStart(3, "0")}: {row.mrdrDescription}</p>
+              )}
             </div>
           )}
 
@@ -287,22 +327,22 @@ export default function ConversationsTab({ row, initialRiskId }: Props) {
         </div>
       </div>
 
+      {/* Create Group Dialog */}
       <Dialog open={showGroupDialog} onOpenChange={setShowGroupDialog}>
         <DialogContent className="max-w-md">
           <DialogHeader><DialogTitle className="text-sm">Create Group Conversation</DialogTitle></DialogHeader>
           <div className="space-y-3">
             <div>
-              <label className="text-xs font-medium text-foreground">Risk ID</label>
-              <Input placeholder="e.g., 1, 5, 8" className="h-8 text-xs mt-1" value={groupRiskId} onChange={e => setGroupRiskId(e.target.value)} />
-            </div>
-            <div>
               <label className="text-xs font-medium text-foreground">Group Name (optional)</label>
               <Input placeholder="e.g., Supply Chain Team" className="h-8 text-xs mt-1" value={groupName} onChange={e => setGroupName(e.target.value)} />
             </div>
+            {row && (
+              <p className="text-[10px] text-muted-foreground">For RISK-{String(currentRiskId).padStart(3, "0")}: {row.mrdrDescription}</p>
+            )}
             <div>
               <label className="text-xs font-medium text-foreground mb-2 block">Select Members</label>
               <div className="space-y-1.5 max-h-40 overflow-y-auto">
-                {teamMembers.filter(m => m !== "John Smith").map(member => (
+                {teamMembers.map(member => (
                   <label key={member} className="flex items-center gap-2 text-xs cursor-pointer hover:bg-muted/50 px-2 py-1 rounded">
                     <Checkbox checked={selectedMembers.has(member)} onCheckedChange={(c) => { const next = new Set(selectedMembers); if (c) next.add(member); else next.delete(member); setSelectedMembers(next); }} />
                     {member}
@@ -312,6 +352,26 @@ export default function ConversationsTab({ row, initialRiskId }: Props) {
             </div>
             <Button size="sm" className="w-full text-xs" onClick={handleCreateGroup} disabled={selectedMembers.size === 0}>Create Group ({selectedMembers.size} members)</Button>
           </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog open={!!deleteConfirm} onOpenChange={(open) => { if (!open) setDeleteConfirm(null); }}>
+        <DialogContent className="max-w-sm">
+          <DialogHeader>
+            <DialogTitle className="text-sm flex items-center gap-2">
+              <AlertTriangle className="h-4 w-4 text-destructive" /> Delete Conversation
+            </DialogTitle>
+            <DialogDescription className="text-xs">
+              Are you sure you want to delete this conversation? This action cannot be undone and all messages will be lost.
+            </DialogDescription>
+          </DialogHeader>
+          <DialogFooter className="gap-2">
+            <Button variant="outline" size="sm" className="text-xs" onClick={() => setDeleteConfirm(null)}>Cancel</Button>
+            <Button variant="destructive" size="sm" className="text-xs gap-1" onClick={confirmDelete}>
+              <Trash2 className="h-3 w-3" /> Delete
+            </Button>
+          </DialogFooter>
         </DialogContent>
       </Dialog>
     </div>
