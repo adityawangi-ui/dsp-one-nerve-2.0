@@ -309,7 +309,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                       )}
                       {/* Risk ID - frozen */}
                       <td className={cellCls} style={frozenCellStyle("riskId", rowNewVariant)}>
-                        <span className="font-mono">{agg.riskId}</span>
+                        <span>{agg.riskId}</span>
                         {agg.isNew && <NewBadge />}
                       </td>
                       {/* MRDR - frozen, drill-through */}
