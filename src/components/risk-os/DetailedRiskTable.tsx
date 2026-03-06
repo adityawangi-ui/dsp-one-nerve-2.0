@@ -143,6 +143,17 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
           <LayoutList className="h-4 w-4 text-primary" />
           <span className="text-sm font-semibold text-foreground">Detailed Risk View</span>
           <span className="text-[11px] text-muted-foreground">{data.length} items</span>
+          <div className="flex items-center gap-1 ml-2">
+            <span className="text-[10px] text-muted-foreground">UOM:</span>
+            <Select value={displayUom} onValueChange={(v) => setDisplayUom(v)}>
+              <SelectTrigger className="h-6 min-w-[70px] text-[10px] font-semibold border-border/40 bg-card">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {["CS", "EA", "KG", "L", "PAL"].map(u => <SelectItem key={u} value={u}>{u}</SelectItem>)}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
         <div className="flex items-center gap-2 flex-wrap">
           <div className="flex rounded-lg border border-border overflow-hidden">
