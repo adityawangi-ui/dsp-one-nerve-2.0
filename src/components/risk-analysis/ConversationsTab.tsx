@@ -322,6 +322,16 @@ export default function ConversationsTab({ row, initialRiskId }: Props) {
                       <div className="flex items-center gap-2 mt-1">
                         <span className="text-[9px] text-muted-foreground flex items-center gap-0.5"><Clock className="h-2.5 w-2.5" /> {formatTime(conv.lastActivity)}</span>
                         <span className="text-[9px] text-muted-foreground">{conv.participants.length} participants</span>
+                        <Badge
+                          variant="outline"
+                          className={`text-[8px] cursor-pointer ${conv.status === "completed" ? "bg-success/10 text-success border-success/30" : "bg-warning/10 text-warning border-warning/30"}`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setConversations(prev => prev.map(c => c.id === conv.id ? { ...c, status: c.status === "completed" ? "in-progress" : "completed" } : c));
+                          }}
+                        >
+                          {conv.status === "completed" ? "Completed" : "In Progress"}
+                        </Badge>
                       </div>
                     </div>
                   </div>
