@@ -311,16 +311,6 @@ export default function ScenarioSimulatorTab({ row, onSelectScenario, selectedSc
                    ))}
                  </div>
                </div>
-                  <ul className="space-y-1.5">
-                    {details.risks.map((r, i) => (
-                      <li key={i} className="text-xs text-muted-foreground flex items-start gap-1.5">
-                        <span className="text-warning mt-0.5">⚠</span>
-                        {r}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
 
               {/* Timeline */}
               <div className="bg-secondary rounded-lg px-4 py-2">
