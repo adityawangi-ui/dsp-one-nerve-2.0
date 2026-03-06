@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { riskData, RiskRow } from "@/data/riskData";
 import { Home, ChevronRight, Shield, Clock, BarChart3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -13,6 +14,7 @@ import VisualCentre from "@/components/visual-centre/VisualCentre";
 import NotificationBell from "@/components/risk-os/NotificationBell";
 
 export default function RiskOverview() {
+  const navigate = useNavigate();
   const [rows, setRows] = useState<RiskRow[]>([...riskData]);
   const maxLoss = 890000;
   const [filters, setFilters] = useState<FilterState>(() => ({ ...defaultFilters, lossRange: [0, 890000] }));
@@ -82,7 +84,7 @@ export default function RiskOverview() {
             <BarChart3 className="h-3.5 w-3.5" /> Visual Centre
           </Button>
           <div className="h-6 w-px bg-border" />
-          <NotificationBell />
+          <NotificationBell onNavigateToConversations={(riskId) => navigate(`/risk-analysis?tab=conversations&riskId=${riskId}`)} />
           <div className="flex items-center gap-2 ml-1 bg-secondary/60 rounded-lg px-3 py-1.5 border border-border/50">
             <div className="h-6 w-6 rounded-full bg-gradient-to-br from-primary to-primary-glow flex items-center justify-center">
               <span className="text-[10px] font-bold text-primary-foreground">JS</span>

@@ -151,8 +151,8 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
     <Badge variant="outline" className="ml-1.5 text-[9px] font-bold uppercase bg-new-bg text-new border-new-border neon-text-amber animate-pulse">NEW</Badge>
   );
 
-  const cellCls = "text-[11px] whitespace-nowrap px-3 py-2.5";
-  const childCellCls = "text-[11px] whitespace-nowrap px-3 py-2";
+  const cellCls = "text-[11px] whitespace-nowrap px-3 py-2.5 font-sans";
+  const childCellCls = "text-[11px] whitespace-nowrap px-3 py-2 font-sans";
 
   // Convert quantity from row's UOM to displayUom
   const convertQty = (value: number, fromUom: string) => {
@@ -309,14 +309,14 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                       )}
                       {/* Risk ID - frozen */}
                       <td className={cellCls} style={frozenCellStyle("riskId", rowNewVariant)}>
-                        <span className="font-mono">{agg.riskId}</span>
+                        <span>{agg.riskId}</span>
                         {agg.isNew && <NewBadge />}
                       </td>
                       {/* MRDR - frozen, drill-through */}
                       <td className={cellCls} style={frozenCellStyle("mrdr", rowNewVariant)}>
                         <button
                           onClick={() => { if (hasMultiple) { const n = new Set(expandedMrdrs); if (expanded) n.delete(agg.mrdr); else n.add(agg.mrdr); setExpandedMrdrs(n); } }}
-                          className={`flex items-center gap-1 font-mono ${hasMultiple ? "text-primary font-semibold hover:underline cursor-pointer" : "text-foreground cursor-default"}`}
+                          className={`flex items-center gap-1 ${hasMultiple ? "text-primary font-semibold hover:underline cursor-pointer" : "text-foreground cursor-default"}`}
                         >
                           {hasMultiple && (expanded ? <ChevronDown className="h-3 w-3 shrink-0" /> : <ChevronRight className="h-3 w-3 shrink-0" />)}
                           {agg.mrdr}
@@ -339,10 +339,10 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                       <td className={cellCls}>{agg.segmentation}</td>
                       <td className={cellCls}>{agg.startedOnWeek}</td>
                       <td className={cellCls}>{agg.endedOnWeek || "—"}</td>
-                      <td className={`${cellCls} font-mono`}>{agg.riskInDays}</td>
-                      <td className={`${cellCls} font-mono`}>{convertQty(agg.stockCS, agg.uom).toLocaleString()}</td>
-                      <td className={`${cellCls} font-mono`}>{convertQty(agg.expectedLossCases, agg.uom).toLocaleString()}</td>
-                      <td className={`${cellCls} font-mono`}>€{agg.expectedLossValue.toLocaleString()}</td>
+                      <td className={cellCls}>{agg.riskInDays}</td>
+                      <td className={cellCls}>{convertQty(agg.stockCS, agg.uom).toLocaleString()}</td>
+                      <td className={cellCls}>{convertQty(agg.expectedLossCases, agg.uom).toLocaleString()}</td>
+                      <td className={cellCls}>€{agg.expectedLossValue.toLocaleString()}</td>
                       <td className={cellCls}>{agg.nextAvailableDate || "—"}</td>
                       <td className={cellCls}>{agg.botReasonCode}</td>
                       <td className={cellCls}>{agg.plannerReasonCode}</td>
@@ -364,11 +364,11 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                       return (
                         <tr key={cr.riskId} className="border-b border-border/30" style={{ backgroundColor: childRowBg, height: "40px" }}>
                           {shareMode && <td style={{ position: "sticky", left: 0, zIndex: 10, backgroundColor: childRowBg }} />}
-                          <td className={`${childCellCls} pl-6 font-mono`} style={frozenCellStyle("riskId", childVariant)}>
+                          <td className={`${childCellCls} pl-6`} style={frozenCellStyle("riskId", childVariant)}>
                             <span className="text-muted-foreground">↳</span> {cr.riskId}
                             {cr.isNew && <NewBadge />}
                           </td>
-                          <td className={`${childCellCls} font-mono`} style={frozenCellStyle("mrdr", childVariant)}>{cr.mrdr}</td>
+                          <td className={childCellCls} style={frozenCellStyle("mrdr", childVariant)}>{cr.mrdr}</td>
                           <td className={childCellCls} style={frozenCellStyle("mrdrDescription", childVariant)}>{cr.mrdrDescription}</td>
                           <td className={childCellCls} style={frozenCellStyle("msoCountry", childVariant)}>{cr.msoCountry}</td>
                           <td className={childCellCls} style={frozenCellStyle("uom", childVariant)}>{displayUom}</td>
@@ -381,10 +381,10 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                           <td className={childCellCls}>{cr.segmentation}</td>
                           <td className={childCellCls}>{cr.startedOnWeek}</td>
                           <td className={childCellCls}>{cr.endedOnWeek || "—"}</td>
-                          <td className={`${childCellCls} font-mono`}>{cr.riskInDays}</td>
-                          <td className={`${childCellCls} font-mono`}>{convertQty(cr.stockCS, cr.uom).toLocaleString()}</td>
-                          <td className={`${childCellCls} font-mono`}>{convertQty(cr.expectedLossCases, cr.uom).toLocaleString()}</td>
-                          <td className={`${childCellCls} font-mono`}>€{cr.expectedLossValue.toLocaleString()}</td>
+                          <td className={childCellCls}>{cr.riskInDays}</td>
+                          <td className={childCellCls}>{convertQty(cr.stockCS, cr.uom).toLocaleString()}</td>
+                          <td className={childCellCls}>{convertQty(cr.expectedLossCases, cr.uom).toLocaleString()}</td>
+                          <td className={childCellCls}>€{cr.expectedLossValue.toLocaleString()}</td>
                           <td className={childCellCls}>{cr.nextAvailableDate || "—"}</td>
                           <td className={childCellCls}>{cr.botReasonCode}</td>
                           <td className={childCellCls}>
@@ -446,7 +446,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                           }} />
                         </td>
                       )}
-                      <td className={`${cellCls} font-mono`}>{grow.gtin}</td>
+                      <td className={cellCls}>{grow.gtin}</td>
                       <td className={cellCls}>
                         <button onClick={() => { const n = new Set(expandedGtins); if (expanded) n.delete(grow.gtin); else n.add(grow.gtin); setExpandedGtins(n); }} className="flex items-center gap-1 text-primary font-medium">
                           {expanded ? <ChevronDown className="h-3 w-3" /> : <ChevronRight className="h-3 w-3" />}
@@ -458,28 +458,28 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                       <td className={cellCls}><Badge variant="outline" className={`text-[10px] ${grow.riskType === "Out Of Stock" ? "bg-critical-bg text-critical border-critical-border" : "bg-medium-bg text-medium border-medium-border"}`}>{grow.riskType}</Badge></td>
                       <td className={cellCls}><Badge variant="outline" className={`text-[10px] ${sevBadgeClass(grow.severity)}`}>{grow.severity}</Badge></td>
                       <td className={cellCls}><Badge variant="outline" className={`text-[10px] ${priBadgeClass(grow.priority)}`}>{grow.priority}</Badge></td>
-                      <td className={`${cellCls} font-mono`}>{grow.riskInDays}</td>
-                      <td className={`${cellCls} font-mono`}>{grow.stockCS.toLocaleString()}</td>
-                      <td className={`${cellCls} font-mono`}>{grow.expectedLossCases.toLocaleString()}</td>
-                      <td className={`${cellCls} font-mono`}>€{grow.expectedLossValue.toLocaleString()}</td>
+                      <td className={cellCls}>{grow.riskInDays}</td>
+                      <td className={cellCls}>{grow.stockCS.toLocaleString()}</td>
+                      <td className={cellCls}>{grow.expectedLossCases.toLocaleString()}</td>
+                      <td className={cellCls}>€{grow.expectedLossValue.toLocaleString()}</td>
                     </tr>
                     {expanded && childRows.map(cr => (
                       <tr key={cr.riskId} className={`border-b border-border/30 ${cr.isNew ? "bg-destructive/[0.06]" : "bg-muted/30"}`}>
                         {shareMode && <td />}
-                        <td className={`${childCellCls} pl-8 font-mono`}>
+                        <td className={`${childCellCls} pl-8`}>
                           {cr.gtin}
                           {cr.isNew && <NewBadge />}
                         </td>
-                        <td className={`${childCellCls} font-mono`}>{cr.mrdr}</td>
+                        <td className={childCellCls}>{cr.mrdr}</td>
                         <td className={childCellCls}>{cr.msoCountry}</td>
                         <td className={childCellCls}>{cr.site}</td>
                         <td className={childCellCls}><Badge variant="outline" className={`text-[10px] ${cr.riskType === "Out Of Stock" ? "bg-critical-bg text-critical border-critical-border" : "bg-medium-bg text-medium border-medium-border"}`}>{cr.riskType}</Badge></td>
                         <td className={childCellCls}><Badge variant="outline" className={`text-[10px] ${sevBadgeClass(cr.severity)}`}>{cr.severity}</Badge></td>
                         <td className={childCellCls}><Badge variant="outline" className={`text-[10px] ${priBadgeClass(cr.priority)}`}>{cr.priority}</Badge></td>
-                        <td className={`${childCellCls} font-mono`}>{cr.riskInDays}</td>
-                        <td className={`${childCellCls} font-mono`}>{cr.stockCS.toLocaleString()}</td>
-                        <td className={`${childCellCls} font-mono`}>{cr.expectedLossCases.toLocaleString()}</td>
-                        <td className={`${childCellCls} font-mono`}>€{cr.expectedLossValue.toLocaleString()}</td>
+                        <td className={childCellCls}>{cr.riskInDays}</td>
+                        <td className={childCellCls}>{cr.stockCS.toLocaleString()}</td>
+                        <td className={childCellCls}>{cr.expectedLossCases.toLocaleString()}</td>
+                        <td className={childCellCls}>€{cr.expectedLossValue.toLocaleString()}</td>
                       </tr>
                     ))}
                   </React.Fragment>
