@@ -188,7 +188,7 @@ export default function ConversationsTab({ row, initialRiskId }: Props) {
       id: `conv-${Date.now()}`, riskId,
       title: groupName || `Group: RISK-${String(riskId).padStart(3, "0")}`,
       messages: [{ id: `m-${Date.now()}`, role: "system", text: `Group created for RISK-${String(riskId).padStart(3, "0")} with ${members.join(", ")}`, timestamp: new Date(), sender: "System" }],
-      lastActivity: new Date(), unread: 0, participants: ["John Smith", "Risk AI", ...members], isGroup: true,
+      lastActivity: new Date(), unread: 0, participants: ["John Smith", "Risk AI", ...members], isGroup: true, status: "in-progress",
     };
     setConversations(prev => [conv, ...prev]);
     setActiveConvId(conv.id);
