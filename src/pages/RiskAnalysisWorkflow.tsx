@@ -43,8 +43,6 @@ export default function RiskAnalysisWorkflow() {
         </div>
         <div className="flex items-center gap-4 text-xs text-muted-foreground">
           <span className="flex items-center gap-1.5"><User className="h-3.5 w-3.5" /> John Smith</span>
-          <button className="flex items-center gap-1 hover:text-foreground transition-colors"><RefreshCw className="h-3.5 w-3.5" /> Refresh</button>
-          <button className="flex items-center gap-1 hover:text-foreground transition-colors"><Download className="h-3.5 w-3.5" /> Export</button>
           <button className="hover:text-foreground transition-colors"><SettingsIcon className="h-3.5 w-3.5" /></button>
         </div>
       </header>
