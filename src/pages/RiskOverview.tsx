@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { riskData, RiskRow } from "@/data/riskData";
-import { Home, ChevronRight, Shield, Clock, RefreshCw, Download, Bell, BarChart3 } from "lucide-react";
+import { Home, ChevronRight, Shield, Clock, BarChart3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import AlertsSection from "@/components/risk-os/AlertsSection";
@@ -10,6 +10,7 @@ import InsightsPanel from "@/components/risk-os/InsightsPanel";
 import RiskAIAgent from "@/components/risk-os/RiskAIAgent";
 import RiskAnalysisPanel from "@/components/risk-os/RiskAnalysisPanel";
 import VisualCentre from "@/components/visual-centre/VisualCentre";
+import NotificationBell from "@/components/risk-os/NotificationBell";
 
 export default function RiskOverview() {
   const [rows, setRows] = useState<RiskRow[]>([...riskData]);
