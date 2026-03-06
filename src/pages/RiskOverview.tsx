@@ -125,6 +125,7 @@ export default function RiskOverview() {
       {insightsRow && <InsightsPanel key={insightsRow.riskId} row={insightsRow} onClose={() => setInsightsRow(null)} />}
       {analysisRow && <RiskAnalysisPanel key={analysisRow.riskId} row={analysisRow} onClose={() => setAnalysisRow(null)} />}
       <RiskAIAgent />
+      {showVisualCentre && <VisualCentre onClose={() => setShowVisualCentre(false)} />}
     </div>
   );
 }
