@@ -14,6 +14,7 @@ import VisualCentre from "@/components/visual-centre/VisualCentre";
 import NotificationBell from "@/components/risk-os/NotificationBell";
 
 export default function RiskOverview() {
+  const navigate = useNavigate();
   const [rows, setRows] = useState<RiskRow[]>([...riskData]);
   const maxLoss = 890000;
   const [filters, setFilters] = useState<FilterState>(() => ({ ...defaultFilters, lossRange: [0, 890000] }));
