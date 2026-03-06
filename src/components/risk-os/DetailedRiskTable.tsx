@@ -364,11 +364,11 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                       return (
                         <tr key={cr.riskId} className="border-b border-border/30" style={{ backgroundColor: childRowBg, height: "40px" }}>
                           {shareMode && <td style={{ position: "sticky", left: 0, zIndex: 10, backgroundColor: childRowBg }} />}
-                          <td className={`${childCellCls} pl-6 font-mono`} style={frozenCellStyle("riskId", childVariant)}>
+                          <td className={`${childCellCls} pl-6`} style={frozenCellStyle("riskId", childVariant)}>
                             <span className="text-muted-foreground">↳</span> {cr.riskId}
                             {cr.isNew && <NewBadge />}
                           </td>
-                          <td className={`${childCellCls} font-mono`} style={frozenCellStyle("mrdr", childVariant)}>{cr.mrdr}</td>
+                          <td className={childCellCls} style={frozenCellStyle("mrdr", childVariant)}>{cr.mrdr}</td>
                           <td className={childCellCls} style={frozenCellStyle("mrdrDescription", childVariant)}>{cr.mrdrDescription}</td>
                           <td className={childCellCls} style={frozenCellStyle("msoCountry", childVariant)}>{cr.msoCountry}</td>
                           <td className={childCellCls} style={frozenCellStyle("uom", childVariant)}>{displayUom}</td>
