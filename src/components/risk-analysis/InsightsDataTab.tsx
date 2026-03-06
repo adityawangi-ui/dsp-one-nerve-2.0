@@ -20,7 +20,6 @@ const sections = [
   { id: "sto", title: "STO Data (Top 5)", icon: Truck },
   { id: "production", title: "Production Data", icon: Factory },
   { id: "master", title: "Master Data", icon: Database },
-  { id: "dr", title: "Projected DR%", icon: TrendingDown },
 ];
 
 interface Props { row: RiskRow; }
