@@ -100,7 +100,9 @@ export default function ConversationsTab({ row, initialRiskId }: Props) {
   const [searchQuery, setSearchQuery] = useState("");
   const [showNewChat, setShowNewChat] = useState(false);
   const [newChatUser, setNewChatUser] = useState("");
-  const [newChatRiskId, setNewChatRiskId] = useState(row ? String(row.riskId) : "");
+  const [newChatRiskId, setNewChatRiskId] = useState("");
+  const [newChatStep, setNewChatStep] = useState<"user" | "risk">("user");
+  const [selectedNewChatUser, setSelectedNewChatUser] = useState("");
   const [showGroupDialog, setShowGroupDialog] = useState(false);
   const [groupRiskId, setGroupRiskId] = useState(row ? String(row.riskId) : "");
   const [groupName, setGroupName] = useState("");
