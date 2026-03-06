@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { riskData, RiskRow } from "@/data/riskData";
-import { Home, ChevronRight, Shield, Clock, RefreshCw, Download, Bell } from "lucide-react";
+import { Home, ChevronRight, Shield, Clock, RefreshCw, Download, Bell, BarChart3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import AlertsSection from "@/components/risk-os/AlertsSection";
@@ -9,6 +9,7 @@ import DetailedRiskTable from "@/components/risk-os/DetailedRiskTable";
 import InsightsPanel from "@/components/risk-os/InsightsPanel";
 import RiskAIAgent from "@/components/risk-os/RiskAIAgent";
 import RiskAnalysisPanel from "@/components/risk-os/RiskAnalysisPanel";
+import VisualCentre from "@/components/visual-centre/VisualCentre";
 
 export default function RiskOverview() {
   const [rows, setRows] = useState<RiskRow[]>([...riskData]);
@@ -16,6 +17,7 @@ export default function RiskOverview() {
   const [filters, setFilters] = useState<FilterState>(() => ({ ...defaultFilters, lossRange: [0, 890000] }));
   const [insightsRow, setInsightsRow] = useState<RiskRow | null>(null);
   const [analysisRow, setAnalysisRow] = useState<RiskRow | null>(null);
+  const [showVisualCentre, setShowVisualCentre] = useState(false);
 
   const now = new Date();
   const timestamp = now.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" }) + ", " + now.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
@@ -76,6 +78,14 @@ export default function RiskOverview() {
           <Button variant="ghost" size="sm" className="h-8 text-xs gap-1.5 text-muted-foreground hover:text-primary">
             <Download className="h-3.5 w-3.5" /> Export
           </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-8 text-xs gap-1.5 text-muted-foreground hover:text-primary"
+            onClick={() => setShowVisualCentre(true)}
+          >
+            <BarChart3 className="h-3.5 w-3.5" /> Visual Centre
+          </Button>
           <div className="h-6 w-px bg-border" />
           <Button variant="ghost" size="sm" className="h-8 w-8 p-0 relative">
             <Bell className="h-4 w-4 text-muted-foreground" />
@@ -115,6 +125,7 @@ export default function RiskOverview() {
       {insightsRow && <InsightsPanel key={insightsRow.riskId} row={insightsRow} onClose={() => setInsightsRow(null)} />}
       {analysisRow && <RiskAnalysisPanel key={analysisRow.riskId} row={analysisRow} onClose={() => setAnalysisRow(null)} />}
       <RiskAIAgent />
+      {showVisualCentre && <VisualCentre onClose={() => setShowVisualCentre(false)} />}
     </div>
   );
 }
