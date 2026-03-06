@@ -513,34 +513,36 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                 </Select>
               </div>
             </div>
-            <div className="flex items-center gap-1">
-              <Button variant="outline" size="sm" className="h-7 w-7 p-0" disabled={currentPage === 1} onClick={() => setCurrentPage(p => p - 1)}>
-                <ChevronLeft className="h-3.5 w-3.5" />
-              </Button>
-              {Array.from({ length: totalPages }, (_, i) => i + 1)
-                .filter(page => page === 1 || page === totalPages || Math.abs(page - currentPage) <= 2)
-                .reduce<number[]>((acc, page) => {
-                  if (acc.length > 0 && page - acc[acc.length - 1] > 1) acc.push(-1);
-                  acc.push(page);
-                  return acc;
-                }, [])
-                .map((page, i) => page === -1 ? (
-                  <span key={`ellipsis-${i}`} className="text-[11px] text-muted-foreground px-1">…</span>
-                ) : (
-                  <Button
-                    key={page}
-                    variant={page === currentPage ? "default" : "outline"}
-                    size="sm"
-                    className={`h-7 w-7 p-0 text-[11px] ${page === currentPage ? "bg-primary text-primary-foreground" : ""}`}
-                    onClick={() => setCurrentPage(page)}
-                  >
-                    {page}
-                  </Button>
-                ))}
-              <Button variant="outline" size="sm" className="h-7 w-7 p-0" disabled={currentPage === totalPages} onClick={() => setCurrentPage(p => p + 1)}>
-                <ChevronRight className="h-3.5 w-3.5" />
-              </Button>
-            </div>
+            {totalPages > 1 && (
+              <div className="flex items-center gap-1">
+                <Button variant="outline" size="sm" className="h-7 w-7 p-0" disabled={currentPage === 1} onClick={() => setCurrentPage(p => p - 1)}>
+                  <ChevronLeft className="h-3.5 w-3.5" />
+                </Button>
+                {Array.from({ length: totalPages }, (_, i) => i + 1)
+                  .filter(page => page === 1 || page === totalPages || Math.abs(page - currentPage) <= 2)
+                  .reduce<number[]>((acc, page) => {
+                    if (acc.length > 0 && page - acc[acc.length - 1] > 1) acc.push(-1);
+                    acc.push(page);
+                    return acc;
+                  }, [])
+                  .map((page, i) => page === -1 ? (
+                    <span key={`ellipsis-${i}`} className="text-[11px] text-muted-foreground px-1">…</span>
+                  ) : (
+                    <Button
+                      key={page}
+                      variant={page === currentPage ? "default" : "outline"}
+                      size="sm"
+                      className={`h-7 w-7 p-0 text-[11px] ${page === currentPage ? "bg-primary text-primary-foreground" : ""}`}
+                      onClick={() => setCurrentPage(page)}
+                    >
+                      {page}
+                    </Button>
+                  ))}
+                <Button variant="outline" size="sm" className="h-7 w-7 p-0" disabled={currentPage === totalPages} onClick={() => setCurrentPage(p => p + 1)}>
+                  <ChevronRight className="h-3.5 w-3.5" />
+                </Button>
+              </div>
+            )}
           </div>
         );
       })()}
