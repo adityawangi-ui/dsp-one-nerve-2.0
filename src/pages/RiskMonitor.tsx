@@ -176,7 +176,7 @@ export default function RiskMonitor() {
             <p className="text-sm text-muted-foreground mt-1">Enterprise risk monitoring & AI-powered mitigation</p>
           </div>
           <div className="flex items-center gap-3">
-            <NotificationBell />
+            <NotificationBell onNavigateToConversations={(riskId) => navigate(`/risk-analysis?tab=conversations&riskId=${riskId}`)} />
             <Badge className="bg-success/15 text-success border border-success/30 text-xs px-3 py-1">
               <span className="w-2 h-2 rounded-full bg-success inline-block mr-1.5 animate-pulse" />
               Connected
