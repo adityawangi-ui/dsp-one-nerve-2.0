@@ -138,20 +138,34 @@ export default function ConversationsTab({ row, initialRiskId }: Props) {
     }, 1000);
   };
 
-  const handleNewConversation = (memberName: string) => {
-    const riskId = parseInt(newChatRiskId) || currentRiskId;
+  // Get risk IDs for the current MRDR context
+  const mrdrRiskIds = useMemo(() => {
+    if (!row) return riskData.map(r => r.riskId);
+    return riskData.filter(r => r.mrdr === row.mrdr).map(r => r.riskId);
+  }, [row]);
+
+  const handleSelectUser = (memberName: string) => {
+    setSelectedNewChatUser(memberName);
+    setNewChatStep("risk");
+    setNewChatUser("");
+  };
+
+  const handleNewConversation = (riskId: number) => {
     const risk = riskData.find(r => r.riskId === riskId);
     const conv: Conversation = {
       id: `conv-${Date.now()}`, riskId,
-      title: `Chat with ${memberName} — RISK-${String(riskId).padStart(3, "0")}`,
-      messages: [{ id: `m-${Date.now()}`, role: "system", text: `Conversation started with ${memberName} for RISK-${String(riskId).padStart(3, "0")}${risk ? `: ${risk.mrdrDescription}` : ""}`, timestamp: new Date(), sender: "System" }],
-      lastActivity: new Date(), unread: 0, participants: ["John Smith", memberName, "Risk AI"],
+      title: `Chat with ${selectedNewChatUser} — RISK-${String(riskId).padStart(3, "0")}`,
+      messages: [{ id: `m-${Date.now()}`, role: "system", text: `Conversation started with ${selectedNewChatUser} for RISK-${String(riskId).padStart(3, "0")}${risk ? `: ${risk.mrdrDescription}` : ""}`, timestamp: new Date(), sender: "System" }],
+      lastActivity: new Date(), unread: 0, participants: ["John Smith", selectedNewChatUser, "Risk AI"],
+      status: "in-progress",
     };
     setConversations(prev => [conv, ...prev]);
     setActiveConvId(conv.id);
     setShowNewChat(false);
     setNewChatUser("");
-    setNewChatRiskId(row ? String(row.riskId) : "");
+    setNewChatRiskId("");
+    setNewChatStep("user");
+    setSelectedNewChatUser("");
   };
 
   const handleDeleteConversation = (convId: string) => {
