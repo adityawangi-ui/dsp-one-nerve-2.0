@@ -157,11 +157,22 @@ export default function InsightsDataTab({ row }: Props) {
     { name: "Quarantine", value: 3, fill: CHART_AMBER },
   ];
 
-  // ── DOH Data ──
+  // ── DOH Data (14 weeks) ──
   const dohData = [
-    { week: "W 06_2026", doh: 10, qty: 2030 },
-    { week: "W 07_2026", doh: 20, qty: 3060 },
-    { week: "W 08_2026", doh: 30, qty: 4500 },
+    { week: "W01", doh: 12, qty: 2100 },
+    { week: "W02", doh: 10, qty: 1980 },
+    { week: "W03", doh: 8, qty: 1750 },
+    { week: "W04", doh: 6, qty: 1400 },
+    { week: "W05", doh: 4, qty: 1100 },
+    { week: "W06", doh: 10, qty: 2030 },
+    { week: "W07", doh: 20, qty: 3060 },
+    { week: "W08", doh: 30, qty: 4500 },
+    { week: "W09", doh: 25, qty: 3800 },
+    { week: "W10", doh: 18, qty: 3200 },
+    { week: "W11", doh: 14, qty: 2900 },
+    { week: "W12", doh: 16, qty: 3100 },
+    { week: "W13", doh: 22, qty: 3500 },
+    { week: "W14", doh: 28, qty: 4200 },
   ];
 
   // ── Forecast / Promo ──
