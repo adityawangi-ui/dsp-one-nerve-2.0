@@ -44,6 +44,11 @@ export default function RiskOverview() {
   }, [rows, filters]);
 
   const handleUpdateRow = (idx: number, updates: Partial<RiskRow>) => {
+    if (idx === -1) {
+      // Add new row
+      setRows(prev => [updates as RiskRow, ...prev]);
+      return;
+    }
     const actualRow = filteredRows[idx];
     const globalIdx = rows.findIndex(r => r.riskId === actualRow.riskId);
     if (globalIdx === -1) return;

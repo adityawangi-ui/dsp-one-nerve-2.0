@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import { RiskRow } from "@/data/riskData";
 import { riskData } from "@/data/riskData";
 import { Send, Plus, Search, MessageSquare, Clock, User, Bot, Hash, ArrowLeft, Trash2, Users, AlertTriangle } from "lucide-react";
@@ -27,6 +27,7 @@ interface Conversation {
   unread: number;
   participants: string[];
   isGroup?: boolean;
+  status: "in-progress" | "completed";
 }
 
 const teamMembers = ["Sarah Johnson", "Pierre Dupont", "Maria Garcia", "James Wilson", "Anna Mueller", "Carlos Ruiz"];
@@ -44,6 +45,7 @@ const mockConversations: Conversation[] = [
     lastActivity: new Date(Date.now() - 3600000),
     unread: 1,
     participants: ["John Smith", "Risk AI"],
+    status: "in-progress",
   },
   {
     id: "conv-2",
@@ -56,6 +58,7 @@ const mockConversations: Conversation[] = [
     lastActivity: new Date(Date.now() - 5400000),
     unread: 0,
     participants: ["Pierre Dupont", "Risk AI"],
+    status: "completed",
   },
   {
     id: "conv-3",
@@ -70,6 +73,7 @@ const mockConversations: Conversation[] = [
     unread: 2,
     participants: ["Sarah Johnson", "Risk AI", "John Smith"],
     isGroup: true,
+    status: "in-progress",
   },
 ];
 
@@ -96,7 +100,9 @@ export default function ConversationsTab({ row, initialRiskId }: Props) {
   const [searchQuery, setSearchQuery] = useState("");
   const [showNewChat, setShowNewChat] = useState(false);
   const [newChatUser, setNewChatUser] = useState("");
-  const [newChatRiskId, setNewChatRiskId] = useState(row ? String(row.riskId) : "");
+  const [newChatRiskId, setNewChatRiskId] = useState("");
+  const [newChatStep, setNewChatStep] = useState<"user" | "risk">("user");
+  const [selectedNewChatUser, setSelectedNewChatUser] = useState("");
   const [showGroupDialog, setShowGroupDialog] = useState(false);
   const [groupRiskId, setGroupRiskId] = useState(row ? String(row.riskId) : "");
   const [groupName, setGroupName] = useState("");
@@ -132,20 +138,34 @@ export default function ConversationsTab({ row, initialRiskId }: Props) {
     }, 1000);
   };
 
-  const handleNewConversation = (memberName: string) => {
-    const riskId = parseInt(newChatRiskId) || currentRiskId;
+  // Get risk IDs for the current MRDR context
+  const mrdrRiskIds = useMemo(() => {
+    if (!row) return riskData.map(r => r.riskId);
+    return riskData.filter(r => r.mrdr === row.mrdr).map(r => r.riskId);
+  }, [row]);
+
+  const handleSelectUser = (memberName: string) => {
+    setSelectedNewChatUser(memberName);
+    setNewChatStep("risk");
+    setNewChatUser("");
+  };
+
+  const handleNewConversation = (riskId: number) => {
     const risk = riskData.find(r => r.riskId === riskId);
     const conv: Conversation = {
       id: `conv-${Date.now()}`, riskId,
-      title: `Chat with ${memberName} — RISK-${String(riskId).padStart(3, "0")}`,
-      messages: [{ id: `m-${Date.now()}`, role: "system", text: `Conversation started with ${memberName} for RISK-${String(riskId).padStart(3, "0")}${risk ? `: ${risk.mrdrDescription}` : ""}`, timestamp: new Date(), sender: "System" }],
-      lastActivity: new Date(), unread: 0, participants: ["John Smith", memberName, "Risk AI"],
+      title: `Chat with ${selectedNewChatUser} — RISK-${String(riskId).padStart(3, "0")}`,
+      messages: [{ id: `m-${Date.now()}`, role: "system", text: `Conversation started with ${selectedNewChatUser} for RISK-${String(riskId).padStart(3, "0")}${risk ? `: ${risk.mrdrDescription}` : ""}`, timestamp: new Date(), sender: "System" }],
+      lastActivity: new Date(), unread: 0, participants: ["John Smith", selectedNewChatUser, "Risk AI"],
+      status: "in-progress",
     };
     setConversations(prev => [conv, ...prev]);
     setActiveConvId(conv.id);
     setShowNewChat(false);
     setNewChatUser("");
-    setNewChatRiskId(row ? String(row.riskId) : "");
+    setNewChatRiskId("");
+    setNewChatStep("user");
+    setSelectedNewChatUser("");
   };
 
   const handleDeleteConversation = (convId: string) => {
@@ -168,7 +188,7 @@ export default function ConversationsTab({ row, initialRiskId }: Props) {
       id: `conv-${Date.now()}`, riskId,
       title: groupName || `Group: RISK-${String(riskId).padStart(3, "0")}`,
       messages: [{ id: `m-${Date.now()}`, role: "system", text: `Group created for RISK-${String(riskId).padStart(3, "0")} with ${members.join(", ")}`, timestamp: new Date(), sender: "System" }],
-      lastActivity: new Date(), unread: 0, participants: ["John Smith", "Risk AI", ...members], isGroup: true,
+      lastActivity: new Date(), unread: 0, participants: ["John Smith", "Risk AI", ...members], isGroup: true, status: "in-progress",
     };
     setConversations(prev => [conv, ...prev]);
     setActiveConvId(conv.id);
@@ -207,38 +227,82 @@ export default function ConversationsTab({ row, initialRiskId }: Props) {
             </div>
           </div>
 
-          {/* New Chat — select user */}
+          {/* New Chat — step 1: select user, step 2: select risk ID */}
           {showNewChat && (
             <div className="p-3 border-b border-border bg-primary/5 space-y-2">
               <div className="flex items-center justify-between">
-                <p className="text-xs font-medium text-foreground">Start New Conversation</p>
-                <Button size="sm" variant="ghost" className="h-5 text-[9px] px-1" onClick={() => setShowNewChat(false)}>Cancel</Button>
+                <p className="text-xs font-medium text-foreground">
+                  {newChatStep === "user" ? "1. Select Team Member" : `2. Select Risk ID (for ${selectedNewChatUser})`}
+                </p>
+                <div className="flex gap-1">
+                  {newChatStep === "risk" && (
+                    <Button size="sm" variant="ghost" className="h-5 text-[9px] px-1" onClick={() => { setNewChatStep("user"); setSelectedNewChatUser(""); }}>Back</Button>
+                  )}
+                  <Button size="sm" variant="ghost" className="h-5 text-[9px] px-1" onClick={() => { setShowNewChat(false); setNewChatStep("user"); setSelectedNewChatUser(""); }}>Cancel</Button>
+                </div>
               </div>
-              <Input
-                placeholder="Search team member..."
-                className="h-7 text-xs"
-                value={newChatUser}
-                onChange={e => setNewChatUser(e.target.value)}
-              />
-              <div className="space-y-0.5 max-h-32 overflow-y-auto">
-                {filteredMembers.map(member => (
-                  <button
-                    key={member}
-                    onClick={() => handleNewConversation(member)}
-                    className="w-full text-left flex items-center gap-2 px-2 py-1.5 rounded hover:bg-muted/50 transition-colors"
-                  >
-                    <div className="h-5 w-5 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
-                      <User className="h-3 w-3 text-primary" />
-                    </div>
-                    <span className="text-xs text-foreground">{member}</span>
-                  </button>
-                ))}
-                {filteredMembers.length === 0 && (
-                  <p className="text-[10px] text-muted-foreground text-center py-2">No members found</p>
-                )}
-              </div>
-              {row && (
-                <p className="text-[9px] text-muted-foreground">For RISK-{String(currentRiskId).padStart(3, "0")}: {row.mrdrDescription}</p>
+
+              {newChatStep === "user" ? (
+                <>
+                  <Input
+                    placeholder="Search team member..."
+                    className="h-7 text-xs"
+                    value={newChatUser}
+                    onChange={e => setNewChatUser(e.target.value)}
+                  />
+                  <div className="space-y-0.5 max-h-32 overflow-y-auto">
+                    {filteredMembers.map(member => (
+                      <button
+                        key={member}
+                        onClick={() => handleSelectUser(member)}
+                        className="w-full text-left flex items-center gap-2 px-2 py-1.5 rounded hover:bg-muted/50 transition-colors"
+                      >
+                        <div className="h-5 w-5 rounded-full bg-primary/10 flex items-center justify-center shrink-0">
+                          <User className="h-3 w-3 text-primary" />
+                        </div>
+                        <span className="text-xs text-foreground">{member}</span>
+                      </button>
+                    ))}
+                    {filteredMembers.length === 0 && (
+                      <p className="text-[10px] text-muted-foreground text-center py-2">No members found</p>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <>
+                  <Input
+                    placeholder="Search risk ID..."
+                    className="h-7 text-xs"
+                    value={newChatRiskId}
+                    onChange={e => setNewChatRiskId(e.target.value)}
+                  />
+                  <div className="space-y-0.5 max-h-40 overflow-y-auto">
+                    {mrdrRiskIds
+                      .filter(id => !newChatRiskId || String(id).includes(newChatRiskId))
+                      .map(riskId => {
+                        const risk = riskData.find(r => r.riskId === riskId);
+                        return (
+                          <button
+                            key={riskId}
+                            onClick={() => handleNewConversation(riskId)}
+                            className="w-full text-left flex items-center gap-2 px-2 py-1.5 rounded hover:bg-muted/50 transition-colors"
+                          >
+                            <div className="h-5 w-5 rounded-full bg-warning/10 flex items-center justify-center shrink-0">
+                              <AlertTriangle className="h-3 w-3 text-warning" />
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <span className="text-xs font-medium text-foreground">RISK-{String(riskId).padStart(3, "0")}</span>
+                              {risk && <span className="text-[10px] text-muted-foreground ml-1.5">{risk.mrdrDescription}</span>}
+                            </div>
+                            <Badge variant="outline" className="text-[9px]">{risk?.severity}</Badge>
+                          </button>
+                        );
+                      })}
+                  </div>
+                  {row && (
+                    <p className="text-[9px] text-muted-foreground">MRDR {row.mrdr}: {row.mrdrDescription}</p>
+                  )}
+                </>
               )}
             </div>
           )}
@@ -258,6 +322,16 @@ export default function ConversationsTab({ row, initialRiskId }: Props) {
                       <div className="flex items-center gap-2 mt-1">
                         <span className="text-[9px] text-muted-foreground flex items-center gap-0.5"><Clock className="h-2.5 w-2.5" /> {formatTime(conv.lastActivity)}</span>
                         <span className="text-[9px] text-muted-foreground">{conv.participants.length} participants</span>
+                        <Badge
+                          variant="outline"
+                          className={`text-[8px] cursor-pointer ${conv.status === "completed" ? "bg-success/10 text-success border-success/30" : "bg-warning/10 text-warning border-warning/30"}`}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setConversations(prev => prev.map(c => c.id === conv.id ? { ...c, status: c.status === "completed" ? "in-progress" : "completed" } : c));
+                          }}
+                        >
+                          {conv.status === "completed" ? "Completed" : "In Progress"}
+                        </Badge>
                       </div>
                     </div>
                   </div>

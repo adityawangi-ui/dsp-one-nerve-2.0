@@ -20,7 +20,6 @@ const sections = [
   { id: "sto", title: "STO Data (Top 5)", icon: Truck },
   { id: "production", title: "Production Data", icon: Factory },
   { id: "master", title: "Master Data", icon: Database },
-  { id: "dr", title: "Projected DR%", icon: TrendingDown },
 ];
 
 interface Props { row: RiskRow; }
@@ -424,13 +423,6 @@ export default function InsightsDataTab({ row }: Props) {
           <DataTable headers={masterTableHeaders} rows={masterTableRows} minWidth="1800px" />
         </section>
 
-        {/* 8. Projected DR% */}
-        <section id="tab-insight-dr">
-          <SectionHeader icon={TrendingDown} title="Projected DR%" badge="TBD" />
-          <div className="bg-card border border-border rounded-xl p-10 flex items-center justify-center">
-            <span className="text-foreground text-sm">Projected DR% module is under development — TBD</span>
-          </div>
-        </section>
       </div>
     </div>
   );

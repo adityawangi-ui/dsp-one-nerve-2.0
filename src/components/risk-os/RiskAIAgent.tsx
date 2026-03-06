@@ -157,7 +157,7 @@ export default function RiskAIAgent() {
   }
 
   return (
-    <div className="fixed right-0 top-0 bottom-0 z-50 w-[400px] glass-panel shadow-2xl flex flex-col animate-slide-in-right border-l border-primary/10">
+    <div className="fixed right-0 top-0 bottom-0 z-50 w-[480px] glass-panel shadow-2xl flex flex-col animate-slide-in-right border-l border-primary/10">
       {/* Header */}
       <div className="bg-gradient-to-r from-primary/10 via-primary-glow/5 to-transparent px-4 py-3 flex items-center justify-between border-b border-border/30">
         <div className="flex items-center gap-2.5">
