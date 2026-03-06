@@ -446,7 +446,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                           }} />
                         </td>
                       )}
-                      <td className={`${cellCls} font-mono`}>{grow.gtin}</td>
+                      <td className={cellCls}>{grow.gtin}</td>
                       <td className={cellCls}>
                         <button onClick={() => { const n = new Set(expandedGtins); if (expanded) n.delete(grow.gtin); else n.add(grow.gtin); setExpandedGtins(n); }} className="flex items-center gap-1 text-primary font-medium">
                           {expanded ? <ChevronDown className="h-3 w-3" /> : <ChevronRight className="h-3 w-3" />}
