@@ -293,43 +293,21 @@ export default function ScenarioSimulatorTab({ row, onSelectScenario, selectedSc
                 </div>
               </div>
 
-              {/* AI Insights */}
-              <div>
-                <div className="flex items-center gap-2 mb-3">
-                  <Zap className="h-4 w-4 text-primary" />
-                  <h5 className="text-sm font-semibold text-foreground">AI Insights</h5>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                  {details.aiInsights.map((insight, i) => (
-                    <div key={i} className="flex items-start gap-2 bg-primary/5 rounded-lg p-3">
-                      <Zap className="h-3.5 w-3.5 text-primary mt-0.5 shrink-0" />
-                      <p className="text-xs text-foreground">{insight}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Actions & Risks */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <TrendingUp className="h-4 w-4 text-success" />
-                    <h5 className="text-xs font-semibold text-foreground">Mitigation Actions</h5>
-                  </div>
-                  <ul className="space-y-1.5">
-                    {details.actions.map((a, i) => (
-                      <li key={i} className="text-xs text-muted-foreground flex items-start gap-1.5">
-                        <CheckCircle2 className="h-3 w-3 text-success mt-0.5 shrink-0" />
-                        {a}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <Shield className="h-4 w-4 text-warning" />
-                    <h5 className="text-xs font-semibold text-foreground">Risk Factors</h5>
-                  </div>
+               {/* AI Insights (merged) */}
+               <div>
+                 <div className="flex items-center gap-2 mb-3">
+                   <Zap className="h-4 w-4 text-primary" />
+                   <h5 className="text-sm font-semibold text-foreground">AI Insights & Analysis</h5>
+                 </div>
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                   {details.aiInsights.map((insight, i) => (
+                     <div key={i} className="flex items-start gap-2 bg-primary/5 rounded-lg p-3">
+                       <Zap className="h-3.5 w-3.5 text-primary mt-0.5 shrink-0" />
+                       <p className="text-xs text-foreground">{insight}</p>
+                     </div>
+                   ))}
+                 </div>
+               </div>
                   <ul className="space-y-1.5">
                     {details.risks.map((r, i) => (
                       <li key={i} className="text-xs text-muted-foreground flex items-start gap-1.5">
