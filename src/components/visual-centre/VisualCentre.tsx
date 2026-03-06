@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { X, Sparkles, Pin, MoreVertical, BarChart3, Trash2, Share2, Edit3, Download } from "lucide-react";
+import { X, Sparkles, Pin, MoreVertical, BarChart3, Trash2, Share2, Edit3, Download, Clock, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -42,6 +42,13 @@ interface GeneratedChart {
   data: any[];
   pinned: boolean;
   query: string;
+}
+
+interface QueryCollection {
+  id: number;
+  query: string;
+  timestamp: Date;
+  charts: GeneratedChart[];
 }
 
 const mockChartTemplates: Omit<GeneratedChart, "query">[] = [
@@ -101,7 +108,8 @@ const mockChartTemplates: Omit<GeneratedChart, "query">[] = [
 export default function VisualCentre({ onClose }: Props) {
   const [prompt, setPrompt] = useState("");
   const [chartType, setChartType] = useState("auto");
-  const [charts, setCharts] = useState<GeneratedChart[]>([]);
+  const [activeCollection, setActiveCollection] = useState<QueryCollection | null>(null);
+  const [history, setHistory] = useState<QueryCollection[]>([]);
   const [isGenerating, setIsGenerating] = useState(false);
   const [selectedChart, setSelectedChart] = useState<GeneratedChart | null>(null);
   const [editQuery, setEditQuery] = useState("");
@@ -116,24 +124,62 @@ export default function VisualCentre({ onClose }: Props) {
       toast.error("Please enter a query to generate visuals");
       return;
     }
+    // Move current active collection to history
+    if (activeCollection) {
+      setHistory(prev => [activeCollection, ...prev]);
+    }
+    setSelectedChart(null);
     setIsGenerating(true);
     setTimeout(() => {
       const count = 2 + Math.floor(Math.random() * 3);
       const shuffled = [...mockChartTemplates].sort(() => Math.random() - 0.5);
-      const selected = shuffled.slice(0, count).map((c, i) => ({ ...c, id: Date.now() + i, query: prompt }));
-      setCharts(prev => [...selected, ...prev]);
+      const charts = shuffled.slice(0, count).map((c, i) => ({ ...c, id: Date.now() + i, query: prompt }));
+      const newCollection: QueryCollection = {
+        id: Date.now(),
+        query: prompt,
+        timestamp: new Date(),
+        charts,
+      };
+      setActiveCollection(newCollection);
       setIsGenerating(false);
       setPrompt("");
       toast.success(`Generated ${count} visuals`);
     }, 1800);
   };
 
+  const restoreCollection = (collection: QueryCollection) => {
+    // Move current active to history, remove restored from history
+    if (activeCollection) {
+      setHistory(prev => [activeCollection, ...prev.filter(h => h.id !== collection.id)]);
+    } else {
+      setHistory(prev => prev.filter(h => h.id !== collection.id));
+    }
+    setActiveCollection(collection);
+    setSelectedChart(null);
+    toast.success("Collection restored");
+  };
+
+  const deleteCollection = (id: number) => {
+    setHistory(prev => prev.filter(h => h.id !== id));
+    toast.success("Collection removed");
+  };
+
   const togglePin = (id: number) => {
-    setCharts(prev => prev.map(c => c.id === id ? { ...c, pinned: !c.pinned } : c));
+    if (!activeCollection) return;
+    setActiveCollection({
+      ...activeCollection,
+      charts: activeCollection.charts.map(c => c.id === id ? { ...c, pinned: !c.pinned } : c),
+    });
   };
 
   const removeChart = (id: number) => {
-    setCharts(prev => prev.filter(c => c.id !== id));
+    if (!activeCollection) return;
+    const updated = activeCollection.charts.filter(c => c.id !== id);
+    if (updated.length === 0) {
+      setActiveCollection(null);
+    } else {
+      setActiveCollection({ ...activeCollection, charts: updated });
+    }
     if (selectedChart?.id === id) setSelectedChart(null);
     toast.success("Chart removed");
   };
@@ -145,27 +191,29 @@ export default function VisualCentre({ onClose }: Props) {
   };
 
   const handleApplyEdit = () => {
-    if (!selectedChart || !editQuery.trim()) return;
+    if (!selectedChart || !editQuery.trim() || !activeCollection) return;
     setEditDialogOpen(false);
     toast.info("Regenerating chart...");
     setTimeout(() => {
-      setCharts(prev => prev.map(c => {
-        if (c.id !== selectedChart.id) return c;
-        // Simulate updated data
-        return {
-          ...c,
-          query: editQuery,
-          data: c.data.map(d => {
-            const updated = { ...d };
-            Object.keys(updated).forEach(k => {
-              if (typeof updated[k] === "number") {
-                updated[k] = Math.round(updated[k] * (0.8 + Math.random() * 0.4));
-              }
-            });
-            return updated;
-          }),
-        };
-      }));
+      setActiveCollection({
+        ...activeCollection,
+        charts: activeCollection.charts.map(c => {
+          if (c.id !== selectedChart.id) return c;
+          return {
+            ...c,
+            query: editQuery,
+            data: c.data.map(d => {
+              const updated = { ...d };
+              Object.keys(updated).forEach(k => {
+                if (typeof updated[k] === "number") {
+                  updated[k] = Math.round(updated[k] * (0.8 + Math.random() * 0.4));
+                }
+              });
+              return updated;
+            }),
+          };
+        }),
+      });
       toast.success("Chart updated");
     }, 1200);
   };
@@ -184,6 +232,10 @@ export default function VisualCentre({ onClose }: Props) {
 
   const handleSelectCard = (chart: GeneratedChart) => {
     setSelectedChart(selectedChart?.id === chart.id ? null : chart);
+  };
+
+  const formatTime = (date: Date) => {
+    return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
   };
 
   const renderChart = (chart: GeneratedChart, height = 200) => {
@@ -248,6 +300,11 @@ export default function VisualCentre({ onClose }: Props) {
             <BarChart3 className="h-4 w-4 text-primary-foreground" />
           </div>
           <span className="text-sm font-bold text-foreground">Visual Centre</span>
+          {history.length > 0 && (
+            <Badge variant="outline" className="text-[10px] text-muted-foreground border-border">
+              {history.length} previous {history.length === 1 ? "query" : "queries"}
+            </Badge>
+          )}
         </div>
         <Button variant="ghost" size="sm" className="h-8 w-8 p-0" onClick={onClose}>
           <X className="h-4 w-4" />
@@ -299,7 +356,7 @@ export default function VisualCentre({ onClose }: Props) {
           )}
 
           {/* Empty State */}
-          {charts.length === 0 && !isGenerating && (
+          {!activeCollection && history.length === 0 && !isGenerating && (
             <div className="flex flex-col items-center justify-center py-20 text-center">
               <div className="h-16 w-16 rounded-2xl bg-gradient-to-br from-primary/20 to-primary-glow/20 border border-primary/20 flex items-center justify-center mb-4">
                 <BarChart3 className="h-8 w-8 text-primary" />
@@ -322,48 +379,56 @@ export default function VisualCentre({ onClose }: Props) {
             </div>
           )}
 
-          {/* Selected Chart - Editable Panel */}
-          {selectedChart && (
-            <div className="mb-6 border-2 border-primary/30 rounded-xl bg-card overflow-hidden">
-              <div className="bg-primary/5 px-5 py-3 flex items-center justify-between border-b border-border">
-                <div className="flex items-center gap-2">
-                  <Badge className="bg-primary/15 text-primary border-primary/30 text-[10px]">Selected</Badge>
-                  <h3 className="text-sm font-bold text-foreground">{selectedChart.title}</h3>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Button variant="outline" size="sm" className="h-7 text-[11px] gap-1" onClick={() => handleEditChart(selectedChart)}>
-                    <Edit3 className="h-3 w-3" /> Edit Query
-                  </Button>
-                  <Button variant="outline" size="sm" className="h-7 text-[11px] gap-1" onClick={() => handleShareChart(selectedChart.id)}>
-                    <Share2 className="h-3 w-3" /> Share
-                  </Button>
-                  <Button variant="outline" size="sm" className="h-7 text-[11px] gap-1 text-destructive border-destructive/30 hover:bg-destructive/10" onClick={() => removeChart(selectedChart.id)}>
-                    <Trash2 className="h-3 w-3" /> Delete
-                  </Button>
-                  <Button variant="ghost" size="sm" className="h-7 w-7 p-0" onClick={() => setSelectedChart(null)}>
-                    <X className="h-3.5 w-3.5" />
-                  </Button>
-                </div>
-              </div>
-              <div className="p-5">
-                <p className="text-xs text-muted-foreground mb-1">Query: <span className="text-foreground italic">"{selectedChart.query}"</span></p>
-                <p className="text-[10px] text-muted-foreground mb-4">{selectedChart.description}</p>
-                {renderChart(selectedChart, 280)}
-              </div>
-            </div>
-          )}
-
-          {/* Results Grid - Saved at bottom */}
-          {charts.length > 0 && (
+          {/* Active Collection - Current Results */}
+          {activeCollection && !isGenerating && (
             <>
+              {/* Active query label */}
+              <div className="flex items-center gap-2 mb-4">
+                <Badge className="bg-primary/15 text-primary border-primary/30 text-[10px]">Active Query</Badge>
+                <span className="text-xs text-foreground font-medium italic">"{activeCollection.query}"</span>
+                <span className="text-[10px] text-muted-foreground ml-auto">{formatTime(activeCollection.timestamp)}</span>
+              </div>
+
+              {/* Selected Chart - Editable Panel */}
+              {selectedChart && (
+                <div className="mb-6 border-2 border-primary/30 rounded-xl bg-card overflow-hidden">
+                  <div className="bg-primary/5 px-5 py-3 flex items-center justify-between border-b border-border">
+                    <div className="flex items-center gap-2">
+                      <Badge className="bg-primary/15 text-primary border-primary/30 text-[10px]">Selected</Badge>
+                      <h3 className="text-sm font-bold text-foreground">{selectedChart.title}</h3>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <Button variant="outline" size="sm" className="h-7 text-[11px] gap-1" onClick={() => handleEditChart(selectedChart)}>
+                        <Edit3 className="h-3 w-3" /> Edit Query
+                      </Button>
+                      <Button variant="outline" size="sm" className="h-7 text-[11px] gap-1" onClick={() => handleShareChart(selectedChart.id)}>
+                        <Share2 className="h-3 w-3" /> Share
+                      </Button>
+                      <Button variant="outline" size="sm" className="h-7 text-[11px] gap-1 text-destructive border-destructive/30 hover:bg-destructive/10" onClick={() => removeChart(selectedChart.id)}>
+                        <Trash2 className="h-3 w-3" /> Delete
+                      </Button>
+                      <Button variant="ghost" size="sm" className="h-7 w-7 p-0" onClick={() => setSelectedChart(null)}>
+                        <X className="h-3.5 w-3.5" />
+                      </Button>
+                    </div>
+                  </div>
+                  <div className="p-5">
+                    <p className="text-xs text-muted-foreground mb-1">Query: <span className="text-foreground italic">"{selectedChart.query}"</span></p>
+                    <p className="text-[10px] text-muted-foreground mb-4">{selectedChart.description}</p>
+                    {renderChart(selectedChart, 280)}
+                  </div>
+                </div>
+              )}
+
+              {/* Active Charts Grid */}
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-base font-semibold text-foreground">
-                  Results <span className="text-xs text-muted-foreground font-normal ml-1">({charts.length} charts)</span>
+                  Results <span className="text-xs text-muted-foreground font-normal ml-1">({activeCollection.charts.length} charts)</span>
                 </h2>
                 <span className="text-[10px] text-muted-foreground">Click a card to select & edit</span>
               </div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                {charts.map(chart => {
+                {activeCollection.charts.map(chart => {
                   const isSelected = selectedChart?.id === chart.id;
                   return (
                     <div
@@ -419,6 +484,72 @@ export default function VisualCentre({ onClose }: Props) {
                 })}
               </div>
             </>
+          )}
+
+          {/* Previous Collections - History */}
+          {history.length > 0 && (
+            <div className="mt-10 border-t border-border pt-8">
+              <div className="flex items-center gap-2 mb-5">
+                <Clock className="h-4 w-4 text-muted-foreground" />
+                <h2 className="text-base font-semibold text-foreground">Previous Queries</h2>
+                <span className="text-xs text-muted-foreground font-normal">({history.length})</span>
+              </div>
+              <div className="space-y-3">
+                {history.map(collection => (
+                  <div
+                    key={collection.id}
+                    className="bg-card border border-border rounded-xl p-4 hover:border-primary/30 transition-all group"
+                  >
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center gap-3 flex-1 min-w-0">
+                        <div className="h-8 w-8 rounded-lg bg-muted flex items-center justify-center shrink-0">
+                          <BarChart3 className="h-3.5 w-3.5 text-muted-foreground" />
+                        </div>
+                        <div className="min-w-0">
+                          <p className="text-xs font-medium text-foreground truncate">"{collection.query}"</p>
+                          <p className="text-[10px] text-muted-foreground">
+                            {collection.charts.length} charts · {formatTime(collection.timestamp)}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="h-7 text-[11px] gap-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                          onClick={() => restoreCollection(collection)}
+                        >
+                          Restore <ChevronRight className="h-3 w-3" />
+                        </Button>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-7 w-7 p-0 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity hover:text-destructive"
+                          onClick={() => deleteCollection(collection.id)}
+                        >
+                          <Trash2 className="h-3 w-3" />
+                        </Button>
+                      </div>
+                    </div>
+                    {/* Mini preview of charts */}
+                    <div className="flex gap-2 overflow-x-auto pb-1">
+                      {collection.charts.map(chart => (
+                        <div
+                          key={chart.id}
+                          className="shrink-0 w-[180px] h-[100px] bg-muted/50 border border-border rounded-lg p-2 cursor-pointer hover:border-primary/30 transition-colors"
+                          onClick={() => restoreCollection(collection)}
+                        >
+                          <p className="text-[9px] font-medium text-muted-foreground truncate mb-1">{chart.title}</p>
+                          <div className="h-[70px]">
+                            {renderChart(chart, 70)}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           )}
         </div>
       </div>
