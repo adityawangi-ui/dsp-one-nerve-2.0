@@ -42,14 +42,14 @@ function getAnswer(q: string): string {
   }
   if (lower.includes("critical risk") || (lower.includes("next week") && lower.includes("action"))) {
     const critical = [...riskData].sort((a, b) => b.expectedLossCases - a.expectedLossCases).slice(0, 3);
-    return `**Critical Risks Identified for Next Week (Plant Level)**\n\n**Risk 1 — Raw Material Shortage (High)**\nLinear Alkyl Benzene (LAB) arriving 2 days late due to transporter backlog.\n→ Impacts: 4 production lines (Home Care), 18% capacity at risk.\n→ MRDR: ${critical[0]?.mrdrDescription || "N/A"} · ${critical[0]?.expectedLossCases.toLocaleString() || 0} cases at risk\n\n**Risk 2 — Packaging Material Variance (Medium)**\nFoil supplier dispatch at 72% of plan; lead time spike from 4 to 7 days.\n→ Impacts: Shampoo sachet output.\n→ MRDR: ${critical[1]?.mrdrDescription || "N/A"} · ${critical[1]?.expectedLossCases.toLocaleString() || 0} cases at risk\n\n**Risk 3 — Manpower Availability Dip (Medium)**\n11% absenteeism predicted for Night Shift due to festival period.\n→ Impacts: Pick–Pack–Dispatch lag of ~6–8 hours.\n→ MRDR: ${critical[2]?.mrdrDescription || "N/A"} · ${critical[2]?.expectedLossCases.toLocaleString() || 0} cases at risk\n\n---\n\n**Why These Risks Were Selected (Transparent Agentic Reasoning)**\n\n• Cross-checked production plan vs. confirmed inbound supply → shortage patterns detected.\n• Simulated next week's line loading → predicted 14% scheduling conflict due to LAB delay.\n• Ran supplier reliability model → anomaly spotted in packaging vendor's cycle time.\n• Mapped staffing forecast + past absentee trends → manpower spike predicted.\n• System surfaced these 3 risks because they hit highest combined score of: **business impact + probability + recovery time.**\n\n---\n\n**Recommended Actions (Prescriptive + Prioritized)**\n\n**Action 1 — Trigger alternate sourcing for LAB** (Immediate)\n• Swap 12 MT from the East region buffer.\n• Expedite with 24-hr SLA (already pre-validated with logistics partner).\n\n**Action 2 — Re-balance shampoo production sequence** (Within 3 hours)\n• Move SKUs relying on foil packaging to end of cycle.\n• Switch to HDPE lines first to avoid idle time.\n\n**Action 3 — Pre-approve overtime + temp workforce** (Within today)\n• Add 14 temporary workers via registered agency.\n• Overtime band is still within compliance.\n\n---\n\n**Immediate Next Steps (Executable Agent Actions)**\n\nI can take the following steps for you automatically:\n1. Send a request to Regional SC Lead to release 12 MT LAB buffer.\n2. Update the production schedule to reflect the optimized sequence.\n3. Draft a staffing requisition for temporary workers and route it to HR.\n4. Create a risk summary PDF for tomorrow's morning plant review.`;
+    return `**Critical Risks Identified for Next Week (Plant Level)**\n\n**Risk 1 — Raw Material Shortage (High)**\nLinear Alkyl Benzene (LAB) arriving 2 days late due to transporter backlog.\n→ Impacts: 4 production lines (Home Care), 18% capacity at risk.\n→ MRDR: ${critical[0]?.mrdrDescription || "N/A"} · ${critical[0]?.expectedLossCases.toLocaleString() || 0} cases at risk\n\n**Risk 2 — Packaging Material Variance (Medium)**\nFoil supplier dispatch at 72% of plan; lead time spike from 4 to 7 days.\n→ Impacts: Shampoo sachet output.\n→ MRDR: ${critical[1]?.mrdrDescription || "N/A"} · ${critical[1]?.expectedLossCases.toLocaleString() || 0} cases at risk\n\n**Risk 3 — Manpower Availability Dip (Medium)**\n11% absenteeism predicted for Night Shift due to festival period.\n→ Impacts: Pick–Pack–Dispatch lag of ~6–8 hours.\n→ MRDR: ${critical[2]?.mrdrDescription || "N/A"} · ${critical[2]?.expectedLossCases.toLocaleString() || 0} cases at risk\n\n---\n\n**Why These Risks Were Selected (Transparent Agentic Reasoning)**\n\n• Cross-checked production plan vs. confirmed inbound supply → shortage patterns detected.\n• Simulated next week's line loading → predicted 14% scheduling conflict due to LAB delay.\n• Ran supplier reliability model → anomaly spotted in packaging vendor's cycle time.\n• Mapped staffing forecast + past absentee trends → manpower spike predicted.\n• System surfaced these 3 risks because they hit highest combined score of: **business impact + probability + recovery time.**\n\n---\n\n**Recommended Actions (Prescriptive + Prioritized)**\n\n**Action 1 — Trigger alternate sourcing for LAB** (Immediate)\n• Swap 12 MT from the East region buffer.\n• Expedite with 24-hr SLA (already pre-validated with logistics partner).\n\n**Action 2 — Re-balance shampoo production sequence** (Within 3 hours)\n• Move SKUs relying on foil packaging to end of cycle.\n• Switch to HDPE lines first to avoid idle time.\n\n**Action 3 — Pre-approve overtime + temp workforce** (Within today)\n• Add 14 temporary workers via registered agency.\n• Overtime band is still within compliance.`;
   }
   const open = riskData.filter(r => r.status === "Open").length;
   const totalVal = riskData.reduce((s, r) => s + r.expectedLossValue, 0);
   return `**Risk Overview:**\n\n**AI Confidence: 95%**\n\n- **Total Risks:** ${riskData.length}\n- **Open:** ${open}\n- **Total Value at Risk:** €${totalVal.toLocaleString()}\n\nTry one of the suggested actions below.`;
 }
 
-interface Message { role: "user" | "assistant"; text: string; }
+interface Message { role: "user" | "assistant"; text: string; streaming?: boolean; }
 
 interface ChatSession {
   id: string;
@@ -84,26 +84,46 @@ export default function RiskAIAgent() {
     setMessages(newMessages);
     setInput("");
     setTyping(true);
+
+    // Simulate "thinking" phase, then stream text character by character
+    const thinkTime = 1500 + Math.random() * 1000;
     setTimeout(() => {
-      const answer = getAnswer(text);
-      const finalMessages = [...newMessages, { role: "assistant" as const, text: answer }];
-      setMessages(finalMessages);
+      const fullAnswer = getAnswer(text);
       setTyping(false);
 
-      // Auto-save to session
-      if (activeSessionId) {
-        setSessions(prev => prev.map(s => s.id === activeSessionId ? { ...s, messages: finalMessages } : s));
-      } else {
-        const newSession: ChatSession = {
-          id: `s-${Date.now()}`,
-          title: text.slice(0, 40),
-          messages: finalMessages,
-          createdAt: new Date(),
-        };
-        setSessions(prev => [newSession, ...prev]);
-        setActiveSessionId(newSession.id);
-      }
-    }, 1200);
+      // Start streaming
+      const streamMsg: Message = { role: "assistant", text: "", streaming: true };
+      const withStream = [...newMessages, streamMsg];
+      setMessages(withStream);
+
+      let charIndex = 0;
+      const speed = 8; // ms per character
+      const interval = setInterval(() => {
+        charIndex += Math.floor(Math.random() * 3) + 1; // vary speed slightly
+        if (charIndex >= fullAnswer.length) {
+          charIndex = fullAnswer.length;
+          clearInterval(interval);
+          const finalMessages = [...newMessages, { role: "assistant" as const, text: fullAnswer }];
+          setMessages(finalMessages);
+
+          // Auto-save to session
+          if (activeSessionId) {
+            setSessions(prev => prev.map(s => s.id === activeSessionId ? { ...s, messages: finalMessages } : s));
+          } else {
+            const newSession: ChatSession = {
+              id: `s-${Date.now()}`,
+              title: text.slice(0, 40),
+              messages: finalMessages,
+              createdAt: new Date(),
+            };
+            setSessions(prev => [newSession, ...prev]);
+            setActiveSessionId(newSession.id);
+          }
+        } else {
+          setMessages([...newMessages, { role: "assistant", text: fullAnswer.slice(0, charIndex), streaming: true }]);
+        }
+      }, speed);
+    }, thinkTime);
   };
 
   const startNewChat = () => {
@@ -282,7 +302,12 @@ export default function RiskAIAgent() {
                     ? "bg-gradient-to-r from-primary to-primary-glow text-primary-foreground rounded-br-sm"
                     : "bg-secondary/50 text-foreground rounded-bl-sm border border-border/40"
                 }`}>
-                  {m.role === "assistant" ? renderMarkdown(m.text) : m.text}
+                  {m.role === "assistant" ? (
+                    <>
+                      {renderMarkdown(m.text)}
+                      {m.streaming && <span className="inline-block w-1.5 h-3.5 bg-primary ml-0.5 animate-pulse rounded-sm" />}
+                    </>
+                  ) : m.text}
                 </div>
               </div>
             ))}
