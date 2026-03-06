@@ -151,8 +151,8 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
     <Badge variant="outline" className="ml-1.5 text-[9px] font-bold uppercase bg-new-bg text-new border-new-border neon-text-amber animate-pulse">NEW</Badge>
   );
 
-  const cellCls = "text-[11px] whitespace-nowrap px-3 py-2.5";
-  const childCellCls = "text-[11px] whitespace-nowrap px-3 py-2";
+  const cellCls = "text-[11px] whitespace-nowrap px-3 py-2.5 font-sans";
+  const childCellCls = "text-[11px] whitespace-nowrap px-3 py-2 font-sans";
 
   // Convert quantity from row's UOM to displayUom
   const convertQty = (value: number, fromUom: string) => {
