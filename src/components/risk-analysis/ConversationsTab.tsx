@@ -73,6 +73,7 @@ const mockConversations: Conversation[] = [
     unread: 2,
     participants: ["Sarah Johnson", "Risk AI", "John Smith"],
     isGroup: true,
+    status: "in-progress",
   },
 ];
 
