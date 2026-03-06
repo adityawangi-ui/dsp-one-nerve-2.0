@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import { useNavigate } from "react-router-dom";
 import { riskData, RiskRow } from "@/data/riskData";
 import { Home, ChevronRight, Shield, Clock, BarChart3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
