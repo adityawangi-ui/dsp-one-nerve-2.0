@@ -256,90 +256,61 @@ export default function ScenarioSimulatorTab({ row, onSelectScenario, selectedSc
             </div>
 
             <div className="p-5 space-y-5">
-              {/* AI Reasoning — "Why AI Recommended This" */}
-              <div className="border border-primary/20 rounded-xl p-4 bg-primary/[0.03]">
-                <div className="flex items-center gap-2 mb-3">
-                  <Brain className="h-4 w-4 text-primary neon-text" />
-                  <h5 className="text-sm font-semibold text-foreground">Why AI Recommended This</h5>
-                  <Badge className="bg-primary/10 text-primary border-primary/20 text-[9px] ml-auto">
-                    Confidence: {s.id === 1 ? "82%" : s.id === 2 ? "88%" : "94%"}
-                  </Badge>
-                </div>
-                <div className="space-y-2">
-                  {(s.id === 3 ? [
-                    "Similar disruption occurred in Q1 2025 — this approach achieved 89% success",
-                    "Supplier reliability score dropped from 92% → 78%, favoring stock rebalancing",
-                    "Demand forecast increased 22% for W3 — requires immediate capacity uplift",
-                    "Cost-efficiency ratio is 40% better than alternative scenarios",
-                  ] : s.id === 2 ? [
-                    "PU3 backup line has 88% reliability based on last 12 activations",
-                    "Extra shift pattern matched 91% success in Jan 2025 similar case",
-                    "Critical SKU prioritization preserves highest-margin items first",
-                  ] : [
-                    "Transshipment from DC-South has 82% success for logistics disruptions",
-                    "SKU substitution can recover 60% of volume within 48 hours",
-                    "Combined approach shows synergy based on Q4 2025 precedent",
-                  ]).map((reason, i) => (
-                    <div key={i} className="flex items-start gap-2">
-                      <span className="h-1.5 w-1.5 rounded-full bg-primary mt-1.5 shrink-0" />
-                      <p className="text-xs text-muted-foreground">{reason}</p>
-                    </div>
-                  ))}
-                </div>
-                <div className="mt-3 pt-3 border-t border-border/30 flex items-center gap-4 text-[10px] text-muted-foreground">
-                  <span>📊 {s.id === 3 ? 42 : s.id === 2 ? 35 : 28} historical cases analyzed</span>
-                  <span>📈 Demand patterns matched</span>
-                  <span>🔧 Supplier reliability factored</span>
-                </div>
-              </div>
+              {/* AI Reasoning & Insights (merged) */}
+               <div className="border border-primary/20 rounded-xl p-4 bg-primary/[0.03]">
+                 <div className="flex items-center gap-2 mb-3">
+                   <Brain className="h-4 w-4 text-primary neon-text" />
+                   <h5 className="text-sm font-semibold text-foreground">AI Reasoning & Insights</h5>
+                   <Badge className="bg-primary/10 text-primary border-primary/20 text-[9px] ml-auto">
+                     Confidence: {s.id === 1 ? "82%" : s.id === 2 ? "88%" : "94%"}
+                   </Badge>
+                 </div>
+                 <div className="space-y-2">
+                   {[
+                     ...(s.id === 3 ? [
+                       "Similar disruption occurred in Q1 2025 — this approach achieved 89% success",
+                       "Supplier reliability score dropped from 92% → 78%, favoring stock rebalancing",
+                       "Demand forecast increased 22% for W3 — requires immediate capacity uplift",
+                       "Cost-efficiency ratio is 40% better than alternative scenarios",
+                     ] : s.id === 2 ? [
+                       "PU3 backup line has 88% reliability based on last 12 activations",
+                       "Extra shift pattern matched 91% success in Jan 2025 similar case",
+                       "Critical SKU prioritization preserves highest-margin items first",
+                     ] : [
+                       "Transshipment from DC-South has 82% success for logistics disruptions",
+                       "SKU substitution can recover 60% of volume within 48 hours",
+                       "Combined approach shows synergy based on Q4 2025 precedent",
+                     ]),
+                     ...details.aiInsights,
+                   ].map((reason, i) => (
+                     <div key={i} className="flex items-start gap-2">
+                       <span className="h-1.5 w-1.5 rounded-full bg-primary mt-1.5 shrink-0" />
+                       <p className="text-xs text-muted-foreground">{reason}</p>
+                     </div>
+                   ))}
+                 </div>
+                 <div className="mt-3 pt-3 border-t border-border/30 flex items-center gap-4 text-[10px] text-muted-foreground">
+                   <span>📊 {s.id === 3 ? 42 : s.id === 2 ? 35 : 28} historical cases analyzed</span>
+                   <span>📈 Demand patterns matched</span>
+                   <span>🔧 Supplier reliability factored</span>
+                 </div>
+               </div>
 
-              {/* AI Insights */}
-              <div>
-                <div className="flex items-center gap-2 mb-3">
-                  <Zap className="h-4 w-4 text-primary" />
-                  <h5 className="text-sm font-semibold text-foreground">AI Insights</h5>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                  {details.aiInsights.map((insight, i) => (
-                    <div key={i} className="flex items-start gap-2 bg-primary/5 rounded-lg p-3">
-                      <Zap className="h-3.5 w-3.5 text-primary mt-0.5 shrink-0" />
-                      <p className="text-xs text-foreground">{insight}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Actions & Risks */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <TrendingUp className="h-4 w-4 text-success" />
-                    <h5 className="text-xs font-semibold text-foreground">Mitigation Actions</h5>
-                  </div>
-                  <ul className="space-y-1.5">
-                    {details.actions.map((a, i) => (
-                      <li key={i} className="text-xs text-muted-foreground flex items-start gap-1.5">
-                        <CheckCircle2 className="h-3 w-3 text-success mt-0.5 shrink-0" />
-                        {a}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div>
-                  <div className="flex items-center gap-2 mb-2">
-                    <Shield className="h-4 w-4 text-warning" />
-                    <h5 className="text-xs font-semibold text-foreground">Risk Factors</h5>
-                  </div>
-                  <ul className="space-y-1.5">
-                    {details.risks.map((r, i) => (
-                      <li key={i} className="text-xs text-muted-foreground flex items-start gap-1.5">
-                        <span className="text-warning mt-0.5">⚠</span>
-                        {r}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
+               {/* AI Insights (merged) */}
+               <div>
+                 <div className="flex items-center gap-2 mb-3">
+                   <Zap className="h-4 w-4 text-primary" />
+                   <h5 className="text-sm font-semibold text-foreground">AI Insights & Analysis</h5>
+                 </div>
+                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                   {details.aiInsights.map((insight, i) => (
+                     <div key={i} className="flex items-start gap-2 bg-primary/5 rounded-lg p-3">
+                       <Zap className="h-3.5 w-3.5 text-primary mt-0.5 shrink-0" />
+                       <p className="text-xs text-foreground">{insight}</p>
+                     </div>
+                   ))}
+                 </div>
+               </div>
 
               {/* Timeline */}
               <div className="bg-secondary rounded-lg px-4 py-2">
@@ -507,60 +478,36 @@ function PlannerRefinementDialog({
             </DialogTitle>
           </DialogHeader>
 
-          <div className="space-y-5">
-            <div>
-              <Label className="text-sm font-semibold text-foreground">Select Scenarios to Refine</Label>
-              <div className="mt-3 space-y-3">
-                <Select
-                  value={selectAll ? "all" : selectedIds.length === 1 ? String(selectedIds[0]) : selectedIds.length > 1 ? "multiple" : ""}
-                  onValueChange={(val) => {
-                    if (val === "all") {
-                      handleSelectAll(true);
-                    } else {
-                      setSelectAll(false);
-                      const id = Number(val);
-                      setSelectedIds([id]);
-                    }
-                  }}
-                >
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Choose scenarios to refine">
-                      {selectAll ? "All Scenarios" : selectedIds.length > 1 ? `${selectedIds.length} scenarios selected` : selectedIds.length === 1 ? `Scenario ${selectedIds[0]}: ${scenarios.find(s => s.id === selectedIds[0])?.name}` : "Choose scenarios to refine"}
-                    </SelectValue>
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Scenarios</SelectItem>
-                    {scenarios.map(s => (
-                      <SelectItem key={s.id} value={String(s.id)}>
-                        Scenario {s.id}: {s.name} {s.recommended ? "(Recommended)" : ""}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                
-                {/* Multi-select checkboxes below dropdown */}
-                <div className="border border-border rounded-lg p-3 space-y-2 bg-secondary/20">
-                  <p className="text-[10px] text-muted-foreground uppercase tracking-wider mb-1">Or select multiple:</p>
-                  <div className="flex items-center gap-2">
-                    <Checkbox id="all" checked={selectAll} onCheckedChange={(c) => handleSelectAll(!!c)} />
-                    <Label htmlFor="all" className="text-xs font-medium cursor-pointer">Select All</Label>
-                  </div>
-                  {scenarios.map(s => (
-                    <div key={s.id} className="flex items-center gap-2">
-                      <Checkbox
-                        id={`s-${s.id}`}
-                        checked={selectedIds.includes(s.id)}
-                        onCheckedChange={() => toggleScenario(s.id)}
-                      />
-                      <Label htmlFor={`s-${s.id}`} className="text-xs cursor-pointer flex-1">
-                        <span className="font-medium">S{s.id}:</span> {s.name}
-                      </Label>
-                      {s.recommended && <Badge className="bg-success text-success-foreground border-0 text-[9px]">REC</Badge>}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+           <div className="space-y-5">
+             <div>
+               <Label className="text-sm font-semibold text-foreground">Select Scenario to Refine</Label>
+               <div className="mt-3">
+                 <Select
+                   value={selectAll ? "all" : selectedIds.length === 1 ? String(selectedIds[0]) : ""}
+                   onValueChange={(val) => {
+                     if (val === "all") {
+                       handleSelectAll(true);
+                     } else {
+                       setSelectAll(false);
+                       const id = Number(val);
+                       setSelectedIds([id]);
+                     }
+                   }}
+                 >
+                   <SelectTrigger className="w-full">
+                     <SelectValue placeholder="Choose a scenario to refine" />
+                   </SelectTrigger>
+                   <SelectContent>
+                     <SelectItem value="all">All Scenarios</SelectItem>
+                     {scenarios.map(s => (
+                       <SelectItem key={s.id} value={String(s.id)}>
+                         S{s.id}: {s.name} {s.recommended ? "(Recommended)" : ""}
+                       </SelectItem>
+                     ))}
+                   </SelectContent>
+                 </Select>
+               </div>
+             </div>
 
             <div>
               <Label className="text-sm font-semibold text-foreground">Refinement Feedback</Label>

@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Checkbox } from "@/components/ui/checkbox";
-import { LayoutList, Download, Share2, Plus, Eye, ChevronRight, ChevronDown, ChevronUp, Columns3, Send, Search } from "lucide-react";
+import { LayoutList, Download, Share2, Plus, Eye, ChevronRight, ChevronDown, ChevronUp, Columns3, Send, Search, ChevronLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -37,6 +37,12 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
   const [shareMsg, setShareMsg] = useState("");
   const [addDialog, setAddDialog] = useState(false);
   const [uomFilter, setUomFilter] = useState<string>("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const ROWS_PER_PAGE = 10;
+
+  // UOM conversion factors relative to CS (cases)
+  const uomConversionFactors: Record<string, number> = { CS: 1, EA: 12, KG: 0.5, L: 0.75, PAL: 0.02 };
+  const [displayUom, setDisplayUom] = useState<string>("CS");
 
   const toggleSort = (col: string) => {
     if (sortCol === col) setSortDir(d => d === "asc" ? "desc" : "asc");
@@ -129,6 +135,14 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
   const cellCls = "text-[11px] whitespace-nowrap px-3 py-2.5";
   const childCellCls = "text-[11px] whitespace-nowrap px-3 py-2";
 
+  // Convert quantity from row's UOM to displayUom
+  const convertQty = (value: number, fromUom: string) => {
+    if (fromUom === displayUom) return value;
+    const fromFactor = uomConversionFactors[fromUom] || 1;
+    const toFactor = uomConversionFactors[displayUom] || 1;
+    return Math.round(value * (fromFactor / toFactor));
+  };
+
   return (
     <div className="section-card overflow-hidden">
       {/* Toolbar */}
@@ -137,6 +151,17 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
           <LayoutList className="h-4 w-4 text-primary" />
           <span className="text-sm font-semibold text-foreground">Detailed Risk View</span>
           <span className="text-[11px] text-muted-foreground">{data.length} items</span>
+          <div className="flex items-center gap-1 ml-2">
+            <span className="text-[10px] text-muted-foreground">UOM:</span>
+            <Select value={displayUom} onValueChange={(v) => setDisplayUom(v)}>
+              <SelectTrigger className="h-6 min-w-[70px] text-[10px] font-semibold border-border/40 bg-card">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {["CS", "EA", "KG", "L", "PAL"].map(u => <SelectItem key={u} value={u}>{u}</SelectItem>)}
+              </SelectContent>
+            </Select>
+          </div>
         </div>
         <div className="flex items-center gap-2 flex-wrap">
           <div className="flex rounded-lg border border-border overflow-hidden">
@@ -239,7 +264,11 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
               </tr>
             </thead>
             <tbody>
-              {mrdrAggData.map((agg) => {
+              {(() => {
+                const totalPages = Math.ceil(mrdrAggData.length / ROWS_PER_PAGE);
+                const paginatedData = mrdrAggData.slice((currentPage - 1) * ROWS_PER_PAGE, currentPage * ROWS_PER_PAGE);
+                return paginatedData;
+              })().map((agg) => {
                 const expanded = expandedMrdrs.has(agg.mrdr);
                 const childRows = data.filter(r => r.mrdr === agg.mrdr);
                 const hasMultiple = agg.lineCount > 1;
@@ -280,7 +309,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                       {/* MSO Country - frozen */}
                       <td className={cellCls} style={frozenCellStyle("msoCountry", rowNewVariant)}>{agg.msoCountry}</td>
                       {/* UOM - frozen */}
-                      <td className={cellCls} style={frozenCellStyle("uom", rowNewVariant)}>{agg.uom}</td>
+                      <td className={cellCls} style={frozenCellStyle("uom", rowNewVariant)}>{displayUom}</td>
                       {/* Scrollable columns */}
                       <td className={cellCls}>{agg.site}</td>
                       <td className={cellCls}>{agg.su}</td>
@@ -292,8 +321,8 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                       <td className={cellCls}>{agg.startedOnWeek}</td>
                       <td className={cellCls}>{agg.endedOnWeek || "—"}</td>
                       <td className={`${cellCls} font-mono`}>{agg.riskInDays}</td>
-                      <td className={`${cellCls} font-mono`}>{agg.stockCS.toLocaleString()}</td>
-                      <td className={`${cellCls} font-mono`}>{agg.expectedLossCases.toLocaleString()}</td>
+                      <td className={`${cellCls} font-mono`}>{convertQty(agg.stockCS, agg.uom).toLocaleString()}</td>
+                      <td className={`${cellCls} font-mono`}>{convertQty(agg.expectedLossCases, agg.uom).toLocaleString()}</td>
                       <td className={`${cellCls} font-mono`}>€{agg.expectedLossValue.toLocaleString()}</td>
                       <td className={cellCls}>{agg.nextAvailableDate || "—"}</td>
                       <td className={cellCls}>{agg.botReasonCode}</td>
@@ -323,7 +352,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                           <td className={`${childCellCls} font-mono`} style={frozenCellStyle("mrdr", childVariant)}>{cr.mrdr}</td>
                           <td className={childCellCls} style={frozenCellStyle("mrdrDescription", childVariant)}>{cr.mrdrDescription}</td>
                           <td className={childCellCls} style={frozenCellStyle("msoCountry", childVariant)}>{cr.msoCountry}</td>
-                          <td className={childCellCls} style={frozenCellStyle("uom", childVariant)}>{cr.uom}</td>
+                          <td className={childCellCls} style={frozenCellStyle("uom", childVariant)}>{displayUom}</td>
                           <td className={childCellCls}>{cr.site}</td>
                           <td className={childCellCls}>{cr.su}</td>
                           <td className={childCellCls}><Badge variant="outline" className={`text-[10px] ${cr.riskType === "Out Of Stock" ? "bg-critical-bg text-critical border-critical-border" : "bg-medium-bg text-medium border-medium-border"}`}>{cr.riskType}</Badge></td>
@@ -334,8 +363,8 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                           <td className={childCellCls}>{cr.startedOnWeek}</td>
                           <td className={childCellCls}>{cr.endedOnWeek || "—"}</td>
                           <td className={`${childCellCls} font-mono`}>{cr.riskInDays}</td>
-                          <td className={`${childCellCls} font-mono`}>{cr.stockCS.toLocaleString()}</td>
-                          <td className={`${childCellCls} font-mono`}>{cr.expectedLossCases.toLocaleString()}</td>
+                          <td className={`${childCellCls} font-mono`}>{convertQty(cr.stockCS, cr.uom).toLocaleString()}</td>
+                          <td className={`${childCellCls} font-mono`}>{convertQty(cr.expectedLossCases, cr.uom).toLocaleString()}</td>
                           <td className={`${childCellCls} font-mono`}>€{cr.expectedLossValue.toLocaleString()}</td>
                           <td className={childCellCls}>{cr.nextAvailableDate || "—"}</td>
                           <td className={childCellCls}>{cr.botReasonCode}</td>
@@ -442,6 +471,37 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
         </div>
       )}
 
+      {/* Pagination Controls */}
+      {view === "mrdr" && (() => {
+        const totalPages = Math.ceil(mrdrAggData.length / ROWS_PER_PAGE);
+        if (totalPages <= 1) return null;
+        return (
+          <div className="flex items-center justify-between mt-4 px-2">
+            <span className="text-[11px] text-muted-foreground">
+              Showing {((currentPage - 1) * ROWS_PER_PAGE) + 1}–{Math.min(currentPage * ROWS_PER_PAGE, mrdrAggData.length)} of {mrdrAggData.length}
+            </span>
+            <div className="flex items-center gap-1">
+              <Button variant="outline" size="sm" className="h-7 w-7 p-0" disabled={currentPage === 1} onClick={() => setCurrentPage(p => p - 1)}>
+                <ChevronLeft className="h-3.5 w-3.5" />
+              </Button>
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                <Button
+                  key={page}
+                  variant={page === currentPage ? "default" : "outline"}
+                  size="sm"
+                  className={`h-7 w-7 p-0 text-[11px] ${page === currentPage ? "bg-primary text-primary-foreground" : ""}`}
+                  onClick={() => setCurrentPage(page)}
+                >
+                  {page}
+                </Button>
+              ))}
+              <Button variant="outline" size="sm" className="h-7 w-7 p-0" disabled={currentPage === totalPages} onClick={() => setCurrentPage(p => p + 1)}>
+                <ChevronRight className="h-3.5 w-3.5" />
+              </Button>
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Share Dialog */}
       <Dialog open={shareDialog} onOpenChange={setShareDialog}>
