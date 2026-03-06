@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { riskData } from "@/data/riskData";
-import { ArrowLeft, Search, Settings as SettingsIcon, RefreshCw, Download, User, Database, MessageSquare, Clock, CheckCircle2, Play } from "lucide-react";
+import { ArrowLeft, Search, Settings as SettingsIcon, User, Database, MessageSquare, Play, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -9,6 +9,7 @@ import InsightsTab from "@/components/risk-analysis/InsightsTab";
 import InsightsDataTab from "@/components/risk-analysis/InsightsDataTab";
 import ScenarioSimulatorTab, { Scenario } from "@/components/risk-analysis/ScenarioSimulatorTab";
 import LastMileExecution from "@/components/risk-analysis/LastMileExecution";
+import ConversationsTab from "@/components/risk-analysis/ConversationsTab";
 
 export default function RiskAnalysisWorkflow() {
   const navigate = useNavigate();
@@ -42,8 +43,6 @@ export default function RiskAnalysisWorkflow() {
         </div>
         <div className="flex items-center gap-4 text-xs text-muted-foreground">
           <span className="flex items-center gap-1.5"><User className="h-3.5 w-3.5" /> John Smith</span>
-          <button className="flex items-center gap-1 hover:text-foreground transition-colors"><RefreshCw className="h-3.5 w-3.5" /> Refresh</button>
-          <button className="flex items-center gap-1 hover:text-foreground transition-colors"><Download className="h-3.5 w-3.5" /> Export</button>
           <button className="hover:text-foreground transition-colors"><SettingsIcon className="h-3.5 w-3.5" /></button>
         </div>
       </header>
@@ -72,23 +71,15 @@ export default function RiskAnalysisWorkflow() {
                 <TabsTrigger value="recommendations" className="text-xs gap-1.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg px-4">
                   <Search className="h-3.5 w-3.5" /> Recommendations
                 </TabsTrigger>
-                <TabsTrigger value="workflow" className="text-xs gap-1.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg px-4">
-                  <SettingsIcon className="h-3.5 w-3.5" /> Workflow Management
-                </TabsTrigger>
-                <TabsTrigger value="poc" className="text-xs gap-1.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg px-4">
-                  <MessageSquare className="h-3.5 w-3.5" /> POC Communication
-                </TabsTrigger>
-                <TabsTrigger value="chat-history" className="text-xs gap-1.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg px-4">
-                  <Clock className="h-3.5 w-3.5" /> Chat History
+                <TabsTrigger value="conversations" className="text-xs gap-1.5 data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg px-4">
+                  <MessageSquare className="h-3.5 w-3.5" /> Conversations
                 </TabsTrigger>
               </TabsList>
 
-              {/* Tab 1: Insights & Data */}
               <TabsContent value="insights-data">
                 <InsightsDataTab row={row} />
               </TabsContent>
 
-              {/* Tab 2: Recommendations */}
               <TabsContent value="recommendations">
                 <InsightsTab row={row} />
                 <div className="mt-8">
@@ -101,29 +92,8 @@ export default function RiskAnalysisWorkflow() {
                 </div>
               </TabsContent>
 
-              {/* Tab 3-5: Placeholders */}
-              <TabsContent value="workflow">
-                <div className="border border-border rounded-xl p-12 bg-card text-center">
-                  <SettingsIcon className="h-10 w-10 text-muted-foreground/30 mx-auto mb-3" />
-                  <h3 className="text-base font-semibold text-foreground mb-1">Workflow Management</h3>
-                  <p className="text-sm text-muted-foreground">Workflow management features are coming soon.</p>
-                </div>
-              </TabsContent>
-
-              <TabsContent value="poc">
-                <div className="border border-border rounded-xl p-12 bg-card text-center">
-                  <MessageSquare className="h-10 w-10 text-muted-foreground/30 mx-auto mb-3" />
-                  <h3 className="text-base font-semibold text-foreground mb-1">POC Communication</h3>
-                  <p className="text-sm text-muted-foreground">Point of contact communication features are coming soon.</p>
-                </div>
-              </TabsContent>
-
-              <TabsContent value="chat-history">
-                <div className="border border-border rounded-xl p-12 bg-card text-center">
-                  <Clock className="h-10 w-10 text-muted-foreground/30 mx-auto mb-3" />
-                  <h3 className="text-base font-semibold text-foreground mb-1">Chat History</h3>
-                  <p className="text-sm text-muted-foreground">Chat history and communication logs will appear here.</p>
-                </div>
+              <TabsContent value="conversations">
+                <ConversationsTab row={row} />
               </TabsContent>
             </Tabs>
           )}
