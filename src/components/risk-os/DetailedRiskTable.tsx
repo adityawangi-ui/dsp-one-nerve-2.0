@@ -256,7 +256,11 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
               </tr>
             </thead>
             <tbody>
-              {mrdrAggData.map((agg) => {
+              {(() => {
+                const totalPages = Math.ceil(mrdrAggData.length / ROWS_PER_PAGE);
+                const paginatedData = mrdrAggData.slice((currentPage - 1) * ROWS_PER_PAGE, currentPage * ROWS_PER_PAGE);
+                return paginatedData;
+              })().map((agg) => {
                 const expanded = expandedMrdrs.has(agg.mrdr);
                 const childRows = data.filter(r => r.mrdr === agg.mrdr);
                 const hasMultiple = agg.lineCount > 1;
