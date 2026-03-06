@@ -78,6 +78,14 @@ export default function RiskOverview() {
           <Button variant="ghost" size="sm" className="h-8 text-xs gap-1.5 text-muted-foreground hover:text-primary">
             <Download className="h-3.5 w-3.5" /> Export
           </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-8 text-xs gap-1.5 text-muted-foreground hover:text-primary"
+            onClick={() => setShowVisualCentre(true)}
+          >
+            <BarChart3 className="h-3.5 w-3.5" /> Visual Centre
+          </Button>
           <div className="h-6 w-px bg-border" />
           <Button variant="ghost" size="sm" className="h-8 w-8 p-0 relative">
             <Bell className="h-4 w-4 text-muted-foreground" />
