@@ -37,6 +37,12 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
   const [shareMsg, setShareMsg] = useState("");
   const [addDialog, setAddDialog] = useState(false);
   const [uomFilter, setUomFilter] = useState<string>("all");
+  const [currentPage, setCurrentPage] = useState(1);
+  const ROWS_PER_PAGE = 10;
+
+  // UOM conversion factors relative to CS (cases)
+  const uomConversionFactors: Record<string, number> = { CS: 1, EA: 12, KG: 0.5, L: 0.75, PAL: 0.02 };
+  const [displayUom, setDisplayUom] = useState<string>("CS");
 
   const toggleSort = (col: string) => {
     if (sortCol === col) setSortDir(d => d === "asc" ? "desc" : "asc");
