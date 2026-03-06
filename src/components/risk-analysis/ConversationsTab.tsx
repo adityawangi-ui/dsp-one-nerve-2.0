@@ -58,6 +58,7 @@ const mockConversations: Conversation[] = [
     lastActivity: new Date(Date.now() - 5400000),
     unread: 0,
     participants: ["Pierre Dupont", "Risk AI"],
+    status: "completed",
   },
   {
     id: "conv-3",
