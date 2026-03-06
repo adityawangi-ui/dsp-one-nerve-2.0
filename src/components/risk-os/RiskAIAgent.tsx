@@ -302,7 +302,12 @@ export default function RiskAIAgent() {
                     ? "bg-gradient-to-r from-primary to-primary-glow text-primary-foreground rounded-br-sm"
                     : "bg-secondary/50 text-foreground rounded-bl-sm border border-border/40"
                 }`}>
-                  {m.role === "assistant" ? renderMarkdown(m.text) : m.text}
+                  {m.role === "assistant" ? (
+                    <>
+                      {renderMarkdown(m.text)}
+                      {m.streaming && <span className="inline-block w-1.5 h-3.5 bg-primary ml-0.5 animate-pulse rounded-sm" />}
+                    </>
+                  ) : m.text}
                 </div>
               </div>
             ))}
