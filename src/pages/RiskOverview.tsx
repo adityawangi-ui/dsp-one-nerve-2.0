@@ -9,6 +9,7 @@ import DetailedRiskTable from "@/components/risk-os/DetailedRiskTable";
 import InsightsPanel from "@/components/risk-os/InsightsPanel";
 import RiskAIAgent from "@/components/risk-os/RiskAIAgent";
 import RiskAnalysisPanel from "@/components/risk-os/RiskAnalysisPanel";
+import VisualCentre from "@/components/visual-centre/VisualCentre";
 
 export default function RiskOverview() {
   const [rows, setRows] = useState<RiskRow[]>([...riskData]);
