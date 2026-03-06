@@ -135,6 +135,14 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
   const cellCls = "text-[11px] whitespace-nowrap px-3 py-2.5";
   const childCellCls = "text-[11px] whitespace-nowrap px-3 py-2";
 
+  // Convert quantity from row's UOM to displayUom
+  const convertQty = (value: number, fromUom: string) => {
+    if (fromUom === displayUom) return value;
+    const fromFactor = uomConversionFactors[fromUom] || 1;
+    const toFactor = uomConversionFactors[displayUom] || 1;
+    return Math.round(value * (fromFactor / toFactor));
+  };
+
   return (
     <div className="section-card overflow-hidden">
       {/* Toolbar */}
