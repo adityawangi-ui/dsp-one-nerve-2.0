@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { RiskRow } from "@/data/riskData";
-import { X, Database, Search, Settings as SettingsIcon, MessageSquare, Clock, ArrowLeft, Play, CheckCircle2 } from "lucide-react";
+import { X, Database, Search, MessageSquare, ArrowLeft, Play, CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -9,6 +9,7 @@ import InsightsDataTab from "@/components/risk-analysis/InsightsDataTab";
 import InsightsTab from "@/components/risk-analysis/InsightsTab";
 import ScenarioSimulatorTab, { Scenario } from "@/components/risk-analysis/ScenarioSimulatorTab";
 import LastMileExecution from "@/components/risk-analysis/LastMileExecution";
+import ConversationsTab from "@/components/risk-analysis/ConversationsTab";
 
 interface Props {
   row: RiskRow;
