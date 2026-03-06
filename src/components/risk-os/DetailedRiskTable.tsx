@@ -458,10 +458,10 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                       <td className={cellCls}><Badge variant="outline" className={`text-[10px] ${grow.riskType === "Out Of Stock" ? "bg-critical-bg text-critical border-critical-border" : "bg-medium-bg text-medium border-medium-border"}`}>{grow.riskType}</Badge></td>
                       <td className={cellCls}><Badge variant="outline" className={`text-[10px] ${sevBadgeClass(grow.severity)}`}>{grow.severity}</Badge></td>
                       <td className={cellCls}><Badge variant="outline" className={`text-[10px] ${priBadgeClass(grow.priority)}`}>{grow.priority}</Badge></td>
-                      <td className={`${cellCls} font-mono`}>{grow.riskInDays}</td>
-                      <td className={`${cellCls} font-mono`}>{grow.stockCS.toLocaleString()}</td>
-                      <td className={`${cellCls} font-mono`}>{grow.expectedLossCases.toLocaleString()}</td>
-                      <td className={`${cellCls} font-mono`}>€{grow.expectedLossValue.toLocaleString()}</td>
+                      <td className={cellCls}>{grow.riskInDays}</td>
+                      <td className={cellCls}>{grow.stockCS.toLocaleString()}</td>
+                      <td className={cellCls}>{grow.expectedLossCases.toLocaleString()}</td>
+                      <td className={cellCls}>€{grow.expectedLossValue.toLocaleString()}</td>
                     </tr>
                     {expanded && childRows.map(cr => (
                       <tr key={cr.riskId} className={`border-b border-border/30 ${cr.isNew ? "bg-destructive/[0.06]" : "bg-muted/30"}`}>
