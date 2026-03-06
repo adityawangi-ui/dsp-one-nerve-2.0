@@ -118,6 +118,7 @@ const defaultFilters: Filters = {
 
 // ── Component ──────────────────────────────────────────
 export default function RiskMonitor() {
+  const navigate = useNavigate();
   const [filters, setFilters] = useState<Filters>(defaultFilters);
   const [sortCol, setSortCol] = useState<string | null>(null);
   const [sortDir, setSortDir] = useState<"asc" | "desc">("asc");
