@@ -507,60 +507,36 @@ function PlannerRefinementDialog({
             </DialogTitle>
           </DialogHeader>
 
-          <div className="space-y-5">
-            <div>
-              <Label className="text-sm font-semibold text-foreground">Select Scenarios to Refine</Label>
-              <div className="mt-3 space-y-3">
-                <Select
-                  value={selectAll ? "all" : selectedIds.length === 1 ? String(selectedIds[0]) : selectedIds.length > 1 ? "multiple" : ""}
-                  onValueChange={(val) => {
-                    if (val === "all") {
-                      handleSelectAll(true);
-                    } else {
-                      setSelectAll(false);
-                      const id = Number(val);
-                      setSelectedIds([id]);
-                    }
-                  }}
-                >
-                  <SelectTrigger className="w-full">
-                    <SelectValue placeholder="Choose scenarios to refine">
-                      {selectAll ? "All Scenarios" : selectedIds.length > 1 ? `${selectedIds.length} scenarios selected` : selectedIds.length === 1 ? `Scenario ${selectedIds[0]}: ${scenarios.find(s => s.id === selectedIds[0])?.name}` : "Choose scenarios to refine"}
-                    </SelectValue>
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="all">All Scenarios</SelectItem>
-                    {scenarios.map(s => (
-                      <SelectItem key={s.id} value={String(s.id)}>
-                        Scenario {s.id}: {s.name} {s.recommended ? "(Recommended)" : ""}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                
-                {/* Multi-select checkboxes below dropdown */}
-                <div className="border border-border rounded-lg p-3 space-y-2 bg-secondary/20">
-                  <p className="text-[10px] text-muted-foreground uppercase tracking-wider mb-1">Or select multiple:</p>
-                  <div className="flex items-center gap-2">
-                    <Checkbox id="all" checked={selectAll} onCheckedChange={(c) => handleSelectAll(!!c)} />
-                    <Label htmlFor="all" className="text-xs font-medium cursor-pointer">Select All</Label>
-                  </div>
-                  {scenarios.map(s => (
-                    <div key={s.id} className="flex items-center gap-2">
-                      <Checkbox
-                        id={`s-${s.id}`}
-                        checked={selectedIds.includes(s.id)}
-                        onCheckedChange={() => toggleScenario(s.id)}
-                      />
-                      <Label htmlFor={`s-${s.id}`} className="text-xs cursor-pointer flex-1">
-                        <span className="font-medium">S{s.id}:</span> {s.name}
-                      </Label>
-                      {s.recommended && <Badge className="bg-success text-success-foreground border-0 text-[9px]">REC</Badge>}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+           <div className="space-y-5">
+             <div>
+               <Label className="text-sm font-semibold text-foreground">Select Scenario to Refine</Label>
+               <div className="mt-3">
+                 <Select
+                   value={selectAll ? "all" : selectedIds.length === 1 ? String(selectedIds[0]) : ""}
+                   onValueChange={(val) => {
+                     if (val === "all") {
+                       handleSelectAll(true);
+                     } else {
+                       setSelectAll(false);
+                       const id = Number(val);
+                       setSelectedIds([id]);
+                     }
+                   }}
+                 >
+                   <SelectTrigger className="w-full">
+                     <SelectValue placeholder="Choose a scenario to refine" />
+                   </SelectTrigger>
+                   <SelectContent>
+                     <SelectItem value="all">All Scenarios</SelectItem>
+                     {scenarios.map(s => (
+                       <SelectItem key={s.id} value={String(s.id)}>
+                         S{s.id}: {s.name} {s.recommended ? "(Recommended)" : ""}
+                       </SelectItem>
+                     ))}
+                   </SelectContent>
+                 </Select>
+               </div>
+             </div>
 
             <div>
               <Label className="text-sm font-semibold text-foreground">Refinement Feedback</Label>
