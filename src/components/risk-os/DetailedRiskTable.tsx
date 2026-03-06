@@ -309,7 +309,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                       {/* MSO Country - frozen */}
                       <td className={cellCls} style={frozenCellStyle("msoCountry", rowNewVariant)}>{agg.msoCountry}</td>
                       {/* UOM - frozen */}
-                      <td className={cellCls} style={frozenCellStyle("uom", rowNewVariant)}>{agg.uom}</td>
+                      <td className={cellCls} style={frozenCellStyle("uom", rowNewVariant)}>{displayUom}</td>
                       {/* Scrollable columns */}
                       <td className={cellCls}>{agg.site}</td>
                       <td className={cellCls}>{agg.su}</td>
