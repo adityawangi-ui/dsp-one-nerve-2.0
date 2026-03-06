@@ -463,6 +463,37 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
         </div>
       )}
 
+      {/* Pagination Controls */}
+      {view === "mrdr" && (() => {
+        const totalPages = Math.ceil(mrdrAggData.length / ROWS_PER_PAGE);
+        if (totalPages <= 1) return null;
+        return (
+          <div className="flex items-center justify-between mt-4 px-2">
+            <span className="text-[11px] text-muted-foreground">
+              Showing {((currentPage - 1) * ROWS_PER_PAGE) + 1}–{Math.min(currentPage * ROWS_PER_PAGE, mrdrAggData.length)} of {mrdrAggData.length}
+            </span>
+            <div className="flex items-center gap-1">
+              <Button variant="outline" size="sm" className="h-7 w-7 p-0" disabled={currentPage === 1} onClick={() => setCurrentPage(p => p - 1)}>
+                <ChevronLeft className="h-3.5 w-3.5" />
+              </Button>
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                <Button
+                  key={page}
+                  variant={page === currentPage ? "default" : "outline"}
+                  size="sm"
+                  className={`h-7 w-7 p-0 text-[11px] ${page === currentPage ? "bg-primary text-primary-foreground" : ""}`}
+                  onClick={() => setCurrentPage(page)}
+                >
+                  {page}
+                </Button>
+              ))}
+              <Button variant="outline" size="sm" className="h-7 w-7 p-0" disabled={currentPage === totalPages} onClick={() => setCurrentPage(p => p + 1)}>
+                <ChevronRight className="h-3.5 w-3.5" />
+              </Button>
+            </div>
+          </div>
+        );
+      })()}
 
       {/* Share Dialog */}
       <Dialog open={shareDialog} onOpenChange={setShareDialog}>
