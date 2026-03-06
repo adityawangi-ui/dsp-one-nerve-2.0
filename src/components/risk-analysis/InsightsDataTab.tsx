@@ -289,7 +289,7 @@ export default function InsightsDataTab({ row }: Props) {
                     <tr key={metric} className={`border-b border-border/50 ${isBalance ? "bg-primary/10 font-semibold" : isBelowRS ? "bg-destructive/10" : "hover:bg-secondary/40"}`}>
                       {mi === 0 && (
                         <>
-                          <td className="sticky left-0 z-10 bg-card px-3 py-2 font-mono text-foreground whitespace-nowrap" rowSpan={ctpMetrics.length}>{row.mrdr}</td>
+                          <td className="sticky left-0 z-10 bg-card px-3 py-2 font-sans text-foreground whitespace-nowrap" rowSpan={ctpMetrics.length}>{row.mrdr}</td>
                           <td className="px-3 py-2 text-foreground whitespace-nowrap" rowSpan={ctpMetrics.length}>A283</td>
                           <td className="px-3 py-2 text-foreground whitespace-nowrap text-[10px]" rowSpan={ctpMetrics.length}>{row.mrdrDescription}</td>
                         </>
