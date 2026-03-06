@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from "react";
 import { RiskRow, allColumns, frozenColumns, gtinColumns, aggregateByGtin, aggregateByMrdr, mrdrAggColumns, reasonCodes, getSeverityColor, filterOptions } from "@/data/riskData";
+import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
