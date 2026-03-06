@@ -73,12 +73,6 @@ export default function RiskOverview() {
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <Button variant="ghost" size="sm" className="h-8 text-xs gap-1.5 text-muted-foreground hover:text-primary">
-            <RefreshCw className="h-3.5 w-3.5" /> Refresh
-          </Button>
-          <Button variant="ghost" size="sm" className="h-8 text-xs gap-1.5 text-muted-foreground hover:text-primary">
-            <Download className="h-3.5 w-3.5" /> Export
-          </Button>
           <Button
             variant="ghost"
             size="sm"
@@ -88,10 +82,7 @@ export default function RiskOverview() {
             <BarChart3 className="h-3.5 w-3.5" /> Visual Centre
           </Button>
           <div className="h-6 w-px bg-border" />
-          <Button variant="ghost" size="sm" className="h-8 w-8 p-0 relative">
-            <Bell className="h-4 w-4 text-muted-foreground" />
-            <span className="absolute top-1 right-1 h-2 w-2 rounded-full bg-destructive pulse-glow-red" />
-          </Button>
+          <NotificationBell />
           <div className="flex items-center gap-2 ml-1 bg-secondary/60 rounded-lg px-3 py-1.5 border border-border/50">
             <div className="h-6 w-6 rounded-full bg-gradient-to-br from-primary to-primary-glow flex items-center justify-center">
               <span className="text-[10px] font-bold text-primary-foreground">JS</span>
