@@ -476,10 +476,10 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                         <td className={childCellCls}><Badge variant="outline" className={`text-[10px] ${cr.riskType === "Out Of Stock" ? "bg-critical-bg text-critical border-critical-border" : "bg-medium-bg text-medium border-medium-border"}`}>{cr.riskType}</Badge></td>
                         <td className={childCellCls}><Badge variant="outline" className={`text-[10px] ${sevBadgeClass(cr.severity)}`}>{cr.severity}</Badge></td>
                         <td className={childCellCls}><Badge variant="outline" className={`text-[10px] ${priBadgeClass(cr.priority)}`}>{cr.priority}</Badge></td>
-                        <td className={`${childCellCls} font-mono`}>{cr.riskInDays}</td>
-                        <td className={`${childCellCls} font-mono`}>{cr.stockCS.toLocaleString()}</td>
-                        <td className={`${childCellCls} font-mono`}>{cr.expectedLossCases.toLocaleString()}</td>
-                        <td className={`${childCellCls} font-mono`}>€{cr.expectedLossValue.toLocaleString()}</td>
+                        <td className={childCellCls}>{cr.riskInDays}</td>
+                        <td className={childCellCls}>{cr.stockCS.toLocaleString()}</td>
+                        <td className={childCellCls}>{cr.expectedLossCases.toLocaleString()}</td>
+                        <td className={childCellCls}>€{cr.expectedLossValue.toLocaleString()}</td>
                       </tr>
                     ))}
                   </React.Fragment>
