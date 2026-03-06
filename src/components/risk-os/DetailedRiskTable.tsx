@@ -339,10 +339,10 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                       <td className={cellCls}>{agg.segmentation}</td>
                       <td className={cellCls}>{agg.startedOnWeek}</td>
                       <td className={cellCls}>{agg.endedOnWeek || "—"}</td>
-                      <td className={`${cellCls} font-mono`}>{agg.riskInDays}</td>
-                      <td className={`${cellCls} font-mono`}>{convertQty(agg.stockCS, agg.uom).toLocaleString()}</td>
-                      <td className={`${cellCls} font-mono`}>{convertQty(agg.expectedLossCases, agg.uom).toLocaleString()}</td>
-                      <td className={`${cellCls} font-mono`}>€{agg.expectedLossValue.toLocaleString()}</td>
+                      <td className={cellCls}>{agg.riskInDays}</td>
+                      <td className={cellCls}>{convertQty(agg.stockCS, agg.uom).toLocaleString()}</td>
+                      <td className={cellCls}>{convertQty(agg.expectedLossCases, agg.uom).toLocaleString()}</td>
+                      <td className={cellCls}>€{agg.expectedLossValue.toLocaleString()}</td>
                       <td className={cellCls}>{agg.nextAvailableDate || "—"}</td>
                       <td className={cellCls}>{agg.botReasonCode}</td>
                       <td className={cellCls}>{agg.plannerReasonCode}</td>
