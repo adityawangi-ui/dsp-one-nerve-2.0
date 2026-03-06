@@ -466,11 +466,11 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                     {expanded && childRows.map(cr => (
                       <tr key={cr.riskId} className={`border-b border-border/30 ${cr.isNew ? "bg-destructive/[0.06]" : "bg-muted/30"}`}>
                         {shareMode && <td />}
-                        <td className={`${childCellCls} pl-8 font-mono`}>
+                        <td className={`${childCellCls} pl-8`}>
                           {cr.gtin}
                           {cr.isNew && <NewBadge />}
                         </td>
-                        <td className={`${childCellCls} font-mono`}>{cr.mrdr}</td>
+                        <td className={childCellCls}>{cr.mrdr}</td>
                         <td className={childCellCls}>{cr.msoCountry}</td>
                         <td className={childCellCls}>{cr.site}</td>
                         <td className={childCellCls}><Badge variant="outline" className={`text-[10px] ${cr.riskType === "Out Of Stock" ? "bg-critical-bg text-critical border-critical-border" : "bg-medium-bg text-medium border-medium-border"}`}>{cr.riskType}</Badge></td>
