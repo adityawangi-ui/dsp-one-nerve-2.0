@@ -45,7 +45,6 @@ export default function RiskOverview() {
 
   const handleUpdateRow = (idx: number, updates: Partial<RiskRow>) => {
     if (idx === -1) {
-      // Add new row
       setRows(prev => [updates as RiskRow, ...prev]);
       return;
     }
@@ -63,9 +62,12 @@ export default function RiskOverview() {
     setAnalysisRow(row);
   };
 
+  const handleNavigateToConversationByRisk = (riskId: number) => {
+    navigate(`/risk-analysis?tab=conversations&riskId=${riskId}`);
+  };
+
   return (
     <div className="min-h-screen bg-background flex flex-col gradient-mesh">
-      {/* Command Center Header */}
       <header className="h-14 border-b border-border bg-card/80 backdrop-blur-xl flex items-center justify-between px-6 shrink-0 sticky top-0 z-50">
         <div className="flex items-center gap-3">
           <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-primary to-primary-glow flex items-center justify-center tech-glow">
@@ -89,7 +91,10 @@ export default function RiskOverview() {
             <BarChart3 className="h-3.5 w-3.5" /> Visual Centre
           </Button>
           <div className="h-6 w-px bg-border" />
-          <NotificationBell onNavigateToConversations={() => navigate('/risk-analysis?tab=conversations')} />
+          <NotificationBell
+            onNavigateToConversations={() => navigate('/risk-analysis?tab=conversations')}
+            onNavigateToConversationByRisk={handleNavigateToConversationByRisk}
+          />
           <div className="flex items-center gap-2 ml-1 bg-secondary/60 rounded-lg px-3 py-1.5 border border-border/50">
             <div className="h-6 w-6 rounded-full bg-gradient-to-br from-primary to-primary-glow flex items-center justify-center">
               <span className="text-[10px] font-bold text-primary-foreground">JS</span>
@@ -102,10 +107,8 @@ export default function RiskOverview() {
         </div>
       </header>
 
-      {/* Content */}
       <main className="flex-1 overflow-auto">
         <div className="p-6 space-y-4 max-w-[1600px] mx-auto">
-          {/* Breadcrumb */}
           <nav className="flex items-center gap-1.5 text-xs text-muted-foreground">
             <a href="/" className="hover:text-primary transition-colors cursor-pointer flex items-center gap-1">
               <Home className="h-3 w-3" /> Home
@@ -113,7 +116,6 @@ export default function RiskOverview() {
             <ChevronRight className="h-3 w-3" />
             <span className="text-foreground font-medium">Risk Monitor</span>
           </nav>
-
 
           <AlertsSection />
           <UnifiedFilters filters={filters} onChange={setFilters} maxLoss={890000} />
