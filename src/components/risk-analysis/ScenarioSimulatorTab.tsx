@@ -329,36 +329,10 @@ export default function ScenarioSimulatorTab({ row, onSelectScenario, selectedSc
                 </div>
               </div>
 
-              {/* Select Scenario Button */}
-              <div className="flex justify-end pt-2">
-                <Button
-                  className={`gap-2 ${isSelected ? "bg-success hover:bg-success/90 text-success-foreground" : ""}`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleSelectScenario(s);
-                  }}
-                >
-                  {isSelected ? (
-                    <><CheckCircle2 className="h-4 w-4" /> Scenario Selected</>
-                  ) : (
-                    <><ArrowRight className="h-4 w-4" /> Select This Scenario</>
-                  )}
-                </Button>
-              </div>
             </div>
           </div>
         );
       })()}
-
-      {/* Planner Recommendation + Revert buttons */}
-      <div className="flex justify-center gap-3">
-        <PlannerRefinementDialog scenarios={scenarios} onRefine={handleRefineScenarios} />
-        {isRefined && (
-          <Button variant="outline" className="gap-2 border-warning/40 text-warning hover:bg-warning/10" onClick={handleRevertScenarios}>
-            <RefreshCw className="h-4 w-4" /> Revert to Original
-          </Button>
-        )}
-      </div>
 
       {/* Recommendation Banner */}
       <div className="border-2 border-success/30 rounded-xl p-4 bg-success/[0.06]">
@@ -370,15 +344,6 @@ export default function ScenarioSimulatorTab({ row, onSelectScenario, selectedSc
           Offers the best balance of success probability, cost efficiency, and resource optimization.
         </p>
       </div>
-
-      {/* Trigger Approval if scenario selected */}
-      {selectedScenario && (
-        <div ref={proceedRef} className="flex justify-center">
-          <Button onClick={onTriggerApproval} size="lg" className="gap-2 px-8 bg-success hover:bg-success/90 text-success-foreground">
-            <CheckCircle2 className="h-4 w-4" /> Proceed with Selected Scenario
-          </Button>
-        </div>
-      )}
     </div>
   );
 }
