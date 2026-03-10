@@ -333,7 +333,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                       {/* Scrollable columns */}
                       <td className={cellCls}>{agg.site}</td>
                       <td className={cellCls}>{agg.su}</td>
-                      <td className={cellCls}><Badge variant="outline" className={`text-[10px] ${agg.riskType === "Out Of Stock" ? "bg-critical-bg text-critical border-critical-border" : "bg-medium-bg text-medium border-medium-border"}`}>{agg.riskType}</Badge></td>
+                      <td className={cellCls}><Badge variant="outline" className={`text-[10px] min-w-[90px] text-center justify-center ${agg.riskType === "Out Of Stock" ? "bg-critical-bg text-critical border-critical-border" : "bg-medium-bg text-medium border-medium-border"}`}>{agg.riskType}</Badge></td>
                       <td className={cellCls}><Badge variant="outline" className={`text-[10px] ${sevBadgeClass(agg.severity)}`}>{agg.severity}</Badge></td>
                       <td className={cellCls}><Badge variant="outline" className={`text-[10px] ${priBadgeClass(agg.priority)}`}>{agg.priority}</Badge></td>
                       <td className={cellCls}>{agg.riskHorizon}</td>

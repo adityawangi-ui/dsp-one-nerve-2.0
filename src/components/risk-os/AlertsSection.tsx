@@ -1,6 +1,6 @@
 import { alertRows, donutData, weeklyTrendData } from "@/data/riskData";
 import { AlertTriangle, Clock, Shield, MessageSquare, UserCheck, Activity, TrendingUp, TrendingDown, DollarSign, AlertCircle } from "lucide-react";
-import { PieChart, Pie, Cell, BarChart, Bar, XAxis, CartesianGrid, ResponsiveContainer, Tooltip as RechartsTooltip } from "recharts";
+import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip as RechartsTooltip } from "recharts";
 import { useState } from "react";
 
 const iconMap: Record<string, React.ElementType> = {

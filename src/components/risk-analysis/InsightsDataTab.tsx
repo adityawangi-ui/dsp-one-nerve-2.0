@@ -388,7 +388,7 @@ export default function InsightsDataTab({ row }: Props) {
               </LineChart>
             </ResponsiveContainer>
           </ChartCard>
-          <DataTable headers={["Week", "Baseline Forecast", "Promo Forecast"]} rows={forecastData.map(d => [d.week, d.baselineForecast, d.promoForecast])} />
+          
         </section>
 
         {/* 5. STO */}
