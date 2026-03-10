@@ -113,7 +113,7 @@ export default function RiskAnalysisWorkflow() {
               </TabsContent>
 
               <TabsContent value="conversations">
-                <ConversationsTab row={row} />
+                <ConversationsTab row={row} initialRiskId={conversationRiskId} />
               </TabsContent>
             </Tabs>
           )}
