@@ -51,14 +51,33 @@ export default function RiskAnalysisWorkflow() {
       {/* Content */}
       <div className="flex-1 overflow-y-auto">
         <div className="max-w-7xl mx-auto px-5 py-5">
-          {/* Back + Title */}
-          <div className="flex items-center gap-3 mb-5">
+          {/* Back + Title + Risk Context */}
+          <div className="flex items-center gap-3 mb-5 flex-wrap">
             <Button variant="outline" size="sm" className="gap-1.5 text-xs" onClick={() => { if (showLastMile) { setShowLastMile(false); } else { navigate("/risk-monitor"); } }}>
               <ArrowLeft className="h-3.5 w-3.5" /> {showLastMile ? "Back to Analysis" : "Back to Risk Overview"}
             </Button>
             <h1 className="text-xl font-bold text-foreground">
-              {showLastMile ? "Last Mile Execution & Approval" : "Risk Analysis & Mitigation Workflow"}
+              {showLastMile ? "Last Mile Execution & Approval" : "Risk Analysis & Mitigation"}
             </h1>
+            {!showLastMile && (
+              <div className="flex items-center gap-3 ml-auto text-xs">
+                <span className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-destructive/10 border border-destructive/20">
+                  <AlertTriangle className="h-3.5 w-3.5 text-destructive" />
+                  <span className="font-semibold text-destructive">RISK-{String(row.riskId).padStart(3, "0")}</span>
+                  <span className="text-destructive/80">·</span>
+                  <span className="text-destructive/80">{row.riskType}</span>
+                </span>
+                <span className="text-muted-foreground">MRDR {row.mrdr}</span>
+                <span className="text-muted-foreground">·</span>
+                <span className="text-muted-foreground">{row.mrdrDescription}</span>
+                <span className="text-muted-foreground">·</span>
+                <span className="text-muted-foreground">{row.msoCountry}</span>
+                <span className="text-muted-foreground">·</span>
+                <span className="font-semibold text-foreground">{row.riskInDays}d</span>
+                <span className="text-muted-foreground">·</span>
+                <span className="font-semibold text-foreground">Loss: {row.expectedLossCases.toLocaleString()} CS</span>
+              </div>
+            )}
           </div>
 
           {showLastMile && selectedScenario ? (
