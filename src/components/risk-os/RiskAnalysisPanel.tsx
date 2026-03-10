@@ -1,12 +1,11 @@
 import { useState } from "react";
 import { RiskRow } from "@/data/riskData";
-import { X, Database, Search, MessageSquare, ArrowLeft, Play, CheckCircle2 } from "lucide-react";
+import { X, Database, Search, MessageSquare, ArrowLeft, Play, CheckCircle2, AlertTriangle, Clock, Package, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
 import InsightsDataTab from "@/components/risk-analysis/InsightsDataTab";
-import InsightsTab from "@/components/risk-analysis/InsightsTab";
 import ScenarioSimulatorTab, { Scenario } from "@/components/risk-analysis/ScenarioSimulatorTab";
 import LastMileExecution from "@/components/risk-analysis/LastMileExecution";
 import ConversationsTab from "@/components/risk-analysis/ConversationsTab";
@@ -33,32 +32,44 @@ export default function RiskAnalysisPanel({ row, onClose }: Props) {
 
   return (
     <div className="fixed inset-0 z-[100] flex">
-      {/* Backdrop */}
       <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" onClick={onClose} />
 
-      {/* Panel sliding from right - 95% width */}
       <div className="ml-auto relative flex flex-col w-[95%] h-full bg-background shadow-2xl animate-slide-in-right overflow-hidden">
-        {/* Panel Header */}
-        <div className="h-12 flex items-center justify-between px-5 border-b border-border shrink-0 bg-card">
-          <div className="flex items-center gap-3">
-            {showLastMile ? (
-              <Button variant="ghost" size="sm" className="gap-1.5 text-xs h-7 text-foreground hover:bg-secondary" onClick={() => setShowLastMile(false)}>
-                <ArrowLeft className="h-3.5 w-3.5" /> Back to Analysis
-              </Button>
-            ) : (
-              <Button variant="ghost" size="sm" className="gap-1.5 text-xs h-7 text-foreground hover:bg-secondary" onClick={onClose}>
-                <ArrowLeft className="h-3.5 w-3.5" /> Back to Risk Overview
-              </Button>
-            )}
-            <div className="h-4 w-px bg-border" />
-            <span className="text-sm font-bold text-foreground">
-              {showLastMile ? "Last Mile Execution & Approval" : "Risk Analysis & Mitigation"}
-            </span>
-            <Badge variant="outline" className="text-[10px] font-mono">RISK-{String(row.riskId).padStart(3, "0")}</Badge>
+        {/* Panel Header with consolidated risk context */}
+        <div className="flex flex-col border-b border-border shrink-0 bg-card">
+          <div className="h-12 flex items-center justify-between px-5">
+            <div className="flex items-center gap-3">
+              {showLastMile ? (
+                <Button variant="ghost" size="sm" className="gap-1.5 text-xs h-7 text-foreground hover:bg-secondary" onClick={() => setShowLastMile(false)}>
+                  <ArrowLeft className="h-3.5 w-3.5" /> Back to Analysis
+                </Button>
+              ) : (
+                <Button variant="ghost" size="sm" className="gap-1.5 text-xs h-7 text-foreground hover:bg-secondary" onClick={onClose}>
+                  <ArrowLeft className="h-3.5 w-3.5" /> Back to Risk Overview
+                </Button>
+              )}
+              <div className="h-4 w-px bg-border" />
+              <span className="text-sm font-bold text-foreground">
+                {showLastMile ? "Last Mile Execution & Approval" : "Risk Analysis & Mitigation"}
+              </span>
+              <Badge variant="outline" className="text-[10px] font-mono">RISK-{String(row.riskId).padStart(3, "0")}</Badge>
+              <div className="h-4 w-px bg-border" />
+              {/* Consolidated risk context inline */}
+              <div className="flex items-center gap-3 text-xs">
+                <Badge className="bg-destructive/10 text-destructive border-destructive/20 text-[10px] gap-1">
+                  <AlertTriangle className="h-3 w-3" /> {row.riskType}
+                </Badge>
+                <span className="text-muted-foreground flex items-center gap-1"><MapPin className="h-3 w-3" /> {row.msoCountry}</span>
+                <span className="text-muted-foreground">MRDR {row.mrdr}</span>
+                <span className="text-muted-foreground flex items-center gap-1"><Clock className="h-3 w-3" /> {row.riskInDays}d</span>
+                <span className="text-muted-foreground flex items-center gap-1"><Package className="h-3 w-3" /> {row.expectedLossCases.toLocaleString()} CS</span>
+                <span className="font-semibold text-foreground">Impact: High</span>
+              </div>
+            </div>
+            <button onClick={onClose} className="h-8 w-8 flex items-center justify-center rounded-lg hover:bg-secondary transition-colors">
+              <X className="h-4 w-4 text-muted-foreground" />
+            </button>
           </div>
-          <button onClick={onClose} className="h-8 w-8 flex items-center justify-center rounded-lg hover:bg-secondary transition-colors">
-            <X className="h-4 w-4 text-muted-foreground" />
-          </button>
         </div>
 
         {/* Content */}
@@ -68,7 +79,6 @@ export default function RiskAnalysisPanel({ row, onClose }: Props) {
               <LastMileExecution row={row} selectedScenario={selectedScenario} />
             ) : (
               <Tabs value={activeTab} onValueChange={setActiveTab}>
-                {/* Always-visible tabs */}
                 <TabsList className="w-full justify-start h-10 bg-card border border-border rounded-xl p-1 mb-5 sticky top-0 z-10 shadow-sm">
                   <TabsTrigger value="insights-data" className="text-xs gap-1.5 text-foreground data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-lg px-4">
                     <Database className="h-3.5 w-3.5" /> Insights & Data
@@ -86,15 +96,12 @@ export default function RiskAnalysisPanel({ row, onClose }: Props) {
                 </TabsContent>
 
                 <TabsContent value="recommendations">
-                  <InsightsTab row={row} />
-                  <div className="mt-8">
-                    <ScenarioSimulatorTab
-                      row={row}
-                      onSelectScenario={setSelectedScenario}
-                      selectedScenario={selectedScenario}
-                      onTriggerApproval={handleTriggerApproval}
-                    />
-                  </div>
+                  <ScenarioSimulatorTab
+                    row={row}
+                    onSelectScenario={setSelectedScenario}
+                    selectedScenario={selectedScenario}
+                    onTriggerApproval={handleTriggerApproval}
+                  />
                 </TabsContent>
 
                 <TabsContent value="conversations">
