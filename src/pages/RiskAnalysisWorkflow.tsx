@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { riskData } from "@/data/riskData";
-import { ArrowLeft, Search, Settings as SettingsIcon, User, Database, MessageSquare, Play, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, Search, Settings as SettingsIcon, User, Database, MessageSquare, Play, CheckCircle2, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import InsightsTab from "@/components/risk-analysis/InsightsTab";
+
 import InsightsDataTab from "@/components/risk-analysis/InsightsDataTab";
 import ScenarioSimulatorTab, { Scenario } from "@/components/risk-analysis/ScenarioSimulatorTab";
 import LastMileExecution from "@/components/risk-analysis/LastMileExecution";
@@ -51,14 +51,33 @@ export default function RiskAnalysisWorkflow() {
       {/* Content */}
       <div className="flex-1 overflow-y-auto">
         <div className="max-w-7xl mx-auto px-5 py-5">
-          {/* Back + Title */}
-          <div className="flex items-center gap-3 mb-5">
+          {/* Back + Title + Risk Context */}
+          <div className="flex items-center gap-3 mb-5 flex-wrap">
             <Button variant="outline" size="sm" className="gap-1.5 text-xs" onClick={() => { if (showLastMile) { setShowLastMile(false); } else { navigate("/risk-monitor"); } }}>
               <ArrowLeft className="h-3.5 w-3.5" /> {showLastMile ? "Back to Analysis" : "Back to Risk Overview"}
             </Button>
             <h1 className="text-xl font-bold text-foreground">
-              {showLastMile ? "Last Mile Execution & Approval" : "Risk Analysis & Mitigation Workflow"}
+              {showLastMile ? "Last Mile Execution & Approval" : "Risk Analysis & Mitigation"}
             </h1>
+            {!showLastMile && (
+              <div className="flex items-center gap-3 ml-auto text-xs">
+                <span className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-destructive/10 border border-destructive/20">
+                  <AlertTriangle className="h-3.5 w-3.5 text-destructive" />
+                  <span className="font-semibold text-destructive">RISK-{String(row.riskId).padStart(3, "0")}</span>
+                  <span className="text-destructive/80">·</span>
+                  <span className="text-destructive/80">{row.riskType}</span>
+                </span>
+                <span className="text-muted-foreground">MRDR {row.mrdr}</span>
+                <span className="text-muted-foreground">·</span>
+                <span className="text-muted-foreground">{row.mrdrDescription}</span>
+                <span className="text-muted-foreground">·</span>
+                <span className="text-muted-foreground">{row.msoCountry}</span>
+                <span className="text-muted-foreground">·</span>
+                <span className="font-semibold text-foreground">{row.riskInDays}d</span>
+                <span className="text-muted-foreground">·</span>
+                <span className="font-semibold text-foreground">Loss: {row.expectedLossCases.toLocaleString()} CS</span>
+              </div>
+            )}
           </div>
 
           {showLastMile && selectedScenario ? (
@@ -82,8 +101,7 @@ export default function RiskAnalysisWorkflow() {
               </TabsContent>
 
               <TabsContent value="recommendations">
-                <InsightsTab row={row} />
-                <div className="mt-8">
+                <div className="mt-0">
                   <ScenarioSimulatorTab
                     row={row}
                     onSelectScenario={setSelectedScenario}

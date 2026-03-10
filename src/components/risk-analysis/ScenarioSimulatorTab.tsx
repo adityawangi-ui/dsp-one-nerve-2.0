@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { RiskRow } from "@/data/riskData";
 import { Play, CheckCircle2, ChevronDown, ChevronUp, Brain, TrendingUp, Shield, Zap, ArrowRight, Settings, RefreshCw, DollarSign, BarChart3, Target } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
@@ -127,7 +127,6 @@ export default function ScenarioSimulatorTab({ row, onSelectScenario, selectedSc
   const [expandedScenario, setExpandedScenario] = useState<number | null>(null);
   const [scenarios, setScenarios] = useState<Scenario[]>(originalScenarios);
   const [isRefined, setIsRefined] = useState(false);
-  const proceedRef = useRef<HTMLDivElement>(null);
 
   const handleScenarioClick = (id: number) => {
     setExpandedScenario(expandedScenario === id ? null : id);
@@ -135,10 +134,8 @@ export default function ScenarioSimulatorTab({ row, onSelectScenario, selectedSc
 
   const handleSelectScenario = (s: Scenario) => {
     onSelectScenario(s);
-    // Scroll to proceed button after state update
-    setTimeout(() => {
-      proceedRef.current?.scrollIntoView({ behavior: "smooth", block: "center" });
-    }, 100);
+    // Directly trigger the approval dialog
+    onTriggerApproval();
   };
 
   const handleRefineScenarios = (targetScenarios: number[], feedback: string) => {
@@ -250,9 +247,31 @@ export default function ScenarioSimulatorTab({ row, onSelectScenario, selectedSc
                 <h3 className="text-sm font-bold text-foreground">{s.name}</h3>
                 {s.recommended && <Badge className="bg-success text-success-foreground border-0 text-[10px]">RECOMMENDED</Badge>}
               </div>
-              <Button variant="ghost" size="sm" onClick={() => setExpandedScenario(null)}>
-                <ChevronUp className="h-4 w-4" />
-              </Button>
+              <div className="flex items-center gap-2">
+                <PlannerRefinementDialog scenarios={scenarios} onRefine={handleRefineScenarios} />
+                {isRefined && (
+                  <Button variant="outline" size="sm" className="gap-1.5 text-xs border-warning/40 text-warning hover:bg-warning/10" onClick={handleRevertScenarios}>
+                    <RefreshCw className="h-3.5 w-3.5" /> Revert
+                  </Button>
+                )}
+                <Button
+                  size="sm"
+                  className={`gap-1.5 text-xs ${isSelected ? "bg-success hover:bg-success/90 text-success-foreground" : ""}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleSelectScenario(s);
+                  }}
+                >
+                  {isSelected ? (
+                    <><CheckCircle2 className="h-3.5 w-3.5" /> Selected</>
+                  ) : (
+                    <><ArrowRight className="h-3.5 w-3.5" /> Select This Scenario</>
+                  )}
+                </Button>
+                <Button variant="ghost" size="sm" onClick={() => setExpandedScenario(null)}>
+                  <ChevronUp className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
 
             <div className="p-5 space-y-5">
@@ -310,36 +329,10 @@ export default function ScenarioSimulatorTab({ row, onSelectScenario, selectedSc
                 </div>
               </div>
 
-              {/* Select Scenario Button */}
-              <div className="flex justify-end pt-2">
-                <Button
-                  className={`gap-2 ${isSelected ? "bg-success hover:bg-success/90 text-success-foreground" : ""}`}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleSelectScenario(s);
-                  }}
-                >
-                  {isSelected ? (
-                    <><CheckCircle2 className="h-4 w-4" /> Scenario Selected</>
-                  ) : (
-                    <><ArrowRight className="h-4 w-4" /> Select This Scenario</>
-                  )}
-                </Button>
-              </div>
             </div>
           </div>
         );
       })()}
-
-      {/* Planner Recommendation + Revert buttons */}
-      <div className="flex justify-center gap-3">
-        <PlannerRefinementDialog scenarios={scenarios} onRefine={handleRefineScenarios} />
-        {isRefined && (
-          <Button variant="outline" className="gap-2 border-warning/40 text-warning hover:bg-warning/10" onClick={handleRevertScenarios}>
-            <RefreshCw className="h-4 w-4" /> Revert to Original
-          </Button>
-        )}
-      </div>
 
       {/* Recommendation Banner */}
       <div className="border-2 border-success/30 rounded-xl p-4 bg-success/[0.06]">
@@ -351,15 +344,6 @@ export default function ScenarioSimulatorTab({ row, onSelectScenario, selectedSc
           Offers the best balance of success probability, cost efficiency, and resource optimization.
         </p>
       </div>
-
-      {/* Trigger Approval if scenario selected */}
-      {selectedScenario && (
-        <div ref={proceedRef} className="flex justify-center">
-          <Button onClick={onTriggerApproval} size="lg" className="gap-2 px-8 bg-success hover:bg-success/90 text-success-foreground">
-            <CheckCircle2 className="h-4 w-4" /> Proceed with Selected Scenario
-          </Button>
-        </div>
-      )}
     </div>
   );
 }
