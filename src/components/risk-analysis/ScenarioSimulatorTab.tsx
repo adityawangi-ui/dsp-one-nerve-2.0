@@ -247,9 +247,31 @@ export default function ScenarioSimulatorTab({ row, onSelectScenario, selectedSc
                 <h3 className="text-sm font-bold text-foreground">{s.name}</h3>
                 {s.recommended && <Badge className="bg-success text-success-foreground border-0 text-[10px]">RECOMMENDED</Badge>}
               </div>
-              <Button variant="ghost" size="sm" onClick={() => setExpandedScenario(null)}>
-                <ChevronUp className="h-4 w-4" />
-              </Button>
+              <div className="flex items-center gap-2">
+                <PlannerRefinementDialog scenarios={scenarios} onRefine={handleRefineScenarios} />
+                {isRefined && (
+                  <Button variant="outline" size="sm" className="gap-1.5 text-xs border-warning/40 text-warning hover:bg-warning/10" onClick={handleRevertScenarios}>
+                    <RefreshCw className="h-3.5 w-3.5" /> Revert
+                  </Button>
+                )}
+                <Button
+                  size="sm"
+                  className={`gap-1.5 text-xs ${isSelected ? "bg-success hover:bg-success/90 text-success-foreground" : ""}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleSelectScenario(s);
+                  }}
+                >
+                  {isSelected ? (
+                    <><CheckCircle2 className="h-3.5 w-3.5" /> Selected</>
+                  ) : (
+                    <><ArrowRight className="h-3.5 w-3.5" /> Select This Scenario</>
+                  )}
+                </Button>
+                <Button variant="ghost" size="sm" onClick={() => setExpandedScenario(null)}>
+                  <ChevronUp className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
 
             <div className="p-5 space-y-5">
