@@ -119,36 +119,33 @@ export default function AlertsSection() {
           </div>
         </div>
 
-        {/* Right column — Total Risks / Past Due / Assigned to Me with € and volume */}
-        <div className="w-[30%] pl-4 flex flex-col justify-center space-y-2.5">
-          {rhsKPIs.map((kpi) => {
-            const Icon = kpi.icon;
-            return (
-              <div key={kpi.label} className="flex items-center justify-between">
-                <div className="flex items-center gap-1.5">
-                  <Icon className="h-3 w-3 text-muted-foreground" />
-                  <span className="text-[11px] text-muted-foreground">{kpi.label}</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <span className={`text-[13px] font-extrabold font-mono-tech ${kpi.color}`}>{kpi.value.toLocaleString()}</span>
-                </div>
-              </div>
-            );
-          })}
-          <div className="pt-2 border-t border-border/40 space-y-1.5">
-            <div className="flex items-center justify-between">
-              <span className="text-[10px] text-muted-foreground uppercase tracking-wider flex items-center gap-1"><DollarSign className="h-3 w-3" /> VAR</span>
-              <div className="flex items-center gap-2">
-                <span className="text-[13px] font-extrabold font-mono-tech text-primary neon-text">€2.4M</span>
-                <span className="text-[10px] text-critical font-semibold flex items-center gap-0.5">
-                  <TrendingUp className="h-2.5 w-2.5" /> +8%
-                </span>
-              </div>
+        {/* Right column — Total Risk count, € value, volume */}
+        <div className="w-[30%] pl-4 flex flex-col justify-center space-y-3">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-1.5">
+              <Shield className="h-3.5 w-3.5 text-muted-foreground" />
+              <span className="text-[11px] text-muted-foreground">Total Risks</span>
             </div>
-            <div className="flex items-center justify-between">
-              <span className="text-[10px] text-muted-foreground uppercase tracking-wider flex items-center gap-1"><Package className="h-3 w-3" /> VOL</span>
-              <span className="text-[13px] font-extrabold font-mono-tech text-foreground">6,955 CS</span>
+            <span className="text-[15px] font-extrabold font-mono-tech text-primary">1,281</span>
+          </div>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-1.5">
+              <DollarSign className="h-3.5 w-3.5 text-muted-foreground" />
+              <span className="text-[11px] text-muted-foreground">Value at Risk</span>
             </div>
+            <div className="flex items-center gap-2">
+              <span className="text-[15px] font-extrabold font-mono-tech text-foreground">€2.4M</span>
+              <span className="text-[10px] text-critical font-semibold flex items-center gap-0.5">
+                <TrendingUp className="h-2.5 w-2.5" /> +8%
+              </span>
+            </div>
+          </div>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-1.5">
+              <Package className="h-3.5 w-3.5 text-muted-foreground" />
+              <span className="text-[11px] text-muted-foreground">Volume</span>
+            </div>
+            <span className="text-[15px] font-extrabold font-mono-tech text-foreground">6,955 CS</span>
           </div>
         </div>
       </div>
