@@ -5,7 +5,7 @@ import { ArrowLeft, Search, Settings as SettingsIcon, User, Database, MessageSqu
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import InsightsTab from "@/components/risk-analysis/InsightsTab";
+
 import InsightsDataTab from "@/components/risk-analysis/InsightsDataTab";
 import ScenarioSimulatorTab, { Scenario } from "@/components/risk-analysis/ScenarioSimulatorTab";
 import LastMileExecution from "@/components/risk-analysis/LastMileExecution";
