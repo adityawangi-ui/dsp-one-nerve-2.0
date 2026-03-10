@@ -50,9 +50,9 @@ export default function AlertsSection() {
       </h2>
 
       <div className="flex gap-0 relative">
-        {/* Left column — Alert rows */}
-        <div className="w-[30%] pr-4 border-r border-border/40 space-y-1">
-          {alertRows.map((row, idx) => {
+        {/* Left column — Alert rows (only Total Risks, Past Due, Assigned to Me) */}
+        <div className="w-[40%] pr-4 border-r border-border/40 space-y-1">
+          {alertRows.filter(row => ["Total Risks", "Past Due", "Assigned to Me"].includes(row.label)).map((row, idx) => {
             const Icon = iconMap[row.label] || Shield;
             return (
               <div
@@ -81,8 +81,8 @@ export default function AlertsSection() {
           })}
         </div>
 
-        {/* Center column — Donut + legend + VAR */}
-        <div className="w-[35%] px-4 border-r border-border/40 flex flex-col items-center justify-center">
+        {/* Center column — Donut (no legend) */}
+        <div className="w-[30%] px-4 border-r border-border/40 flex flex-col items-center justify-center">
           <div className="relative">
             <ResponsiveContainer width={140} height={120}>
               <PieChart>
@@ -111,52 +111,48 @@ export default function AlertsSection() {
               <span className="text-[9px] uppercase tracking-wider text-muted-foreground font-semibold">TOTAL</span>
             </div>
           </div>
+        </div>
 
-          {/* Legend with trends */}
-          <div className="space-y-1 mt-2 w-full">
-            {donutData.map((d, i) => {
-              const trend = donutTrends[i];
-              return (
-                <div key={d.name} className="flex items-center gap-2 text-[11px]">
-                  <span className="w-2 h-2 rounded-full shrink-0" style={{ background: d.color }} />
-                  <span className="text-muted-foreground flex-1">{d.name}</span>
-                  <span className="font-mono-tech font-bold text-foreground">{d.value}</span>
-                  <span className={`flex items-center gap-0.5 text-[10px] ${trend.up ? "text-critical" : "text-low"}`}>
-                    {trend.up ? <TrendingUp className="h-2.5 w-2.5" /> : <TrendingDown className="h-2.5 w-2.5" />}
-                    {trend.trend}
-                  </span>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* VAR hero metric */}
-          <div className="mt-3 pt-3 border-t border-border/40 w-full text-center">
-            <div className="flex items-center justify-center gap-1 text-[10px] text-muted-foreground uppercase tracking-wider">
-              <DollarSign className="h-3 w-3" /> VAR
-            </div>
-            <div className="flex items-center justify-center gap-2 mt-0.5">
-              <span className="text-[15px] font-extrabold font-mono-tech text-primary neon-text">€2.4M</span>
+        {/* Right column — KPI values */}
+        <div className="w-[30%] pl-4 flex flex-col justify-center space-y-2.5">
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] text-muted-foreground">Critical</span>
+            <div className="flex items-center gap-2">
+              <span className="text-[15px] font-extrabold font-mono-tech text-critical">{donutData[0].value}</span>
               <span className="text-[10px] text-critical font-semibold flex items-center gap-0.5">
-                <TrendingUp className="h-2.5 w-2.5" /> +8%
+                <TrendingUp className="h-2.5 w-2.5" /> +12
               </span>
             </div>
           </div>
-        </div>
-
-        {/* Right column — 5-Week Trend */}
-        <div className="w-[35%] pl-4">
-          <span className="text-[11px] font-medium text-muted-foreground">5-Week Trend</span>
-          <ResponsiveContainer width="100%" height={170}>
-            <BarChart data={weeklyTrendData} barSize={18}>
-              <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" horizontal vertical={false} />
-              <XAxis dataKey="week" tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }} axisLine={false} tickLine={false} />
-              <RechartsTooltip />
-              <Bar dataKey="low" stackId="a" fill="hsl(var(--low))" />
-              <Bar dataKey="medium" stackId="a" fill="hsl(var(--medium))" />
-              <Bar dataKey="critical" stackId="a" fill="hsl(var(--critical))" radius={[3, 3, 0, 0]} />
-            </BarChart>
-          </ResponsiveContainer>
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] text-muted-foreground">Medium</span>
+            <div className="flex items-center gap-2">
+              <span className="text-[15px] font-extrabold font-mono-tech text-medium">{donutData[1].value}</span>
+              <span className="text-[10px] text-low font-semibold flex items-center gap-0.5">
+                <TrendingDown className="h-2.5 w-2.5" /> -5
+              </span>
+            </div>
+          </div>
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] text-muted-foreground">Low</span>
+            <div className="flex items-center gap-2">
+              <span className="text-[15px] font-extrabold font-mono-tech text-low">{donutData[2].value}</span>
+              <span className="text-[10px] text-critical font-semibold flex items-center gap-0.5">
+                <TrendingUp className="h-2.5 w-2.5" /> +3
+              </span>
+            </div>
+          </div>
+          <div className="pt-2 border-t border-border/40">
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] text-muted-foreground uppercase tracking-wider flex items-center gap-1"><DollarSign className="h-3 w-3" /> VAR</span>
+              <div className="flex items-center gap-2">
+                <span className="text-[15px] font-extrabold font-mono-tech text-primary neon-text">€2.4M</span>
+                <span className="text-[10px] text-critical font-semibold flex items-center gap-0.5">
+                  <TrendingUp className="h-2.5 w-2.5" /> +8%
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
