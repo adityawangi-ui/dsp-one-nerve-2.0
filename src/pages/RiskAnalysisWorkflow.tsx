@@ -101,8 +101,7 @@ export default function RiskAnalysisWorkflow() {
               </TabsContent>
 
               <TabsContent value="recommendations">
-                <InsightsTab row={row} />
-                <div className="mt-8">
+                <div className="mt-0">
                   <ScenarioSimulatorTab
                     row={row}
                     onSelectScenario={setSelectedScenario}
