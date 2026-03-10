@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { riskData } from "@/data/riskData";
-import { ArrowLeft, Search, Settings as SettingsIcon, User, Database, MessageSquare, Play, CheckCircle2 } from "lucide-react";
+import { ArrowLeft, Search, Settings as SettingsIcon, User, Database, MessageSquare, Play, CheckCircle2, AlertTriangle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
