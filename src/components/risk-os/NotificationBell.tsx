@@ -182,10 +182,10 @@ export default function NotificationBell({ onNavigateToConversations, onNavigate
                     <div className="flex-1 min-w-0">
                       <button
                         onClick={() => handleNotificationClick(notif)}
-                        className="w-full text-left hover:underline"
+                        className="w-full text-left group/notif"
                       >
                         <div className="flex items-center justify-between">
-                          <span className="text-xs font-semibold text-foreground">{notif.title}</span>
+                          <span className="text-xs font-semibold text-foreground group-hover/notif:text-primary transition-colors">{notif.title}</span>
                           {!notif.read && <span className="h-2 w-2 rounded-full bg-primary shrink-0" />}
                         </div>
                         <p className="text-xs text-foreground/80 mt-1 leading-relaxed">{notif.message}</p>
