@@ -1,13 +1,10 @@
-import { alertRows, donutData, weeklyTrendData } from "@/data/riskData";
-import { AlertTriangle, Clock, Shield, MessageSquare, UserCheck, Activity, TrendingUp, TrendingDown, DollarSign, AlertCircle } from "lucide-react";
+import { alertRows, donutData } from "@/data/riskData";
+import { Shield, UserCheck, Activity, TrendingUp, TrendingDown, DollarSign, AlertCircle, Package } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip as RechartsTooltip } from "recharts";
 import { useState } from "react";
 
 const iconMap: Record<string, React.ElementType> = {
   "Total Risks": Shield,
-  "No Next Avail.": Clock,
-  "Missing Reason": AlertTriangle,
-  "Missing Comments": MessageSquare,
   "Past Due": AlertCircle,
   "Assigned to Me": UserCheck,
 };
@@ -18,7 +15,6 @@ const severityDotColor: Record<string, string> = {
   low: "bg-low",
   info: "bg-info",
   assigned: "bg-assigned",
-  new: "bg-new-sev",
 };
 
 const severityBarColor: Record<string, string> = {
@@ -27,13 +23,19 @@ const severityBarColor: Record<string, string> = {
   low: "bg-low",
   info: "bg-info",
   assigned: "bg-assigned",
-  new: "bg-new-sev",
 };
 
-const donutTrends = [
-  { name: "Critical", trend: "+12", up: true },
-  { name: "Medium", trend: "-5", up: false },
-  { name: "Low", trend: "+3", up: true },
+const donutTrends: Record<string, { trend: string; up: boolean }> = {
+  Critical: { trend: "+12", up: true },
+  Medium: { trend: "-5", up: false },
+  Low: { trend: "+3", up: true },
+};
+
+// RHS KPI data: Total Risks, Past Due, Assigned to Me with € and volume
+const rhsKPIs = [
+  { label: "Total Risks", value: 1281, volume: "4,820 CS", euro: "€1.8M", icon: Shield, color: "text-primary" },
+  { label: "Past Due", value: 234, volume: "1,245 CS", euro: "€420K", icon: AlertCircle, color: "text-critical" },
+  { label: "Assigned to Me", value: 67, volume: "890 CS", euro: "€185K", icon: UserCheck, color: "text-foreground" },
 ];
 
 export default function AlertsSection() {
@@ -42,7 +44,6 @@ export default function AlertsSection() {
 
   return (
     <div className="section-card relative overflow-hidden">
-      {/* Decorative blur */}
       <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-primary/5 blur-3xl pointer-events-none" />
 
       <h2 className="text-sm font-semibold text-foreground mb-4 flex items-center gap-2 relative">
@@ -50,7 +51,7 @@ export default function AlertsSection() {
       </h2>
 
       <div className="flex gap-0 relative">
-        {/* Left column — Alert rows (only Total Risks, Past Due, Assigned to Me) */}
+        {/* Left column — Alert rows */}
         <div className="w-[40%] pr-4 border-r border-border/40 space-y-1">
           {alertRows.filter(row => ["Total Risks", "Past Due", "Assigned to Me"].includes(row.label)).map((row, idx) => {
             const Icon = iconMap[row.label] || Shield;
@@ -69,7 +70,6 @@ export default function AlertsSection() {
                   <div className={`h-full rounded-full ${severityBarColor[row.severity]}`} style={{ width: `${row.pct}%` }} />
                 </div>
 
-                {/* Tooltip */}
                 {hoveredIdx === idx && (
                   <div className="absolute left-full ml-3 top-1/2 -translate-y-1/2 z-50 w-64 bg-foreground text-background text-[11px] rounded-lg p-3 shadow-xl leading-relaxed pointer-events-none">
                     <div className="absolute left-0 top-1/2 -translate-x-1 -translate-y-1/2 w-2 h-2 bg-foreground rotate-45" />
@@ -81,7 +81,7 @@ export default function AlertsSection() {
           })}
         </div>
 
-        {/* Center column — Donut (no legend) */}
+        {/* Center column — Donut with hover showing trends */}
         <div className="w-[30%] px-4 border-r border-border/40 flex flex-col items-center justify-center">
           <div className="relative">
             <ResponsiveContainer width={140} height={120}>
@@ -94,9 +94,16 @@ export default function AlertsSection() {
                 <RechartsTooltip
                   content={({ active, payload }) => {
                     if (!active || !payload?.length) return null;
+                    const name = payload[0].name as string;
+                    const trend = donutTrends[name];
                     return (
                       <div className="bg-foreground text-background text-[11px] rounded-md px-2.5 py-1.5 shadow-lg pointer-events-none">
-                        <span className="font-semibold">{payload[0].name}:</span> {payload[0].value}
+                        <span className="font-semibold">{name}:</span> {payload[0].value}
+                        {trend && (
+                          <span className={`ml-2 font-semibold ${trend.up ? "text-red-300" : "text-green-300"}`}>
+                            {trend.up ? "↑" : "↓"} {trend.trend}
+                          </span>
+                        )}
                       </div>
                     );
                   }}
@@ -105,7 +112,6 @@ export default function AlertsSection() {
                 />
               </PieChart>
             </ResponsiveContainer>
-            {/* Center text */}
             <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none">
               <span className="text-lg font-extrabold font-mono-tech text-foreground">{total}</span>
               <span className="text-[9px] uppercase tracking-wider text-muted-foreground font-semibold">TOTAL</span>
@@ -113,44 +119,35 @@ export default function AlertsSection() {
           </div>
         </div>
 
-        {/* Right column — KPI values */}
+        {/* Right column — Total Risks / Past Due / Assigned to Me with € and volume */}
         <div className="w-[30%] pl-4 flex flex-col justify-center space-y-2.5">
-          <div className="flex items-center justify-between">
-            <span className="text-[11px] text-muted-foreground">Critical</span>
-            <div className="flex items-center gap-2">
-              <span className="text-[15px] font-extrabold font-mono-tech text-critical">{donutData[0].value}</span>
-              <span className="text-[10px] text-critical font-semibold flex items-center gap-0.5">
-                <TrendingUp className="h-2.5 w-2.5" /> +12
-              </span>
-            </div>
-          </div>
-          <div className="flex items-center justify-between">
-            <span className="text-[11px] text-muted-foreground">Medium</span>
-            <div className="flex items-center gap-2">
-              <span className="text-[15px] font-extrabold font-mono-tech text-medium">{donutData[1].value}</span>
-              <span className="text-[10px] text-low font-semibold flex items-center gap-0.5">
-                <TrendingDown className="h-2.5 w-2.5" /> -5
-              </span>
-            </div>
-          </div>
-          <div className="flex items-center justify-between">
-            <span className="text-[11px] text-muted-foreground">Low</span>
-            <div className="flex items-center gap-2">
-              <span className="text-[15px] font-extrabold font-mono-tech text-low">{donutData[2].value}</span>
-              <span className="text-[10px] text-critical font-semibold flex items-center gap-0.5">
-                <TrendingUp className="h-2.5 w-2.5" /> +3
-              </span>
-            </div>
-          </div>
-          <div className="pt-2 border-t border-border/40">
+          {rhsKPIs.map((kpi) => {
+            const Icon = kpi.icon;
+            return (
+              <div key={kpi.label} className="flex items-center justify-between">
+                <div className="flex items-center gap-1.5">
+                  <Icon className="h-3 w-3 text-muted-foreground" />
+                  <span className="text-[11px] text-muted-foreground">{kpi.label}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className={`text-[13px] font-extrabold font-mono-tech ${kpi.color}`}>{kpi.value.toLocaleString()}</span>
+                </div>
+              </div>
+            );
+          })}
+          <div className="pt-2 border-t border-border/40 space-y-1.5">
             <div className="flex items-center justify-between">
               <span className="text-[10px] text-muted-foreground uppercase tracking-wider flex items-center gap-1"><DollarSign className="h-3 w-3" /> VAR</span>
               <div className="flex items-center gap-2">
-                <span className="text-[15px] font-extrabold font-mono-tech text-primary neon-text">€2.4M</span>
+                <span className="text-[13px] font-extrabold font-mono-tech text-primary neon-text">€2.4M</span>
                 <span className="text-[10px] text-critical font-semibold flex items-center gap-0.5">
                   <TrendingUp className="h-2.5 w-2.5" /> +8%
                 </span>
               </div>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-[10px] text-muted-foreground uppercase tracking-wider flex items-center gap-1"><Package className="h-3 w-3" /> VOL</span>
+              <span className="text-[13px] font-extrabold font-mono-tech text-foreground">6,955 CS</span>
             </div>
           </div>
         </div>

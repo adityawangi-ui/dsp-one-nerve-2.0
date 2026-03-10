@@ -3,7 +3,6 @@ import { Bell, X, Send, ExternalLink, MessageSquare, Bot, User, Hash, Move } fro
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { ScrollArea } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 
 interface ChatMessage {
@@ -56,9 +55,10 @@ const mockNotifications: NotificationItem[] = [
 
 interface Props {
   onNavigateToConversations?: () => void;
+  onNavigateToConversationByRisk?: (riskId: number) => void;
 }
 
-export default function NotificationBell({ onNavigateToConversations }: Props) {
+export default function NotificationBell({ onNavigateToConversations, onNavigateToConversationByRisk }: Props) {
   const [showDropdown, setShowDropdown] = useState(false);
   const [notifications, setNotifications] = useState<NotificationItem[]>(mockNotifications);
   const [replyInputs, setReplyInputs] = useState<Record<string, string>>({});
@@ -80,6 +80,16 @@ export default function NotificationBell({ onNavigateToConversations }: Props) {
     if (!reply?.trim()) return;
     setReplyInputs(prev => ({ ...prev, [notif.id]: "" }));
     setNotifications(prev => prev.map(n => n.id === notif.id ? { ...n, read: true, message: `You replied: "${reply}"` } : n));
+  };
+
+  const handleNotificationClick = (notif: NotificationItem) => {
+    setNotifications(prev => prev.map(n => n.id === notif.id ? { ...n, read: true } : n));
+    setShowDropdown(false);
+    if (onNavigateToConversationByRisk) {
+      onNavigateToConversationByRisk(notif.riskId);
+    } else if (onNavigateToConversations) {
+      onNavigateToConversations();
+    }
   };
 
   const handlePopout = (notif: NotificationItem) => {
@@ -159,22 +169,27 @@ export default function NotificationBell({ onNavigateToConversations }: Props) {
         </Button>
 
         {showDropdown && (
-          <div className="absolute right-0 top-10 w-96 bg-card border border-border rounded-xl shadow-[var(--shadow-elevated)] z-50 overflow-hidden flex flex-col" style={{ maxHeight: "480px" }}>
+          <div className="absolute right-0 top-10 w-96 bg-card border border-border rounded-xl shadow-[var(--shadow-elevated)] z-50 flex flex-col" style={{ maxHeight: "480px" }}>
             <div className="px-4 py-2.5 border-b border-border flex items-center justify-between shrink-0">
               <h3 className="text-xs font-semibold text-foreground">Notifications</h3>
               <Badge variant="outline" className="text-[9px]">{unreadCount} new</Badge>
             </div>
-            <ScrollArea className="flex-1 min-h-0">
+            <div className="flex-1 min-h-0 overflow-y-auto" style={{ maxHeight: "350px" }}>
               {notifications.map(notif => (
                 <div key={notif.id} className={cn("px-4 py-3 border-b border-border/50 hover:bg-muted/30 transition-colors", !notif.read && "bg-primary/[0.03]")}>
                   <div className="flex items-start gap-2">
                     <Hash className="h-3.5 w-3.5 text-primary mt-0.5 shrink-0" />
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between">
-                        <span className="text-xs font-semibold text-foreground">{notif.title}</span>
-                        {!notif.read && <span className="h-2 w-2 rounded-full bg-primary shrink-0" />}
-                      </div>
-                      <p className="text-xs text-foreground/80 mt-1 leading-relaxed">{notif.message}</p>
+                      <button
+                        onClick={() => handleNotificationClick(notif)}
+                        className="w-full text-left hover:underline"
+                      >
+                        <div className="flex items-center justify-between">
+                          <span className="text-xs font-semibold text-foreground">{notif.title}</span>
+                          {!notif.read && <span className="h-2 w-2 rounded-full bg-primary shrink-0" />}
+                        </div>
+                        <p className="text-xs text-foreground/80 mt-1 leading-relaxed">{notif.message}</p>
+                      </button>
                       <div className="flex items-center gap-2 mt-1">
                         <User className="h-3 w-3 text-muted-foreground" />
                         <span className="text-[10px] text-muted-foreground font-medium">{notif.sender} · {formatTime(notif.timestamp)}</span>
@@ -202,8 +217,7 @@ export default function NotificationBell({ onNavigateToConversations }: Props) {
                   </div>
                 </div>
               ))}
-            </ScrollArea>
-            {/* Single persistent Go to Conversations button */}
+            </div>
             {onNavigateToConversations && (
               <div className="px-4 py-2.5 border-t border-border shrink-0 bg-muted/30">
                 <Button

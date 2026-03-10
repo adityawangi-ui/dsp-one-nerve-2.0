@@ -17,6 +17,7 @@ export default function RiskAnalysisWorkflow() {
   const riskId = Number(searchParams.get("riskId")) || riskData[0].riskId;
   const row = riskData.find(r => r.riskId === riskId) || riskData[0];
   const initialTab = searchParams.get("tab") || "insights-data";
+  const conversationRiskId = searchParams.get("riskId") ? Number(searchParams.get("riskId")) : undefined;
 
   const [activeTab, setActiveTab] = useState(initialTab);
   const [selectedScenario, setSelectedScenario] = useState<Scenario | null>(null);
@@ -112,7 +113,7 @@ export default function RiskAnalysisWorkflow() {
               </TabsContent>
 
               <TabsContent value="conversations">
-                <ConversationsTab row={row} />
+                <ConversationsTab row={row} initialRiskId={conversationRiskId} />
               </TabsContent>
             </Tabs>
           )}

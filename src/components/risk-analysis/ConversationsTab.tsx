@@ -98,6 +98,17 @@ export default function ConversationsTab({ row, initialRiskId }: Props) {
   const [activeConvId, setActiveConvId] = useState<string | null>(null);
   const [input, setInput] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
+
+  // Auto-select conversation matching initialRiskId
+  useEffect(() => {
+    if (initialRiskId) {
+      const matchingConv = conversations.find(c => c.riskId === initialRiskId);
+      if (matchingConv) {
+        setActiveConvId(matchingConv.id);
+        setConversations(prev => prev.map(c => c.id === matchingConv.id ? { ...c, unread: 0 } : c));
+      }
+    }
+  }, [initialRiskId]);
   const [showNewChat, setShowNewChat] = useState(false);
   const [newChatUser, setNewChatUser] = useState("");
   const [newChatRiskId, setNewChatRiskId] = useState("");

@@ -421,14 +421,14 @@ function PlannerRefinementDialog({
                    <SelectTrigger className="w-full">
                      <SelectValue placeholder="Choose a scenario to refine" />
                    </SelectTrigger>
-                   <SelectContent>
-                     <SelectItem value="all">All Scenarios</SelectItem>
-                     {scenarios.map(s => (
-                       <SelectItem key={s.id} value={String(s.id)}>
-                         S{s.id}: {s.name} {s.recommended ? "(Recommended)" : ""}
-                       </SelectItem>
-                     ))}
-                   </SelectContent>
+                    <SelectContent className="z-[200]">
+                      <SelectItem value="all">All Scenarios</SelectItem>
+                      {scenarios.map(s => (
+                        <SelectItem key={s.id} value={String(s.id)}>
+                          S{s.id}: {s.name} {s.recommended ? "(Recommended)" : ""}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
                  </Select>
                </div>
              </div>
