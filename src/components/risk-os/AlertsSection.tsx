@@ -51,14 +51,14 @@ export default function AlertsSection() {
       </h2>
 
       <div className="flex gap-0 relative">
-        {/* Left column — Alert rows */}
-        <div className="w-[40%] pr-4 border-r border-border/40 space-y-1">
+        {/* Left column — Alert rows as mini cards */}
+        <div className="w-[40%] pr-4 border-r border-border/40 space-y-1.5">
           {alertRows.filter(row => ["Total Risks", "Past Due", "Assigned to Me"].includes(row.label)).map((row, idx) => {
             const Icon = iconMap[row.label] || Shield;
             return (
               <div
                 key={row.label}
-                className="relative flex items-center gap-2.5 px-2.5 py-2 rounded-lg hover:bg-secondary/50 transition-colors cursor-default"
+                className="relative flex items-center gap-2.5 px-3 py-2 rounded-md border border-border/50 bg-secondary/30 hover:bg-secondary/60 transition-colors cursor-default"
                 onMouseEnter={() => setHoveredIdx(idx)}
                 onMouseLeave={() => setHoveredIdx(null)}
               >
@@ -119,16 +119,16 @@ export default function AlertsSection() {
           </div>
         </div>
 
-        {/* Right column — Total Risk count, € value, volume */}
-        <div className="w-[30%] pl-4 flex flex-col justify-center space-y-3">
-          <div className="flex items-center justify-between">
+        {/* Right column — Total Risk count, € value, volume as mini cards */}
+        <div className="w-[30%] pl-4 flex flex-col justify-center space-y-1.5">
+          <div className="flex items-center justify-between px-3 py-2 rounded-md border border-border/50 bg-secondary/30">
             <div className="flex items-center gap-1.5">
               <Shield className="h-3.5 w-3.5 text-muted-foreground" />
               <span className="text-[11px] text-muted-foreground">Total Risks</span>
             </div>
             <span className="text-[15px] font-extrabold font-mono-tech text-primary">1,281</span>
           </div>
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between px-3 py-2 rounded-md border border-border/50 bg-secondary/30">
             <div className="flex items-center gap-1.5">
               <DollarSign className="h-3.5 w-3.5 text-muted-foreground" />
               <span className="text-[11px] text-muted-foreground">Value at Risk</span>
@@ -140,7 +140,7 @@ export default function AlertsSection() {
               </span>
             </div>
           </div>
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between px-3 py-2 rounded-md border border-border/50 bg-secondary/30">
             <div className="flex items-center gap-1.5">
               <Package className="h-3.5 w-3.5 text-muted-foreground" />
               <span className="text-[11px] text-muted-foreground">Volume</span>
