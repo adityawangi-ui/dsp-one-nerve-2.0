@@ -319,8 +319,8 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                         <span>{agg.riskId}</span>
                         {agg.isNew && <NewBadge />}
                       </td>
-                      {/* Insights & Analyse - icon button */}
-                      <td className={cellCls}>
+                      {/* Insights & Analyse - icon button - frozen */}
+                      <td className={cellCls} style={frozenCellStyle("insights", rowNewVariant)}>
                         <button onClick={() => onOpenAnalysis ? onOpenAnalysis(childRows[0]) : navigate(`/risk-analysis?riskId=${childRows[0].riskId}`)} className="group/icon flex items-center justify-center p-2 rounded-lg bg-primary/5 border border-primary/20 hover:bg-primary/15 hover:border-primary/40 hover:shadow-lg transition-all duration-200" title="Insights & Analyse">
                           <img src={insightsIcon} alt="Insights & Analyse" className="h-5 w-5 drop-shadow-md brightness-110 contrast-110 group-hover/icon:scale-110 transition-transform duration-200" />
                         </button>
