@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { RiskRow, riskData } from "@/data/riskData";
-import { Package, Calendar, TrendingDown, Truck, Factory, BarChart3, Database, Table2, Eye, Percent } from "lucide-react";
+import { Package, Calendar, TrendingDown, Truck, Factory, BarChart3, Database, Table2, Eye } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, LineChart, Line, Legend, PieChart, Pie, Cell, ComposedChart, ReferenceLine } from "recharts";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip as UITooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
@@ -29,7 +29,6 @@ const sections = [
   { id: "stock", title: "Stock Info / Inventory", icon: Package },
   { id: "doh", title: "DOH (Day & Quantity)", icon: Calendar },
   { id: "forecast", title: "Forecast / Promo Details", icon: BarChart3 },
-  { id: "projectedDr", title: "Projected DR%", icon: Percent },
   { id: "sto", title: "STO Data (Top 5)", icon: Truck },
   { id: "production", title: "Production Data", icon: Factory },
   { id: "master", title: "Master Data", icon: Database },
@@ -37,7 +36,7 @@ const sections = [
 
 interface Props { row: RiskRow; }
 
-function SectionHeader({ icon: Icon, title, badge, sectionId }: { icon: React.ElementType; title: string; badge?: string; sectionId?: string }) {
+function SectionHeader({ icon: Icon, title, badge, sectionId, rightContent }: { icon: React.ElementType; title: string; badge?: string; sectionId?: string; rightContent?: React.ReactNode }) {
   const definition = sectionId ? sectionDefinitions[sectionId] : undefined;
   return (
     <div className="flex items-center gap-3 mb-4 rounded-lg border border-border bg-secondary px-3 py-2">
@@ -60,6 +59,7 @@ function SectionHeader({ icon: Icon, title, badge, sectionId }: { icon: React.El
           </UITooltip>
         </TooltipProvider>
       )}
+      {rightContent && <div className="ml-auto">{rightContent}</div>}
     </div>
   );
 }
@@ -275,13 +275,12 @@ export default function InsightsDataTab({ row }: Props) {
 
         {/* 1. CTP */}
         <section id="tab-insight-ctp">
-          <div className="flex items-center justify-between">
-            <SectionHeader icon={Table2} title="Exception Daily / Weekly CTP" sectionId="ctp" />
-            <div className="flex rounded-lg border border-border overflow-hidden mb-4">
-              <button onClick={() => setCtpMode("daily")} className={`px-3 py-1.5 text-[10px] font-semibold transition-colors ${ctpMode === "daily" ? "bg-primary text-primary-foreground" : "bg-secondary text-foreground hover:bg-secondary/80"}`}>Daily</button>
-              <button onClick={() => setCtpMode("weekly")} className={`px-3 py-1.5 text-[10px] font-semibold transition-colors ${ctpMode === "weekly" ? "bg-primary text-primary-foreground" : "bg-secondary text-foreground hover:bg-secondary/80"}`}>Weekly</button>
+          <SectionHeader icon={Table2} title="Exception Daily / Weekly CTP" sectionId="ctp" rightContent={
+            <div className="flex rounded-lg border border-border overflow-hidden">
+              <button onClick={() => setCtpMode("daily")} className={`px-3 py-1.5 text-[10px] font-semibold transition-colors ${ctpMode === "daily" ? "bg-primary text-primary-foreground" : "bg-background text-foreground hover:bg-secondary/80"}`}>Daily</button>
+              <button onClick={() => setCtpMode("weekly")} className={`px-3 py-1.5 text-[10px] font-semibold transition-colors ${ctpMode === "weekly" ? "bg-primary text-primary-foreground" : "bg-background text-foreground hover:bg-secondary/80"}`}>Weekly</button>
             </div>
-          </div>
+          } />
           <ChartCard title="Planned Demand vs Total Supply">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={ctpChartData} barCategoryGap="20%">
@@ -419,20 +418,11 @@ export default function InsightsDataTab({ row }: Props) {
           
         </section>
 
-        {/* Projected DR% */}
-        <section id="tab-insight-projectedDr">
-          <SectionHeader icon={Percent} title="Projected DR%" sectionId="projectedDr" />
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
-            <KpiBox label="Current DR%" value="72.4%" />
-            <KpiBox label="Target DR%" value="95.0%" />
-            <KpiBox label="Gap" value="22.6%" />
-            <KpiBox label="Projected Recovery" value="WK-22" />
-          </div>
-        </section>
 
         {/* 5. STO */}
         <section id="tab-insight-sto">
           <SectionHeader icon={Truck} title="STO Data" badge="Top 5" sectionId="sto" />
+          <DataTable headers={stoTableHeaders} rows={stoTableRows} minWidth="700px" />
         </section>
 
         {/* 6. Production */}
