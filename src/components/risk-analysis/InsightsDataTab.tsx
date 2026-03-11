@@ -376,7 +376,7 @@ export default function InsightsDataTab({ row }: Props) {
 
         {/* 3. DOH */}
         <section id="tab-insight-doh">
-          <SectionHeader icon={Calendar} title="DOH (Day & Quantity)" />
+          <SectionHeader icon={Calendar} title="DOH (Day & Quantity)" sectionId="doh" />
           <ChartCard title="DOH & Quantity Combined">
             <ResponsiveContainer width="100%" height="100%">
               <ComposedChart data={dohData}>
