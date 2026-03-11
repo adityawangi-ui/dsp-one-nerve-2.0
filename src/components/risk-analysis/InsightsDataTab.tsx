@@ -276,7 +276,7 @@ export default function InsightsDataTab({ row }: Props) {
         {/* 1. CTP */}
         <section id="tab-insight-ctp">
           <div className="flex items-center justify-between">
-            <SectionHeader icon={Table2} title="Exception Daily / Weekly CTP" />
+            <SectionHeader icon={Table2} title="Exception Daily / Weekly CTP" sectionId="ctp" />
             <div className="flex rounded-lg border border-border overflow-hidden mb-4">
               <button onClick={() => setCtpMode("daily")} className={`px-3 py-1.5 text-[10px] font-semibold transition-colors ${ctpMode === "daily" ? "bg-primary text-primary-foreground" : "bg-secondary text-foreground hover:bg-secondary/80"}`}>Daily</button>
               <button onClick={() => setCtpMode("weekly")} className={`px-3 py-1.5 text-[10px] font-semibold transition-colors ${ctpMode === "weekly" ? "bg-primary text-primary-foreground" : "bg-secondary text-foreground hover:bg-secondary/80"}`}>Weekly</button>
