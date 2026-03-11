@@ -231,16 +231,7 @@ export default function RiskMonitor() {
                    <RechartsTooltip formatter={(value: number, name: string) => [`${value} items`, name]} />
                    <Legend wrapperStyle={{ fontSize: 10 }} iconType="circle" iconSize={8} formatter={(v: string) => <span style={{ color: "hsl(var(--foreground))" }}>{v}</span>} />
                  </PieChart>
-              </ResponsiveContainer>
-              <div className="flex gap-3 mt-1">
-                {donutData.map((d) => (
-                  <div key={d.name} className="flex items-center gap-1 text-[10px]">
-                    <span className="w-2 h-2 rounded-full" style={{ background: d.color }} />
-                    <span className="text-muted-foreground">{d.name}</span>
-                    <span className="font-mono font-bold text-foreground">{d.value}</span>
-                  </div>
-                ))}
-              </div>
+               </ResponsiveContainer>
               <div className="mt-2 text-center">
                 <span className="text-[10px] text-muted-foreground">Value at Risk</span>
                 <div className="flex items-center justify-center gap-1.5">
