@@ -235,16 +235,33 @@ export default function InsightsPanel({ row, onClose }: Props) {
 
         {/* Content */}
         <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-          <div className="h-12 flex items-center justify-between px-5 border-b border-border/50 shrink-0 bg-card">
-            <div>
+          <div className="h-auto flex flex-col gap-2 px-5 py-3 border-b border-border/50 shrink-0 bg-card">
+            <div className="flex items-center justify-between">
               <span className="text-sm font-bold text-foreground">Risk Insights</span>
-              <span className="text-[11px] text-foreground/80 ml-3">
-                MRDR: {row.mrdr} · {row.mrdrDescription} · Site: {row.site} · {row.msoCountry}
-              </span>
+              <button onClick={onClose} className="h-8 w-8 flex items-center justify-center rounded-lg hover:bg-secondary transition-colors">
+                <X className="h-4 w-4 text-muted-foreground" />
+              </button>
             </div>
-            <button onClick={onClose} className="h-8 w-8 flex items-center justify-center rounded-lg hover:bg-secondary transition-colors">
-              <X className="h-4 w-4 text-muted-foreground" />
-            </button>
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge variant="outline" className="text-[10px] border-primary/30 bg-primary/5 text-primary">
+                MRDR: {row.mrdr}
+              </Badge>
+              <Badge variant="outline" className="text-[10px] border-border bg-secondary text-foreground">
+                {row.mrdrDescription}
+              </Badge>
+              <Badge variant="outline" className="text-[10px] border-border bg-secondary text-foreground">
+                <Factory className="h-2.5 w-2.5 mr-1" /> {row.site}
+              </Badge>
+              <Badge variant="outline" className="text-[10px] border-border bg-secondary text-foreground">
+                🌍 {row.msoCountry}
+              </Badge>
+              <Badge variant="outline" className="text-[10px] border-border bg-secondary text-foreground">
+                {row.category}
+              </Badge>
+              <Badge variant="outline" className="text-[10px] border-border bg-secondary text-foreground">
+                {row.uom}
+              </Badge>
+            </div>
           </div>
 
           <div ref={contentRef} className="flex-1 overflow-y-auto overflow-x-hidden p-6 space-y-10">
