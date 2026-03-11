@@ -29,7 +29,6 @@ const sections = [
   { id: "stock", title: "Stock Info / Inventory", icon: Package },
   { id: "doh", title: "DOH (Day & Quantity)", icon: Calendar },
   { id: "forecast", title: "Forecast / Promo Details", icon: BarChart3 },
-  { id: "projectedDr", title: "Projected DR%", icon: Percent },
   { id: "sto", title: "STO Data (Top 5)", icon: Truck },
   { id: "production", title: "Production Data", icon: Factory },
   { id: "master", title: "Master Data", icon: Database },
