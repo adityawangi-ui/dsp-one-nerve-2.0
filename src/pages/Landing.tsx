@@ -551,27 +551,37 @@ export default function Landing() {
                       {card.subtext}
                     </p>
 
-                    {/* Chips or Status */}
-                    <div className="mb-2">
-                      {card.chips && (
-                        <div className="flex flex-wrap gap-1.5 justify-center">
-                          {card.chips.map((chip, idx) => (
-                            <Badge key={idx} variant="secondary" className="text-[10px] py-0.5 px-2.5 bg-secondary/80 text-secondary-foreground hover:bg-secondary">
-                              {chip}
-                            </Badge>
-                          ))}
-                        </div>
-                      )}
-                      {card.status && (
-                        <Badge variant="outline" className={`text-[10px] py-0.5 px-2.5 ${
-                          isActionItem 
-                            ? 'border-destructive/50 text-destructive bg-destructive/10 font-semibold' 
-                            : 'border-primary/30 text-primary/80 bg-primary/5'
-                        }`}>
-                          {card.status}
-                        </Badge>
-                      )}
-                    </div>
+                     {/* Chips, Status, or KPIs */}
+                     <div className="mb-2">
+                       {card.kpis && (
+                         <div className="grid grid-cols-2 gap-1.5 w-full">
+                           {card.kpis.map((kpi, idx) => (
+                             <div key={idx} className="flex items-center justify-between px-2 py-1 rounded-md bg-secondary/60 border border-border/30">
+                               <span className="text-[9px] text-muted-foreground">{kpi.label}</span>
+                               <span className={`text-[11px] font-bold font-mono ${kpi.color}`}>{kpi.value}</span>
+                             </div>
+                           ))}
+                         </div>
+                       )}
+                       {card.chips && (
+                         <div className="flex flex-wrap gap-1.5 justify-center">
+                           {card.chips.map((chip, idx) => (
+                             <Badge key={idx} variant="secondary" className="text-[10px] py-0.5 px-2.5 bg-secondary/80 text-secondary-foreground hover:bg-secondary">
+                               {chip}
+                             </Badge>
+                           ))}
+                         </div>
+                       )}
+                       {card.status && !card.kpis && (
+                         <Badge variant="outline" className={`text-[10px] py-0.5 px-2.5 ${
+                           isActionItem 
+                             ? 'border-destructive/50 text-destructive bg-destructive/10 font-semibold' 
+                             : 'border-primary/30 text-primary/80 bg-primary/5'
+                         }`}>
+                           {card.status}
+                         </Badge>
+                       )}
+                     </div>
 
                      {/* Footer */}
                     <div className={`pt-2 border-t flex items-center justify-center gap-2 w-full ${

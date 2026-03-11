@@ -246,18 +246,18 @@ export default function RiskMonitor() {
             {/* Right - Weekly Bar Chart */}
             <div className="lg:col-span-4">
               <p className="text-[10px] font-medium text-muted-foreground mb-1">5-Week Trend</p>
-              <ResponsiveContainer width="100%" height={160}>
-                <BarChart data={weeklyData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                  <XAxis dataKey="week" tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }} />
-                  <YAxis tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }} />
-                  <RechartsTooltip />
-                  <Legend wrapperStyle={{ fontSize: 10 }} />
-                  <Bar dataKey="critical" stackId="a" fill="hsl(0, 72%, 51%)" radius={[0, 0, 0, 0]} />
-                  <Bar dataKey="medium" stackId="a" fill="hsl(27, 96%, 54%)" />
-                  <Bar dataKey="low" stackId="a" fill="hsl(152, 60%, 42%)" radius={[4, 4, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
+               <ResponsiveContainer width="100%" height={160}>
+                 <BarChart data={weeklyData}>
+                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                   <XAxis dataKey="week" tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }} label={{ value: "Week", position: "insideBottom", offset: -2, fontSize: 9, fill: "hsl(var(--muted-foreground))" }} />
+                   <YAxis tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }} label={{ value: "Count", angle: -90, position: "insideLeft", offset: 10, fontSize: 9, fill: "hsl(var(--muted-foreground))" }} />
+                   <RechartsTooltip />
+                   <Legend wrapperStyle={{ fontSize: 10 }} />
+                   <Bar dataKey="critical" stackId="a" fill="hsl(0, 72%, 51%)" name="Critical" radius={[0, 0, 0, 0]} />
+                   <Bar dataKey="medium" stackId="a" fill="hsl(27, 96%, 54%)" name="Medium" />
+                   <Bar dataKey="low" stackId="a" fill="hsl(152, 60%, 42%)" name="Low" radius={[4, 4, 0, 0]} />
+                 </BarChart>
+               </ResponsiveContainer>
             </div>
           </div>
         </Card>
