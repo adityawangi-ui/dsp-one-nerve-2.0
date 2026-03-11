@@ -339,7 +339,7 @@ export default function InsightsDataTab({ row }: Props) {
 
         {/* 2. Stock Info */}
         <section id="tab-insight-stock">
-          <SectionHeader icon={Package} title="Stock Info / Inventory" />
+          <SectionHeader icon={Package} title="Stock Info / Inventory" sectionId="stock" />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <ChartCard title="Stock Type Breakdown" contentClassName="h-72">
               <ResponsiveContainer width="100%" height="100%">
