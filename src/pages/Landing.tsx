@@ -594,8 +594,8 @@ export default function Landing() {
                             }}
                           >
                             <Shield className="h-3 w-3 mr-1" />
-                            Risk Monitor
-                          </Button>
+                             Risk AI
+                           </Button>
                         </div>
                       ) : (
                         <>

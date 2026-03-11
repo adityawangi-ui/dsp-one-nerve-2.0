@@ -41,7 +41,7 @@ export default function RiskAnalysisWorkflow() {
           <div className="h-7 w-7 rounded bg-primary/10 flex items-center justify-center">
             <SettingsIcon className="h-3.5 w-3.5 text-primary" />
           </div>
-          <span className="text-sm font-bold text-foreground">Risk Monitoring System</span>
+          <span className="text-sm font-bold text-foreground">Risk AI System</span>
         </div>
         <div className="flex items-center gap-4 text-xs text-muted-foreground">
           <span className="flex items-center gap-1.5"><User className="h-3.5 w-3.5" /> John Smith</span>

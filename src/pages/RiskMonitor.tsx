@@ -173,9 +173,9 @@ export default function RiskMonitor() {
           <div>
             <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
               <Shield className="h-6 w-6 text-primary" />
-              Risk Monitor
-            </h1>
-            <p className="text-sm text-muted-foreground mt-1">Enterprise risk monitoring & AI-powered mitigation</p>
+               Risk AI
+             </h1>
+             <p className="text-sm text-muted-foreground mt-1">Enterprise risk intelligence & AI-powered mitigation</p>
           </div>
           <div className="flex items-center gap-3">
             <NotificationBell onNavigateToConversations={() => navigate('/risk-analysis?tab=conversations')} />

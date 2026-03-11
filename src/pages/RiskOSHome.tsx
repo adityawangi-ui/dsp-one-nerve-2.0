@@ -18,9 +18,9 @@ export default function RiskOSHome() {
           <ShieldAlert className="h-10 w-10 text-primary-foreground" />
         </div>
         <div>
-          <h1 className="text-3xl font-extrabold text-foreground tracking-tight">Risk Monitor</h1>
+           <h1 className="text-3xl font-extrabold text-foreground tracking-tight">Risk AI</h1>
           <p className="text-muted-foreground mt-2 text-base max-w-md mx-auto">
-            Enterprise supply chain risk monitoring with AI-powered intelligence, real-time alerts, and actionable insights.
+            Enterprise supply chain risk intelligence with AI-powered monitoring, real-time alerts, and actionable insights.
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">

@@ -114,7 +114,7 @@ export default function RiskOverview() {
               <Home className="h-3 w-3" /> Home
             </a>
             <ChevronRight className="h-3 w-3" />
-            <span className="text-foreground font-medium">Risk Monitor</span>
+            <span className="text-foreground font-medium">Risk AI</span>
           </nav>
 
           <AlertsSection />
