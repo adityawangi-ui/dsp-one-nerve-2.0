@@ -117,6 +117,15 @@ export default function AlertsSection() {
               <span className="text-[9px] uppercase tracking-wider text-muted-foreground font-semibold">TOTAL</span>
             </div>
           </div>
+          {/* Legend */}
+          <div className="flex gap-3 mt-1">
+            {donutData.map((d) => (
+              <div key={d.name} className="flex items-center gap-1 text-[9px]">
+                <span className="w-2 h-2 rounded-full" style={{ background: d.color }} />
+                <span className="text-muted-foreground">{d.name}</span>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* Right column — Total Risk count, € value, volume as mini cards */}

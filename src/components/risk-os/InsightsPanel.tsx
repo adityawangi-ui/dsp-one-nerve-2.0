@@ -408,9 +408,9 @@ export default function InsightsPanel({ row, onClose }: Props) {
                 <ResponsiveContainer width="100%" height="100%">
                   <ComposedChart data={prodData}>
                     <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" strokeOpacity={0.5} />
-                    <XAxis dataKey="week" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
-                    <YAxis yAxisId="left" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
-                    <YAxis yAxisId="right" orientation="right" domain={[0, 100]} tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
+                    <XAxis dataKey="week" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} label={{ value: "Week", position: "insideBottom", offset: -2, fontSize: 9, fill: 'hsl(var(--muted-foreground))' }} />
+                    <YAxis yAxisId="left" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} label={{ value: "Production Qty", angle: -90, position: "insideLeft", offset: 10, fontSize: 9, fill: 'hsl(var(--muted-foreground))' }} />
+                    <YAxis yAxisId="right" orientation="right" domain={[0, 100]} tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} label={{ value: "CCU %", angle: 90, position: "insideRight", offset: 10, fontSize: 9, fill: 'hsl(var(--muted-foreground))' }} />
                     <Tooltip {...customTooltipStyle} />
                     <Legend wrapperStyle={legendStyle} formatter={(value: string) => <span style={{ color: 'hsl(var(--foreground))' }}>{value}</span>} />
                     <Bar yAxisId="left" dataKey="qty" fill={CHART_BLUE} name="Production Qty" radius={[4, 4, 0, 0]} />
