@@ -195,6 +195,12 @@ export default function Landing() {
       link: "/risk-alert",
       status: "3 High Priority Alerts",
       isAgent: true,
+      kpis: [
+        { label: "Total Risks", value: "1,281", color: "text-primary" },
+        { label: "Value at Risk", value: "€2.4M", color: "text-destructive" },
+        { label: "Past Due", value: "234", color: "text-warning" },
+        { label: "Critical", value: "47", color: "text-destructive" },
+      ],
     },
     {
       title: "Insights & Analytics",
