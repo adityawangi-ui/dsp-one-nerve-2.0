@@ -277,8 +277,8 @@ export default function VisualCentre({ onClose }: Props) {
         <ResponsiveContainer width="100%" height={height}>
           <LineChart data={chart.data}>
             <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" strokeOpacity={0.5} />
-            <XAxis dataKey="week" tick={axisStyle} axisLine={{ stroke: "hsl(var(--border))" }} />
-            <YAxis tick={axisStyle} axisLine={{ stroke: "hsl(var(--border))" }} />
+            <XAxis dataKey="week" tick={axisStyle} axisLine={{ stroke: "hsl(var(--border))" }} label={{ value: "Week", position: "insideBottom", offset: -2, fontSize: 9, fill: "hsl(var(--muted-foreground))" }} />
+            <YAxis tick={axisStyle} axisLine={{ stroke: "hsl(var(--border))" }} label={{ value: "Count", angle: -90, position: "insideLeft", offset: 10, fontSize: 9, fill: "hsl(var(--muted-foreground))" }} />
             <Tooltip {...tooltipStyle} />
             <Legend wrapperStyle={{ fontSize: 10 }} formatter={(v: string) => <span style={{ color: "hsl(var(--foreground))" }}>{v}</span>} />
             <Line type="monotone" dataKey="open" stroke={chartPalette[0]} strokeWidth={2} name="Open" dot={{ r: 3, fill: chartPalette[0] }} />
