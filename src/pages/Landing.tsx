@@ -531,15 +531,26 @@ export default function Landing() {
                      {/* Chips, Status, or KPIs */}
                      <div className="mb-2">
                        {card.kpis && (
-                         <div className="grid grid-cols-2 gap-1.5 w-full">
-                           {card.kpis.map((kpi, idx) => (
-                             <div key={idx} className="flex items-center justify-between px-2 py-1 rounded-md bg-secondary/60 border border-border/30">
-                               <span className="text-[9px] text-muted-foreground">{kpi.label}</span>
-                               <span className={`text-[11px] font-bold font-mono ${kpi.color}`}>{kpi.value}</span>
-                             </div>
-                           ))}
+                         <div className="space-y-2 w-full">
+                           <div className="grid grid-cols-2 gap-1.5 w-full">
+                             {card.kpis.map((kpi, idx) => (
+                               <div key={idx} className="flex items-center justify-between px-2 py-1 rounded-md bg-secondary/60 border border-border/30">
+                                 <span className="text-[9px] text-muted-foreground">{kpi.label}</span>
+                                 <span className={`text-[11px] font-bold font-mono ${kpi.color}`}>{kpi.value}</span>
+                               </div>
+                             ))}
+                           </div>
+                           <Button
+                             variant="outline"
+                             size="sm"
+                             className="w-full text-[11px] h-7 border-primary/30 text-primary hover:bg-primary/10"
+                             onClick={(e) => { e.preventDefault(); navigate("/risk-monitor"); }}
+                           >
+                             Open Risk AI Dashboard
+                             <ChevronRight className="h-3 w-3 ml-1" />
+                           </Button>
                          </div>
-                       )}
+                        )}
                        {card.chips && (
                          <div className="flex flex-wrap gap-1.5 justify-center">
                            {card.chips.map((chip, idx) => (
