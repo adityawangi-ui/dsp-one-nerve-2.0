@@ -262,8 +262,8 @@ export default function InsightsPanel({ row, onClose }: Props) {
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={ctpChartData} barCategoryGap="20%">
                     <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" strokeOpacity={0.5} />
-                    <XAxis dataKey="week" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
-                    <YAxis tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
+                    <XAxis dataKey="week" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} label={{ value: "Week", position: "insideBottom", offset: -2, fontSize: 9, fill: 'hsl(var(--muted-foreground))' }} />
+                    <YAxis tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} label={{ value: "Units", angle: -90, position: "insideLeft", offset: 10, fontSize: 9, fill: 'hsl(var(--muted-foreground))' }} />
                     <Tooltip {...customTooltipStyle} />
                     <Legend wrapperStyle={legendStyle} formatter={(value: string) => <span style={{ color: 'hsl(var(--foreground))' }}>{value}</span>} />
                     <Bar dataKey="demand" fill={CHART_BLUE} name="Planned Demand" radius={[4, 4, 0, 0]} />
