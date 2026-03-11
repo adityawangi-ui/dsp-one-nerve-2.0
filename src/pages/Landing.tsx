@@ -510,11 +510,7 @@ export default function Landing() {
                     animation: `fade-in 0.5s ease-out ${0.3 + index * 0.1}s both, scale-in 0.4s ease-out ${0.3 + index * 0.1}s both` 
                   }}
                 >
-                  <Card className={`relative p-3 md:p-4 rounded-[18px] transition-all duration-300 hover:-translate-y-1 cursor-pointer flex flex-col min-h-[140px] md:min-h-[155px] items-center text-center overflow-hidden ${
-                    isActionItem 
-                      ? 'bg-gradient-to-br from-destructive/10 via-warning/5 to-card border-2 border-destructive/40 shadow-[var(--shadow-danger)] hover:shadow-[0_8px_30px_hsl(0_72%_51%_/_0.3)] hover:border-destructive/60' 
-                      : 'bg-card border border-border/50 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-neon)] card-shimmer hover:border-primary/30'
-                  }`}>
+                  <Card className="relative p-3 md:p-4 rounded-[18px] transition-all duration-300 hover:-translate-y-1 cursor-pointer flex flex-col min-h-[140px] md:min-h-[155px] items-center text-center overflow-hidden bg-card border border-border/50 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-neon)] card-shimmer hover:border-primary/30">
                     {/* Gradient header strip - action items get attention-grabbing colors */}
                     <div className={`absolute top-0 left-0 right-0 h-1.5 rounded-t-[18px] ${
                       isActionItem 
