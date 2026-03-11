@@ -499,8 +499,6 @@ export default function Landing() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 justify-items-center w-full"
                style={{ animation: 'fade-in 0.6s ease-out 0.2s both' }}>
             {contextCards.map((card, index) => {
-              const isActionItem = card.title === "Service Risk Alerts";
-              
               return (
                 <Link 
                   key={index} 
