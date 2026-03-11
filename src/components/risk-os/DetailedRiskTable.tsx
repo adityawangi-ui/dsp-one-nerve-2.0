@@ -275,8 +275,8 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                         </SelectContent>
                       </Select>
                     ) : col.key === "insights" ? (
-                      <span className="flex items-center justify-center" title="Insights & Analyse">
-                        <img src={insightsIcon} alt="Insights & Analyse" className="h-4 w-4" />
+                      <span className="flex items-center justify-center p-1 rounded-md hover:bg-primary/10 transition-colors cursor-pointer" title="Insights & Analyse">
+                        <img src={insightsIcon} alt="Insights & Analyse" className="h-4 w-4 opacity-70 hover:opacity-100 transition-opacity" />
                       </span>
                     ) : (
                       <span className="flex items-center gap-1">
@@ -320,8 +320,8 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                       </td>
                       {/* Insights & Analyse - icon button */}
                       <td className={cellCls}>
-                        <button onClick={() => onOpenAnalysis ? onOpenAnalysis(childRows[0]) : navigate(`/risk-analysis?riskId=${childRows[0].riskId}`)} className="flex items-center justify-center text-primary hover:text-primary/80" title="Insights & Analyse">
-                          <img src={insightsIcon} alt="Insights & Analyse" className="h-4 w-4" />
+                        <button onClick={() => onOpenAnalysis ? onOpenAnalysis(childRows[0]) : navigate(`/risk-analysis?riskId=${childRows[0].riskId}`)} className="flex items-center justify-center p-1 rounded-md hover:bg-primary/10 transition-all" title="Insights & Analyse">
+                          <img src={insightsIcon} alt="Insights & Analyse" className="h-4 w-4 opacity-70 hover:opacity-100 transition-opacity" />
                         </button>
                       </td>
                       {/* MRDR - frozen, drill-through */}
@@ -377,8 +377,8 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                           </td>
                           {/* Insights icon */}
                           <td className={childCellCls}>
-                            <button onClick={() => onOpenAnalysis ? onOpenAnalysis(cr) : navigate(`/risk-analysis?riskId=${cr.riskId}`)} className="flex items-center justify-center text-primary hover:text-primary/80" title="Analyse">
-                              <img src={insightsIcon} alt="Analyse" className="h-4 w-4" />
+                            <button onClick={() => onOpenAnalysis ? onOpenAnalysis(cr) : navigate(`/risk-analysis?riskId=${cr.riskId}`)} className="flex items-center justify-center p-1 rounded-md hover:bg-primary/10 transition-all" title="Analyse">
+                              <img src={insightsIcon} alt="Analyse" className="h-4 w-4 opacity-70 hover:opacity-100 transition-opacity" />
                             </button>
                           </td>
                           <td className={childCellCls} style={frozenCellStyle("mrdr", childVariant)}>{cr.mrdr}</td>
