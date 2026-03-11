@@ -1,8 +1,9 @@
 import { useState, useMemo } from "react";
 import { RiskRow, riskData } from "@/data/riskData";
-import { Package, Calendar, TrendingDown, Truck, Factory, BarChart3, Database, Table2 } from "lucide-react";
+import { Package, Calendar, TrendingDown, Truck, Factory, BarChart3, Database, Table2, Eye, Percent } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, LineChart, Line, Legend, PieChart, Pie, Cell, ComposedChart, ReferenceLine } from "recharts";
 import { Badge } from "@/components/ui/badge";
+import { Tooltip as UITooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 // Theme-token chart palette for consistent contrast
 const CHART_BLUE = "hsl(var(--primary))";
@@ -12,11 +13,23 @@ const CHART_RED = "hsl(var(--destructive))";
 const CHART_PURPLE = "hsl(var(--agent-utility))";
 const CHART_CYAN = "hsl(var(--primary-glow))";
 
+const sectionDefinitions: Record<string, string> = {
+  ctp: "Detailed view of UNL exceptions report with both daily and weekly demand‑replenishment snapshots, including the projected DR% required to address the exception.",
+  stock: "Current inventory levels, transition stock, and DR% information for the primary MRDR and any alternate MRDRs.",
+  sto: "Stock Transfer Order details related to the MRDR at the site, including quantities, POs, and expected delivery timelines.",
+  production: "Displays the current production plan for the at‑risk MRDR, including scheduled quantities and production dates.",
+  doh: "Presents a weekly breakdown showing how many days the existing inventory can cover, along with the corresponding quantity.",
+  forecast: "Compares the base forecast with promotional forecast values for the MRDR to highlight demand changes due to promotions.",
+  projectedDr: "Indicates the DR% that must be achieved to bring the MRDR item out of risk status.",
+  master: "Includes all key master‑data attributes related to the MRDR at risk, such as material parameters, lead times, and planning settings.",
+};
+
 const sections = [
   { id: "ctp", title: "Exception Daily/Weekly CTP", icon: Table2 },
   { id: "stock", title: "Stock Info / Inventory", icon: Package },
   { id: "doh", title: "DOH (Day & Quantity)", icon: Calendar },
   { id: "forecast", title: "Forecast / Promo Details", icon: BarChart3 },
+  { id: "projectedDr", title: "Projected DR%", icon: Percent },
   { id: "sto", title: "STO Data (Top 5)", icon: Truck },
   { id: "production", title: "Production Data", icon: Factory },
   { id: "master", title: "Master Data", icon: Database },
@@ -24,7 +37,8 @@ const sections = [
 
 interface Props { row: RiskRow; }
 
-function SectionHeader({ icon: Icon, title, badge }: { icon: React.ElementType; title: string; badge?: string }) {
+function SectionHeader({ icon: Icon, title, badge, sectionId }: { icon: React.ElementType; title: string; badge?: string; sectionId?: string }) {
+  const definition = sectionId ? sectionDefinitions[sectionId] : undefined;
   return (
     <div className="flex items-center gap-3 mb-4 rounded-lg border border-border bg-secondary px-3 py-2">
       <div className="h-8 w-8 rounded-md border border-border bg-background flex items-center justify-center">
@@ -32,6 +46,20 @@ function SectionHeader({ icon: Icon, title, badge }: { icon: React.ElementType; 
       </div>
       <h3 className="text-base font-semibold text-foreground leading-none">{title}</h3>
       {badge && <Badge variant="outline" className="text-[10px] ml-1 border-border bg-background text-foreground">{badge}</Badge>}
+      {definition && (
+        <TooltipProvider delayDuration={200}>
+          <UITooltip>
+            <TooltipTrigger asChild>
+              <button className="ml-1 p-1 rounded-md hover:bg-primary/10 transition-colors group">
+                <Eye className="h-3.5 w-3.5 text-muted-foreground group-hover:text-primary transition-colors" />
+              </button>
+            </TooltipTrigger>
+            <TooltipContent side="right" className="max-w-xs text-xs leading-relaxed">
+              {definition}
+            </TooltipContent>
+          </UITooltip>
+        </TooltipProvider>
+      )}
     </div>
   );
 }
