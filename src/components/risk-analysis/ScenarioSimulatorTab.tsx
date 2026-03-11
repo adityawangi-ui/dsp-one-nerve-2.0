@@ -204,18 +204,22 @@ export default function ScenarioSimulatorTab({ row, onSelectScenario, selectedSc
                     ))}
                   </div>
 
-                  <div className="grid grid-cols-2 gap-3">
+                  <div className="grid grid-cols-5 gap-2">
                     <div className="text-center bg-secondary/50 rounded-lg p-2">
                       <span className="text-lg font-bold text-primary">{s.successProbability}%</span>
                       <p className="text-[10px] text-muted-foreground">Success</p>
                     </div>
                     <div className="text-center bg-secondary/50 rounded-lg p-2">
-                      <span className="text-lg font-bold text-foreground">{s.feasibility}%</span>
-                      <p className="text-[10px] text-muted-foreground">Feasibility</p>
+                      <span className="text-lg font-bold text-success">{s.wasteReduction}%</span>
+                      <p className="text-[10px] text-muted-foreground">Waste ↓</p>
                     </div>
                     <div className="text-center bg-secondary/50 rounded-lg p-2">
-                      <span className="text-lg font-bold text-foreground">{s.historicalSuccess}%</span>
-                      <p className="text-[10px] text-muted-foreground">Historical</p>
+                      <span className="text-lg font-bold text-foreground">{s.leadTime}d</span>
+                      <p className="text-[10px] text-muted-foreground">Lead Time</p>
+                    </div>
+                    <div className="text-center bg-secondary/50 rounded-lg p-2">
+                      <span className="text-lg font-bold text-primary">{s.serviceRecovery}%</span>
+                      <p className="text-[10px] text-muted-foreground">Svc Recovery</p>
                     </div>
                     <div className="text-center bg-secondary/50 rounded-lg p-2">
                       <span className="text-lg font-bold text-foreground">€{(s.cost / 1000).toFixed(0)}K</span>
