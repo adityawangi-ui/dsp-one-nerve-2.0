@@ -275,8 +275,8 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                         </SelectContent>
                       </Select>
                     ) : col.key === "insights" ? (
-                      <span className="flex items-center justify-center p-1 rounded-md hover:bg-primary/10 transition-colors cursor-pointer" title="Insights & Analyse">
-                        <img src={insightsIcon} alt="Insights & Analyse" className="h-4 w-4 opacity-70 hover:opacity-100 transition-opacity" />
+                      <span className="flex items-center justify-center" title="Insights & Analyse">
+                        <img src={insightsIcon} alt="Insights & Analyse" className="h-5 w-5 drop-shadow-sm" />
                       </span>
                     ) : (
                       <span className="flex items-center gap-1">
@@ -320,8 +320,8 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                       </td>
                       {/* Insights & Analyse - icon button */}
                       <td className={cellCls}>
-                        <button onClick={() => onOpenAnalysis ? onOpenAnalysis(childRows[0]) : navigate(`/risk-analysis?riskId=${childRows[0].riskId}`)} className="flex items-center justify-center p-1 rounded-md hover:bg-primary/10 transition-all" title="Insights & Analyse">
-                          <img src={insightsIcon} alt="Insights & Analyse" className="h-4 w-4 opacity-70 hover:opacity-100 transition-opacity" />
+                        <button onClick={() => onOpenAnalysis ? onOpenAnalysis(childRows[0]) : navigate(`/risk-analysis?riskId=${childRows[0].riskId}`)} className="group/icon flex items-center justify-center p-1.5 rounded-lg hover:bg-primary/15 hover:shadow-md transition-all duration-200" title="Insights & Analyse">
+                          <img src={insightsIcon} alt="Insights & Analyse" className="h-5 w-5 drop-shadow-sm group-hover/icon:scale-110 transition-transform duration-200" />
                         </button>
                       </td>
                       {/* MRDR - frozen, drill-through */}
@@ -377,8 +377,8 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                           </td>
                           {/* Insights icon */}
                           <td className={childCellCls}>
-                            <button onClick={() => onOpenAnalysis ? onOpenAnalysis(cr) : navigate(`/risk-analysis?riskId=${cr.riskId}`)} className="flex items-center justify-center p-1 rounded-md hover:bg-primary/10 transition-all" title="Analyse">
-                              <img src={insightsIcon} alt="Analyse" className="h-4 w-4 opacity-70 hover:opacity-100 transition-opacity" />
+                            <button onClick={() => onOpenAnalysis ? onOpenAnalysis(cr) : navigate(`/risk-analysis?riskId=${cr.riskId}`)} className="group/icon flex items-center justify-center p-1.5 rounded-lg hover:bg-primary/15 hover:shadow-md transition-all duration-200" title="Analyse">
+                              <img src={insightsIcon} alt="Analyse" className="h-5 w-5 drop-shadow-sm group-hover/icon:scale-110 transition-transform duration-200" />
                             </button>
                           </td>
                           <td className={childCellCls} style={frozenCellStyle("mrdr", childVariant)}>{cr.mrdr}</td>
