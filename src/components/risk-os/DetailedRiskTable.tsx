@@ -21,7 +21,7 @@ interface Props {
 }
 
 const MRDR_FROZEN_KEYS = ["riskId", "insights", "mrdr", "mrdrDescription", "msoCountry", "uom"];
-const MRDR_FROZEN_WIDTHS: Record<string, number> = { riskId: 90, insights: 50, mrdr: 120, mrdrDescription: 220, msoCountry: 100, uom: 80 };
+const MRDR_FROZEN_WIDTHS: Record<string, number> = { riskId: 90, insights: 60, mrdr: 120, mrdrDescription: 220, msoCountry: 100, uom: 80 };
 
 export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, onOpenAnalysis }: Props) {
   const navigate = useNavigate();
@@ -117,19 +117,16 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
 
   const frozenHeaderStyle = (key: string): React.CSSProperties => {
     if (!MRDR_FROZEN_KEYS.includes(key)) return {};
-    const style: React.CSSProperties = {
+    return {
       position: "sticky",
       left: getFrozenLeft(key),
       zIndex: 40,
+      width: MRDR_FROZEN_WIDTHS[key],
+      minWidth: MRDR_FROZEN_WIDTHS[key],
+      maxWidth: MRDR_FROZEN_WIDTHS[key],
       boxShadow: isLastFrozen(key) ? "2px 0 8px hsl(0 0% 0% / 0.3)" : undefined,
       backgroundColor: "hsl(var(--secondary))",
     };
-    if (key !== "insights") {
-      style.width = MRDR_FROZEN_WIDTHS[key];
-      style.minWidth = MRDR_FROZEN_WIDTHS[key];
-      style.maxWidth = MRDR_FROZEN_WIDTHS[key];
-    }
-    return style;
   };
 
   const frozenCellStyle = (key: string, variant: "normal" | "new" | "child" | "childNew" = "normal"): React.CSSProperties => {
@@ -140,19 +137,16 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
       child: "hsl(var(--muted))",
       childNew: "hsl(var(--new-bg))",
     };
-    const style: React.CSSProperties = {
+    return {
       position: "sticky",
       left: getFrozenLeft(key),
       zIndex: 10,
+      width: MRDR_FROZEN_WIDTHS[key],
+      minWidth: MRDR_FROZEN_WIDTHS[key],
+      maxWidth: MRDR_FROZEN_WIDTHS[key],
       boxShadow: isLastFrozen(key) ? "2px 0 8px hsl(0 0% 0% / 0.3)" : undefined,
       backgroundColor: bgMap[variant],
     };
-    if (key !== "insights") {
-      style.width = MRDR_FROZEN_WIDTHS[key];
-      style.minWidth = MRDR_FROZEN_WIDTHS[key];
-      style.maxWidth = MRDR_FROZEN_WIDTHS[key];
-    }
-    return style;
   };
 
   const NewBadge = () => (
