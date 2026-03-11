@@ -221,15 +221,16 @@ export default function RiskMonitor() {
 
             {/* Center - Donut */}
             <div className="lg:col-span-4 flex flex-col items-center justify-center">
-              <ResponsiveContainer width="100%" height={140}>
-                <PieChart>
-                  <Pie data={donutData} cx="50%" cy="50%" innerRadius={40} outerRadius={60} paddingAngle={3} dataKey="value">
-                    {donutData.map((entry, i) => (
-                      <Cell key={i} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <RechartsTooltip formatter={(value: number, name: string) => [`${value} items`, name]} />
-                </PieChart>
+               <ResponsiveContainer width="100%" height={180}>
+                 <PieChart>
+                   <Pie data={donutData} cx="50%" cy="50%" innerRadius={50} outerRadius={75} paddingAngle={3} dataKey="value">
+                     {donutData.map((entry, i) => (
+                       <Cell key={i} fill={entry.color} />
+                     ))}
+                   </Pie>
+                   <RechartsTooltip formatter={(value: number, name: string) => [`${value} items`, name]} />
+                   <Legend wrapperStyle={{ fontSize: 10 }} iconType="circle" iconSize={8} formatter={(v: string) => <span style={{ color: "hsl(var(--foreground))" }}>{v}</span>} />
+                 </PieChart>
               </ResponsiveContainer>
               <div className="flex gap-3 mt-1">
                 {donutData.map((d) => (
