@@ -84,9 +84,9 @@ export default function AlertsSection() {
         {/* Center column — Donut with hover showing trends */}
         <div className="w-[30%] px-4 border-r border-border/40 flex flex-col items-center justify-center">
           <div className="relative">
-            <ResponsiveContainer width={140} height={120}>
+            <ResponsiveContainer width={140} height={140}>
               <PieChart>
-                <Pie data={donutData} cx="50%" cy="50%" innerRadius={32} outerRadius={48} paddingAngle={4} cornerRadius={3} dataKey="value">
+                <Pie data={donutData} cx="50%" cy="50%" innerRadius={32} outerRadius={52} paddingAngle={4} cornerRadius={3} dataKey="value">
                   {donutData.map((entry, i) => (
                     <Cell key={i} fill={entry.color} />
                   ))}
