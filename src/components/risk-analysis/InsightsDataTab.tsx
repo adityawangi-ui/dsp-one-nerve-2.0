@@ -1,6 +1,6 @@
 import { useState, useMemo } from "react";
 import { RiskRow, riskData } from "@/data/riskData";
-import { Package, Calendar, TrendingDown, Truck, Factory, BarChart3, Database, Table2, Eye, Percent } from "lucide-react";
+import { Package, Calendar, TrendingDown, Truck, Factory, BarChart3, Database, Table2, Eye } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, LineChart, Line, Legend, PieChart, Pie, Cell, ComposedChart, ReferenceLine } from "recharts";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip as UITooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
