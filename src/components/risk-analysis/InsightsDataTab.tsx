@@ -1,8 +1,9 @@
 import { useState, useMemo } from "react";
 import { RiskRow, riskData } from "@/data/riskData";
-import { Package, Calendar, TrendingDown, Truck, Factory, BarChart3, Database, Table2 } from "lucide-react";
+import { Package, Calendar, TrendingDown, Truck, Factory, BarChart3, Database, Table2, Eye, Percent } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, LineChart, Line, Legend, PieChart, Pie, Cell, ComposedChart, ReferenceLine } from "recharts";
 import { Badge } from "@/components/ui/badge";
+import { Tooltip as UITooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 // Theme-token chart palette for consistent contrast
 const CHART_BLUE = "hsl(var(--primary))";
@@ -12,11 +13,23 @@ const CHART_RED = "hsl(var(--destructive))";
 const CHART_PURPLE = "hsl(var(--agent-utility))";
 const CHART_CYAN = "hsl(var(--primary-glow))";
 
+const sectionDefinitions: Record<string, string> = {
+  ctp: "Detailed view of UNL exceptions report with both daily and weekly demand‑replenishment snapshots, including the projected DR% required to address the exception.",
+  stock: "Current inventory levels, transition stock, and DR% information for the primary MRDR and any alternate MRDRs.",
+  sto: "Stock Transfer Order details related to the MRDR at the site, including quantities, POs, and expected delivery timelines.",
+  production: "Displays the current production plan for the at‑risk MRDR, including scheduled quantities and production dates.",
+  doh: "Presents a weekly breakdown showing how many days the existing inventory can cover, along with the corresponding quantity.",
+  forecast: "Compares the base forecast with promotional forecast values for the MRDR to highlight demand changes due to promotions.",
+  projectedDr: "Indicates the DR% that must be achieved to bring the MRDR item out of risk status.",
+  master: "Includes all key master‑data attributes related to the MRDR at risk, such as material parameters, lead times, and planning settings.",
+};
+
 const sections = [
   { id: "ctp", title: "Exception Daily/Weekly CTP", icon: Table2 },
   { id: "stock", title: "Stock Info / Inventory", icon: Package },
   { id: "doh", title: "DOH (Day & Quantity)", icon: Calendar },
   { id: "forecast", title: "Forecast / Promo Details", icon: BarChart3 },
+  { id: "projectedDr", title: "Projected DR%", icon: Percent },
   { id: "sto", title: "STO Data (Top 5)", icon: Truck },
   { id: "production", title: "Production Data", icon: Factory },
   { id: "master", title: "Master Data", icon: Database },
@@ -24,7 +37,8 @@ const sections = [
 
 interface Props { row: RiskRow; }
 
-function SectionHeader({ icon: Icon, title, badge }: { icon: React.ElementType; title: string; badge?: string }) {
+function SectionHeader({ icon: Icon, title, badge, sectionId }: { icon: React.ElementType; title: string; badge?: string; sectionId?: string }) {
+  const definition = sectionId ? sectionDefinitions[sectionId] : undefined;
   return (
     <div className="flex items-center gap-3 mb-4 rounded-lg border border-border bg-secondary px-3 py-2">
       <div className="h-8 w-8 rounded-md border border-border bg-background flex items-center justify-center">
@@ -32,6 +46,20 @@ function SectionHeader({ icon: Icon, title, badge }: { icon: React.ElementType; 
       </div>
       <h3 className="text-base font-semibold text-foreground leading-none">{title}</h3>
       {badge && <Badge variant="outline" className="text-[10px] ml-1 border-border bg-background text-foreground">{badge}</Badge>}
+      {definition && (
+        <TooltipProvider delayDuration={200}>
+          <UITooltip>
+            <TooltipTrigger asChild>
+              <button className="ml-1 p-1 rounded-md hover:bg-primary/10 transition-colors group">
+                <Eye className="h-3.5 w-3.5 text-muted-foreground group-hover:text-primary transition-colors" />
+              </button>
+            </TooltipTrigger>
+            <TooltipContent side="right" className="max-w-xs text-xs leading-relaxed">
+              {definition}
+            </TooltipContent>
+          </UITooltip>
+        </TooltipProvider>
+      )}
     </div>
   );
 }
@@ -248,7 +276,7 @@ export default function InsightsDataTab({ row }: Props) {
         {/* 1. CTP */}
         <section id="tab-insight-ctp">
           <div className="flex items-center justify-between">
-            <SectionHeader icon={Table2} title="Exception Daily / Weekly CTP" />
+            <SectionHeader icon={Table2} title="Exception Daily / Weekly CTP" sectionId="ctp" />
             <div className="flex rounded-lg border border-border overflow-hidden mb-4">
               <button onClick={() => setCtpMode("daily")} className={`px-3 py-1.5 text-[10px] font-semibold transition-colors ${ctpMode === "daily" ? "bg-primary text-primary-foreground" : "bg-secondary text-foreground hover:bg-secondary/80"}`}>Daily</button>
               <button onClick={() => setCtpMode("weekly")} className={`px-3 py-1.5 text-[10px] font-semibold transition-colors ${ctpMode === "weekly" ? "bg-primary text-primary-foreground" : "bg-secondary text-foreground hover:bg-secondary/80"}`}>Weekly</button>
@@ -311,7 +339,7 @@ export default function InsightsDataTab({ row }: Props) {
 
         {/* 2. Stock Info */}
         <section id="tab-insight-stock">
-          <SectionHeader icon={Package} title="Stock Info / Inventory" />
+          <SectionHeader icon={Package} title="Stock Info / Inventory" sectionId="stock" />
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <ChartCard title="Stock Type Breakdown" contentClassName="h-72">
               <ResponsiveContainer width="100%" height="100%">
@@ -348,7 +376,7 @@ export default function InsightsDataTab({ row }: Props) {
 
         {/* 3. DOH */}
         <section id="tab-insight-doh">
-          <SectionHeader icon={Calendar} title="DOH (Day & Quantity)" />
+          <SectionHeader icon={Calendar} title="DOH (Day & Quantity)" sectionId="doh" />
           <ChartCard title="DOH & Quantity Combined">
             <ResponsiveContainer width="100%" height="100%">
               <ComposedChart data={dohData}>
@@ -367,7 +395,7 @@ export default function InsightsDataTab({ row }: Props) {
 
         {/* 4. Forecast */}
         <section id="tab-insight-forecast">
-          <SectionHeader icon={BarChart3} title="Forecast / Promo Details" />
+          <SectionHeader icon={BarChart3} title="Forecast / Promo Details" sectionId="forecast" />
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
             <KpiBox label="4WL Forecast Bias" value={forecast4WBias} />
             <KpiBox label="1WL Forecast Bias" value={forecast1WBias} />
@@ -391,15 +419,25 @@ export default function InsightsDataTab({ row }: Props) {
           
         </section>
 
+        {/* Projected DR% */}
+        <section id="tab-insight-projectedDr">
+          <SectionHeader icon={Percent} title="Projected DR%" sectionId="projectedDr" />
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+            <KpiBox label="Current DR%" value="72.4%" />
+            <KpiBox label="Target DR%" value="95.0%" />
+            <KpiBox label="Gap" value="22.6%" />
+            <KpiBox label="Projected Recovery" value="WK-22" />
+          </div>
+        </section>
+
         {/* 5. STO */}
         <section id="tab-insight-sto">
-          <SectionHeader icon={Truck} title="STO Data" badge="Top 5" />
-          <DataTable headers={stoTableHeaders} rows={stoTableRows} minWidth="700px" />
+          <SectionHeader icon={Truck} title="STO Data" badge="Top 5" sectionId="sto" />
         </section>
 
         {/* 6. Production */}
         <section id="tab-insight-production">
-          <SectionHeader icon={Factory} title="Production Data" />
+          <SectionHeader icon={Factory} title="Production Data" sectionId="production" />
           <ChartCard title="Production Qty & CCU % by Week">
             <ResponsiveContainer width="100%" height="100%">
               <ComposedChart data={prodData}>
@@ -419,7 +457,7 @@ export default function InsightsDataTab({ row }: Props) {
 
         {/* 7. Master Data */}
         <section id="tab-insight-master">
-          <SectionHeader icon={Database} title="Master Data" />
+          <SectionHeader icon={Database} title="Master Data" sectionId="master" />
           <DataTable headers={masterTableHeaders} rows={masterTableRows} minWidth="1800px" />
         </section>
 
