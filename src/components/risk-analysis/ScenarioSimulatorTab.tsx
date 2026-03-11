@@ -145,7 +145,7 @@ export default function ScenarioSimulatorTab({ row, onSelectScenario, selectedSc
         return {
           ...s,
           successProbability: Math.min(99, s.successProbability + Math.floor(Math.random() * 5)),
-          feasibility: Math.min(99, s.feasibility + Math.floor(Math.random() * 4)),
+          wasteReduction: Math.min(40, s.wasteReduction + Math.floor(Math.random() * 4)),
           cost: Math.max(5000, s.cost - Math.floor(Math.random() * 3000)),
         };
       }
