@@ -382,8 +382,8 @@ export default function InsightsPanel({ row, onClose }: Props) {
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={forecastData}>
                     <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" strokeOpacity={0.5} />
-                    <XAxis dataKey="week" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
-                    <YAxis tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
+                    <XAxis dataKey="week" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} label={{ value: "Week", position: "insideBottom", offset: -2, fontSize: 9, fill: 'hsl(var(--muted-foreground))' }} />
+                    <YAxis tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} label={{ value: "Units", angle: -90, position: "insideLeft", offset: 10, fontSize: 9, fill: 'hsl(var(--muted-foreground))' }} />
                     <Tooltip {...customTooltipStyle} />
                     <Legend wrapperStyle={legendStyle} formatter={(value: string) => <span style={{ color: 'hsl(var(--foreground))' }}>{value}</span>} />
                     <Line type="monotone" dataKey="baselineForecast" stroke={CHART_BLUE} strokeWidth={2.5} name="Baseline Forecast" dot={{ r: 4, fill: CHART_BLUE, stroke: 'hsl(var(--background))', strokeWidth: 2 }} />
