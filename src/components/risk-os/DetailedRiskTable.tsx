@@ -275,8 +275,9 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                         </SelectContent>
                       </Select>
                     ) : col.key === "insights" ? (
-                      <span className="flex items-center justify-center" title="Insights & Analyse">
-                        <img src={insightsIcon} alt="Insights & Analyse" className="h-5 w-5 drop-shadow-sm" />
+                      <span className="flex items-center justify-center gap-1.5" title="Insights & Analyse">
+                        <img src={insightsIcon} alt="Insights & Analyse" className="h-5 w-5 drop-shadow-md brightness-110 contrast-110" />
+                        <span className="text-[10px] font-bold text-primary uppercase tracking-wide">Analyse</span>
                       </span>
                     ) : (
                       <span className="flex items-center gap-1">
