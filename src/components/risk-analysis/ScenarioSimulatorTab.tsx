@@ -22,8 +22,9 @@ export interface Scenario {
   id: number;
   name: string;
   successProbability: number;
-  feasibility: number;
-  historicalSuccess: number;
+  wasteReduction: number;
+  leadTime: number;
+  serviceRecovery: number;
   cost: number;
   recommended: boolean;
 }

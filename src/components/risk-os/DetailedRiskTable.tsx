@@ -377,8 +377,8 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                           </td>
                           {/* Insights icon */}
                           <td className={childCellCls}>
-                            <button onClick={() => onOpenAnalysis ? onOpenAnalysis(cr) : navigate(`/risk-analysis?riskId=${cr.riskId}`)} className="flex items-center justify-center text-primary hover:text-primary/80" title="Analyse">
-                              <img src={insightsIcon} alt="Analyse" className="h-4 w-4" />
+                            <button onClick={() => onOpenAnalysis ? onOpenAnalysis(cr) : navigate(`/risk-analysis?riskId=${cr.riskId}`)} className="flex items-center justify-center p-1 rounded-md hover:bg-primary/10 transition-all" title="Analyse">
+                              <img src={insightsIcon} alt="Analyse" className="h-4 w-4 opacity-70 hover:opacity-100 transition-opacity" />
                             </button>
                           </td>
                           <td className={childCellCls} style={frozenCellStyle("mrdr", childVariant)}>{cr.mrdr}</td>
