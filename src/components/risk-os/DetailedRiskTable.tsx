@@ -273,6 +273,10 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                           {["CS", "EA", "KG", "L", "PAL"].map(u => <SelectItem key={u} value={u}>{u}</SelectItem>)}
                         </SelectContent>
                       </Select>
+                    ) : col.key === "insights" ? (
+                      <span className="flex items-center justify-center" title="Insights & Analyse">
+                        <Microscope className="h-3.5 w-3.5" />
+                      </span>
                     ) : (
                       <span className="flex items-center gap-1">
                         {col.label}
