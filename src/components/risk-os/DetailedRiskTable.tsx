@@ -384,7 +384,9 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                               <img src={insightsIcon} alt="Analyse" className="h-5 w-5 drop-shadow-md brightness-110 contrast-110 group-hover/icon:scale-110 transition-transform duration-200" />
                             </button>
                           </td>
-                          <td className={childCellCls} style={frozenCellStyle("mrdr", childVariant)}>{cr.mrdr}</td>
+                          <td className={childCellCls} style={frozenCellStyle("mrdr", childVariant)}>
+                            <span className="flex items-center gap-1"><span className="w-3 shrink-0" />{cr.mrdr}</span>
+                          </td>
                           <td className={childCellCls} style={frozenCellStyle("mrdrDescription", childVariant)}>{cr.mrdrDescription}</td>
                           <td className={childCellCls} style={frozenCellStyle("msoCountry", childVariant)}>{cr.msoCountry}</td>
                           <td className={childCellCls} style={frozenCellStyle("uom", childVariant)}>{displayUom}</td>
