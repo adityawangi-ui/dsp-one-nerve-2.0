@@ -395,7 +395,7 @@ export default function InsightsDataTab({ row }: Props) {
 
         {/* 4. Forecast */}
         <section id="tab-insight-forecast">
-          <SectionHeader icon={BarChart3} title="Forecast / Promo Details" />
+          <SectionHeader icon={BarChart3} title="Forecast / Promo Details" sectionId="forecast" />
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
             <KpiBox label="4WL Forecast Bias" value={forecast4WBias} />
             <KpiBox label="1WL Forecast Bias" value={forecast1WBias} />
