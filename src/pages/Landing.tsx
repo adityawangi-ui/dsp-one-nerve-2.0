@@ -516,15 +516,11 @@ export default function Landing() {
                     
                     {/* Header */}
                     <div className="flex flex-col items-center mb-2 mt-1">
-                      <div className={`p-1.5 rounded-xl flex-shrink-0 mb-2 group-hover:scale-110 transition-transform duration-300 ${
-                        isActionItem 
-                          ? 'bg-gradient-to-br from-destructive/20 to-warning/10' 
-                          : 'bg-gradient-to-br from-primary/10 to-primary/5'
-                      }`}>
-                        <card.icon className={`h-4 w-4 ${isActionItem ? 'text-destructive' : 'text-primary'}`} />
+                      <div className="p-1.5 rounded-xl flex-shrink-0 mb-2 group-hover:scale-110 transition-transform duration-300 bg-gradient-to-br from-primary/10 to-primary/5">
+                        <card.icon className="h-4 w-4 text-primary" />
                       </div>
-                      <h3 className={`text-sm font-semibold flex items-center gap-2 ${isActionItem ? 'text-destructive' : 'text-foreground'}`}>
-                        {card.isAgent && <Sparkles className={`h-3.5 w-3.5 animate-pulse ${isActionItem ? 'text-warning' : 'text-primary'}`} />}
+                      <h3 className="text-sm font-semibold flex items-center gap-2 text-foreground">
+                        {card.isAgent && <Sparkles className="h-3.5 w-3.5 animate-pulse text-primary" />}
                         {card.title}
                       </h3>
                     </div>
