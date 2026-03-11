@@ -320,8 +320,8 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                       </td>
                       {/* Insights & Analyse - icon button */}
                       <td className={cellCls}>
-                        <button onClick={() => onOpenAnalysis ? onOpenAnalysis(childRows[0]) : navigate(`/risk-analysis?riskId=${childRows[0].riskId}`)} className="flex items-center justify-center p-1 rounded-md hover:bg-primary/10 transition-all" title="Insights & Analyse">
-                          <img src={insightsIcon} alt="Insights & Analyse" className="h-4 w-4 opacity-70 hover:opacity-100 transition-opacity" />
+                        <button onClick={() => onOpenAnalysis ? onOpenAnalysis(childRows[0]) : navigate(`/risk-analysis?riskId=${childRows[0].riskId}`)} className="group/icon flex items-center justify-center p-1.5 rounded-lg hover:bg-primary/15 hover:shadow-md transition-all duration-200" title="Insights & Analyse">
+                          <img src={insightsIcon} alt="Insights & Analyse" className="h-5 w-5 drop-shadow-sm group-hover/icon:scale-110 transition-transform duration-200" />
                         </button>
                       </td>
                       {/* MRDR - frozen, drill-through */}
