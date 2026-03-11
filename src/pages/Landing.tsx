@@ -550,48 +550,18 @@ export default function Landing() {
                          </div>
                        )}
                        {card.status && !card.kpis && (
-                         <Badge variant="outline" className={`text-[10px] py-0.5 px-2.5 ${
-                           isActionItem 
-                             ? 'border-destructive/50 text-destructive bg-destructive/10 font-semibold' 
-                             : 'border-primary/30 text-primary/80 bg-primary/5'
-                         }`}>
+                         <Badge variant="outline" className="text-[10px] py-0.5 px-2.5 border-primary/30 text-primary/80 bg-primary/5">
                            {card.status}
                          </Badge>
                        )}
                      </div>
 
                      {/* Footer */}
-                    <div className={`pt-2 border-t flex items-center justify-center gap-2 w-full ${
-                      isActionItem ? 'border-destructive/20' : 'border-border/40'
-                    }`}>
-                      {isActionItem ? (
-                        <div className="flex items-center gap-2 w-full justify-center">
-                          <span className="text-xs font-medium group-hover:underline text-destructive">
-                            {card.footer}
-                          </span>
-                          <ChevronRight className="h-3.5 w-3.5 text-destructive/60 group-hover:text-destructive group-hover:translate-x-1 transition-all" />
-                          <Button
-                            size="sm"
-                            variant="destructive"
-                            className="ml-auto text-[10px] h-6 px-2.5 rounded-lg shadow-sm"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              navigate('/risk-monitor');
-                            }}
-                          >
-                            <Shield className="h-3 w-3 mr-1" />
-                             Risk AI
-                           </Button>
-                        </div>
-                      ) : (
-                        <>
-                          <span className="text-xs font-medium group-hover:underline text-primary">
-                            {card.footer}
-                          </span>
-                          <ChevronRight className="h-3.5 w-3.5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
-                        </>
-                      )}
+                    <div className="pt-2 border-t border-border/40 flex items-center justify-center gap-2 w-full">
+                      <span className="text-xs font-medium group-hover:underline text-primary">
+                        {card.footer}
+                      </span>
+                      <ChevronRight className="h-3.5 w-3.5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
                     </div>
                   </Card>
                 </Link>
