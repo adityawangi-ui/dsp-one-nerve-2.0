@@ -427,7 +427,7 @@ export default function InsightsDataTab({ row }: Props) {
 
         {/* 6. Production */}
         <section id="tab-insight-production">
-          <SectionHeader icon={Factory} title="Production Data" />
+          <SectionHeader icon={Factory} title="Production Data" sectionId="production" />
           <ChartCard title="Production Qty & CCU % by Week">
             <ResponsiveContainer width="100%" height="100%">
               <ComposedChart data={prodData}>
