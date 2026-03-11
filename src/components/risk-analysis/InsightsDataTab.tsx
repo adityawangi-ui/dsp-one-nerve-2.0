@@ -419,10 +419,20 @@ export default function InsightsDataTab({ row }: Props) {
           
         </section>
 
+        {/* Projected DR% */}
+        <section id="tab-insight-projectedDr">
+          <SectionHeader icon={Percent} title="Projected DR%" sectionId="projectedDr" />
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+            <KpiBox label="Current DR%" value="72.4%" />
+            <KpiBox label="Target DR%" value="95.0%" />
+            <KpiBox label="Gap" value="22.6%" />
+            <KpiBox label="Projected Recovery" value="WK-22" />
+          </div>
+        </section>
+
         {/* 5. STO */}
         <section id="tab-insight-sto">
-          <SectionHeader icon={Truck} title="STO Data" badge="Top 5" />
-          <DataTable headers={stoTableHeaders} rows={stoTableRows} minWidth="700px" />
+          <SectionHeader icon={Truck} title="STO Data" badge="Top 5" sectionId="sto" />
         </section>
 
         {/* 6. Production */}
