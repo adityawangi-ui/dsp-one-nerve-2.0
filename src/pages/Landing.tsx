@@ -511,21 +511,8 @@ export default function Landing() {
                   }}
                 >
                   <Card className="relative p-3 md:p-4 rounded-[18px] transition-all duration-300 hover:-translate-y-1 cursor-pointer flex flex-col min-h-[140px] md:min-h-[155px] items-center text-center overflow-hidden bg-card border border-border/50 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-neon)] card-shimmer hover:border-primary/30">
-                    {/* Gradient header strip - action items get attention-grabbing colors */}
-                    <div className={`absolute top-0 left-0 right-0 h-1.5 rounded-t-[18px] ${
-                      isActionItem 
-                        ? 'bg-gradient-to-r from-destructive via-warning to-destructive animate-pulse' 
-                        : 'bg-gradient-to-r from-primary/50 via-primary to-primary/50'
-                    }`} />
-                    
-                    {/* Action Required Badge for urgent items */}
-                    {isActionItem && (
-                      <div className="absolute top-3 right-3">
-                        <Badge className="bg-destructive text-destructive-foreground text-[9px] px-2 py-0.5 animate-pulse shadow-sm">
-                          Action Required
-                        </Badge>
-                      </div>
-                    )}
+                    {/* Gradient header strip */}
+                    <div className="absolute top-0 left-0 right-0 h-1.5 rounded-t-[18px] bg-gradient-to-r from-primary/50 via-primary to-primary/50" />
                     
                     {/* Header */}
                     <div className="flex flex-col items-center mb-2 mt-1">
