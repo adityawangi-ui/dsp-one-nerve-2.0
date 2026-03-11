@@ -447,7 +447,7 @@ export default function InsightsDataTab({ row }: Props) {
 
         {/* 7. Master Data */}
         <section id="tab-insight-master">
-          <SectionHeader icon={Database} title="Master Data" />
+          <SectionHeader icon={Database} title="Master Data" sectionId="master" />
           <DataTable headers={masterTableHeaders} rows={masterTableRows} minWidth="1800px" />
         </section>
 
