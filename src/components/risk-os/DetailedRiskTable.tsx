@@ -317,6 +317,12 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                         <span>{agg.riskId}</span>
                         {agg.isNew && <NewBadge />}
                       </td>
+                      {/* Insights & Analyse - icon button */}
+                      <td className={cellCls}>
+                        <button onClick={() => onOpenAnalysis ? onOpenAnalysis(childRows[0]) : navigate(`/risk-analysis?riskId=${childRows[0].riskId}`)} className="flex items-center justify-center text-primary hover:text-primary/80" title="Insights & Analyse">
+                          <Microscope className="h-3.5 w-3.5" />
+                        </button>
+                      </td>
                       {/* MRDR - frozen, drill-through */}
                       <td className={cellCls} style={frozenCellStyle("mrdr", rowNewVariant)}>
                         <button
