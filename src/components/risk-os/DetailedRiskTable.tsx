@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Checkbox } from "@/components/ui/checkbox";
-import { LayoutList, Download, Share2, Plus, Eye, ChevronRight, ChevronDown, ChevronUp, Columns3, Send, Search, ChevronLeft } from "lucide-react";
+import { LayoutList, Download, Share2, Plus, Eye, ChevronRight, ChevronDown, ChevronUp, Columns3, Send, Search, ChevronLeft, Microscope } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -273,6 +273,10 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                           {["CS", "EA", "KG", "L", "PAL"].map(u => <SelectItem key={u} value={u}>{u}</SelectItem>)}
                         </SelectContent>
                       </Select>
+                    ) : col.key === "insights" ? (
+                      <span className="flex items-center justify-center" title="Insights & Analyse">
+                        <Microscope className="h-3.5 w-3.5" />
+                      </span>
                     ) : (
                       <span className="flex items-center gap-1">
                         {col.label}
@@ -312,6 +316,12 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                       <td className={cellCls} style={frozenCellStyle("riskId", rowNewVariant)}>
                         <span>{agg.riskId}</span>
                         {agg.isNew && <NewBadge />}
+                      </td>
+                      {/* Insights & Analyse - icon button */}
+                      <td className={cellCls}>
+                        <button onClick={() => onOpenAnalysis ? onOpenAnalysis(childRows[0]) : navigate(`/risk-analysis?riskId=${childRows[0].riskId}`)} className="flex items-center justify-center text-primary hover:text-primary/80" title="Insights & Analyse">
+                          <Microscope className="h-3.5 w-3.5" />
+                        </button>
                       </td>
                       {/* MRDR - frozen, drill-through */}
                       <td className={cellCls} style={frozenCellStyle("mrdr", rowNewVariant)}>
@@ -353,11 +363,6 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                       <td className={cellCls}>{agg.typeCode}</td>
                       <td className={cellCls}>{agg.repackDependency}</td>
                       <td className={cellCls}>{agg.category}</td>
-                      <td className={cellCls}>
-                        <button onClick={() => onOpenAnalysis ? onOpenAnalysis(childRows[0]) : navigate(`/risk-analysis?riskId=${childRows[0].riskId}`)} className="flex items-center gap-1 text-primary hover:underline text-[11px]">
-                          <Search className="h-3 w-3" /> Insights & Analyse
-                        </button>
-                      </td>
                     </tr>
                     {expanded && childRows.map(cr => {
                       const childVariant = cr.isNew ? "childNew" : "child";
@@ -368,6 +373,12 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                           <td className={`${childCellCls} pl-6`} style={frozenCellStyle("riskId", childVariant)}>
                             <span className="text-muted-foreground">↳</span> {cr.riskId}
                             {cr.isNew && <NewBadge />}
+                          </td>
+                          {/* Insights icon */}
+                          <td className={childCellCls}>
+                            <button onClick={() => onOpenAnalysis ? onOpenAnalysis(cr) : navigate(`/risk-analysis?riskId=${cr.riskId}`)} className="flex items-center justify-center text-primary hover:text-primary/80" title="Analyse">
+                              <Microscope className="h-3.5 w-3.5" />
+                            </button>
                           </td>
                           <td className={childCellCls} style={frozenCellStyle("mrdr", childVariant)}>{cr.mrdr}</td>
                           <td className={childCellCls} style={frozenCellStyle("mrdrDescription", childVariant)}>{cr.mrdrDescription}</td>
@@ -403,11 +414,6 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                           <td className={childCellCls}>{cr.typeCode}</td>
                           <td className={childCellCls}>{cr.repackDependency}</td>
                           <td className={childCellCls}>{cr.category}</td>
-                          <td className={childCellCls}>
-                            <button onClick={() => onOpenAnalysis ? onOpenAnalysis(cr) : navigate(`/risk-analysis?riskId=${cr.riskId}`)} className="flex items-center gap-1 text-primary hover:underline text-[11px]">
-                              <Search className="h-3 w-3" /> Analyse
-                            </button>
-                          </td>
                         </tr>
                       );
                     })}

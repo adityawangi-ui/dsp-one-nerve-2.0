@@ -74,7 +74,7 @@ export default function RiskOverview() {
             <Shield className="h-4 w-4 text-primary-foreground" />
           </div>
           <div className="flex items-center gap-2">
-            <span className="text-sm font-bold text-foreground">Risk Monitor</span>
+            <span className="text-sm font-bold text-foreground">Risk AI</span>
             <Badge className="bg-success/15 text-success border-success/30 text-[10px] font-semibold pulse-glow-green">
               <span className="mr-1 h-1.5 w-1.5 rounded-full bg-success inline-block animate-pulse" />
               Live
@@ -114,7 +114,7 @@ export default function RiskOverview() {
               <Home className="h-3 w-3" /> Home
             </a>
             <ChevronRight className="h-3 w-3" />
-            <span className="text-foreground font-medium">Risk Monitor</span>
+            <span className="text-foreground font-medium">Risk AI</span>
           </nav>
 
           <AlertsSection />

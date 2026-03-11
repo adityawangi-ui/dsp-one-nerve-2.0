@@ -84,9 +84,9 @@ export default function AlertsSection() {
         {/* Center column — Donut with hover showing trends */}
         <div className="w-[30%] px-4 border-r border-border/40 flex flex-col items-center justify-center">
           <div className="relative">
-            <ResponsiveContainer width={140} height={120}>
+            <ResponsiveContainer width={140} height={140}>
               <PieChart>
-                <Pie data={donutData} cx="50%" cy="50%" innerRadius={32} outerRadius={48} paddingAngle={4} cornerRadius={3} dataKey="value">
+                <Pie data={donutData} cx="50%" cy="50%" innerRadius={32} outerRadius={52} paddingAngle={4} cornerRadius={3} dataKey="value">
                   {donutData.map((entry, i) => (
                     <Cell key={i} fill={entry.color} />
                   ))}
@@ -116,6 +116,15 @@ export default function AlertsSection() {
               <span className="text-lg font-extrabold font-mono-tech text-foreground">{total}</span>
               <span className="text-[9px] uppercase tracking-wider text-muted-foreground font-semibold">TOTAL</span>
             </div>
+          </div>
+          {/* Legend */}
+          <div className="flex gap-3 mt-1">
+            {donutData.map((d) => (
+              <div key={d.name} className="flex items-center gap-1 text-[9px]">
+                <span className="w-2 h-2 rounded-full" style={{ background: d.color }} />
+                <span className="text-muted-foreground">{d.name}</span>
+              </div>
+            ))}
           </div>
         </div>
 

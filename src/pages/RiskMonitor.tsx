@@ -173,9 +173,9 @@ export default function RiskMonitor() {
           <div>
             <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
               <Shield className="h-6 w-6 text-primary" />
-              Risk Monitor
-            </h1>
-            <p className="text-sm text-muted-foreground mt-1">Enterprise risk monitoring & AI-powered mitigation</p>
+               Risk AI
+             </h1>
+             <p className="text-sm text-muted-foreground mt-1">Enterprise risk intelligence & AI-powered mitigation</p>
           </div>
           <div className="flex items-center gap-3">
             <NotificationBell onNavigateToConversations={() => navigate('/risk-analysis?tab=conversations')} />
@@ -221,25 +221,17 @@ export default function RiskMonitor() {
 
             {/* Center - Donut */}
             <div className="lg:col-span-4 flex flex-col items-center justify-center">
-              <ResponsiveContainer width="100%" height={140}>
-                <PieChart>
-                  <Pie data={donutData} cx="50%" cy="50%" innerRadius={40} outerRadius={60} paddingAngle={3} dataKey="value">
-                    {donutData.map((entry, i) => (
-                      <Cell key={i} fill={entry.color} />
-                    ))}
-                  </Pie>
-                  <RechartsTooltip formatter={(value: number, name: string) => [`${value} items`, name]} />
-                </PieChart>
-              </ResponsiveContainer>
-              <div className="flex gap-3 mt-1">
-                {donutData.map((d) => (
-                  <div key={d.name} className="flex items-center gap-1 text-[10px]">
-                    <span className="w-2 h-2 rounded-full" style={{ background: d.color }} />
-                    <span className="text-muted-foreground">{d.name}</span>
-                    <span className="font-mono font-bold text-foreground">{d.value}</span>
-                  </div>
-                ))}
-              </div>
+               <ResponsiveContainer width="100%" height={180}>
+                 <PieChart>
+                   <Pie data={donutData} cx="50%" cy="50%" innerRadius={50} outerRadius={75} paddingAngle={3} dataKey="value">
+                     {donutData.map((entry, i) => (
+                       <Cell key={i} fill={entry.color} />
+                     ))}
+                   </Pie>
+                   <RechartsTooltip formatter={(value: number, name: string) => [`${value} items`, name]} />
+                   <Legend wrapperStyle={{ fontSize: 10 }} iconType="circle" iconSize={8} formatter={(v: string) => <span style={{ color: "hsl(var(--foreground))" }}>{v}</span>} />
+                 </PieChart>
+               </ResponsiveContainer>
               <div className="mt-2 text-center">
                 <span className="text-[10px] text-muted-foreground">Value at Risk</span>
                 <div className="flex items-center justify-center gap-1.5">
@@ -254,18 +246,18 @@ export default function RiskMonitor() {
             {/* Right - Weekly Bar Chart */}
             <div className="lg:col-span-4">
               <p className="text-[10px] font-medium text-muted-foreground mb-1">5-Week Trend</p>
-              <ResponsiveContainer width="100%" height={160}>
-                <BarChart data={weeklyData}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                  <XAxis dataKey="week" tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }} />
-                  <YAxis tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }} />
-                  <RechartsTooltip />
-                  <Legend wrapperStyle={{ fontSize: 10 }} />
-                  <Bar dataKey="critical" stackId="a" fill="hsl(0, 72%, 51%)" radius={[0, 0, 0, 0]} />
-                  <Bar dataKey="medium" stackId="a" fill="hsl(27, 96%, 54%)" />
-                  <Bar dataKey="low" stackId="a" fill="hsl(152, 60%, 42%)" radius={[4, 4, 0, 0]} />
-                </BarChart>
-              </ResponsiveContainer>
+               <ResponsiveContainer width="100%" height={160}>
+                 <BarChart data={weeklyData}>
+                   <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                   <XAxis dataKey="week" tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }} label={{ value: "Week", position: "insideBottom", offset: -2, fontSize: 9, fill: "hsl(var(--muted-foreground))" }} />
+                   <YAxis tick={{ fontSize: 10, fill: "hsl(var(--muted-foreground))" }} label={{ value: "Count", angle: -90, position: "insideLeft", offset: 10, fontSize: 9, fill: "hsl(var(--muted-foreground))" }} />
+                   <RechartsTooltip />
+                   <Legend wrapperStyle={{ fontSize: 10 }} />
+                   <Bar dataKey="critical" stackId="a" fill="hsl(0, 72%, 51%)" name="Critical" radius={[0, 0, 0, 0]} />
+                   <Bar dataKey="medium" stackId="a" fill="hsl(27, 96%, 54%)" name="Medium" />
+                   <Bar dataKey="low" stackId="a" fill="hsl(152, 60%, 42%)" name="Low" radius={[4, 4, 0, 0]} />
+                 </BarChart>
+               </ResponsiveContainer>
             </div>
           </div>
         </Card>

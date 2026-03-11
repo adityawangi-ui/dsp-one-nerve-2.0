@@ -235,16 +235,33 @@ export default function InsightsPanel({ row, onClose }: Props) {
 
         {/* Content */}
         <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-          <div className="h-12 flex items-center justify-between px-5 border-b border-border/50 shrink-0 bg-card">
-            <div>
+          <div className="h-auto flex flex-col gap-2 px-5 py-3 border-b border-border/50 shrink-0 bg-card">
+            <div className="flex items-center justify-between">
               <span className="text-sm font-bold text-foreground">Risk Insights</span>
-              <span className="text-[11px] text-foreground/80 ml-3">
-                MRDR: {row.mrdr} · {row.mrdrDescription} · Site: {row.site} · {row.msoCountry}
-              </span>
+              <button onClick={onClose} className="h-8 w-8 flex items-center justify-center rounded-lg hover:bg-secondary transition-colors">
+                <X className="h-4 w-4 text-muted-foreground" />
+              </button>
             </div>
-            <button onClick={onClose} className="h-8 w-8 flex items-center justify-center rounded-lg hover:bg-secondary transition-colors">
-              <X className="h-4 w-4 text-muted-foreground" />
-            </button>
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge variant="outline" className="text-[10px] border-primary/30 bg-primary/5 text-primary">
+                MRDR: {row.mrdr}
+              </Badge>
+              <Badge variant="outline" className="text-[10px] border-border bg-secondary text-foreground">
+                {row.mrdrDescription}
+              </Badge>
+              <Badge variant="outline" className="text-[10px] border-border bg-secondary text-foreground">
+                <Factory className="h-2.5 w-2.5 mr-1" /> {row.site}
+              </Badge>
+              <Badge variant="outline" className="text-[10px] border-border bg-secondary text-foreground">
+                🌍 {row.msoCountry}
+              </Badge>
+              <Badge variant="outline" className="text-[10px] border-border bg-secondary text-foreground">
+                {row.category}
+              </Badge>
+              <Badge variant="outline" className="text-[10px] border-border bg-secondary text-foreground">
+                {row.uom}
+              </Badge>
+            </div>
           </div>
 
           <div ref={contentRef} className="flex-1 overflow-y-auto overflow-x-hidden p-6 space-y-10">
@@ -262,8 +279,8 @@ export default function InsightsPanel({ row, onClose }: Props) {
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={ctpChartData} barCategoryGap="20%">
                     <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" strokeOpacity={0.5} />
-                    <XAxis dataKey="week" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
-                    <YAxis tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
+                    <XAxis dataKey="week" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} label={{ value: "Week", position: "insideBottom", offset: -2, fontSize: 9, fill: 'hsl(var(--muted-foreground))' }} />
+                    <YAxis tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} label={{ value: "Units", angle: -90, position: "insideLeft", offset: 10, fontSize: 9, fill: 'hsl(var(--muted-foreground))' }} />
                     <Tooltip {...customTooltipStyle} />
                     <Legend wrapperStyle={legendStyle} formatter={(value: string) => <span style={{ color: 'hsl(var(--foreground))' }}>{value}</span>} />
                     <Bar dataKey="demand" fill={CHART_BLUE} name="Planned Demand" radius={[4, 4, 0, 0]} />
@@ -357,9 +374,9 @@ export default function InsightsPanel({ row, onClose }: Props) {
                 <ResponsiveContainer width="100%" height="100%">
                   <ComposedChart data={dohData}>
                     <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" strokeOpacity={0.5} />
-                    <XAxis dataKey="week" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
-                    <YAxis yAxisId="left" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
-                    <YAxis yAxisId="right" orientation="right" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
+                    <XAxis dataKey="week" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} label={{ value: "Week", position: "insideBottom", offset: -2, fontSize: 9, fill: 'hsl(var(--muted-foreground))' }} />
+                    <YAxis yAxisId="left" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} label={{ value: "DOH Days", angle: -90, position: "insideLeft", offset: 10, fontSize: 9, fill: 'hsl(var(--muted-foreground))' }} />
+                    <YAxis yAxisId="right" orientation="right" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} label={{ value: "Quantity", angle: 90, position: "insideRight", offset: 10, fontSize: 9, fill: 'hsl(var(--muted-foreground))' }} />
                     <Tooltip {...customTooltipStyle} />
                     <Legend wrapperStyle={legendStyle} formatter={(value: string) => <span style={{ color: 'hsl(var(--foreground))' }}>{value}</span>} />
                     <Bar yAxisId="left" dataKey="doh" fill={CHART_BLUE} name="DOH Days" radius={[4, 4, 0, 0]} />
@@ -382,8 +399,8 @@ export default function InsightsPanel({ row, onClose }: Props) {
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={forecastData}>
                     <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" strokeOpacity={0.5} />
-                    <XAxis dataKey="week" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
-                    <YAxis tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
+                    <XAxis dataKey="week" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} label={{ value: "Week", position: "insideBottom", offset: -2, fontSize: 9, fill: 'hsl(var(--muted-foreground))' }} />
+                    <YAxis tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} label={{ value: "Units", angle: -90, position: "insideLeft", offset: 10, fontSize: 9, fill: 'hsl(var(--muted-foreground))' }} />
                     <Tooltip {...customTooltipStyle} />
                     <Legend wrapperStyle={legendStyle} formatter={(value: string) => <span style={{ color: 'hsl(var(--foreground))' }}>{value}</span>} />
                     <Line type="monotone" dataKey="baselineForecast" stroke={CHART_BLUE} strokeWidth={2.5} name="Baseline Forecast" dot={{ r: 4, fill: CHART_BLUE, stroke: 'hsl(var(--background))', strokeWidth: 2 }} />
@@ -408,9 +425,9 @@ export default function InsightsPanel({ row, onClose }: Props) {
                 <ResponsiveContainer width="100%" height="100%">
                   <ComposedChart data={prodData}>
                     <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" strokeOpacity={0.5} />
-                    <XAxis dataKey="week" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
-                    <YAxis yAxisId="left" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
-                    <YAxis yAxisId="right" orientation="right" domain={[0, 100]} tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
+                    <XAxis dataKey="week" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} label={{ value: "Week", position: "insideBottom", offset: -2, fontSize: 9, fill: 'hsl(var(--muted-foreground))' }} />
+                    <YAxis yAxisId="left" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} label={{ value: "Production Qty", angle: -90, position: "insideLeft", offset: 10, fontSize: 9, fill: 'hsl(var(--muted-foreground))' }} />
+                    <YAxis yAxisId="right" orientation="right" domain={[0, 100]} tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} label={{ value: "CCU %", angle: 90, position: "insideRight", offset: 10, fontSize: 9, fill: 'hsl(var(--muted-foreground))' }} />
                     <Tooltip {...customTooltipStyle} />
                     <Legend wrapperStyle={legendStyle} formatter={(value: string) => <span style={{ color: 'hsl(var(--foreground))' }}>{value}</span>} />
                     <Bar yAxisId="left" dataKey="qty" fill={CHART_BLUE} name="Production Qty" radius={[4, 4, 0, 0]} />

@@ -80,7 +80,7 @@ export default function RiskOSLayout() {
               <Activity className="h-3.5 w-3.5 text-primary-foreground" />
               <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-low animate-pulse border border-card" />
             </div>
-            <span className="text-sm font-semibold text-foreground">Risk Monitor v2.4 • <span className="text-muted-foreground font-normal">Live</span></span>
+            <span className="text-sm font-semibold text-foreground">Risk AI v2.4 • <span className="text-muted-foreground font-normal">Live</span></span>
           </div>
           <div className="flex items-center gap-3">
             <span className="flex items-center gap-1.5 text-xs font-medium bg-primary/5 text-primary px-3 py-1.5 rounded-full border border-primary/10">

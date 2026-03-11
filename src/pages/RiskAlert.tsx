@@ -228,7 +228,7 @@ export default function RiskAlert() {
             </Button>
             <div>
               <h1 className="text-4xl font-bold text-foreground">Multi-Agent Risk Control Center</h1>
-              <p className="text-muted-foreground mt-2">AI-powered supply chain risk monitoring & mitigation</p>
+              <p className="text-muted-foreground mt-2">AI-powered supply chain risk intelligence & mitigation</p>
             </div>
           </div>
           <Button onClick={() => navigate("/deep-dive-diagnostics")} size="lg" className="gap-2">

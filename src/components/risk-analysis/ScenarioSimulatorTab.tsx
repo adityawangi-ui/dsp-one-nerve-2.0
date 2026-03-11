@@ -189,23 +189,18 @@ export default function ScenarioSimulatorTab({ row, onSelectScenario, selectedSc
                   </div>
                   <h4 className="text-xs font-semibold text-foreground mb-4 leading-relaxed min-h-[2.5rem]">{s.name}</h4>
 
-                  {/* Confidence Meter */}
-                  <div className="mb-4 p-3 rounded-lg bg-secondary/50 border border-border/50">
-                    <div className="flex items-center justify-between mb-1.5">
-                      <span className="text-[10px] text-muted-foreground flex items-center gap-1">
-                        <Brain className="h-3 w-3" /> AI Confidence
-                      </span>
-                      <span className={`text-sm font-bold font-mono-tech ${confidence >= 90 ? "text-success neon-text-green" : confidence >= 85 ? "text-primary neon-text" : "text-warning neon-text-amber"}`}>
-                        {confidence}%
-                      </span>
-                    </div>
-                    <div className="h-1.5 rounded-full bg-border overflow-hidden">
-                      <div
-                        className={`h-full rounded-full transition-all duration-1000 ${confidence >= 90 ? "bg-success" : confidence >= 85 ? "bg-primary" : "bg-warning"}`}
-                        style={{ width: `${confidence}%` }}
-                      />
-                    </div>
-                    <p className="text-[9px] text-muted-foreground mt-1">Based on {historicalCases} historical cases</p>
+                  {/* Waste, Lead Time, Service Recovery KPIs */}
+                  <div className="mb-4 space-y-2">
+                    {[
+                      { label: "Waste Reduction", value: s.id === 1 ? "12%" : s.id === 2 ? "18%" : "22%", color: s.id === 3 ? "text-success" : "text-foreground" },
+                      { label: "Lead Time Impact", value: s.id === 1 ? "+2 days" : s.id === 2 ? "+1 day" : "0 days", color: s.id === 3 ? "text-success" : s.id === 2 ? "text-warning" : "text-destructive" },
+                      { label: "Service Recovery", value: s.id === 1 ? "78%" : s.id === 2 ? "85%" : "92%", color: s.id === 3 ? "text-success" : "text-foreground" },
+                    ].map((kpi, ki) => (
+                      <div key={ki} className="flex items-center justify-between px-3 py-1.5 rounded-lg bg-secondary/50 border border-border/50">
+                        <span className="text-[10px] text-muted-foreground">{kpi.label}</span>
+                        <span className={`text-xs font-bold font-mono-tech ${kpi.color}`}>{kpi.value}</span>
+                      </div>
+                    ))}
                   </div>
 
                   <div className="grid grid-cols-2 gap-3">
