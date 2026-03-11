@@ -246,9 +246,10 @@ export default function VisualCentre({ onClose }: Props) {
         <ResponsiveContainer width="100%" height={height}>
           <BarChart data={chart.data} barCategoryGap="20%">
             <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" strokeOpacity={0.5} />
-            <XAxis dataKey="name" tick={axisStyle} axisLine={{ stroke: "hsl(var(--border))" }} />
-            <YAxis tick={axisStyle} axisLine={{ stroke: "hsl(var(--border))" }} />
+            <XAxis dataKey="name" tick={axisStyle} axisLine={{ stroke: "hsl(var(--border))" }} label={{ value: "Category", position: "insideBottom", offset: -2, fontSize: 9, fill: "hsl(var(--muted-foreground))" }} />
+            <YAxis tick={axisStyle} axisLine={{ stroke: "hsl(var(--border))" }} label={{ value: "Value", angle: -90, position: "insideLeft", offset: 10, fontSize: 9, fill: "hsl(var(--muted-foreground))" }} />
             <Tooltip {...tooltipStyle} />
+            <Legend wrapperStyle={{ fontSize: 10 }} formatter={(v: string) => <span style={{ color: "hsl(var(--foreground))" }}>{v}</span>} />
             <Bar dataKey="value" fill={chartPalette[0]} name="Primary" radius={[4, 4, 0, 0]} />
             {chart.data[0]?.secondary !== undefined && (
               <Bar dataKey="secondary" fill={chartPalette[1]} name="Secondary" radius={[4, 4, 0, 0]} />
