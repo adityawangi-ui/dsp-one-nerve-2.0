@@ -331,7 +331,9 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                           onClick={() => { if (hasMultiple) { const n = new Set(expandedMrdrs); if (expanded) n.delete(agg.mrdr); else n.add(agg.mrdr); setExpandedMrdrs(n); } }}
                           className={`flex items-center gap-1 ${hasMultiple ? "text-primary font-semibold hover:underline cursor-pointer" : "text-foreground cursor-default"}`}
                         >
-                          {hasMultiple && (expanded ? <ChevronDown className="h-3 w-3 shrink-0" /> : <ChevronRight className="h-3 w-3 shrink-0" />)}
+                          <span className="w-3 shrink-0 flex items-center justify-center">
+                            {hasMultiple && (expanded ? <ChevronDown className="h-3 w-3" /> : <ChevronRight className="h-3 w-3" />)}
+                          </span>
                           {agg.mrdr}
                           {hasMultiple && <span className="text-[9px] text-muted-foreground ml-0.5">({agg.lineCount})</span>}
                         </button>
@@ -382,7 +384,9 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                               <img src={insightsIcon} alt="Analyse" className="h-5 w-5 drop-shadow-md brightness-110 contrast-110 group-hover/icon:scale-110 transition-transform duration-200" />
                             </button>
                           </td>
-                          <td className={childCellCls} style={frozenCellStyle("mrdr", childVariant)}>{cr.mrdr}</td>
+                          <td className={childCellCls} style={frozenCellStyle("mrdr", childVariant)}>
+                            <span className="flex items-center gap-1"><span className="w-3 shrink-0" />{cr.mrdr}</span>
+                          </td>
                           <td className={childCellCls} style={frozenCellStyle("mrdrDescription", childVariant)}>{cr.mrdrDescription}</td>
                           <td className={childCellCls} style={frozenCellStyle("msoCountry", childVariant)}>{cr.msoCountry}</td>
                           <td className={childCellCls} style={frozenCellStyle("uom", childVariant)}>{displayUom}</td>
