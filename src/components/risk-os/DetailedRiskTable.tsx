@@ -8,7 +8,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Checkbox } from "@/components/ui/checkbox";
-import { LayoutList, Download, Share2, Plus, Eye, ChevronRight, ChevronDown, ChevronUp, Columns3, Send, Search, ChevronLeft, Microscope } from "lucide-react";
+import { LayoutList, Download, Share2, Plus, Eye, ChevronRight, ChevronDown, ChevronUp, Columns3, Send, Search, ChevronLeft } from "lucide-react";
+import insightsIcon from "@/assets/insights-analyse-icon.png";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
@@ -275,7 +276,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                       </Select>
                     ) : col.key === "insights" ? (
                       <span className="flex items-center justify-center" title="Insights & Analyse">
-                        <Microscope className="h-3.5 w-3.5" />
+                        <img src={insightsIcon} alt="Insights & Analyse" className="h-4 w-4" />
                       </span>
                     ) : (
                       <span className="flex items-center gap-1">
@@ -320,7 +321,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                       {/* Insights & Analyse - icon button */}
                       <td className={cellCls}>
                         <button onClick={() => onOpenAnalysis ? onOpenAnalysis(childRows[0]) : navigate(`/risk-analysis?riskId=${childRows[0].riskId}`)} className="flex items-center justify-center text-primary hover:text-primary/80" title="Insights & Analyse">
-                          <Microscope className="h-3.5 w-3.5" />
+                          <img src={insightsIcon} alt="Insights & Analyse" className="h-4 w-4" />
                         </button>
                       </td>
                       {/* MRDR - frozen, drill-through */}
@@ -377,7 +378,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                           {/* Insights icon */}
                           <td className={childCellCls}>
                             <button onClick={() => onOpenAnalysis ? onOpenAnalysis(cr) : navigate(`/risk-analysis?riskId=${cr.riskId}`)} className="flex items-center justify-center text-primary hover:text-primary/80" title="Analyse">
-                              <Microscope className="h-3.5 w-3.5" />
+                              <img src={insightsIcon} alt="Analyse" className="h-4 w-4" />
                             </button>
                           </td>
                           <td className={childCellCls} style={frozenCellStyle("mrdr", childVariant)}>{cr.mrdr}</td>

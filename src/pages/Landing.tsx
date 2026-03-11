@@ -25,7 +25,7 @@ import {
   TrendingDown,
   CheckCircle,
   XCircle,
-  Shield,
+  
   Eye,
   EyeOff,
   Pencil,
@@ -499,8 +499,6 @@ export default function Landing() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4 justify-items-center w-full"
                style={{ animation: 'fade-in 0.6s ease-out 0.2s both' }}>
             {contextCards.map((card, index) => {
-              const isActionItem = card.title === "Service Risk Alerts";
-              
               return (
                 <Link 
                   key={index} 
@@ -510,38 +508,17 @@ export default function Landing() {
                     animation: `fade-in 0.5s ease-out ${0.3 + index * 0.1}s both, scale-in 0.4s ease-out ${0.3 + index * 0.1}s both` 
                   }}
                 >
-                  <Card className={`relative p-3 md:p-4 rounded-[18px] transition-all duration-300 hover:-translate-y-1 cursor-pointer flex flex-col min-h-[140px] md:min-h-[155px] items-center text-center overflow-hidden ${
-                    isActionItem 
-                      ? 'bg-gradient-to-br from-destructive/10 via-warning/5 to-card border-2 border-destructive/40 shadow-[var(--shadow-danger)] hover:shadow-[0_8px_30px_hsl(0_72%_51%_/_0.3)] hover:border-destructive/60' 
-                      : 'bg-card border border-border/50 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-neon)] card-shimmer hover:border-primary/30'
-                  }`}>
-                    {/* Gradient header strip - action items get attention-grabbing colors */}
-                    <div className={`absolute top-0 left-0 right-0 h-1.5 rounded-t-[18px] ${
-                      isActionItem 
-                        ? 'bg-gradient-to-r from-destructive via-warning to-destructive animate-pulse' 
-                        : 'bg-gradient-to-r from-primary/50 via-primary to-primary/50'
-                    }`} />
-                    
-                    {/* Action Required Badge for urgent items */}
-                    {isActionItem && (
-                      <div className="absolute top-3 right-3">
-                        <Badge className="bg-destructive text-destructive-foreground text-[9px] px-2 py-0.5 animate-pulse shadow-sm">
-                          Action Required
-                        </Badge>
-                      </div>
-                    )}
+                  <Card className="relative p-3 md:p-4 rounded-[18px] transition-all duration-300 hover:-translate-y-1 cursor-pointer flex flex-col min-h-[140px] md:min-h-[155px] items-center text-center overflow-hidden bg-card border border-border/50 shadow-[var(--shadow-card)] hover:shadow-[var(--shadow-neon)] card-shimmer hover:border-primary/30">
+                    {/* Gradient header strip */}
+                    <div className="absolute top-0 left-0 right-0 h-1.5 rounded-t-[18px] bg-gradient-to-r from-primary/50 via-primary to-primary/50" />
                     
                     {/* Header */}
                     <div className="flex flex-col items-center mb-2 mt-1">
-                      <div className={`p-1.5 rounded-xl flex-shrink-0 mb-2 group-hover:scale-110 transition-transform duration-300 ${
-                        isActionItem 
-                          ? 'bg-gradient-to-br from-destructive/20 to-warning/10' 
-                          : 'bg-gradient-to-br from-primary/10 to-primary/5'
-                      }`}>
-                        <card.icon className={`h-4 w-4 ${isActionItem ? 'text-destructive' : 'text-primary'}`} />
+                      <div className="p-1.5 rounded-xl flex-shrink-0 mb-2 group-hover:scale-110 transition-transform duration-300 bg-gradient-to-br from-primary/10 to-primary/5">
+                        <card.icon className="h-4 w-4 text-primary" />
                       </div>
-                      <h3 className={`text-sm font-semibold flex items-center gap-2 ${isActionItem ? 'text-destructive' : 'text-foreground'}`}>
-                        {card.isAgent && <Sparkles className={`h-3.5 w-3.5 animate-pulse ${isActionItem ? 'text-warning' : 'text-primary'}`} />}
+                      <h3 className="text-sm font-semibold flex items-center gap-2 text-foreground">
+                        {card.isAgent && <Sparkles className="h-3.5 w-3.5 animate-pulse text-primary" />}
                         {card.title}
                       </h3>
                     </div>
@@ -573,48 +550,18 @@ export default function Landing() {
                          </div>
                        )}
                        {card.status && !card.kpis && (
-                         <Badge variant="outline" className={`text-[10px] py-0.5 px-2.5 ${
-                           isActionItem 
-                             ? 'border-destructive/50 text-destructive bg-destructive/10 font-semibold' 
-                             : 'border-primary/30 text-primary/80 bg-primary/5'
-                         }`}>
+                         <Badge variant="outline" className="text-[10px] py-0.5 px-2.5 border-primary/30 text-primary/80 bg-primary/5">
                            {card.status}
                          </Badge>
                        )}
                      </div>
 
                      {/* Footer */}
-                    <div className={`pt-2 border-t flex items-center justify-center gap-2 w-full ${
-                      isActionItem ? 'border-destructive/20' : 'border-border/40'
-                    }`}>
-                      {isActionItem ? (
-                        <div className="flex items-center gap-2 w-full justify-center">
-                          <span className="text-xs font-medium group-hover:underline text-destructive">
-                            {card.footer}
-                          </span>
-                          <ChevronRight className="h-3.5 w-3.5 text-destructive/60 group-hover:text-destructive group-hover:translate-x-1 transition-all" />
-                          <Button
-                            size="sm"
-                            variant="destructive"
-                            className="ml-auto text-[10px] h-6 px-2.5 rounded-lg shadow-sm"
-                            onClick={(e) => {
-                              e.preventDefault();
-                              e.stopPropagation();
-                              navigate('/risk-monitor');
-                            }}
-                          >
-                            <Shield className="h-3 w-3 mr-1" />
-                             Risk AI
-                           </Button>
-                        </div>
-                      ) : (
-                        <>
-                          <span className="text-xs font-medium group-hover:underline text-primary">
-                            {card.footer}
-                          </span>
-                          <ChevronRight className="h-3.5 w-3.5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
-                        </>
-                      )}
+                    <div className="pt-2 border-t border-border/40 flex items-center justify-center gap-2 w-full">
+                      <span className="text-xs font-medium group-hover:underline text-primary">
+                        {card.footer}
+                      </span>
+                      <ChevronRight className="h-3.5 w-3.5 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
                     </div>
                   </Card>
                 </Link>
