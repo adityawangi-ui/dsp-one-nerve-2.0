@@ -30,9 +30,9 @@ export interface Scenario {
 }
 
 const originalScenarios: Scenario[] = [
-  { id: 1, name: "Re-prioritize + Transship + SKU Substitution", successProbability: 85, feasibility: 82, historicalSuccess: 87, cost: 26000, recommended: false },
-  { id: 2, name: "Back-Up Line PU3 + Extra Shift + Prioritize Critical SKUs", successProbability: 89, feasibility: 88, historicalSuccess: 91, cost: 16000, recommended: false },
-  { id: 3, name: "Rescheduling + Short-Term Labor + Stock Rebalancing", successProbability: 91, feasibility: 92, historicalSuccess: 89, cost: 16000, recommended: true },
+  { id: 1, name: "Re-prioritize + Transship + SKU Substitution", successProbability: 85, wasteReduction: 12, leadTime: 3, serviceRecovery: 78, cost: 26000, recommended: false },
+  { id: 2, name: "Back-Up Line PU3 + Extra Shift + Prioritize Critical SKUs", successProbability: 89, wasteReduction: 18, leadTime: 2, serviceRecovery: 85, cost: 16000, recommended: false },
+  { id: 3, name: "Rescheduling + Short-Term Labor + Stock Rebalancing", successProbability: 91, wasteReduction: 22, leadTime: 1, serviceRecovery: 92, cost: 16000, recommended: true },
 ];
 
 const scenarioDetails: Record<number, { aiInsights: string[]; actions: string[]; risks: string[]; timeline: string; primaryKPIs: { label: string; value: string; trend: string }[]; impactKPIs: { label: string; value: string; color: string }[]; costBreakdown: { label: string; value: number }[] }> = {
