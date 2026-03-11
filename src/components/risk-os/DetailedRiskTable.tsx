@@ -321,9 +321,8 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                       </td>
                       {/* Insights & Analyse - icon button */}
                       <td className={cellCls}>
-                        <button onClick={() => onOpenAnalysis ? onOpenAnalysis(childRows[0]) : navigate(`/risk-analysis?riskId=${childRows[0].riskId}`)} className="group/icon flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-primary/5 border border-primary/20 hover:bg-primary/15 hover:border-primary/40 hover:shadow-lg transition-all duration-200" title="Insights & Analyse">
+                        <button onClick={() => onOpenAnalysis ? onOpenAnalysis(childRows[0]) : navigate(`/risk-analysis?riskId=${childRows[0].riskId}`)} className="group/icon flex items-center justify-center p-2 rounded-lg bg-primary/5 border border-primary/20 hover:bg-primary/15 hover:border-primary/40 hover:shadow-lg transition-all duration-200" title="Insights & Analyse">
                           <img src={insightsIcon} alt="Insights & Analyse" className="h-5 w-5 drop-shadow-md brightness-110 contrast-110 group-hover/icon:scale-110 transition-transform duration-200" />
-                          <span className="text-[10px] font-bold text-primary group-hover/icon:text-primary/90 uppercase tracking-wide">Analyse</span>
                         </button>
                       </td>
                       {/* MRDR - frozen, drill-through */}
@@ -379,9 +378,8 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                           </td>
                           {/* Insights icon */}
                           <td className={childCellCls}>
-                            <button onClick={() => onOpenAnalysis ? onOpenAnalysis(cr) : navigate(`/risk-analysis?riskId=${cr.riskId}`)} className="group/icon flex items-center justify-center gap-1.5 px-2.5 py-1.5 rounded-lg bg-primary/5 border border-primary/20 hover:bg-primary/15 hover:border-primary/40 hover:shadow-lg transition-all duration-200" title="Analyse">
+                            <button onClick={() => onOpenAnalysis ? onOpenAnalysis(cr) : navigate(`/risk-analysis?riskId=${cr.riskId}`)} className="group/icon flex items-center justify-center p-2 rounded-lg bg-primary/5 border border-primary/20 hover:bg-primary/15 hover:border-primary/40 hover:shadow-lg transition-all duration-200" title="Analyse">
                               <img src={insightsIcon} alt="Analyse" className="h-5 w-5 drop-shadow-md brightness-110 contrast-110 group-hover/icon:scale-110 transition-transform duration-200" />
-                              <span className="text-[10px] font-bold text-primary group-hover/icon:text-primary/90 uppercase tracking-wide">Analyse</span>
                             </button>
                           </td>
                           <td className={childCellCls} style={frozenCellStyle("mrdr", childVariant)}>{cr.mrdr}</td>
