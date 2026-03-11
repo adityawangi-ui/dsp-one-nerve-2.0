@@ -36,7 +36,7 @@ const sections = [
 
 interface Props { row: RiskRow; }
 
-function SectionHeader({ icon: Icon, title, badge, sectionId }: { icon: React.ElementType; title: string; badge?: string; sectionId?: string }) {
+function SectionHeader({ icon: Icon, title, badge, sectionId, rightContent }: { icon: React.ElementType; title: string; badge?: string; sectionId?: string; rightContent?: React.ReactNode }) {
   const definition = sectionId ? sectionDefinitions[sectionId] : undefined;
   return (
     <div className="flex items-center gap-3 mb-4 rounded-lg border border-border bg-secondary px-3 py-2">
@@ -59,6 +59,7 @@ function SectionHeader({ icon: Icon, title, badge, sectionId }: { icon: React.El
           </UITooltip>
         </TooltipProvider>
       )}
+      {rightContent && <div className="ml-auto">{rightContent}</div>}
     </div>
   );
 }
