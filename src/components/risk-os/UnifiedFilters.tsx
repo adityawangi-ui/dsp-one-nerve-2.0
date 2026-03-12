@@ -39,7 +39,7 @@ export const defaultFilters: FilterState = {
   status: "all",
   country: "all",
   assignedTo: "all",
-  lossRange: [0, 890000],
+  lossRange: [0, 60000000],
   search: "",
 };
 
