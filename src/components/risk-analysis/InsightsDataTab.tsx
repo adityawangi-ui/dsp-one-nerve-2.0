@@ -189,22 +189,20 @@ export default function InsightsDataTab({ row }: Props) {
     { name: "Quarantine", value: 3, fill: CHART_AMBER },
   ];
 
-  // ── DOH Data (14 weeks) ──
+  // ── DOH Data (correlates with CTP weeks W8-W19) ──
   const dohData = [
-    { week: "W01", doh: 12, qty: 2100 },
-    { week: "W02", doh: 10, qty: 1980 },
-    { week: "W03", doh: 8, qty: 1750 },
-    { week: "W04", doh: 6, qty: 1400 },
-    { week: "W05", doh: 4, qty: 1100 },
-    { week: "W06", doh: 10, qty: 2030 },
-    { week: "W07", doh: 20, qty: 3060 },
-    { week: "W08", doh: 30, qty: 4500 },
-    { week: "W09", doh: 25, qty: 3800 },
-    { week: "W10", doh: 18, qty: 3200 },
-    { week: "W11", doh: 14, qty: 2900 },
-    { week: "W12", doh: 16, qty: 3100 },
-    { week: "W13", doh: 22, qty: 3500 },
-    { week: "W14", doh: 28, qty: 4200 },
+    { week: "W08", doh: 0, qty: 1680 },
+    { week: "W09", doh: 0, qty: 0 },
+    { week: "W10", doh: 5, qty: 1395 },
+    { week: "W11", doh: 35, qty: 12410 },
+    { week: "W12", doh: 31, qty: 10343 },
+    { week: "W13", doh: 26, qty: 9088 },
+    { week: "W14", doh: 21, qty: 7293 },
+    { week: "W15", doh: 17, qty: 5988 },
+    { week: "W16", doh: 33, qty: 11413 },
+    { week: "W17", doh: 28, qty: 9793 },
+    { week: "W18", doh: 22, qty: 7821 },
+    { week: "W19", doh: 20, qty: 6863 },
   ];
 
   // ── Forecast / Promo ──
