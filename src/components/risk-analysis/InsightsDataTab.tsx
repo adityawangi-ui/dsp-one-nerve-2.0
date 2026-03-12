@@ -501,7 +501,7 @@ export default function InsightsDataTab({ row }: Props) {
         {/* 5. STO */}
         <section id="tab-insight-sto">
           <SectionHeader icon={Truck} title="STO Data" badge="Top 5" sectionId="sto" />
-          <DataTable headers={stoTableHeaders} rows={stoTableRows} minWidth="700px" />
+          <DataTable headers={stoTableHeaders} rows={stoRows} minWidth="700px" />
         </section>
 
         {/* 6. Production */}
