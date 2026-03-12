@@ -24,7 +24,7 @@ function KpiCard({ label, value, subtitle, color = "text-primary" }: { label: st
 
 export default function OutcomeEvaluationTab({ row, selectedScenario, onTriggerApproval }: Props) {
   const [showApprovalDialog, setShowApprovalDialog] = useState(false);
-  const scenario = selectedScenario || { id: 3, name: "Rescheduling + Short-Term Labor + Stock Rebalancing", successProbability: 91, feasibility: 92, historicalSuccess: 89, cost: 16000, recommended: true };
+  const scenario = selectedScenario || { id: 3, name: "Rescheduling + Short-Term Labor + Stock Rebalancing", serviceLevel: 98, feasibility: 92, historicalSuccess: 89, cost: 16000, recommended: true };
 
   const handleExecute = () => setShowApprovalDialog(true);
 
