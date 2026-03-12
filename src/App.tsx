@@ -24,6 +24,7 @@ import CapacityRebalancer from "./pages/CapacityRebalancer";
 import LearningHub from "./pages/LearningHub";
 import RiskOverview from "./pages/RiskOverview";
 import RiskAnalysisWorkflow from "./pages/RiskAnalysisWorkflow";
+import RiskLanding from "./pages/RiskLanding";
 import NotFound from "./pages/NotFound";
 import { MainLayout } from "./components/layout/MainLayout";
 
@@ -55,6 +56,7 @@ const App = () => (
           <Route path="/waste-optimizer" element={<WasteOptimizer />} />
           <Route path="/capacity-rebalancer" element={<CapacityRebalancer />} />
           <Route path="/learning-hub" element={<LearningHub />} />
+          <Route path="/risk-landing" element={<RiskLanding />} />
           <Route path="/risk-monitor" element={<RiskOverview />} />
           <Route path="/risk-analysis" element={<RiskAnalysisWorkflow />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}

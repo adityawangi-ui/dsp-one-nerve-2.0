@@ -192,7 +192,7 @@ export default function Landing() {
       icon: AlertTriangle,
       subtext: "AI-detected supply chain risks with autonomous mitigation scenarios.",
       footer: "View Risk Alerts",
-      link: "/risk-alert",
+      link: "/risk-landing",
       status: "3 High Priority Alerts",
       isAgent: true,
       kpis: [
