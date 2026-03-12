@@ -142,8 +142,7 @@ export default function ScenarioSimulatorTab({ row, onSelectScenario, selectedSc
       if (targetScenarios.includes(s.id) || targetScenarios.length === 0) {
         return {
           ...s,
-          successProbability: Math.min(99, s.successProbability + Math.floor(Math.random() * 5)),
-          wasteReduction: Math.min(40, s.wasteReduction + Math.floor(Math.random() * 4)),
+          serviceLevel: Math.min(99, s.serviceLevel + Math.floor(Math.random() * 3)),
           cost: Math.max(5000, s.cost - Math.floor(Math.random() * 3000)),
         };
       }
