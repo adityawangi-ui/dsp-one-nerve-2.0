@@ -1,15 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { 
-  Home,
-  Workflow,
-  Target,
-  FileText,
-  Database,
-  Menu,
-  ChevronLeft,
-  ChevronRight,
-  
-} from "lucide-react";
+import { Home, Workflow, Target, FileText, Database, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -77,8 +67,16 @@ export const MainSidebar = ({ collapsed, onToggle }: MainSidebarProps) => {
               collapsed && "justify-center px-2"
             )
           }
-...
-    <aside 
+        >
+          <Icon className={cn("h-5 w-5", !collapsed && "mr-3")} />
+          {!collapsed && <span className="flex-1">{item.title}</span>}
+        </NavLink>
+      );
+    });
+  };
+
+  return (
+    <aside
       className={cn(
         "bg-card border-r border-border flex flex-col transition-all duration-300 z-40 shadow-sm",
         collapsed ? "w-16" : "w-64"
