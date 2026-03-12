@@ -97,7 +97,7 @@ export default function UnifiedFilters({ filters, onChange, maxLoss }: Props) {
   const activeCount = useMemo(() => {
     let c = 0;
     for (const [k, v] of Object.entries(filters)) {
-      if (k === "lossRange") { if ((v as number[])[0] !== 0 || (v as number[])[1] !== 890000) c++; }
+      if (k === "lossRange") { if ((v as number[])[0] !== 0 || (v as number[])[1] !== 60000000) c++; }
       else if (k === "search") { if (v) c++; }
       else if (v !== "all") c++;
     }
