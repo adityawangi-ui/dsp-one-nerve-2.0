@@ -113,7 +113,7 @@ export default function LastMileExecution({ row, selectedScenario }: Props) {
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
           <div><span className="text-xs text-primary font-semibold">Risk ID:</span><p className="text-sm font-bold text-foreground">RISK-{String(row.riskId).padStart(3, "0")}</p></div>
           <div><span className="text-xs text-primary font-semibold">Total Cost:</span><p className="text-sm font-bold text-foreground">€{scenario.cost.toLocaleString()}</p></div>
-          <div><span className="text-xs text-primary font-semibold">Success Probability:</span><p className="text-sm font-bold text-foreground">{scenario.successProbability}%</p></div>
+          <div><span className="text-xs text-primary font-semibold">Service Level:</span><p className="text-sm font-bold text-foreground">{scenario.serviceLevel}%</p></div>
           <div><span className="text-xs text-primary font-semibold">Expected Service Level:</span><p className="text-sm font-bold text-foreground">96%</p></div>
         </div>
 

@@ -26,7 +26,7 @@ interface ApprovalStep {
 }
 
 export default function ApprovalWorkflowTab({ row, selectedScenario }: Props) {
-  const scenario = selectedScenario || { id: 3, name: "Rescheduling + Short-Term Labor + Stock Rebalancing", successProbability: 91, cost: 16000 };
+  const scenario = selectedScenario || { id: 3, name: "Rescheduling + Short-Term Labor + Stock Rebalancing", serviceLevel: 98, cost: 16000 };
   const requestDate = new Date();
   
   const [steps, setSteps] = useState<ApprovalStep[]>([

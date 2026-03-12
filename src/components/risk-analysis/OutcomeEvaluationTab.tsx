@@ -117,7 +117,7 @@ export default function OutcomeEvaluationTab({ row, selectedScenario, onTriggerA
             <div className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-primary" /><span className="text-sm font-semibold text-primary">Scenario Selected:</span></div>
             <p className="text-xs text-primary/80 ml-3.5">{scenario.name}</p>
             <div className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-primary" /><span className="text-sm text-foreground"><strong>Expected Cost:</strong> €{scenario.cost.toLocaleString()}</span></div>
-            <div className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-primary" /><span className="text-sm text-foreground"><strong>Success Probability:</strong> {scenario.successProbability}%</span></div>
+            <div className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-primary" /><span className="text-sm text-foreground"><strong>Service Level:</strong> {scenario.serviceLevel}%</span></div>
           </div>
 
           <div className="border border-primary/20 rounded-xl p-4 bg-primary/[0.03] space-y-2 mb-4">
