@@ -140,26 +140,31 @@ export default function InsightsDataTab({ row }: Props) {
   };
 
   // ── CTP Data ──
-  const ctpDailyWeeks = ["Past", "3/10", "4/10", "5/10", "6/10", "7/10", "8/10", "9/10"];
-  const ctpWeeklyWeeks = ["WK-2", "WK-3", "WK-4", "WK-5", "WK-6", "WK-7"];
+  const ctpDailyWeeks = ["Past", "09-02-26", "10-02-26", "11-02-26", "12-02-26", "13-02-26", "14-02-26", "15-02-26"];
+  const ctpWeeklyWeeks = ["WK 8", "WK 9", "WK 10", "WK 11", "WK 12", "WK 13", "WK 14", "WK 15", "WK 16", "WK 17", "WK 18", "WK 19"];
   const ctpColumns = ctpMode === "daily" ? ctpDailyWeeks : ctpWeeklyWeeks;
   
+  // Values: daily (8 cols) then weekly (12 cols) = 20 total per metric
+  // "OOS" represented as string marker in Below RS row
   const ctpRawData = {
-    "Planned Demand": [0, 322, 286, 4, 100, 0, 0, 0, 712, 540, 380, 620, 490, 310],
-    "Total Supply": [3165, 0, 0, 0, 0, 0, 0, 0, 1800, 1200, 950, 1500, 1100, 800],
-    "Balance (Units)": [3165, 3133, 3131, 3103, 3097, 3056, 3056, 3056, 4088, 4748, 5318, 6198, 6808, 7298],
-    "Replenishment Stock": [0, 455, 512, 543, 537, 496, 558, 619, 620, 580, 540, 610, 570, 530],
-    "Max Stock": [0, 2777, 2811, 2819, 2849, 2844, 2879, 2879, 3200, 3150, 3100, 3250, 3180, 3050],
-    "Below RS QTY": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 50, 0, 0, 80],
-    "OOS QTY": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    "AboveMax QTY": [3165, 356, 320, 284, 248, 212, 177, 177, 888, 1598, 2218, 2948, 3628, 4248],
+    "Planned Demand":       [0, 3157, 0, 0, 0, 0, 0, 0,   1172, 2676, 2089, 2067, 1255, 1795, 1305, 959, 1620, 1972, 958, 798],
+    "Total Supply":         [1680, 0, 0, 336, 0, 0, 0, 0,   6384, 13104, 0, 0, 0, 0, 6384, 0, 0, 0, 0, 0],
+    "Balance (Units)":      [1680, -1477, -1477, -1141, -1141, -1141, -1141, -1141,   -2313, 1395, 12410, 10343, 9088, 7293, 5988, 11413, 9793, 7821, 6863, 6065],
+    "Replenishment Stock":  [0, 4076, 4303, 4531, 4759, 5937, 5937, 5937,   6408, 6041, 5515, 4722, 4186, 3822, 4265, 4535, 4197, 3388, 3016, 3221],
+    "Max Stock":            [0, 29937, 29937, 30653, 30653, 30653, 30653, 30653,   30438, 29222, 31294, 31123, 30782, 30188, 29773, 30390, 30121, 29286, 30403, 31798],
+    "Below RS QTY":         [0, "OOS", "OOS", "OOS", "OOS", "OOS", "OOS", "OOS",   4016, 1436, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    "OOS QTY":              [0, -1477, 0, 0, 0, 0, 0, 0,   -1172, -2082, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    "AboveMax QTY":         [1680, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   };
   const ctpMetrics = Object.keys(ctpRawData);
-  const ctpChartData = ctpColumns.map((w, i) => ({
-    week: w,
-    demand: ctpRawData["Planned Demand"][i] || 0,
-    supply: ctpRawData["Total Supply"][i] || 0,
-  }));
+  const ctpChartData = ctpColumns.map((w, i) => {
+    const offset = ctpMode === "daily" ? 0 : 8;
+    return {
+      week: w,
+      demand: Number(ctpRawData["Planned Demand"][offset + i]) || 0,
+      supply: Number(ctpRawData["Total Supply"][offset + i]) || 0,
+    };
+  });
 
   // ── Stock Data ──
   const stockTableHeaders = ["VF Code", "Alt MRDR", "Alt Stock", "Cluster Stock", "Unrestricted", "Restricted", "Blocked", "Quarantine", "Release Date", "Transition Date", "Type", "DR% MSO", "DR% MRDR MSO", "DR% MRDR Site"];
