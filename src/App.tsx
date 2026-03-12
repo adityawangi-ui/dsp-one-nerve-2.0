@@ -24,6 +24,7 @@ import CapacityRebalancer from "./pages/CapacityRebalancer";
 import LearningHub from "./pages/LearningHub";
 import RiskOverview from "./pages/RiskOverview";
 import RiskAnalysisWorkflow from "./pages/RiskAnalysisWorkflow";
+import RiskLanding from "./pages/RiskLanding";
 import NotFound from "./pages/NotFound";
 import { MainLayout } from "./components/layout/MainLayout";
 
