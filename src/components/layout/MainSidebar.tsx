@@ -1,15 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { 
-  Home,
-  Workflow,
-  Target,
-  FileText,
-  Database,
-  Menu,
-  ChevronLeft,
-  ChevronRight,
-  
-} from "lucide-react";
+import { Home, Workflow, Target, FileText, Database, ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -69,35 +59,33 @@ export const MainSidebar = ({ collapsed, onToggle }: MainSidebarProps) => {
           className={({ isActive }) =>
             cn(
               "flex items-center px-4 py-3 rounded-lg text-sm font-medium transition-all duration-200",
-              "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+              "hover:bg-accent hover:text-accent-foreground",
               "relative overflow-hidden group",
               isActive
-                ? "bg-sidebar-primary text-sidebar-primary-foreground shadow-sm"
-                : "text-sidebar-foreground/80 hover:text-sidebar-foreground",
+                ? "bg-primary text-primary-foreground shadow-sm"
+                : "text-muted-foreground hover:text-foreground",
               collapsed && "justify-center px-2"
             )
           }
         >
           <Icon className={cn("h-5 w-5", !collapsed && "mr-3")} />
-          {!collapsed && (
-            <span className="flex-1">{item.title}</span>
-          )}
+          {!collapsed && <span className="flex-1">{item.title}</span>}
         </NavLink>
       );
     });
   };
 
   return (
-    <aside 
+    <aside
       className={cn(
-        "bg-sidebar border-r border-sidebar-border flex flex-col transition-all duration-300 z-40",
+        "bg-card border-r border-border flex flex-col transition-all duration-300 z-40 shadow-sm",
         collapsed ? "w-16" : "w-64"
       )}
     >
       {/* Header with Toggle */}
-      <div className="flex items-center justify-between px-4 py-4 border-b border-sidebar-border">
+      <div className="flex items-center justify-between px-4 py-4 border-b border-border">
         {!collapsed && (
-          <h2 className="text-sm font-bold text-sidebar-foreground tracking-wide">
+          <h2 className="text-sm font-bold text-foreground tracking-wide">
             COMMAND CONSOLE
           </h2>
         )}
@@ -105,7 +93,7 @@ export const MainSidebar = ({ collapsed, onToggle }: MainSidebarProps) => {
           variant="ghost"
           size="sm"
           onClick={onToggle}
-          className="hover:bg-sidebar-accent transition-all duration-200 h-8 w-8 p-0"
+          className="hover:bg-accent transition-all duration-200 h-8 w-8 p-0"
         >
           {collapsed ? (
             <ChevronRight className="h-4 w-4" />

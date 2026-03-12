@@ -18,22 +18,22 @@ export default function RiskOSLayout() {
     <div className="min-h-screen flex w-full bg-background">
       {/* Sidebar */}
       <aside className={cn(
-        "bg-sidebar flex flex-col border-r border-sidebar-border transition-all duration-300 z-40 shrink-0",
+        "bg-card flex flex-col border-r border-border transition-all duration-300 z-40 shrink-0",
         collapsed ? "w-16" : "w-60"
       )}>
         {/* Logo */}
-        <div className="flex items-center gap-3 px-4 py-4 border-b border-sidebar-border">
-          <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-sidebar-primary to-primary-glow flex items-center justify-center shrink-0">
-            <Activity className="h-4 w-4 text-sidebar-primary-foreground" />
+        <div className="flex items-center gap-3 px-4 py-4 border-b border-border">
+          <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-primary to-primary-glow flex items-center justify-center shrink-0">
+            <Activity className="h-4 w-4 text-primary-foreground" />
           </div>
           {!collapsed && (
             <div className="flex flex-col">
-              <span className="text-sm font-bold text-sidebar-primary-foreground tracking-wide">RiskOS</span>
-              <span className="text-[10px] text-sidebar-foreground">Enterprise</span>
+              <span className="text-sm font-bold text-foreground tracking-wide">RiskOS</span>
+              <span className="text-[10px] text-muted-foreground">Enterprise</span>
             </div>
           )}
           {!collapsed && (
-            <span className="ml-auto text-[9px] font-mono-tech bg-sidebar-accent text-sidebar-foreground px-1.5 py-0.5 rounded">v2.4</span>
+            <span className="ml-auto text-[9px] font-mono-tech bg-accent text-accent-foreground px-1.5 py-0.5 rounded">v2.4</span>
           )}
         </div>
 
@@ -47,8 +47,8 @@ export default function RiskOSLayout() {
               className={({ isActive }) => cn(
                 "flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all duration-200",
                 isActive
-                  ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                  : "text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground",
+                  ? "bg-primary text-primary-foreground"
+                  : "text-muted-foreground hover:bg-accent hover:text-accent-foreground",
                 collapsed && "justify-center px-2"
               )}
             >
@@ -59,12 +59,12 @@ export default function RiskOSLayout() {
         </nav>
 
         {/* Collapse toggle */}
-        <div className="px-2 py-3 border-t border-sidebar-border">
+        <div className="px-2 py-3 border-t border-border">
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setCollapsed(!collapsed)}
-            className="w-full h-8 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+            className="w-full h-8 text-muted-foreground hover:bg-accent hover:text-accent-foreground"
           >
             {collapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
           </Button>
