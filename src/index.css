@@ -103,13 +103,13 @@
     --shadow-danger: 0 0 12px hsl(0 72% 51% / 0.15);
 
     /* Sidebar */
-    --sidebar-background: 211 30% 18%;
-    --sidebar-foreground: 210 15% 75%;
-    --sidebar-primary: 211 90% 55%;
+    --sidebar-background: 210 20% 98%;
+    --sidebar-foreground: 211 25% 30%;
+    --sidebar-primary: 211 90% 42%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 211 25% 24%;
-    --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 211 25% 25%;
+    --sidebar-accent: 211 30% 93%;
+    --sidebar-accent-foreground: 211 25% 25%;
+    --sidebar-border: 211 15% 90%;
     --sidebar-ring: 211 90% 42%;
   }
 }
