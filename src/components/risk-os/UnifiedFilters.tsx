@@ -105,7 +105,7 @@ export default function UnifiedFilters({ filters, onChange, maxLoss }: Props) {
   }, [filters, maxLoss]);
 
   const formatK = (n: number) => n >= 1000 ? `${(n / 1000).toFixed(0)}K` : String(n);
-  const sliderMax = 890000;
+  const sliderMax = 60000000;
   const sliderStep = 1000;
 
   const dropdownFilters = allFilterKeys.filter(f => f.key !== "lossRange" && f.key !== "search" && visibleFilters.has(f.key));
