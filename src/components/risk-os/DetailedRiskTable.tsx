@@ -270,7 +270,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                           <SelectValue placeholder="UOM" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="all">All UOM</SelectItem>
+                          <SelectItem value="all">Base UOM</SelectItem>
                           {["CS", "EA", "KG", "L", "PAL"].map(u => <SelectItem key={u} value={u}>{u}</SelectItem>)}
                         </SelectContent>
                       </Select>
@@ -344,29 +344,29 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                       <td className={cellCls} style={frozenCellStyle("msoCountry", rowNewVariant)}>{agg.msoCountry}</td>
                       {/* UOM - frozen */}
                       <td className={cellCls} style={frozenCellStyle("uom", rowNewVariant)}>{displayUom}</td>
-                      {/* Scrollable columns */}
-                      <td className={cellCls}>{agg.site}</td>
-                      <td className={cellCls}>{agg.su}</td>
-                      <td className={cellCls}><Badge variant="outline" className={`text-[10px] min-w-[90px] text-center justify-center ${agg.riskType === "Out Of Stock" ? "bg-critical-bg text-critical border-critical-border" : "bg-medium-bg text-medium border-medium-border"}`}>{agg.riskType}</Badge></td>
-                      <td className={cellCls}><Badge variant="outline" className={`text-[10px] ${sevBadgeClass(agg.severity)}`}>{agg.severity}</Badge></td>
-                      <td className={cellCls}><Badge variant="outline" className={`text-[10px] ${priBadgeClass(agg.priority)}`}>{agg.priority}</Badge></td>
-                      <td className={cellCls}>{agg.riskHorizon}</td>
-                      <td className={cellCls}>{agg.segmentation}</td>
-                      <td className={cellCls}>{agg.startedOnWeek}</td>
-                      <td className={cellCls}>{agg.endedOnWeek || "—"}</td>
-                      <td className={cellCls}>{agg.riskInDays}</td>
-                      <td className={cellCls}>{convertQty(agg.stockCS, agg.uom).toLocaleString()}</td>
-                      <td className={cellCls}>{convertQty(agg.expectedLossCases, agg.uom).toLocaleString()}</td>
-                      <td className={cellCls}>€{agg.expectedLossValue.toLocaleString()}</td>
-                      <td className={cellCls}>{agg.nextAvailableDate || "—"}</td>
-                      <td className={cellCls}>{agg.botReasonCode}</td>
-                      <td className={cellCls}>{agg.plannerReasonCode}</td>
-                      <td className={cellCls}>{agg.comments || "—"}</td>
-                      <td className={cellCls}>{agg.assignedTo}</td>
-                      <td className={cellCls}>{agg.promoFlag}</td>
-                      <td className={cellCls}>{agg.typeCode}</td>
-                      <td className={cellCls}>{agg.repackDependency}</td>
-                      <td className={cellCls}>{agg.category}</td>
+                       {/* Scrollable columns */}
+                       <td className={cellCls}>{agg.site}</td>
+                       <td className={cellCls}>{agg.category}</td>
+                       <td className={cellCls}>{agg.su}</td>
+                       <td className={cellCls}><Badge variant="outline" className={`text-[10px] min-w-[90px] text-center justify-center ${agg.riskType === "Out Of Stock" ? "bg-critical-bg text-critical border-critical-border" : "bg-medium-bg text-medium border-medium-border"}`}>{agg.riskType}</Badge></td>
+                       <td className={cellCls}><Badge variant="outline" className={`text-[10px] ${sevBadgeClass(agg.severity)}`}>{agg.severity}</Badge></td>
+                       <td className={cellCls}><Badge variant="outline" className={`text-[10px] ${priBadgeClass(agg.priority)}`}>{agg.priority}</Badge></td>
+                       <td className={cellCls}>{agg.riskHorizon}</td>
+                       <td className={cellCls}>{agg.segmentation}</td>
+                       <td className={cellCls}>{agg.startedOnWeek}</td>
+                       <td className={cellCls}>{agg.endedOnWeek || "—"}</td>
+                       <td className={cellCls}>{agg.riskInDays}</td>
+                       <td className={cellCls}>{convertQty(agg.stockCS, agg.uom).toLocaleString()}</td>
+                       <td className={cellCls}>{convertQty(agg.expectedLossCases, agg.uom).toLocaleString()}</td>
+                       <td className={cellCls}>€{agg.expectedLossValue.toLocaleString()}</td>
+                       <td className={cellCls}>{agg.nextAvailableDate || "—"}</td>
+                       <td className={cellCls}>{agg.botReasonCode}</td>
+                       <td className={cellCls}>{agg.plannerReasonCode}</td>
+                       <td className={cellCls}>{agg.comments || "—"}</td>
+                       <td className={cellCls}>{agg.assignedTo}</td>
+                       <td className={cellCls}>{agg.promoFlag}</td>
+                       <td className={cellCls}>{agg.typeCode}</td>
+                       <td className={cellCls}>{agg.repackDependency}</td>
                     </tr>
                     {expanded && childRows.map(cr => {
                       const childVariant = cr.isNew ? "childNew" : "child";
@@ -390,36 +390,36 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                           <td className={childCellCls} style={frozenCellStyle("mrdrDescription", childVariant)}>{cr.mrdrDescription}</td>
                           <td className={childCellCls} style={frozenCellStyle("msoCountry", childVariant)}>{cr.msoCountry}</td>
                           <td className={childCellCls} style={frozenCellStyle("uom", childVariant)}>{displayUom}</td>
-                          <td className={childCellCls}>{cr.site}</td>
-                          <td className={childCellCls}>{cr.su}</td>
-                          <td className={childCellCls}><Badge variant="outline" className={`text-[10px] ${cr.riskType === "Out Of Stock" ? "bg-critical-bg text-critical border-critical-border" : "bg-medium-bg text-medium border-medium-border"}`}>{cr.riskType}</Badge></td>
-                          <td className={childCellCls}><Badge variant="outline" className={`text-[10px] ${sevBadgeClass(cr.severity)}`}>{cr.severity}</Badge></td>
-                          <td className={childCellCls}><Badge variant="outline" className={`text-[10px] ${priBadgeClass(cr.priority)}`}>{cr.priority}</Badge></td>
-                          <td className={childCellCls}>{cr.riskHorizon}</td>
-                          <td className={childCellCls}>{cr.segmentation}</td>
-                          <td className={childCellCls}>{cr.startedOnWeek}</td>
-                          <td className={childCellCls}>{cr.endedOnWeek || "—"}</td>
-                          <td className={childCellCls}>{cr.riskInDays}</td>
-                          <td className={childCellCls}>{convertQty(cr.stockCS, cr.uom).toLocaleString()}</td>
-                          <td className={childCellCls}>{convertQty(cr.expectedLossCases, cr.uom).toLocaleString()}</td>
-                          <td className={childCellCls}>€{cr.expectedLossValue.toLocaleString()}</td>
-                          <td className={childCellCls}>{cr.nextAvailableDate || "—"}</td>
-                          <td className={childCellCls}>{cr.botReasonCode}</td>
-                          <td className={childCellCls}>
-                            <Select value={cr.plannerReasonCode || "none"} onValueChange={(v) => {
-                              const idx = data.findIndex(r => r.riskId === cr.riskId);
-                              if (idx !== -1) onUpdateRow(idx, { plannerReasonCode: v === "none" ? "" : v });
-                            }}>
-                              <SelectTrigger className="h-6 min-w-[60px] text-[10px] border-border/40"><SelectValue /></SelectTrigger>
-                              <SelectContent>{reasonCodes.map(r => <SelectItem key={r} value={r}>{r}</SelectItem>)}</SelectContent>
-                            </Select>
-                          </td>
-                          <td className={childCellCls}>{cr.comments || "—"}</td>
-                          <td className={childCellCls}>{cr.assignedTo}</td>
-                          <td className={childCellCls}>{cr.promoFlag}</td>
-                          <td className={childCellCls}>{cr.typeCode}</td>
-                          <td className={childCellCls}>{cr.repackDependency}</td>
-                          <td className={childCellCls}>{cr.category}</td>
+                           <td className={childCellCls}>{cr.site}</td>
+                           <td className={childCellCls}>{cr.category}</td>
+                           <td className={childCellCls}>{cr.su}</td>
+                           <td className={childCellCls}><Badge variant="outline" className={`text-[10px] ${cr.riskType === "Out Of Stock" ? "bg-critical-bg text-critical border-critical-border" : "bg-medium-bg text-medium border-medium-border"}`}>{cr.riskType}</Badge></td>
+                           <td className={childCellCls}><Badge variant="outline" className={`text-[10px] ${sevBadgeClass(cr.severity)}`}>{cr.severity}</Badge></td>
+                           <td className={childCellCls}><Badge variant="outline" className={`text-[10px] ${priBadgeClass(cr.priority)}`}>{cr.priority}</Badge></td>
+                           <td className={childCellCls}>{cr.riskHorizon}</td>
+                           <td className={childCellCls}>{cr.segmentation}</td>
+                           <td className={childCellCls}>{cr.startedOnWeek}</td>
+                           <td className={childCellCls}>{cr.endedOnWeek || "—"}</td>
+                           <td className={childCellCls}>{cr.riskInDays}</td>
+                           <td className={childCellCls}>{convertQty(cr.stockCS, cr.uom).toLocaleString()}</td>
+                           <td className={childCellCls}>{convertQty(cr.expectedLossCases, cr.uom).toLocaleString()}</td>
+                           <td className={childCellCls}>€{cr.expectedLossValue.toLocaleString()}</td>
+                           <td className={childCellCls}>{cr.nextAvailableDate || "—"}</td>
+                           <td className={childCellCls}>{cr.botReasonCode}</td>
+                           <td className={childCellCls}>
+                             <Select value={cr.plannerReasonCode || "none"} onValueChange={(v) => {
+                               const idx = data.findIndex(r => r.riskId === cr.riskId);
+                               if (idx !== -1) onUpdateRow(idx, { plannerReasonCode: v === "none" ? "" : v });
+                             }}>
+                               <SelectTrigger className="h-6 min-w-[60px] text-[10px] border-border/40"><SelectValue /></SelectTrigger>
+                               <SelectContent>{reasonCodes.map(r => <SelectItem key={r} value={r}>{r}</SelectItem>)}</SelectContent>
+                             </Select>
+                           </td>
+                           <td className={childCellCls}>{cr.comments || "—"}</td>
+                           <td className={childCellCls}>{cr.assignedTo}</td>
+                           <td className={childCellCls}>{cr.promoFlag}</td>
+                           <td className={childCellCls}>{cr.typeCode}</td>
+                           <td className={childCellCls}>{cr.repackDependency}</td>
                         </tr>
                       );
                     })}
