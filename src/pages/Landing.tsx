@@ -544,7 +544,7 @@ export default function Landing() {
                              variant="outline"
                              size="sm"
                              className="w-full text-[11px] h-7 border-primary/30 text-primary hover:bg-primary/10"
-                             onClick={(e) => { e.preventDefault(); navigate("/risk-monitor"); }}
+                             onClick={(e) => { e.preventDefault(); e.stopPropagation(); navigate("/risk-monitor"); }}
                            >
                              Open Risk AI Dashboard
                              <ChevronRight className="h-3 w-3 ml-1" />

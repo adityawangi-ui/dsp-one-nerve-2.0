@@ -270,7 +270,7 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                           <SelectValue placeholder="UOM" />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="all">All UOM</SelectItem>
+                          <SelectItem value="all">Base UOM</SelectItem>
                           {["CS", "EA", "KG", "L", "PAL"].map(u => <SelectItem key={u} value={u}>{u}</SelectItem>)}
                         </SelectContent>
                       </Select>
