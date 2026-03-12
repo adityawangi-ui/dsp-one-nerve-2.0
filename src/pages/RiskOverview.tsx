@@ -16,8 +16,8 @@ import NotificationBell from "@/components/risk-os/NotificationBell";
 export default function RiskOverview() {
   const navigate = useNavigate();
   const [rows, setRows] = useState<RiskRow[]>([...riskData]);
-  const maxLoss = 890000;
-  const [filters, setFilters] = useState<FilterState>(() => ({ ...defaultFilters, lossRange: [0, 890000] }));
+  const maxLoss = 60000000;
+  const [filters, setFilters] = useState<FilterState>(() => ({ ...defaultFilters, lossRange: [0, 60000000] }));
   const [insightsRow, setInsightsRow] = useState<RiskRow | null>(null);
   const [analysisRow, setAnalysisRow] = useState<RiskRow | null>(null);
   const [showVisualCentre, setShowVisualCentre] = useState(false);
