@@ -93,7 +93,7 @@ export default function OutcomeEvaluationTab({ row, selectedScenario, onTriggerA
           <h4 className="text-sm font-bold text-emerald-800">Recommendation: {scenario.name}</h4>
         </div>
         <p className="text-xs text-emerald-700">
-          Offers the best balance of success probability ({scenario.successProbability}%), cost efficiency (€{(scenario.cost / 1000).toFixed(0)}K), and resource optimization. Leverages flex labor pool and production rescheduling for optimal capacity utilization.
+          Offers the best balance of service level ({scenario.serviceLevel}%), cost efficiency (€{(scenario.cost / 1000).toFixed(0)}K), and resource optimization. Leverages flex labor pool and production rescheduling for optimal capacity utilization.
         </p>
       </div>
 
