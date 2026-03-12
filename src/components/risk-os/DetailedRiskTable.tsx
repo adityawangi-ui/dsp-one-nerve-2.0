@@ -390,36 +390,36 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                           <td className={childCellCls} style={frozenCellStyle("mrdrDescription", childVariant)}>{cr.mrdrDescription}</td>
                           <td className={childCellCls} style={frozenCellStyle("msoCountry", childVariant)}>{cr.msoCountry}</td>
                           <td className={childCellCls} style={frozenCellStyle("uom", childVariant)}>{displayUom}</td>
-                          <td className={childCellCls}>{cr.site}</td>
-                          <td className={childCellCls}>{cr.su}</td>
-                          <td className={childCellCls}><Badge variant="outline" className={`text-[10px] ${cr.riskType === "Out Of Stock" ? "bg-critical-bg text-critical border-critical-border" : "bg-medium-bg text-medium border-medium-border"}`}>{cr.riskType}</Badge></td>
-                          <td className={childCellCls}><Badge variant="outline" className={`text-[10px] ${sevBadgeClass(cr.severity)}`}>{cr.severity}</Badge></td>
-                          <td className={childCellCls}><Badge variant="outline" className={`text-[10px] ${priBadgeClass(cr.priority)}`}>{cr.priority}</Badge></td>
-                          <td className={childCellCls}>{cr.riskHorizon}</td>
-                          <td className={childCellCls}>{cr.segmentation}</td>
-                          <td className={childCellCls}>{cr.startedOnWeek}</td>
-                          <td className={childCellCls}>{cr.endedOnWeek || "—"}</td>
-                          <td className={childCellCls}>{cr.riskInDays}</td>
-                          <td className={childCellCls}>{convertQty(cr.stockCS, cr.uom).toLocaleString()}</td>
-                          <td className={childCellCls}>{convertQty(cr.expectedLossCases, cr.uom).toLocaleString()}</td>
-                          <td className={childCellCls}>€{cr.expectedLossValue.toLocaleString()}</td>
-                          <td className={childCellCls}>{cr.nextAvailableDate || "—"}</td>
-                          <td className={childCellCls}>{cr.botReasonCode}</td>
-                          <td className={childCellCls}>
-                            <Select value={cr.plannerReasonCode || "none"} onValueChange={(v) => {
-                              const idx = data.findIndex(r => r.riskId === cr.riskId);
-                              if (idx !== -1) onUpdateRow(idx, { plannerReasonCode: v === "none" ? "" : v });
-                            }}>
-                              <SelectTrigger className="h-6 min-w-[60px] text-[10px] border-border/40"><SelectValue /></SelectTrigger>
-                              <SelectContent>{reasonCodes.map(r => <SelectItem key={r} value={r}>{r}</SelectItem>)}</SelectContent>
-                            </Select>
-                          </td>
-                          <td className={childCellCls}>{cr.comments || "—"}</td>
-                          <td className={childCellCls}>{cr.assignedTo}</td>
-                          <td className={childCellCls}>{cr.promoFlag}</td>
-                          <td className={childCellCls}>{cr.typeCode}</td>
-                          <td className={childCellCls}>{cr.repackDependency}</td>
-                          <td className={childCellCls}>{cr.category}</td>
+                           <td className={childCellCls}>{cr.site}</td>
+                           <td className={childCellCls}>{cr.category}</td>
+                           <td className={childCellCls}>{cr.su}</td>
+                           <td className={childCellCls}><Badge variant="outline" className={`text-[10px] ${cr.riskType === "Out Of Stock" ? "bg-critical-bg text-critical border-critical-border" : "bg-medium-bg text-medium border-medium-border"}`}>{cr.riskType}</Badge></td>
+                           <td className={childCellCls}><Badge variant="outline" className={`text-[10px] ${sevBadgeClass(cr.severity)}`}>{cr.severity}</Badge></td>
+                           <td className={childCellCls}><Badge variant="outline" className={`text-[10px] ${priBadgeClass(cr.priority)}`}>{cr.priority}</Badge></td>
+                           <td className={childCellCls}>{cr.riskHorizon}</td>
+                           <td className={childCellCls}>{cr.segmentation}</td>
+                           <td className={childCellCls}>{cr.startedOnWeek}</td>
+                           <td className={childCellCls}>{cr.endedOnWeek || "—"}</td>
+                           <td className={childCellCls}>{cr.riskInDays}</td>
+                           <td className={childCellCls}>{convertQty(cr.stockCS, cr.uom).toLocaleString()}</td>
+                           <td className={childCellCls}>{convertQty(cr.expectedLossCases, cr.uom).toLocaleString()}</td>
+                           <td className={childCellCls}>€{cr.expectedLossValue.toLocaleString()}</td>
+                           <td className={childCellCls}>{cr.nextAvailableDate || "—"}</td>
+                           <td className={childCellCls}>{cr.botReasonCode}</td>
+                           <td className={childCellCls}>
+                             <Select value={cr.plannerReasonCode || "none"} onValueChange={(v) => {
+                               const idx = data.findIndex(r => r.riskId === cr.riskId);
+                               if (idx !== -1) onUpdateRow(idx, { plannerReasonCode: v === "none" ? "" : v });
+                             }}>
+                               <SelectTrigger className="h-6 min-w-[60px] text-[10px] border-border/40"><SelectValue /></SelectTrigger>
+                               <SelectContent>{reasonCodes.map(r => <SelectItem key={r} value={r}>{r}</SelectItem>)}</SelectContent>
+                             </Select>
+                           </td>
+                           <td className={childCellCls}>{cr.comments || "—"}</td>
+                           <td className={childCellCls}>{cr.assignedTo}</td>
+                           <td className={childCellCls}>{cr.promoFlag}</td>
+                           <td className={childCellCls}>{cr.typeCode}</td>
+                           <td className={childCellCls}>{cr.repackDependency}</td>
                         </tr>
                       );
                     })}

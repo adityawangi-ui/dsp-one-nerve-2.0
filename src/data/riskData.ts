@@ -187,7 +187,8 @@ export const mrdrAggColumns: ColumnDef[] = [
   { key: "mrdrDescription", label: "Material Description", width: 220 },
   { key: "msoCountry", label: "MSO Country", width: 100 },
   { key: "uom", label: "UOM", width: 80 },
-  { key: "site", label: "Site", width: 70 },
+  { key: "site", label: "Site", width: 100 },
+  { key: "category", label: "Category", width: 120 },
   { key: "su", label: "SU", width: 100 },
   { key: "riskType", label: "Risk Type", width: 110 },
   { key: "severity", label: "Severity", width: 80 },
@@ -208,7 +209,6 @@ export const mrdrAggColumns: ColumnDef[] = [
   { key: "promoFlag", label: "Promo Flag", width: 90 },
   { key: "typeCode", label: "Type Code", width: 100 },
   { key: "repackDependency", label: "Repack Dependency", width: 130 },
-  { key: "category", label: "Category", width: 120 },
 ];
 
 export function aggregateByMrdr(rows: RiskRow[]): MrdrAggRow[] {
