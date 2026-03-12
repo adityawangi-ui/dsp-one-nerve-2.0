@@ -443,10 +443,10 @@ export default function InsightsDataTab({ row }: Props) {
               </ResponsiveContainer>
             </ChartCard>
             <div className="grid grid-cols-2 gap-3 content-start">
-              <KpiBox label="Total Unrestricted" value="4,230" />
-              <KpiBox label="Total Restricted" value="824" />
-              <KpiBox label="Blocked Stock" value="287" />
-              <KpiBox label="Quarantine" value="56" />
+              <KpiBox label="Total Unrestricted" value={totalUnrestricted.toLocaleString()} />
+              <KpiBox label="Total Restricted" value={totalRestricted.toLocaleString()} />
+              <KpiBox label="Blocked Stock" value={totalBlocked.toLocaleString()} />
+              <KpiBox label="Quarantine" value={totalQuarantine.toLocaleString()} />
             </div>
           </div>
           <DataTable headers={stockTableHeaders} rows={stockTableRows} minWidth="1600px" />
