@@ -104,7 +104,7 @@ export default function UnifiedFilters({ filters, onChange, maxLoss }: Props) {
     return c;
   }, [filters, maxLoss]);
 
-  const formatK = (n: number) => n >= 1000 ? `${(n / 1000).toFixed(0)}K` : String(n);
+  const formatK = (n: number) => n >= 1000000 ? `${(n / 1000000).toFixed(1)}M` : n >= 1000 ? `${(n / 1000).toFixed(0)}K` : String(n);
   const sliderMax = 60000000;
   const sliderStep = 1000;
 
