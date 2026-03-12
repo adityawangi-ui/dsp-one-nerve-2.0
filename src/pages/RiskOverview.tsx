@@ -118,7 +118,7 @@ export default function RiskOverview() {
           </nav>
 
           <AlertsSection />
-          <UnifiedFilters filters={filters} onChange={setFilters} maxLoss={890000} />
+          <UnifiedFilters filters={filters} onChange={setFilters} maxLoss={60000000} />
           <DetailedRiskTable data={filteredRows} onOpenInsights={setInsightsRow} onUpdateRow={handleUpdateRow} onOpenAnalysis={handleOpenAnalysis} />
         </div>
       </main>

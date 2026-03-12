@@ -329,7 +329,7 @@ export default function UnifiedFilters({ filters, onChange, maxLoss }: Props) {
                 {Object.entries(filters).map(([k, v]) => {
                   if (k === "lossRange") {
                     const lr = v as number[];
-                    if (lr[0] === 0 && lr[1] === 890000) return null;
+                    if (lr[0] === 0 && lr[1] === 60000000) return null;
                     return <Badge key={k} variant="secondary" className="text-[9px]">Loss: {formatK(lr[0])}–{formatK(lr[1])}</Badge>;
                   }
                   if (k === "search" && v) return <Badge key={k} variant="secondary" className="text-[9px]">Search: {v as string}</Badge>;
