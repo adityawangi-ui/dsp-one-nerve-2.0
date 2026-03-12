@@ -21,18 +21,16 @@ interface Props {
 export interface Scenario {
   id: number;
   name: string;
-  successProbability: number;
-  wasteReduction: number;
+  serviceLevel: number;
   leadTime: number;
-  serviceRecovery: number;
   cost: number;
   recommended: boolean;
 }
 
 const originalScenarios: Scenario[] = [
-  { id: 1, name: "Re-prioritize + Transship + SKU Substitution", successProbability: 85, wasteReduction: 12, leadTime: 3, serviceRecovery: 78, cost: 26000, recommended: false },
-  { id: 2, name: "Back-Up Line PU3 + Extra Shift + Prioritize Critical SKUs", successProbability: 89, wasteReduction: 18, leadTime: 2, serviceRecovery: 85, cost: 16000, recommended: false },
-  { id: 3, name: "Rescheduling + Short-Term Labor + Stock Rebalancing", successProbability: 91, wasteReduction: 22, leadTime: 1, serviceRecovery: 92, cost: 16000, recommended: true },
+  { id: 1, name: "Re-prioritize + Transship + SKU Substitution", serviceLevel: 94, leadTime: 5, cost: 26000, recommended: false },
+  { id: 2, name: "Back-Up Line PU3 + Extra Shift + Prioritize Critical SKUs", serviceLevel: 96, leadTime: 4, cost: 16000, recommended: false },
+  { id: 3, name: "Rescheduling + Short-Term Labor + Stock Rebalancing", serviceLevel: 98, leadTime: 3, cost: 16000, recommended: true },
 ];
 
 const scenarioDetails: Record<number, { aiInsights: string[]; actions: string[]; risks: string[]; timeline: string; primaryKPIs: { label: string; value: string; trend: string }[]; impactKPIs: { label: string; value: string; color: string }[]; costBreakdown: { label: string; value: number }[] }> = {
