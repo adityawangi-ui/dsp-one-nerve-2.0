@@ -146,21 +146,15 @@ export default function ScenarioStudio() {
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <span className="text-xs text-muted-foreground flex items-center gap-1">
-                    <TrendingUp className="h-3 w-3" /> Service Recovery
+                    <TrendingUp className="h-3 w-3" /> Service Level
                   </span>
-                  <span className="text-sm font-bold text-success">{scenario.serviceRecovery}</span>
+                  <span className="text-sm font-bold text-success">{scenario.serviceLevel}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-xs text-muted-foreground flex items-center gap-1">
                     <DollarSign className="h-3 w-3" /> Cost Impact
                   </span>
                   <span className="text-sm font-bold text-warning">{scenario.costImpact}</span>
-                </div>
-                <div className="flex items-center justify-between">
-                  <span className="text-xs text-muted-foreground flex items-center gap-1">
-                    <Package className="h-3 w-3" /> Waste
-                  </span>
-                  <span className="text-sm font-bold text-foreground">{scenario.waste}</span>
                 </div>
                 <div className="flex items-center justify-between">
                   <span className="text-xs text-muted-foreground flex items-center gap-1">
