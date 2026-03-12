@@ -126,6 +126,128 @@ const customTooltipStyle = {
 const axisTickStyle = { fontSize: 10, fill: 'hsl(var(--muted-foreground))' };
 const legendStyle = { fontSize: 10, paddingTop: 8 };
 
+// Deterministic pseudo-random from seed
+function seededRandom(seed: number) {
+  let s = seed;
+  return () => {
+    s = (s * 16807 + 11) % 2147483647;
+    return (s % 10000) / 10000;
+  };
+}
+
+function generateProductData(row: RiskRow) {
+  const rand = seededRandom(row.riskId * 137 + row.mrdr);
+  const scale = Math.max(row.stockCS, 100);
+  const lossScale = row.expectedLossValue / 40000;
+
+  // Generate demand pattern based on product characteristics
+  const baseDemand = Math.round(scale * (1.5 + rand() * 3));
+  const demandVariation = () => Math.round(baseDemand * (0.3 + rand() * 1.4));
+
+  const dailyDemand = [0, demandVariation(), 0, 0, 0, 0, 0, 0];
+  const weeklyDemand = Array.from({ length: 12 }, () => demandVariation());
+
+  // Supply: sparse deliveries based on STO pattern
+  const supplyBase = Math.round(baseDemand * (3 + rand() * 5));
+  const dailySupply = [Math.round(scale * (1 + rand() * 2)), 0, 0, Math.round(supplyBase * (0.02 + rand() * 0.08)), 0, 0, 0, 0];
+  const weeklySupply = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0].map((_, i) => {
+    if (i === 0) return supplyBase;
+    if (i === 1) return Math.round(supplyBase * (1.5 + rand()));
+    if (i === 6) return supplyBase;
+    return 0;
+  });
+
+  // Balance: cumulative
+  const allDemand = [...dailyDemand, ...weeklyDemand];
+  const allSupply = [...dailySupply, ...weeklySupply];
+  const balance: number[] = [];
+  let running = 0;
+  for (let i = 0; i < 20; i++) {
+    running += allSupply[i] - allDemand[i];
+    balance.push(running);
+  }
+
+  // Replenishment Stock based on product segmentation
+  const rsBase = Math.round(baseDemand * (2 + rand() * 3));
+  const replenishment = Array.from({ length: 20 }, () => Math.round(rsBase * (0.7 + rand() * 0.6)));
+
+  // Max Stock
+  const maxBase = Math.round(baseDemand * (15 + rand() * 20));
+  const maxStock = Array.from({ length: 20 }, () => Math.round(maxBase * (0.9 + rand() * 0.2)));
+
+  // Below RS: OOS for daily when balance < 0, numeric for weekly
+  const belowRS: (number | string)[] = balance.slice(0, 8).map(b => b < 0 ? "OOS" : 0);
+  for (let i = 8; i < 20; i++) {
+    belowRS.push(balance[i] < replenishment[i] && balance[i] >= 0 ? Math.round(replenishment[i] - balance[i]) : 0);
+  }
+
+  // OOS QTY: negative balance values
+  const oosQty = balance.map(b => b < 0 ? b : 0);
+
+  // Above Max
+  const aboveMax = balance.map((b, i) => b > maxStock[i] ? Math.round(b - maxStock[i]) : 0);
+
+  const ctpRawData: Record<string, (number | string)[]> = {
+    "Planned Demand": allDemand,
+    "Total Supply": allSupply,
+    "Balance (Units)": balance,
+    "Replenishment Stock": replenishment,
+    "Max Stock": maxStock,
+    "Below RS QTY": belowRS,
+    "OOS QTY": oosQty,
+    "AboveMax QTY": aboveMax,
+  };
+
+  // DOH from weekly balance & demand
+  const dohData = weeklyDemand.map((d, i) => {
+    const qty = balance[8 + i];
+    const avgDailyDemand = d / 7;
+    const doh = avgDailyDemand > 0 ? Math.round(qty / avgDailyDemand) : qty > 0 ? 99 : 0;
+    return { week: `W${String(8 + i).padStart(2, "0")}`, doh: Math.max(0, doh), qty: Math.max(0, qty) };
+  });
+
+  // STO Data from supply entries
+  const stoRows: (string | number)[][] = [];
+  const supplyEntries = allSupply.map((s, i) => ({ qty: s, idx: i })).filter(e => e.qty > 0);
+  supplyEntries.slice(0, 5).forEach((e, i) => {
+    const day = 9 + e.idx * 2;
+    const month = day > 28 ? "03" : "02";
+    const dayStr = String(day > 28 ? day - 28 : day).padStart(2, "0");
+    stoRows.push([
+      `45192${String(20000 + row.riskId * 10 + i)}`,
+      e.qty,
+      `${dayStr}.${month}.2026`,
+      `1581${String(700 + row.riskId + i)}`,
+      `${4 + i}4252${String(776966 + row.riskId * 1000 + i * 11266)}`,
+    ]);
+  });
+
+  // Forecast
+  const forecastWeeks = ["WK 1", "WK 2", "WK 3", "WK 4", "WK 5", "WK 6"];
+  const forecastData = forecastWeeks.map((w) => ({
+    week: w,
+    baselineForecast: Math.round(baseDemand * (0.1 + rand() * 0.4)),
+    promoForecast: row.promoFlag === "Y"
+      ? Math.round(baseDemand * (0.2 + rand() * 0.5))
+      : Math.round(baseDemand * (0.05 + rand() * 0.3)),
+  }));
+  const forecast4WBias = Math.round(forecastData.slice(0, 4).reduce((s, d) => s + d.baselineForecast, 0) / 4);
+
+  // Production
+  const prodWeeks = ["WK-16", "WK-17", "WK-18", "WK-19", "WK-20", "WK-21"];
+  const prodData = prodWeeks.map((w) => ({
+    week: w,
+    qty: Math.round(supplyBase * (0.5 + rand())),
+    ccu: Math.round(60 + rand() * 35),
+  }));
+  const prodTableRows = [
+    [`WK-18-2026`, `${row.site} SU`, Math.round(supplyBase * (0.8 + rand() * 0.5)), `${Math.round(70 + rand() * 25)}%`, row.mrdr],
+    [`WK-20-2026`, `${row.site} SU`, Math.round(supplyBase * (0.6 + rand() * 0.6)), `${Math.round(75 + rand() * 20)}%`, row.mrdr + 1],
+  ];
+
+  return { ctpRawData, dohData, stoRows, forecastData, forecast4WBias, prodData, prodTableRows };
+}
+
 export default function InsightsDataTab({ row }: Props) {
   const [activeSection, setActiveSection] = useState("ctp");
   const [ctpMode, setCtpMode] = useState<"daily" | "weekly">("daily");
@@ -139,23 +261,14 @@ export default function InsightsDataTab({ row }: Props) {
     if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
-  // ── CTP Data ──
+  // Generate all data deterministically per product
+  const productData = useMemo(() => generateProductData(row), [row.riskId, row.mrdr]);
+  const { ctpRawData, dohData, stoRows, forecastData, forecast4WBias, prodData, prodTableRows } = productData;
+
+  // ── CTP columns ──
   const ctpDailyWeeks = ["Past", "09-02-26", "10-02-26", "11-02-26", "12-02-26", "13-02-26", "14-02-26", "15-02-26"];
   const ctpWeeklyWeeks = ["WK 8", "WK 9", "WK 10", "WK 11", "WK 12", "WK 13", "WK 14", "WK 15", "WK 16", "WK 17", "WK 18", "WK 19"];
   const ctpColumns = ctpMode === "daily" ? ctpDailyWeeks : ctpWeeklyWeeks;
-  
-  // Values: daily (8 cols) then weekly (12 cols) = 20 total per metric
-  // "OOS" represented as string marker in Below RS row
-  const ctpRawData = {
-    "Planned Demand":       [0, 3157, 0, 0, 0, 0, 0, 0,   1172, 2676, 2089, 2067, 1255, 1795, 1305, 959, 1620, 1972, 958, 798],
-    "Total Supply":         [1680, 0, 0, 336, 0, 0, 0, 0,   6384, 13104, 0, 0, 0, 0, 6384, 0, 0, 0, 0, 0],
-    "Balance (Units)":      [1680, -1477, -1477, -1141, -1141, -1141, -1141, -1141,   -2313, 1395, 12410, 10343, 9088, 7293, 5988, 11413, 9793, 7821, 6863, 6065],
-    "Replenishment Stock":  [0, 4076, 4303, 4531, 4759, 5937, 5937, 5937,   6408, 6041, 5515, 4722, 4186, 3822, 4265, 4535, 4197, 3388, 3016, 3221],
-    "Max Stock":            [0, 29937, 29937, 30653, 30653, 30653, 30653, 30653,   30438, 29222, 31294, 31123, 30782, 30188, 29773, 30390, 30121, 29286, 30403, 31798],
-    "Below RS QTY":         [0, "OOS", "OOS", "OOS", "OOS", "OOS", "OOS", "OOS",   4016, 1436, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    "OOS QTY":              [0, -1477, 0, 0, 0, 0, 0, 0,   -1172, -2082, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    "AboveMax QTY":         [1680, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  };
   const ctpMetrics = Object.keys(ctpRawData);
   const ctpChartData = ctpColumns.map((w, i) => {
     const offset = ctpMode === "daily" ? 0 : 8;
@@ -168,80 +281,44 @@ export default function InsightsDataTab({ row }: Props) {
 
   // ── Stock Data ──
   const stockTableHeaders = ["VF Code", "Alt MRDR", "Alt Stock", "Cluster Stock", "Unrestricted", "Restricted", "Blocked", "Quarantine", "Release Date", "Transition Date", "Type", "DR% MSO", "DR% MRDR MSO", "DR% MRDR Site"];
+  const randStock = seededRandom(row.riskId * 31);
   const stockTableRows = mrdrLineItems.map((item, i) => [
     `SU-${item.msoCountry}-${String(i+1).padStart(2,"0")}`,
-    50100 + i, Math.round(500 + Math.random() * 2000),
-    Math.round(800 + Math.random() * 3000),
-    Math.round(3000 + Math.random() * 5000), Math.round(200 + Math.random() * 1500),
-    Math.round(50 + Math.random() * 500), Math.round(10 + Math.random() * 200),
+    50100 + i, Math.round(500 + randStock() * 2000),
+    Math.round(800 + randStock() * 3000),
+    Math.round(row.stockCS * 5 + randStock() * 5000), Math.round(200 + randStock() * 1500),
+    Math.round(50 + randStock() * 500), Math.round(10 + randStock() * 200),
     `2026-02-${String(5 + i).padStart(2, "0")}`,
     `2026-03-${String(10 + i).padStart(2, "0")}`,
     ["Transition", "Phase Out", "—"][i % 3],
-    `${(85 + Math.random() * 10).toFixed(1)}%`,
-    `${(80 + Math.random() * 15).toFixed(1)}%`,
-    `${(70 + Math.random() * 25).toFixed(1)}%`,
+    `${(85 + randStock() * 10).toFixed(1)}%`,
+    `${(80 + randStock() * 15).toFixed(1)}%`,
+    `${(70 + randStock() * 25).toFixed(1)}%`,
   ]);
-  
+  const totalUnrestricted = Math.round(row.stockCS * 5 + 1000);
+  const totalRestricted = Math.round(row.stockCS * 0.8 + 200);
+  const totalBlocked = Math.round(row.stockCS * 0.3 + 50);
+  const totalQuarantine = Math.round(row.stockCS * 0.1 + 10);
+
   const stockBreakdown = [
-    { name: "Unrestricted", value: 77, fill: CHART_BLUE },
-    { name: "Restricted", value: 15, fill: CHART_CYAN },
-    { name: "Blocked", value: 5, fill: CHART_RED },
-    { name: "Quarantine", value: 3, fill: CHART_AMBER },
+    { name: "Unrestricted", value: totalUnrestricted, fill: CHART_BLUE },
+    { name: "Restricted", value: totalRestricted, fill: CHART_CYAN },
+    { name: "Blocked", value: totalBlocked, fill: CHART_RED },
+    { name: "Quarantine", value: totalQuarantine, fill: CHART_AMBER },
   ];
 
-  // ── DOH Data (correlates with CTP weeks W8-W19) ──
-  const dohData = [
-    { week: "W08", doh: 0, qty: 1680 },
-    { week: "W09", doh: 0, qty: 0 },
-    { week: "W10", doh: 5, qty: 1395 },
-    { week: "W11", doh: 35, qty: 12410 },
-    { week: "W12", doh: 31, qty: 10343 },
-    { week: "W13", doh: 26, qty: 9088 },
-    { week: "W14", doh: 21, qty: 7293 },
-    { week: "W15", doh: 17, qty: 5988 },
-    { week: "W16", doh: 33, qty: 11413 },
-    { week: "W17", doh: 28, qty: 9793 },
-    { week: "W18", doh: 22, qty: 7821 },
-    { week: "W19", doh: 20, qty: 6863 },
-  ];
+  const forecast1WBias = `Fb ${Math.round(1 + (row.riskId % 3))}`;
 
-  // ── Forecast / Promo ──
-  const forecastWeeks = ["WK 1", "WK 2", "WK 3", "WK 4", "WK 5", "WK 6"];
-  const forecastData = forecastWeeks.map((w, i) => ({
-    week: w,
-    baselineForecast: [455, 324, 548, 662, 500, 480][i],
-    promoForecast: [680, 766, 545, 54, 400, 350][i],
-  }));
-  const forecast4WBias = 584;
-  const forecast1WBias = "Fb 1";
-
-  // ── STO Data (correlates with supply entries in CTP) ──
+  // ── STO ──
   const stoTableHeaders = ["PO No", "Open PO Qty", "Delivery Date", "Shipment No", "Delivery Number"];
-  const stoTableRows = [
-    ["4519202784", 1680, "09.02.2026", "15810702", "04252776966"],
-    ["4519211572", 6384, "15.02.2026", "15811011", "44252788232"],
-    ["4519220642", 13104, "22.02.2026", "15811320", "84252799498"],
-    ["4519220643", 6384, "15.03.2026", "15811630", "24252810764"],
-    ["4519220644", 336, "11.02.2026", "15811940", "64252821030"],
-  ];
 
-  // ── Production Data ──
-  const prodWeeks = ["WK-16", "WK-17", "WK-18", "WK-19", "WK-20", "WK-21"];
-  const prodData = prodWeeks.map((w) => ({
-    week: w,
-    qty: Math.round(5000 + Math.random() * 15000),
-    ccu: Math.round(65 + Math.random() * 30),
-  }));
+  // ── Production ──
   const prodTableHeaders = ["Next Production Week", "Produced In", "Quantity", "CCU % (Before Risk)", "New MRDR"];
-  const prodTableRows = [
-    ["WK-18-2026", "ICE-UK SU Gloucester", 68102, "78%", row.mrdr],
-    ["WK-20-2026", "ICE-UK SU Gloucester", 54300, "82%", 50100 + 1],
-  ];
 
   // ── Master Data ──
   const masterTableHeaders = ["Material Desc.", "EAN Code", "Site", "Country", "Category", "Orig. Factory", "Type", "MSO", "UOM", "Small C", "Segment", "MRP", "Repack", "Pack Size", "Pack Family", "DRP Planner", "Master Scheduler"];
   const masterTableRows = [
-    [String(row.mrdr), row.gtin, row.site, row.msoCountry, row.category, "DM_SU", "Repack", "DK", row.uom, "AZ21Y", "VIENNETTA", "PLT", row.repackDependency, 16, "PF-100", "piecha, grzegorz", "ICE-UK SU Gloucester"],
+    [String(row.mrdr), row.gtin, row.site, row.msoCountry, row.category, "DM_SU", row.typeCode, row.msoCountry, row.uom, "AZ21Y", row.segmentation, "PLT", row.repackDependency, 16, "PF-100", row.assignedTo, `${row.site} SU`],
   ];
 
   return (
