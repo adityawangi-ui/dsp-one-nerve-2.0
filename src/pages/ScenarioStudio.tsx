@@ -12,10 +12,9 @@ const scenarios = [
     id: "S1",
     name: "Pull-ahead Production + Split Freight",
     description: "Accelerate production schedule and use multiple freight modes",
-    serviceRecovery: "+11%",
+    serviceLevel: "96.2%",
     costImpact: "+$43K",
-    waste: "0%",
-    leadTimeDelta: "-1 day",
+    leadTimeDelta: "-5 days",
     recommended: true,
     metrics: {
       service: 88,
@@ -29,10 +28,9 @@ const scenarios = [
     id: "S2",
     name: "Interplant Transfer from DC-45",
     description: "Leverage existing inventory from Distribution Center 45",
-    serviceRecovery: "+8%",
+    serviceLevel: "93.8%",
     costImpact: "+$12K",
-    waste: "1.2%",
-    leadTimeDelta: "0 days",
+    leadTimeDelta: "-3 days",
     recommended: false,
     metrics: {
       service: 75,
@@ -46,10 +44,9 @@ const scenarios = [
     id: "S3",
     name: "Expedite Vendor + Shift MRP Buckets",
     description: "Fast-track supplier delivery and adjust planning horizons",
-    serviceRecovery: "+14%",
+    serviceLevel: "98.1%",
     costImpact: "+$65K",
-    waste: "0%",
-    leadTimeDelta: "-2 days",
+    leadTimeDelta: "-8 days",
     recommended: false,
     metrics: {
       service: 95,
@@ -62,9 +59,9 @@ const scenarios = [
 ];
 
 const comparisonData = [
-  { metric: "Service Recovery", S1: 11, S2: 8, S3: 14 },
+  { metric: "Service Level (%)", S1: 96.2, S2: 93.8, S3: 98.1 },
   { metric: "Cost (K$)", S1: 43, S2: 12, S3: 65 },
-  { metric: "Speed (days saved)", S1: 1, S2: 0, S3: 2 },
+  { metric: "Lead Time (days saved)", S1: 5, S2: 3, S3: 8 },
   { metric: "Risk Score", S1: 45, S2: 35, S3: 62 },
 ];
 
