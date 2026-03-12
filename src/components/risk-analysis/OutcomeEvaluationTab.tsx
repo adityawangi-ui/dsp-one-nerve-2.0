@@ -24,7 +24,7 @@ function KpiCard({ label, value, subtitle, color = "text-primary" }: { label: st
 
 export default function OutcomeEvaluationTab({ row, selectedScenario, onTriggerApproval }: Props) {
   const [showApprovalDialog, setShowApprovalDialog] = useState(false);
-  const scenario = selectedScenario || { id: 3, name: "Rescheduling + Short-Term Labor + Stock Rebalancing", successProbability: 91, feasibility: 92, historicalSuccess: 89, cost: 16000, recommended: true };
+  const scenario = selectedScenario || { id: 3, name: "Rescheduling + Short-Term Labor + Stock Rebalancing", serviceLevel: 98, feasibility: 92, historicalSuccess: 89, cost: 16000, recommended: true };
 
   const handleExecute = () => setShowApprovalDialog(true);
 
@@ -37,8 +37,8 @@ export default function OutcomeEvaluationTab({ row, selectedScenario, onTriggerA
           <h3 className="text-base font-bold text-foreground">{scenario.name}</h3>
         </div>
         <div className="flex items-center gap-2 mt-2">
-          <Badge className="bg-emerald-100 text-emerald-700 border-emerald-200 text-xs">Mitigation Probability</Badge>
-          <span className="text-lg font-bold text-primary">{scenario.successProbability}%</span>
+          <Badge className="bg-emerald-100 text-emerald-700 border-emerald-200 text-xs">Service Level</Badge>
+          <span className="text-lg font-bold text-primary">{scenario.serviceLevel}%</span>
         </div>
       </div>
 
@@ -93,7 +93,7 @@ export default function OutcomeEvaluationTab({ row, selectedScenario, onTriggerA
           <h4 className="text-sm font-bold text-emerald-800">Recommendation: {scenario.name}</h4>
         </div>
         <p className="text-xs text-emerald-700">
-          Offers the best balance of success probability ({scenario.successProbability}%), cost efficiency (€{(scenario.cost / 1000).toFixed(0)}K), and resource optimization. Leverages flex labor pool and production rescheduling for optimal capacity utilization.
+          Offers the best balance of service level ({scenario.serviceLevel}%), cost efficiency (€{(scenario.cost / 1000).toFixed(0)}K), and resource optimization. Leverages flex labor pool and production rescheduling for optimal capacity utilization.
         </p>
       </div>
 
@@ -117,7 +117,7 @@ export default function OutcomeEvaluationTab({ row, selectedScenario, onTriggerA
             <div className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-primary" /><span className="text-sm font-semibold text-primary">Scenario Selected:</span></div>
             <p className="text-xs text-primary/80 ml-3.5">{scenario.name}</p>
             <div className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-primary" /><span className="text-sm text-foreground"><strong>Expected Cost:</strong> €{scenario.cost.toLocaleString()}</span></div>
-            <div className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-primary" /><span className="text-sm text-foreground"><strong>Success Probability:</strong> {scenario.successProbability}%</span></div>
+            <div className="flex items-center gap-1.5"><span className="h-2 w-2 rounded-full bg-primary" /><span className="text-sm text-foreground"><strong>Service Level:</strong> {scenario.serviceLevel}%</span></div>
           </div>
 
           <div className="border border-primary/20 rounded-xl p-4 bg-primary/[0.03] space-y-2 mb-4">

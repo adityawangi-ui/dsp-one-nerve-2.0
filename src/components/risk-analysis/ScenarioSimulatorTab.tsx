@@ -21,18 +21,16 @@ interface Props {
 export interface Scenario {
   id: number;
   name: string;
-  successProbability: number;
-  wasteReduction: number;
+  serviceLevel: number;
   leadTime: number;
-  serviceRecovery: number;
   cost: number;
   recommended: boolean;
 }
 
 const originalScenarios: Scenario[] = [
-  { id: 1, name: "Re-prioritize + Transship + SKU Substitution", successProbability: 85, wasteReduction: 12, leadTime: 3, serviceRecovery: 78, cost: 26000, recommended: false },
-  { id: 2, name: "Back-Up Line PU3 + Extra Shift + Prioritize Critical SKUs", successProbability: 89, wasteReduction: 18, leadTime: 2, serviceRecovery: 85, cost: 16000, recommended: false },
-  { id: 3, name: "Rescheduling + Short-Term Labor + Stock Rebalancing", successProbability: 91, wasteReduction: 22, leadTime: 1, serviceRecovery: 92, cost: 16000, recommended: true },
+  { id: 1, name: "Re-prioritize + Transship + SKU Substitution", serviceLevel: 94, leadTime: 5, cost: 26000, recommended: false },
+  { id: 2, name: "Back-Up Line PU3 + Extra Shift + Prioritize Critical SKUs", serviceLevel: 96, leadTime: 4, cost: 16000, recommended: false },
+  { id: 3, name: "Rescheduling + Short-Term Labor + Stock Rebalancing", serviceLevel: 98, leadTime: 3, cost: 16000, recommended: true },
 ];
 
 const scenarioDetails: Record<number, { aiInsights: string[]; actions: string[]; risks: string[]; timeline: string; primaryKPIs: { label: string; value: string; trend: string }[]; impactKPIs: { label: string; value: string; color: string }[]; costBreakdown: { label: string; value: number }[] }> = {
@@ -144,8 +142,7 @@ export default function ScenarioSimulatorTab({ row, onSelectScenario, selectedSc
       if (targetScenarios.includes(s.id) || targetScenarios.length === 0) {
         return {
           ...s,
-          successProbability: Math.min(99, s.successProbability + Math.floor(Math.random() * 5)),
-          wasteReduction: Math.min(40, s.wasteReduction + Math.floor(Math.random() * 4)),
+          serviceLevel: Math.min(99, s.serviceLevel + Math.floor(Math.random() * 3)),
           cost: Math.max(5000, s.cost - Math.floor(Math.random() * 3000)),
         };
       }
@@ -191,22 +188,14 @@ export default function ScenarioSimulatorTab({ row, onSelectScenario, selectedSc
                   <h4 className="text-xs font-semibold text-foreground mb-4 leading-relaxed min-h-[2.5rem]">{s.name}</h4>
 
 
-                  <div className="grid grid-cols-5 gap-2">
+                  <div className="grid grid-cols-3 gap-2">
                     <div className="text-center bg-secondary/50 rounded-lg p-2">
-                      <span className="text-lg font-bold text-primary">{s.successProbability}%</span>
-                      <p className="text-[10px] text-muted-foreground">Success</p>
-                    </div>
-                    <div className="text-center bg-secondary/50 rounded-lg p-2">
-                      <span className="text-lg font-bold text-success">{s.wasteReduction}%</span>
-                      <p className="text-[10px] text-muted-foreground">Waste ↓</p>
+                      <span className="text-lg font-bold text-primary">{s.serviceLevel}%</span>
+                      <p className="text-[10px] text-muted-foreground">Service Level</p>
                     </div>
                     <div className="text-center bg-secondary/50 rounded-lg p-2">
                       <span className="text-lg font-bold text-foreground">{s.leadTime}d</span>
                       <p className="text-[10px] text-muted-foreground">Lead Time</p>
-                    </div>
-                    <div className="text-center bg-secondary/50 rounded-lg p-2">
-                      <span className="text-lg font-bold text-primary">{s.serviceRecovery}%</span>
-                      <p className="text-[10px] text-muted-foreground">Svc Recovery</p>
                     </div>
                     <div className="text-center bg-secondary/50 rounded-lg p-2">
                       <span className="text-lg font-bold text-foreground">€{(s.cost / 1000).toFixed(0)}K</span>

@@ -138,7 +138,7 @@ export default function RiskAnalysisPanel({ row, onClose }: Props) {
               </div>
               <div className="flex items-center gap-1.5">
                 <span className="h-2 w-2 rounded-full bg-primary" />
-                <span className="text-sm text-foreground"><strong>Success:</strong> {selectedScenario.successProbability}%</span>
+                <span className="text-sm text-foreground"><strong>Service Level:</strong> {selectedScenario.serviceLevel}%</span>
               </div>
             </div>
           )}
