@@ -37,8 +37,8 @@ export default function OutcomeEvaluationTab({ row, selectedScenario, onTriggerA
           <h3 className="text-base font-bold text-foreground">{scenario.name}</h3>
         </div>
         <div className="flex items-center gap-2 mt-2">
-          <Badge className="bg-emerald-100 text-emerald-700 border-emerald-200 text-xs">Mitigation Probability</Badge>
-          <span className="text-lg font-bold text-primary">{scenario.successProbability}%</span>
+          <Badge className="bg-emerald-100 text-emerald-700 border-emerald-200 text-xs">Service Level</Badge>
+          <span className="text-lg font-bold text-primary">{scenario.serviceLevel}%</span>
         </div>
       </div>
 
