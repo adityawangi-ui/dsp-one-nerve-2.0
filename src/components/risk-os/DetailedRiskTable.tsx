@@ -344,29 +344,29 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                       <td className={cellCls} style={frozenCellStyle("msoCountry", rowNewVariant)}>{agg.msoCountry}</td>
                       {/* UOM - frozen */}
                       <td className={cellCls} style={frozenCellStyle("uom", rowNewVariant)}>{displayUom}</td>
-                      {/* Scrollable columns */}
-                      <td className={cellCls}>{agg.site}</td>
-                      <td className={cellCls}>{agg.su}</td>
-                      <td className={cellCls}><Badge variant="outline" className={`text-[10px] min-w-[90px] text-center justify-center ${agg.riskType === "Out Of Stock" ? "bg-critical-bg text-critical border-critical-border" : "bg-medium-bg text-medium border-medium-border"}`}>{agg.riskType}</Badge></td>
-                      <td className={cellCls}><Badge variant="outline" className={`text-[10px] ${sevBadgeClass(agg.severity)}`}>{agg.severity}</Badge></td>
-                      <td className={cellCls}><Badge variant="outline" className={`text-[10px] ${priBadgeClass(agg.priority)}`}>{agg.priority}</Badge></td>
-                      <td className={cellCls}>{agg.riskHorizon}</td>
-                      <td className={cellCls}>{agg.segmentation}</td>
-                      <td className={cellCls}>{agg.startedOnWeek}</td>
-                      <td className={cellCls}>{agg.endedOnWeek || "—"}</td>
-                      <td className={cellCls}>{agg.riskInDays}</td>
-                      <td className={cellCls}>{convertQty(agg.stockCS, agg.uom).toLocaleString()}</td>
-                      <td className={cellCls}>{convertQty(agg.expectedLossCases, agg.uom).toLocaleString()}</td>
-                      <td className={cellCls}>€{agg.expectedLossValue.toLocaleString()}</td>
-                      <td className={cellCls}>{agg.nextAvailableDate || "—"}</td>
-                      <td className={cellCls}>{agg.botReasonCode}</td>
-                      <td className={cellCls}>{agg.plannerReasonCode}</td>
-                      <td className={cellCls}>{agg.comments || "—"}</td>
-                      <td className={cellCls}>{agg.assignedTo}</td>
-                      <td className={cellCls}>{agg.promoFlag}</td>
-                      <td className={cellCls}>{agg.typeCode}</td>
-                      <td className={cellCls}>{agg.repackDependency}</td>
-                      <td className={cellCls}>{agg.category}</td>
+                       {/* Scrollable columns */}
+                       <td className={cellCls}>{agg.site}</td>
+                       <td className={cellCls}>{agg.category}</td>
+                       <td className={cellCls}>{agg.su}</td>
+                       <td className={cellCls}><Badge variant="outline" className={`text-[10px] min-w-[90px] text-center justify-center ${agg.riskType === "Out Of Stock" ? "bg-critical-bg text-critical border-critical-border" : "bg-medium-bg text-medium border-medium-border"}`}>{agg.riskType}</Badge></td>
+                       <td className={cellCls}><Badge variant="outline" className={`text-[10px] ${sevBadgeClass(agg.severity)}`}>{agg.severity}</Badge></td>
+                       <td className={cellCls}><Badge variant="outline" className={`text-[10px] ${priBadgeClass(agg.priority)}`}>{agg.priority}</Badge></td>
+                       <td className={cellCls}>{agg.riskHorizon}</td>
+                       <td className={cellCls}>{agg.segmentation}</td>
+                       <td className={cellCls}>{agg.startedOnWeek}</td>
+                       <td className={cellCls}>{agg.endedOnWeek || "—"}</td>
+                       <td className={cellCls}>{agg.riskInDays}</td>
+                       <td className={cellCls}>{convertQty(agg.stockCS, agg.uom).toLocaleString()}</td>
+                       <td className={cellCls}>{convertQty(agg.expectedLossCases, agg.uom).toLocaleString()}</td>
+                       <td className={cellCls}>€{agg.expectedLossValue.toLocaleString()}</td>
+                       <td className={cellCls}>{agg.nextAvailableDate || "—"}</td>
+                       <td className={cellCls}>{agg.botReasonCode}</td>
+                       <td className={cellCls}>{agg.plannerReasonCode}</td>
+                       <td className={cellCls}>{agg.comments || "—"}</td>
+                       <td className={cellCls}>{agg.assignedTo}</td>
+                       <td className={cellCls}>{agg.promoFlag}</td>
+                       <td className={cellCls}>{agg.typeCode}</td>
+                       <td className={cellCls}>{agg.repackDependency}</td>
                     </tr>
                     {expanded && childRows.map(cr => {
                       const childVariant = cr.isNew ? "childNew" : "child";
