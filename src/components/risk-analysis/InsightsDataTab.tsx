@@ -299,35 +299,34 @@ export default function InsightsDataTab({ row }: Props) {
           </ChartCard>
 
           <div className="overflow-x-auto mt-4 rounded-xl border border-border bg-card">
-            <table className="w-full text-[11px]" style={{ minWidth: `${(ctpColumns.length + 3) * 90}px` }}>
+            <table className="w-full text-[11px]" style={{ minWidth: `${(ctpColumns.length + 1) * 100}px` }}>
               <thead>
                 <tr className="bg-secondary border-b border-border">
-                  <th className="sticky left-0 z-10 bg-secondary px-3 py-2.5 text-left text-[10px] font-bold uppercase tracking-wider text-foreground w-32">Part Name</th>
-                  <th className="px-3 py-2.5 text-left text-[10px] font-bold uppercase text-foreground w-16">Site</th>
-                  <th className="px-3 py-2.5 text-left text-[10px] font-bold uppercase text-foreground w-48">Description</th>
-                  {ctpColumns.map(w => <th key={w} className="px-3 py-2.5 text-center text-[10px] font-bold uppercase tracking-wider text-foreground whitespace-nowrap">{w}</th>)}
+                  <th className="sticky left-0 z-10 bg-secondary px-3 py-2.5 text-left text-[10px] font-bold uppercase tracking-wider text-foreground w-44 whitespace-nowrap">Metric</th>
+                  {ctpColumns.map((w, i) => (
+                    <th key={w} className={`px-3 py-2.5 text-center text-[10px] font-bold uppercase tracking-wider text-foreground whitespace-nowrap ${i === 0 && ctpMode === "daily" ? "border-r border-border" : ""}`}>{w}</th>
+                  ))}
                 </tr>
               </thead>
               <tbody>
-                {ctpMetrics.map((metric, mi) => {
+                {ctpMetrics.map((metric) => {
                   const vals = ctpRawData[metric as keyof typeof ctpRawData];
-                  const sliced = ctpMode === "daily" ? vals.slice(0, 8) : vals.slice(8, 14);
+                  const offset = ctpMode === "daily" ? 0 : 8;
+                  const count = ctpMode === "daily" ? 8 : 12;
+                  const sliced = vals.slice(offset, offset + count);
                   const isBalance = metric.includes("Balance");
                   const isBelowRS = metric.includes("Below RS");
+                  const isOOS = metric.includes("OOS QTY");
                   return (
-                    <tr key={metric} className={`border-b border-border/50 ${isBalance ? "bg-primary/10 font-semibold" : isBelowRS ? "bg-destructive/10" : "hover:bg-secondary/40"}`}>
-                      {mi === 0 && (
-                        <>
-                          <td className="sticky left-0 z-10 bg-card px-3 py-2 font-sans text-foreground whitespace-nowrap" rowSpan={ctpMetrics.length}>{row.mrdr}</td>
-                          <td className="px-3 py-2 text-foreground whitespace-nowrap" rowSpan={ctpMetrics.length}>A283</td>
-                          <td className="px-3 py-2 text-foreground whitespace-nowrap text-[10px]" rowSpan={ctpMetrics.length}>{row.mrdrDescription}</td>
-                        </>
-                      )}
+                    <tr key={metric} className={`border-b border-border/50 ${isBalance ? "bg-primary/10 font-semibold" : isBelowRS ? "bg-destructive/10" : isOOS ? "bg-amber-500/10" : "hover:bg-secondary/40"}`}>
+                      <td className="sticky left-0 z-10 bg-card px-3 py-2 font-sans text-foreground whitespace-nowrap font-medium text-[10px]">{metric}</td>
                       {sliced.map((v, i) => {
-                        const isNegative = isBelowRS && v > 0;
+                        const isStr = typeof v === "string";
+                        const isNeg = typeof v === "number" && v < 0;
+                        const isHighlight = (isBelowRS && typeof v === "number" && v > 0) || (isOOS && typeof v === "number" && v < 0);
                         return (
-                          <td key={i} className={`px-3 py-2 text-center font-sans ${isNegative ? "text-destructive font-bold" : "text-foreground"}`}>
-                            {v.toLocaleString()}
+                          <td key={i} className={`px-3 py-2 text-center font-sans ${i === 0 && ctpMode === "daily" ? "border-r border-border" : ""} ${isStr ? "text-destructive font-bold" : isHighlight ? "text-destructive font-bold" : isNeg ? "text-destructive" : "text-foreground"}`}>
+                            {isStr ? v : (v as number).toLocaleString()}
                           </td>
                         );
                       })}
