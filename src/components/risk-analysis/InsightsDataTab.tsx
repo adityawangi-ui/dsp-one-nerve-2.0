@@ -140,26 +140,31 @@ export default function InsightsDataTab({ row }: Props) {
   };
 
   // ── CTP Data ──
-  const ctpDailyWeeks = ["Past", "3/10", "4/10", "5/10", "6/10", "7/10", "8/10", "9/10"];
-  const ctpWeeklyWeeks = ["WK-2", "WK-3", "WK-4", "WK-5", "WK-6", "WK-7"];
+  const ctpDailyWeeks = ["Past", "09-02-26", "10-02-26", "11-02-26", "12-02-26", "13-02-26", "14-02-26", "15-02-26"];
+  const ctpWeeklyWeeks = ["WK 8", "WK 9", "WK 10", "WK 11", "WK 12", "WK 13", "WK 14", "WK 15", "WK 16", "WK 17", "WK 18", "WK 19"];
   const ctpColumns = ctpMode === "daily" ? ctpDailyWeeks : ctpWeeklyWeeks;
   
+  // Values: daily (8 cols) then weekly (12 cols) = 20 total per metric
+  // "OOS" represented as string marker in Below RS row
   const ctpRawData = {
-    "Planned Demand": [0, 322, 286, 4, 100, 0, 0, 0, 712, 540, 380, 620, 490, 310],
-    "Total Supply": [3165, 0, 0, 0, 0, 0, 0, 0, 1800, 1200, 950, 1500, 1100, 800],
-    "Balance (Units)": [3165, 3133, 3131, 3103, 3097, 3056, 3056, 3056, 4088, 4748, 5318, 6198, 6808, 7298],
-    "Replenishment Stock": [0, 455, 512, 543, 537, 496, 558, 619, 620, 580, 540, 610, 570, 530],
-    "Max Stock": [0, 2777, 2811, 2819, 2849, 2844, 2879, 2879, 3200, 3150, 3100, 3250, 3180, 3050],
-    "Below RS QTY": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 50, 0, 0, 80],
-    "OOS QTY": [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    "AboveMax QTY": [3165, 356, 320, 284, 248, 212, 177, 177, 888, 1598, 2218, 2948, 3628, 4248],
+    "Planned Demand":       [0, 3157, 0, 0, 0, 0, 0, 0,   1172, 2676, 2089, 2067, 1255, 1795, 1305, 959, 1620, 1972, 958, 798],
+    "Total Supply":         [1680, 0, 0, 336, 0, 0, 0, 0,   6384, 13104, 0, 0, 0, 0, 6384, 0, 0, 0, 0, 0],
+    "Balance (Units)":      [1680, -1477, -1477, -1141, -1141, -1141, -1141, -1141,   -2313, 1395, 12410, 10343, 9088, 7293, 5988, 11413, 9793, 7821, 6863, 6065],
+    "Replenishment Stock":  [0, 4076, 4303, 4531, 4759, 5937, 5937, 5937,   6408, 6041, 5515, 4722, 4186, 3822, 4265, 4535, 4197, 3388, 3016, 3221],
+    "Max Stock":            [0, 29937, 29937, 30653, 30653, 30653, 30653, 30653,   30438, 29222, 31294, 31123, 30782, 30188, 29773, 30390, 30121, 29286, 30403, 31798],
+    "Below RS QTY":         [0, "OOS", "OOS", "OOS", "OOS", "OOS", "OOS", "OOS",   4016, 1436, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    "OOS QTY":              [0, -1477, 0, 0, 0, 0, 0, 0,   -1172, -2082, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    "AboveMax QTY":         [1680, 0, 0, 0, 0, 0, 0, 0,   0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   };
   const ctpMetrics = Object.keys(ctpRawData);
-  const ctpChartData = ctpColumns.map((w, i) => ({
-    week: w,
-    demand: ctpRawData["Planned Demand"][i] || 0,
-    supply: ctpRawData["Total Supply"][i] || 0,
-  }));
+  const ctpChartData = ctpColumns.map((w, i) => {
+    const offset = ctpMode === "daily" ? 0 : 8;
+    return {
+      week: w,
+      demand: Number(ctpRawData["Planned Demand"][offset + i]) || 0,
+      supply: Number(ctpRawData["Total Supply"][offset + i]) || 0,
+    };
+  });
 
   // ── Stock Data ──
   const stockTableHeaders = ["VF Code", "Alt MRDR", "Alt Stock", "Cluster Stock", "Unrestricted", "Restricted", "Blocked", "Quarantine", "Release Date", "Transition Date", "Type", "DR% MSO", "DR% MRDR MSO", "DR% MRDR Site"];
@@ -184,22 +189,20 @@ export default function InsightsDataTab({ row }: Props) {
     { name: "Quarantine", value: 3, fill: CHART_AMBER },
   ];
 
-  // ── DOH Data (14 weeks) ──
+  // ── DOH Data (correlates with CTP weeks W8-W19) ──
   const dohData = [
-    { week: "W01", doh: 12, qty: 2100 },
-    { week: "W02", doh: 10, qty: 1980 },
-    { week: "W03", doh: 8, qty: 1750 },
-    { week: "W04", doh: 6, qty: 1400 },
-    { week: "W05", doh: 4, qty: 1100 },
-    { week: "W06", doh: 10, qty: 2030 },
-    { week: "W07", doh: 20, qty: 3060 },
-    { week: "W08", doh: 30, qty: 4500 },
-    { week: "W09", doh: 25, qty: 3800 },
-    { week: "W10", doh: 18, qty: 3200 },
-    { week: "W11", doh: 14, qty: 2900 },
-    { week: "W12", doh: 16, qty: 3100 },
-    { week: "W13", doh: 22, qty: 3500 },
-    { week: "W14", doh: 28, qty: 4200 },
+    { week: "W08", doh: 0, qty: 1680 },
+    { week: "W09", doh: 0, qty: 0 },
+    { week: "W10", doh: 5, qty: 1395 },
+    { week: "W11", doh: 35, qty: 12410 },
+    { week: "W12", doh: 31, qty: 10343 },
+    { week: "W13", doh: 26, qty: 9088 },
+    { week: "W14", doh: 21, qty: 7293 },
+    { week: "W15", doh: 17, qty: 5988 },
+    { week: "W16", doh: 33, qty: 11413 },
+    { week: "W17", doh: 28, qty: 9793 },
+    { week: "W18", doh: 22, qty: 7821 },
+    { week: "W19", doh: 20, qty: 6863 },
   ];
 
   // ── Forecast / Promo ──
@@ -212,14 +215,14 @@ export default function InsightsDataTab({ row }: Props) {
   const forecast4WBias = 584;
   const forecast1WBias = "Fb 1";
 
-  // ── STO Data ──
+  // ── STO Data (correlates with supply entries in CTP) ──
   const stoTableHeaders = ["PO No", "Open PO Qty", "Delivery Date", "Shipment No", "Delivery Number"];
   const stoTableRows = [
-    ["4519202784", 1440, "10.02.2026", "15810702", "04252776966"],
-    ["4519211572", 840, "05.02.2026", "15811011", "44252788232"],
-    ["4519220642", 4752, "16.02.2026", "15811320", "84252799498"],
-    ["4519220643", 4752, "16.02.2026", "15811630", "24252810764"],
-    ["4519220644", 3200, "18.02.2026", "15811940", "64252821030"],
+    ["4519202784", 1680, "09.02.2026", "15810702", "04252776966"],
+    ["4519211572", 6384, "15.02.2026", "15811011", "44252788232"],
+    ["4519220642", 13104, "22.02.2026", "15811320", "84252799498"],
+    ["4519220643", 6384, "15.03.2026", "15811630", "24252810764"],
+    ["4519220644", 336, "11.02.2026", "15811940", "64252821030"],
   ];
 
   // ── Production Data ──
@@ -296,35 +299,34 @@ export default function InsightsDataTab({ row }: Props) {
           </ChartCard>
 
           <div className="overflow-x-auto mt-4 rounded-xl border border-border bg-card">
-            <table className="w-full text-[11px]" style={{ minWidth: `${(ctpColumns.length + 3) * 90}px` }}>
+            <table className="w-full text-[11px]" style={{ minWidth: `${(ctpColumns.length + 1) * 100}px` }}>
               <thead>
                 <tr className="bg-secondary border-b border-border">
-                  <th className="sticky left-0 z-10 bg-secondary px-3 py-2.5 text-left text-[10px] font-bold uppercase tracking-wider text-foreground w-32">Part Name</th>
-                  <th className="px-3 py-2.5 text-left text-[10px] font-bold uppercase text-foreground w-16">Site</th>
-                  <th className="px-3 py-2.5 text-left text-[10px] font-bold uppercase text-foreground w-48">Description</th>
-                  {ctpColumns.map(w => <th key={w} className="px-3 py-2.5 text-center text-[10px] font-bold uppercase tracking-wider text-foreground whitespace-nowrap">{w}</th>)}
+                  <th className="sticky left-0 z-10 bg-secondary px-3 py-2.5 text-left text-[10px] font-bold uppercase tracking-wider text-foreground w-44 whitespace-nowrap">Metric</th>
+                  {ctpColumns.map((w, i) => (
+                    <th key={w} className={`px-3 py-2.5 text-center text-[10px] font-bold uppercase tracking-wider text-foreground whitespace-nowrap ${i === 0 && ctpMode === "daily" ? "border-r border-border" : ""}`}>{w}</th>
+                  ))}
                 </tr>
               </thead>
               <tbody>
-                {ctpMetrics.map((metric, mi) => {
+                {ctpMetrics.map((metric) => {
                   const vals = ctpRawData[metric as keyof typeof ctpRawData];
-                  const sliced = ctpMode === "daily" ? vals.slice(0, 8) : vals.slice(8, 14);
+                  const offset = ctpMode === "daily" ? 0 : 8;
+                  const count = ctpMode === "daily" ? 8 : 12;
+                  const sliced = vals.slice(offset, offset + count);
                   const isBalance = metric.includes("Balance");
                   const isBelowRS = metric.includes("Below RS");
+                  const isOOS = metric.includes("OOS QTY");
                   return (
-                    <tr key={metric} className={`border-b border-border/50 ${isBalance ? "bg-primary/10 font-semibold" : isBelowRS ? "bg-destructive/10" : "hover:bg-secondary/40"}`}>
-                      {mi === 0 && (
-                        <>
-                          <td className="sticky left-0 z-10 bg-card px-3 py-2 font-sans text-foreground whitespace-nowrap" rowSpan={ctpMetrics.length}>{row.mrdr}</td>
-                          <td className="px-3 py-2 text-foreground whitespace-nowrap" rowSpan={ctpMetrics.length}>A283</td>
-                          <td className="px-3 py-2 text-foreground whitespace-nowrap text-[10px]" rowSpan={ctpMetrics.length}>{row.mrdrDescription}</td>
-                        </>
-                      )}
+                    <tr key={metric} className={`border-b border-border/50 ${isBalance ? "bg-primary/10 font-semibold" : isBelowRS ? "bg-destructive/10" : isOOS ? "bg-amber-500/10" : "hover:bg-secondary/40"}`}>
+                      <td className="sticky left-0 z-10 bg-card px-3 py-2 font-sans text-foreground whitespace-nowrap font-medium text-[10px]">{metric}</td>
                       {sliced.map((v, i) => {
-                        const isNegative = isBelowRS && v > 0;
+                        const isStr = typeof v === "string";
+                        const isNeg = typeof v === "number" && v < 0;
+                        const isHighlight = (isBelowRS && typeof v === "number" && v > 0) || (isOOS && typeof v === "number" && v < 0);
                         return (
-                          <td key={i} className={`px-3 py-2 text-center font-sans ${isNegative ? "text-destructive font-bold" : "text-foreground"}`}>
-                            {v.toLocaleString()}
+                          <td key={i} className={`px-3 py-2 text-center font-sans ${i === 0 && ctpMode === "daily" ? "border-r border-border" : ""} ${isStr ? "text-destructive font-bold" : isHighlight ? "text-destructive font-bold" : isNeg ? "text-destructive" : "text-foreground"}`}>
+                            {isStr ? v : (v as number).toLocaleString()}
                           </td>
                         );
                       })}
