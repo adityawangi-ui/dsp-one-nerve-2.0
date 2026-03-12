@@ -39,7 +39,7 @@ export const defaultFilters: FilterState = {
   status: "all",
   country: "all",
   assignedTo: "all",
-  lossRange: [0, 890000],
+  lossRange: [0, 60000000],
   search: "",
 };
 
@@ -97,15 +97,15 @@ export default function UnifiedFilters({ filters, onChange, maxLoss }: Props) {
   const activeCount = useMemo(() => {
     let c = 0;
     for (const [k, v] of Object.entries(filters)) {
-      if (k === "lossRange") { if ((v as number[])[0] !== 0 || (v as number[])[1] !== 890000) c++; }
+      if (k === "lossRange") { if ((v as number[])[0] !== 0 || (v as number[])[1] !== 60000000) c++; }
       else if (k === "search") { if (v) c++; }
       else if (v !== "all") c++;
     }
     return c;
   }, [filters, maxLoss]);
 
-  const formatK = (n: number) => n >= 1000 ? `${(n / 1000).toFixed(0)}K` : String(n);
-  const sliderMax = 890000;
+  const formatK = (n: number) => n >= 1000000 ? `${(n / 1000000).toFixed(1)}M` : n >= 1000 ? `${(n / 1000).toFixed(0)}K` : String(n);
+  const sliderMax = 60000000;
   const sliderStep = 1000;
 
   const dropdownFilters = allFilterKeys.filter(f => f.key !== "lossRange" && f.key !== "search" && visibleFilters.has(f.key));
@@ -329,7 +329,7 @@ export default function UnifiedFilters({ filters, onChange, maxLoss }: Props) {
                 {Object.entries(filters).map(([k, v]) => {
                   if (k === "lossRange") {
                     const lr = v as number[];
-                    if (lr[0] === 0 && lr[1] === 890000) return null;
+                    if (lr[0] === 0 && lr[1] === 60000000) return null;
                     return <Badge key={k} variant="secondary" className="text-[9px]">Loss: {formatK(lr[0])}–{formatK(lr[1])}</Badge>;
                   }
                   if (k === "search" && v) return <Badge key={k} variant="secondary" className="text-[9px]">Search: {v as string}</Badge>;
