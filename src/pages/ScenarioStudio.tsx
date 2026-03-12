@@ -2,7 +2,7 @@ import { MainLayout } from "@/components/layout/MainLayout";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { ChevronRight, CheckCircle2, TrendingUp, DollarSign, Package, Clock, ArrowLeft } from "lucide-react";
+import { ChevronRight, CheckCircle2, TrendingUp, DollarSign, Clock, ArrowLeft } from "lucide-react";
 import { RadarChart, PolarGrid, PolarAngleAxis, Radar, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from "recharts";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
