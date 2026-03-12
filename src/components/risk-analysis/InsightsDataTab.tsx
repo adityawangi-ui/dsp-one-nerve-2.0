@@ -135,7 +135,69 @@ function seededRandom(seed: number) {
   };
 }
 
-function generateProductData(row: RiskRow) {
+// Hardcoded data for Risk ID 1001 (Dove Body Wash 250ml)
+function getRiskId1001Data(): ReturnType<typeof generateProductDataGeneric> {
+  const ctpRawData: Record<string, (number | string)[]> = {
+    "Planned Demand":       [0, 3157, 0, 0, 0, 0, 0, 0, 1172, 2676, 2089, 2067, 1255, 1795, 1305, 959, 1620, 1972, 958, 798],
+    "Total Supply":         [1680, 0, 0, 336, 0, 0, 0, 0, 6384, 13104, 0, 0, 0, 0, 6384, 0, 0, 0, 0, 0],
+    "Balance (Units)":      [1680, -1477, -1477, -1141, -1141, -1141, -1141, -1141, -2313, 1395, 12410, 10343, 9088, 7293, 5988, 11413, 9793, 7821, 6863, 6065],
+    "Replenishment Stock":  [0, 4076, 4303, 4531, 4759, 5937, 5937, 5937, 6408, 6041, 5515, 4722, 4186, 3822, 4265, 4535, 4197, 3388, 3016, 3221],
+    "Max Stock":            [0, 29937, 29937, 30653, 30653, 30653, 30653, 30653, 30438, 29222, 31294, 31123, 30782, 30188, 29773, 30390, 30121, 29286, 30403, 31798],
+    "Below RS QTY":         [0, "OOS", "OOS", "OOS", "OOS", "OOS", "OOS", "OOS", 4016, 1436, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    "OOS QTY":              [0, -1477, 0, 0, 0, 0, 0, 0, -1172, -2082, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    "AboveMax QTY":         [1680, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+  };
+
+  const dohData = [
+    { week: "W08", doh: 10, qty: 1680 },
+    { week: "W09", doh: 0, qty: -2313 },
+    { week: "W10", doh: 4, qty: 1395 },
+    { week: "W11", doh: 42, qty: 12410 },
+    { week: "W12", doh: 35, qty: 10343 },
+    { week: "W13", doh: 51, qty: 9088 },
+    { week: "W14", doh: 29, qty: 7293 },
+    { week: "W15", doh: 32, qty: 5988 },
+    { week: "W16", doh: 84, qty: 11413 },
+    { week: "W17", doh: 35, qty: 9793 },
+    { week: "W18", doh: 50, qty: 7821 },
+    { week: "W19", doh: 53, qty: 6863 },
+  ];
+
+  const stoRows: (string | number)[][] = [
+    ["4519220010", 1680, "09.02.2026", "15817001", "44252776966"],
+    ["4519220011", 6384, "15.02.2026", "15817002", "44252788232"],
+    ["4519220012", 13104, "22.02.2026", "15817003", "44252799498"],
+    ["4519220013", 6384, "08.03.2026", "15817004", "44252810764"],
+  ];
+
+  const forecastData = [
+    { week: "WK 1", baselineForecast: 1250, promoForecast: 1890 },
+    { week: "WK 2", baselineForecast: 1180, promoForecast: 2100 },
+    { week: "WK 3", baselineForecast: 1320, promoForecast: 1750 },
+    { week: "WK 4", baselineForecast: 1400, promoForecast: 2300 },
+    { week: "WK 5", baselineForecast: 1150, promoForecast: 1680 },
+    { week: "WK 6", baselineForecast: 1280, promoForecast: 1950 },
+  ];
+  const forecast4WBias = Math.round(forecastData.slice(0, 4).reduce((s, d) => s + d.baselineForecast, 0) / 4);
+
+  const prodData = [
+    { week: "WK-16", qty: 3200, ccu: 78 },
+    { week: "WK-17", qty: 2800, ccu: 72 },
+    { week: "WK-18", qty: 3500, ccu: 85 },
+    { week: "WK-19", qty: 3100, ccu: 80 },
+    { week: "WK-20", qty: 2900, ccu: 74 },
+    { week: "WK-21", qty: 3300, ccu: 82 },
+  ];
+
+  const prodTableRows: (string | number)[][] = [
+    ["WK-18-2026", "Mannheim SU", 3500, "85%", 50001],
+    ["WK-20-2026", "Mannheim SU", 2900, "74%", 50002],
+  ];
+
+  return { ctpRawData, dohData, stoRows, forecastData, forecast4WBias, prodData, prodTableRows };
+}
+
+function generateProductDataGeneric(row: RiskRow) {
   const rand = seededRandom(row.riskId * 137 + row.mrdr);
   const scale = Math.max(row.stockCS, 100);
   const lossScale = row.expectedLossValue / 40000;
@@ -246,6 +308,11 @@ function generateProductData(row: RiskRow) {
   ];
 
   return { ctpRawData, dohData, stoRows, forecastData, forecast4WBias, prodData, prodTableRows };
+}
+
+function generateProductData(row: RiskRow) {
+  if (row.riskId === 1001) return getRiskId1001Data();
+  return generateProductDataGeneric(row);
 }
 
 export default function InsightsDataTab({ row }: Props) {
