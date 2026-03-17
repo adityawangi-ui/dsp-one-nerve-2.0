@@ -387,7 +387,6 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                           </td>
                           <td className={childCellCls} style={frozenCellStyle("mrdrDescription", childVariant)}>{cr.mrdrDescription}</td>
                           <td className={childCellCls} style={frozenCellStyle("msoCountry", childVariant)}>{cr.msoCountry}</td>
-                          <td className={childCellCls} style={frozenCellStyle("uom", childVariant)}>{displayUom}</td>
                            <td className={childCellCls}>{cr.site}</td>
                            <td className={childCellCls}>{cr.category}</td>
                            <td className={childCellCls}>{cr.su}</td>
@@ -399,8 +398,8 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                            <td className={childCellCls}>{cr.startedOnWeek}</td>
                            <td className={childCellCls}>{cr.endedOnWeek || "—"}</td>
                            <td className={childCellCls}>{cr.riskInDays}</td>
-                           <td className={childCellCls}>{convertQty(cr.stockCS, cr.uom).toLocaleString()}</td>
                            <td className={childCellCls}>{convertQty(cr.expectedLossCases, cr.uom).toLocaleString()}</td>
+                           <td className={childCellCls}>{displayUom}</td>
                            <td className={childCellCls}>€{cr.expectedLossValue.toLocaleString()}</td>
                            <td className={childCellCls}>{cr.nextAvailableDate || "—"}</td>
                            <td className={childCellCls}>{cr.botReasonCode}</td>

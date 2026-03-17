@@ -428,15 +428,15 @@ export default function InsightsDataTab({ row }: Props) {
 
         {/* 1. CTP */}
         <section id="tab-insight-ctp">
-          <SectionHeader icon={Table2} title="Exception Daily / Weekly CTP" sectionId="ctp" rightContent={
+          <SectionHeader icon={Table2} title="Exception Daily / Weekly Graph" sectionId="ctp" rightContent={
             <div className="flex rounded-lg border border-border overflow-hidden">
               <button onClick={() => setCtpMode("daily")} className={`px-3 py-1.5 text-[10px] font-semibold transition-colors ${ctpMode === "daily" ? "bg-primary text-primary-foreground" : "bg-background text-foreground hover:bg-secondary/80"}`}>Daily</button>
               <button onClick={() => setCtpMode("weekly")} className={`px-3 py-1.5 text-[10px] font-semibold transition-colors ${ctpMode === "weekly" ? "bg-primary text-primary-foreground" : "bg-background text-foreground hover:bg-secondary/80"}`}>Weekly</button>
             </div>
           } />
-          <ChartCard title="Planned Demand vs Total Supply">
+          <ChartCard title="Planned Demand vs Total Supply" contentClassName="h-64">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={ctpChartData} barCategoryGap="20%">
+              <ComposedChart data={ctpChartData} barCategoryGap="20%">
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" strokeOpacity={0.5} />
                 <XAxis dataKey="week" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
                 <YAxis tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
@@ -444,7 +444,9 @@ export default function InsightsDataTab({ row }: Props) {
                 <Legend wrapperStyle={legendStyle} formatter={(value: string) => <span style={{ color: 'hsl(var(--foreground))' }}>{value}</span>} />
                 <Bar dataKey="demand" fill={CHART_BLUE} name="Planned Demand" radius={[4, 4, 0, 0]} />
                 <Bar dataKey="supply" fill={CHART_GREEN} name="Total Supply" radius={[4, 4, 0, 0]} />
-              </BarChart>
+                <Line type="monotone" dataKey="oos" stroke="hsl(0, 72%, 51%)" name="OOS" strokeWidth={2} dot={{ r: 3, fill: "hsl(0, 72%, 51%)" }} />
+                <Line type="monotone" dataKey="belowRS" stroke="hsl(27, 96%, 54%)" name="Below RS" strokeWidth={2} dot={{ r: 3, fill: "hsl(27, 96%, 54%)" }} />
+              </ComposedChart>
             </ResponsiveContainer>
           </ChartCard>
 

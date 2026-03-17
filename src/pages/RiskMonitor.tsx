@@ -184,9 +184,6 @@ export default function RiskMonitor() {
 
         {/* Alerts & Risk Summary — Compact */}
         <Card className="p-4 border border-border/60 shadow-[var(--shadow-card)]">
-          <h2 className="text-xs font-semibold text-foreground mb-3 flex items-center gap-2">
-            <BarChart3 className="h-3.5 w-3.5 text-primary" /> Alerts & Risk Summary
-          </h2>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
             {/* Left - Alert Rows */}
             <div className="lg:col-span-4 space-y-0.5">
