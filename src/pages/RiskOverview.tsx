@@ -73,13 +73,10 @@ export default function RiskOverview() {
           <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-primary to-primary-glow flex items-center justify-center tech-glow">
             <Shield className="h-4 w-4 text-primary-foreground" />
           </div>
-          <div className="flex items-center gap-2">
-            <span className="text-sm font-bold text-foreground">Risk AI</span>
-            <Badge className="bg-success/15 text-success border-success/30 text-[10px] font-semibold pulse-glow-green">
-              <span className="mr-1 h-1.5 w-1.5 rounded-full bg-success inline-block animate-pulse" />
-              Live
-            </Badge>
-          </div>
+          <span className="text-sm font-bold text-foreground">Risk AI</span>
+          <span className="flex items-center gap-1.5 text-[11px] text-muted-foreground bg-secondary px-3 py-1.5 rounded-full">
+            <Clock className="h-3 w-3" /> {timestamp}
+          </span>
         </div>
         <div className="flex items-center gap-2">
           <Button
@@ -101,9 +98,6 @@ export default function RiskOverview() {
             </div>
             <span className="text-xs font-medium text-foreground">John Smith</span>
           </div>
-          <span className="flex items-center gap-1.5 text-[11px] text-muted-foreground ml-1">
-            <Clock className="h-3 w-3" /> {timestamp}
-          </span>
         </div>
       </header>
 
