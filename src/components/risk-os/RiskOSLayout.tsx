@@ -80,16 +80,13 @@ export default function RiskOSLayout() {
               <Activity className="h-3.5 w-3.5 text-primary-foreground" />
               <span className="absolute -top-0.5 -right-0.5 h-2 w-2 rounded-full bg-low animate-pulse border border-card" />
             </div>
-            <span className="text-sm font-semibold text-foreground">Risk AI v2.4 • <span className="text-muted-foreground font-normal">Live</span></span>
-          </div>
-          <div className="flex items-center gap-3">
-            <span className="flex items-center gap-1.5 text-xs font-medium bg-primary/5 text-primary px-3 py-1.5 rounded-full border border-primary/10">
-              <Zap className="h-3 w-3" /> Connected
-            </span>
-            <span className="text-xs font-medium bg-secondary text-foreground px-3 py-1.5 rounded-full">John Smith</span>
+            <span className="text-sm font-semibold text-foreground">Risk AI v2.4</span>
             <span className="flex items-center gap-1.5 text-[11px] text-muted-foreground bg-secondary px-3 py-1.5 rounded-full">
               <Clock className="h-3 w-3" /> Last updated: {timestamp}
             </span>
+          </div>
+          <div className="flex items-center gap-3">
+            <span className="text-xs font-medium bg-secondary text-foreground px-3 py-1.5 rounded-full">John Smith</span>
           </div>
         </header>
 
