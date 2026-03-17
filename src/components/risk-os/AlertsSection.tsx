@@ -47,24 +47,30 @@ export default function AlertsSection() {
       <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-primary/5 blur-3xl pointer-events-none" />
 
       <div className="flex gap-0 relative">
-        {/* Left column — Alert rows as mini cards */}
-        <div className="w-[40%] pr-4 border-r border-border/40 space-y-1.5">
+        {/* Left column — Square KPI cards matching RHS style */}
+        <div className="w-[40%] pr-4 border-r border-border/40 grid grid-cols-3 gap-2 items-center">
           {alertRows.filter(row => ["Total Risks", "Past Due", "Assigned to Me"].includes(row.label)).map((row, idx) => {
             const Icon = iconMap[row.label] || Shield;
+            const lhsColorMap: Record<string, { text: string; bg: string }> = {
+              critical: { text: "text-destructive", bg: "bg-destructive/10" },
+              medium: { text: "text-warning", bg: "bg-warning/10" },
+              low: { text: "text-success", bg: "bg-success/10" },
+              info: { text: "text-primary", bg: "bg-primary/10" },
+              assigned: { text: "text-primary", bg: "bg-primary/10" },
+            };
+            const colors = lhsColorMap[row.severity] || lhsColorMap.info;
             return (
               <div
                 key={row.label}
-                className="relative flex items-center gap-2.5 px-3 py-2 rounded-md border border-border/50 bg-secondary/30 hover:bg-secondary/60 transition-colors cursor-default"
+                className="relative aspect-square flex flex-col items-center justify-center gap-1.5 rounded-xl border border-border/50 bg-gradient-to-br from-card to-secondary/30 hover:shadow-[var(--shadow-glow)] hover:border-primary/20 transition-all duration-300 cursor-default group"
                 onMouseEnter={() => setHoveredIdx(idx)}
                 onMouseLeave={() => setHoveredIdx(null)}
               >
-                <span className={`w-2 h-2 rounded-full shrink-0 ${severityDotColor[row.severity]}`} />
-                <Icon className="h-3.5 w-3.5 text-muted-foreground shrink-0" />
-                <span className="text-[11px] text-foreground flex-1 truncate">{row.label}</span>
-                <span className="text-[13px] font-bold font-mono-tech text-foreground">{row.value.toLocaleString()}</span>
-                <div className="w-14 h-1.5 bg-border/50 rounded-full overflow-hidden shrink-0">
-                  <div className={`h-full rounded-full ${severityBarColor[row.severity]}`} style={{ width: `${row.pct}%` }} />
+                <div className={`p-2 rounded-lg ${colors.bg} transition-transform duration-300 group-hover:scale-110`}>
+                  <Icon className={`h-4 w-4 ${colors.text}`} />
                 </div>
+                <span className="text-sm font-extrabold font-mono-tech text-foreground leading-none">{row.value.toLocaleString()}</span>
+                <span className="text-[8px] uppercase tracking-widest text-muted-foreground font-medium text-center leading-tight px-1">{row.label}</span>
 
                 {hoveredIdx === idx && (
                   <div className="absolute left-full ml-3 top-1/2 -translate-y-1/2 z-50 w-64 bg-foreground text-background text-[11px] rounded-lg p-3 shadow-xl leading-relaxed pointer-events-none">
