@@ -167,7 +167,7 @@ export default function RiskMonitor() {
 
   return (
     <MainLayout>
-      <div className="min-h-[calc(100vh-4rem)] bg-background px-4 md:px-6 lg:px-8 py-6 space-y-6 overflow-auto">
+      <div className="min-h-[calc(100vh-4rem)] bg-background px-4 md:px-6 lg:px-8 py-4 space-y-2 overflow-auto">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
