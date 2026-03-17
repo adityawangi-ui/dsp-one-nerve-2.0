@@ -20,8 +20,8 @@ interface Props {
   onOpenAnalysis?: (row: RiskRow) => void;
 }
 
-const MRDR_FROZEN_KEYS = ["riskId", "insights", "mrdr", "mrdrDescription", "msoCountry", "uom"];
-const MRDR_FROZEN_WIDTHS: Record<string, number> = { riskId: 90, insights: 60, mrdr: 120, mrdrDescription: 220, msoCountry: 100, uom: 80 };
+const MRDR_FROZEN_KEYS = ["riskId", "insights", "mrdr", "mrdrDescription", "msoCountry"];
+const MRDR_FROZEN_WIDTHS: Record<string, number> = { riskId: 90, insights: 60, mrdr: 120, mrdrDescription: 220, msoCountry: 100 };
 
 export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, onOpenAnalysis }: Props) {
   const navigate = useNavigate();
