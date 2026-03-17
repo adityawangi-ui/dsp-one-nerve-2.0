@@ -170,20 +170,15 @@ export default function RiskMonitor() {
       <div className="min-h-[calc(100vh-4rem)] bg-background px-4 md:px-6 lg:px-8 py-6 space-y-6 overflow-auto">
         {/* Header */}
         <div className="flex items-center justify-between">
-          <div>
+          <div className="flex items-center gap-3">
             <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
               <Shield className="h-6 w-6 text-primary" />
                Risk AI
              </h1>
-             <p className="text-sm text-muted-foreground mt-1">Enterprise risk intelligence & AI-powered mitigation</p>
+             <span className="text-xs text-muted-foreground">Last updated: {new Date().toLocaleTimeString()}</span>
           </div>
           <div className="flex items-center gap-3">
             <NotificationBell onNavigateToConversations={() => navigate('/risk-analysis?tab=conversations')} />
-            <Badge className="bg-success/15 text-success border border-success/30 text-xs px-3 py-1">
-              <span className="w-2 h-2 rounded-full bg-success inline-block mr-1.5 animate-pulse" />
-              Connected
-            </Badge>
-            <span className="text-xs text-muted-foreground">Last updated: {new Date().toLocaleTimeString()}</span>
           </div>
         </div>
 
