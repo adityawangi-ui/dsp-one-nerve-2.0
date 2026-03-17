@@ -152,88 +152,80 @@ export default function UnifiedFilters({ filters, onChange, maxLoss }: Props) {
   };
 
   return (
-    <div className="section-card">
-      <div className="flex items-center justify-between mb-3">
-        <div className="flex items-center gap-2">
-          <Filter className="h-4 w-4 text-primary" />
-          <span className="text-sm font-semibold text-foreground">Filters</span>
-          {activeCount > 0 && (
-            <Badge className="bg-primary/10 text-primary border-primary/20 text-[10px] px-1.5">{activeCount}</Badge>
-          )}
-        </div>
-        <div className="flex items-center gap-2">
-          {/* Saved Views Dropdown */}
-          {savedViews.length > 0 && (
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button variant="outline" size="sm" className="text-xs h-7 gap-1">
-                  <BookmarkCheck className="h-3 w-3" /> Saved Views
-                  <Badge className="bg-primary/10 text-primary border-primary/20 text-[9px] px-1 ml-0.5">{savedViews.length}</Badge>
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-64 p-2" align="end">
-                <p className="text-xs font-semibold text-foreground mb-2 px-1">Saved Filter Views</p>
-                <div className="space-y-1 max-h-48 overflow-y-auto">
-                  {savedViews.map(view => (
-                    <div key={view.id} className={`flex items-center justify-between px-2 py-1.5 rounded-lg cursor-pointer text-xs transition-colors ${
-                      activeViewId === view.id ? 'bg-primary/10 border border-primary/20' : 'hover:bg-secondary/60'
-                    }`}>
-                      <button className="flex-1 text-left font-medium text-foreground truncate" onClick={() => handleLoadView(view)}>
-                        {view.name}
-                      </button>
-                      <button onClick={() => handleDeleteView(view.id)} className="text-muted-foreground hover:text-destructive ml-2 shrink-0">
-                        <Trash2 className="h-3 w-3" />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              </PopoverContent>
-            </Popover>
-          )}
+    <div className="section-card py-3">
+      <div className="flex items-center justify-end mb-2 flex-wrap gap-2">
+        {activeCount > 0 && (
+          <Badge className="bg-primary/10 text-primary border-primary/20 text-[10px] px-1.5">{activeCount}</Badge>
+        )}
 
-          {/* Save Current Filter */}
-          {activeCount > 0 && (
-            <Button variant="outline" size="sm" className="text-xs h-7 gap-1" onClick={() => setSaveDialogOpen(true)}>
-              <Save className="h-3 w-3" /> Save View
-            </Button>
-          )}
-
-          {/* Refresh active view */}
-          {activeViewId && (
-            <Button variant="outline" size="sm" className="text-xs h-7 gap-1 text-primary" onClick={handleRefreshView} title="Refresh saved view to capture new data">
-              <RefreshCw className="h-3 w-3" /> Refresh
-            </Button>
-          )}
-
-          <Button variant="ghost" size="sm" className="text-xs h-7 gap-1 text-muted-foreground" onClick={() => { onChange({ ...defaultFilters, lossRange: [0, maxLoss] }); setActiveViewId(null); }}>
-            <RotateCcw className="h-3 w-3" /> Reset All
-          </Button>
+        {savedViews.length > 0 && (
           <Popover>
             <PopoverTrigger asChild>
               <Button variant="outline" size="sm" className="text-xs h-7 gap-1">
-                <Settings2 className="h-3 w-3" /> Manage
+                <BookmarkCheck className="h-3 w-3" /> Saved Views
+                <Badge className="bg-primary/10 text-primary border-primary/20 text-[9px] px-1 ml-0.5">{savedViews.length}</Badge>
               </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-56 p-3" align="end">
-              <p className="text-xs font-semibold text-foreground mb-2">Visible Filters</p>
-              <div className="space-y-1.5">
-                {allFilterKeys.map(f => (
-                  <label key={f.key} className="flex items-center gap-2 text-xs text-foreground cursor-pointer">
-                    <Checkbox
-                      checked={visibleFilters.has(f.key)}
-                      onCheckedChange={(checked) => {
-                        const next = new Set(visibleFilters);
-                        if (checked) next.add(f.key); else next.delete(f.key);
-                        setVisibleFilters(next);
-                      }}
-                    />
-                    {f.label}
-                  </label>
+            <PopoverContent className="w-64 p-2" align="end">
+              <p className="text-xs font-semibold text-foreground mb-2 px-1">Saved Filter Views</p>
+              <div className="space-y-1 max-h-48 overflow-y-auto">
+                {savedViews.map(view => (
+                  <div key={view.id} className={`flex items-center justify-between px-2 py-1.5 rounded-lg cursor-pointer text-xs transition-colors ${
+                    activeViewId === view.id ? 'bg-primary/10 border border-primary/20' : 'hover:bg-secondary/60'
+                  }`}>
+                    <button className="flex-1 text-left font-medium text-foreground truncate" onClick={() => handleLoadView(view)}>
+                      {view.name}
+                    </button>
+                    <button onClick={() => handleDeleteView(view.id)} className="text-muted-foreground hover:text-destructive ml-2 shrink-0">
+                      <Trash2 className="h-3 w-3" />
+                    </button>
+                  </div>
                 ))}
               </div>
             </PopoverContent>
           </Popover>
-        </div>
+        )}
+
+        {activeCount > 0 && (
+          <Button variant="outline" size="sm" className="text-xs h-7 gap-1" onClick={() => setSaveDialogOpen(true)}>
+            <Save className="h-3 w-3" /> Save View
+          </Button>
+        )}
+
+        {activeViewId && (
+          <Button variant="outline" size="sm" className="text-xs h-7 gap-1 text-primary" onClick={handleRefreshView} title="Refresh saved view to capture new data">
+            <RefreshCw className="h-3 w-3" /> Refresh
+          </Button>
+        )}
+
+        <Button variant="ghost" size="sm" className="text-xs h-7 gap-1 text-muted-foreground" onClick={() => { onChange({ ...defaultFilters, lossRange: [0, maxLoss] }); setActiveViewId(null); }}>
+          <RotateCcw className="h-3 w-3" /> Reset All
+        </Button>
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant="outline" size="sm" className="text-xs h-7 gap-1">
+              <Settings2 className="h-3 w-3" /> Manage
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-56 p-3" align="end">
+            <p className="text-xs font-semibold text-foreground mb-2">Visible Filters</p>
+            <div className="space-y-1.5">
+              {allFilterKeys.map(f => (
+                <label key={f.key} className="flex items-center gap-2 text-xs text-foreground cursor-pointer">
+                  <Checkbox
+                    checked={visibleFilters.has(f.key)}
+                    onCheckedChange={(checked) => {
+                      const next = new Set(visibleFilters);
+                      if (checked) next.add(f.key); else next.delete(f.key);
+                      setVisibleFilters(next);
+                    }}
+                  />
+                  {f.label}
+                </label>
+              ))}
+            </div>
+          </PopoverContent>
+        </Popover>
       </div>
 
       {/* Active saved view indicator */}
