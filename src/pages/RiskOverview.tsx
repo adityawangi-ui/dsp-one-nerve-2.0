@@ -39,6 +39,9 @@ export default function RiskOverview() {
       case "assigned":
         setFilters(prev => ({ ...defaultFilters, lossRange: [0, 60000000], assignedTo: "Hans Müller" }));
         break;
+      case "open":
+        setFilters(prev => ({ ...defaultFilters, lossRange: [0, 60000000], status: "Open" }));
+        break;
       case "value-at-risk":
         setFilters(prev => ({ ...defaultFilters, lossRange: [10000000, 60000000], severity: "S 1" }));
         break;
