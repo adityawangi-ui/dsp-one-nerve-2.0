@@ -275,10 +275,6 @@ export default function RiskMonitor() {
 
         {/* Risk Table */}
         <Card className="border border-border/60 shadow-[var(--shadow-card)] overflow-hidden">
-          <div className="p-4 border-b border-border/40">
-            <h2 className="text-sm font-semibold text-foreground">Detailed Risk Items</h2>
-            <p className="text-xs text-muted-foreground">{sortedData.length} of {riskTableData.length} items</p>
-          </div>
           <div className="overflow-x-auto">
             <Table>
               <TableHeader>
