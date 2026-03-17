@@ -25,7 +25,7 @@ const sectionDefinitions: Record<string, string> = {
 };
 
 const sections = [
-  { id: "ctp", title: "Exception Daily/Weekly CTP", icon: Table2 },
+  { id: "ctp", title: "Exception Daily/Weekly Graph", icon: Table2 },
   { id: "stock", title: "Stock Info / Inventory", icon: Package },
   { id: "doh", title: "DOH (Day & Quantity)", icon: Calendar },
   { id: "forecast", title: "Forecast / Promo Details", icon: BarChart3 },
