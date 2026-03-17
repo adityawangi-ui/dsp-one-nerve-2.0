@@ -337,14 +337,20 @@ export default function InsightsDataTab({ row }: Props) {
   const ctpWeeklyWeeks = ["WK 8", "WK 9", "WK 10", "WK 11", "WK 12", "WK 13", "WK 14", "WK 15", "WK 16", "WK 17", "WK 18", "WK 19"];
   const ctpColumns = ctpMode === "daily" ? ctpDailyWeeks : ctpWeeklyWeeks;
   const ctpMetrics = Object.keys(ctpRawData);
-  const ctpChartData = ctpColumns.map((w, i) => {
-    const offset = ctpMode === "daily" ? 0 : 8;
-    return {
-      week: w,
-      demand: Number(ctpRawData["Planned Demand"][offset + i]) || 0,
-      supply: Number(ctpRawData["Total Supply"][offset + i]) || 0,
-    };
-  });
+  const ctpChartData = ctpColumns
+    .map((w, i) => {
+      const offset = ctpMode === "daily" ? 0 : 8;
+      const oosVal = ctpRawData["OOS QTY"][offset + i];
+      const belowRsVal = ctpRawData["Below RS QTY"][offset + i];
+      return {
+        week: w,
+        demand: Number(ctpRawData["Planned Demand"][offset + i]) || 0,
+        supply: Number(ctpRawData["Total Supply"][offset + i]) || 0,
+        oos: typeof oosVal === "number" ? Math.abs(oosVal) : 0,
+        belowRS: typeof belowRsVal === "number" ? belowRsVal : 0,
+      };
+    })
+    .filter(d => d.week !== "Past");
 
   // ── Stock Data ──
   const stockTableHeaders = ["VF Code", "Alt MRDR", "Alt Stock", "Cluster Stock", "Unrestricted", "Restricted", "Blocked", "Quarantine", "Release Date", "Transition Date", "Type", "DR% MSO", "DR% MRDR MSO", "DR% MRDR Site"];
