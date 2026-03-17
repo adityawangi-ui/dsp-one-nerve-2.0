@@ -25,7 +25,7 @@ const sectionDefinitions: Record<string, string> = {
 };
 
 const sections = [
-  { id: "ctp", title: "Exception Daily/Weekly CTP", icon: Table2 },
+  { id: "ctp", title: "Exception Daily/Weekly Graph", icon: Table2 },
   { id: "stock", title: "Stock Info / Inventory", icon: Package },
   { id: "doh", title: "DOH (Day & Quantity)", icon: Calendar },
   { id: "forecast", title: "Forecast / Promo Details", icon: BarChart3 },
@@ -337,14 +337,20 @@ export default function InsightsDataTab({ row }: Props) {
   const ctpWeeklyWeeks = ["WK 8", "WK 9", "WK 10", "WK 11", "WK 12", "WK 13", "WK 14", "WK 15", "WK 16", "WK 17", "WK 18", "WK 19"];
   const ctpColumns = ctpMode === "daily" ? ctpDailyWeeks : ctpWeeklyWeeks;
   const ctpMetrics = Object.keys(ctpRawData);
-  const ctpChartData = ctpColumns.map((w, i) => {
-    const offset = ctpMode === "daily" ? 0 : 8;
-    return {
-      week: w,
-      demand: Number(ctpRawData["Planned Demand"][offset + i]) || 0,
-      supply: Number(ctpRawData["Total Supply"][offset + i]) || 0,
-    };
-  });
+  const ctpChartData = ctpColumns
+    .map((w, i) => {
+      const offset = ctpMode === "daily" ? 0 : 8;
+      const oosVal = ctpRawData["OOS QTY"][offset + i];
+      const belowRsVal = ctpRawData["Below RS QTY"][offset + i];
+      return {
+        week: w,
+        demand: Number(ctpRawData["Planned Demand"][offset + i]) || 0,
+        supply: Number(ctpRawData["Total Supply"][offset + i]) || 0,
+        oos: typeof oosVal === "number" ? Math.abs(oosVal) : 0,
+        belowRS: typeof belowRsVal === "number" ? belowRsVal : 0,
+      };
+    })
+    .filter(d => d.week !== "Past");
 
   // ── Stock Data ──
   const stockTableHeaders = ["VF Code", "Alt MRDR", "Alt Stock", "Cluster Stock", "Unrestricted", "Restricted", "Blocked", "Quarantine", "Release Date", "Transition Date", "Type", "DR% MSO", "DR% MRDR MSO", "DR% MRDR Site"];
@@ -422,15 +428,15 @@ export default function InsightsDataTab({ row }: Props) {
 
         {/* 1. CTP */}
         <section id="tab-insight-ctp">
-          <SectionHeader icon={Table2} title="Exception Daily / Weekly CTP" sectionId="ctp" rightContent={
+          <SectionHeader icon={Table2} title="Exception Daily / Weekly Graph" sectionId="ctp" rightContent={
             <div className="flex rounded-lg border border-border overflow-hidden">
               <button onClick={() => setCtpMode("daily")} className={`px-3 py-1.5 text-[10px] font-semibold transition-colors ${ctpMode === "daily" ? "bg-primary text-primary-foreground" : "bg-background text-foreground hover:bg-secondary/80"}`}>Daily</button>
               <button onClick={() => setCtpMode("weekly")} className={`px-3 py-1.5 text-[10px] font-semibold transition-colors ${ctpMode === "weekly" ? "bg-primary text-primary-foreground" : "bg-background text-foreground hover:bg-secondary/80"}`}>Weekly</button>
             </div>
           } />
-          <ChartCard title="Planned Demand vs Total Supply">
+          <ChartCard title="Planned Demand vs Total Supply" contentClassName="h-64">
             <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={ctpChartData} barCategoryGap="20%">
+              <ComposedChart data={ctpChartData} barCategoryGap="20%">
                 <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" strokeOpacity={0.5} />
                 <XAxis dataKey="week" tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
                 <YAxis tick={axisTickStyle} axisLine={{ stroke: 'hsl(var(--border))' }} />
@@ -438,7 +444,9 @@ export default function InsightsDataTab({ row }: Props) {
                 <Legend wrapperStyle={legendStyle} formatter={(value: string) => <span style={{ color: 'hsl(var(--foreground))' }}>{value}</span>} />
                 <Bar dataKey="demand" fill={CHART_BLUE} name="Planned Demand" radius={[4, 4, 0, 0]} />
                 <Bar dataKey="supply" fill={CHART_GREEN} name="Total Supply" radius={[4, 4, 0, 0]} />
-              </BarChart>
+                <Line type="monotone" dataKey="oos" stroke="hsl(0, 72%, 51%)" name="OOS" strokeWidth={2} dot={{ r: 3, fill: "hsl(0, 72%, 51%)" }} />
+                <Line type="monotone" dataKey="belowRS" stroke="hsl(27, 96%, 54%)" name="Below RS" strokeWidth={2} dot={{ r: 3, fill: "hsl(27, 96%, 54%)" }} />
+              </ComposedChart>
             </ResponsiveContainer>
           </ChartCard>
 

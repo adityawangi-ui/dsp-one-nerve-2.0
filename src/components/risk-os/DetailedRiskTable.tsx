@@ -20,8 +20,8 @@ interface Props {
   onOpenAnalysis?: (row: RiskRow) => void;
 }
 
-const MRDR_FROZEN_KEYS = ["riskId", "insights", "mrdr", "mrdrDescription", "msoCountry", "uom"];
-const MRDR_FROZEN_WIDTHS: Record<string, number> = { riskId: 90, insights: 60, mrdr: 120, mrdrDescription: 220, msoCountry: 100, uom: 80 };
+const MRDR_FROZEN_KEYS = ["riskId", "insights", "mrdr", "mrdrDescription", "msoCountry"];
+const MRDR_FROZEN_WIDTHS: Record<string, number> = { riskId: 90, insights: 60, mrdr: 120, mrdrDescription: 220, msoCountry: 100 };
 
 export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, onOpenAnalysis }: Props) {
   const navigate = useNavigate();
@@ -342,8 +342,6 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                       <td className={cellCls} style={frozenCellStyle("mrdrDescription", rowNewVariant)}>{agg.mrdrDescription}</td>
                       {/* MSO Country - frozen */}
                       <td className={cellCls} style={frozenCellStyle("msoCountry", rowNewVariant)}>{agg.msoCountry}</td>
-                      {/* UOM - frozen */}
-                      <td className={cellCls} style={frozenCellStyle("uom", rowNewVariant)}>{displayUom}</td>
                        {/* Scrollable columns */}
                        <td className={cellCls}>{agg.site}</td>
                        <td className={cellCls}>{agg.category}</td>
@@ -356,8 +354,8 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                        <td className={cellCls}>{agg.startedOnWeek}</td>
                        <td className={cellCls}>{agg.endedOnWeek || "—"}</td>
                        <td className={cellCls}>{agg.riskInDays}</td>
-                       <td className={cellCls}>{convertQty(agg.stockCS, agg.uom).toLocaleString()}</td>
                        <td className={cellCls}>{convertQty(agg.expectedLossCases, agg.uom).toLocaleString()}</td>
+                       <td className={cellCls}>{displayUom}</td>
                        <td className={cellCls}>€{agg.expectedLossValue.toLocaleString()}</td>
                        <td className={cellCls}>{agg.nextAvailableDate || "—"}</td>
                        <td className={cellCls}>{agg.botReasonCode}</td>
@@ -389,7 +387,6 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                           </td>
                           <td className={childCellCls} style={frozenCellStyle("mrdrDescription", childVariant)}>{cr.mrdrDescription}</td>
                           <td className={childCellCls} style={frozenCellStyle("msoCountry", childVariant)}>{cr.msoCountry}</td>
-                          <td className={childCellCls} style={frozenCellStyle("uom", childVariant)}>{displayUom}</td>
                            <td className={childCellCls}>{cr.site}</td>
                            <td className={childCellCls}>{cr.category}</td>
                            <td className={childCellCls}>{cr.su}</td>
@@ -401,8 +398,8 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
                            <td className={childCellCls}>{cr.startedOnWeek}</td>
                            <td className={childCellCls}>{cr.endedOnWeek || "—"}</td>
                            <td className={childCellCls}>{cr.riskInDays}</td>
-                           <td className={childCellCls}>{convertQty(cr.stockCS, cr.uom).toLocaleString()}</td>
                            <td className={childCellCls}>{convertQty(cr.expectedLossCases, cr.uom).toLocaleString()}</td>
+                           <td className={childCellCls}>{displayUom}</td>
                            <td className={childCellCls}>€{cr.expectedLossValue.toLocaleString()}</td>
                            <td className={childCellCls}>{cr.nextAvailableDate || "—"}</td>
                            <td className={childCellCls}>{cr.botReasonCode}</td>

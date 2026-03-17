@@ -170,28 +170,20 @@ export default function RiskMonitor() {
       <div className="min-h-[calc(100vh-4rem)] bg-background px-4 md:px-6 lg:px-8 py-6 space-y-6 overflow-auto">
         {/* Header */}
         <div className="flex items-center justify-between">
-          <div>
+          <div className="flex items-center gap-3">
             <h1 className="text-2xl font-bold text-foreground flex items-center gap-2">
               <Shield className="h-6 w-6 text-primary" />
                Risk AI
              </h1>
-             <p className="text-sm text-muted-foreground mt-1">Enterprise risk intelligence & AI-powered mitigation</p>
+             <span className="text-xs text-muted-foreground">Last updated: {new Date().toLocaleTimeString()}</span>
           </div>
           <div className="flex items-center gap-3">
             <NotificationBell onNavigateToConversations={() => navigate('/risk-analysis?tab=conversations')} />
-            <Badge className="bg-success/15 text-success border border-success/30 text-xs px-3 py-1">
-              <span className="w-2 h-2 rounded-full bg-success inline-block mr-1.5 animate-pulse" />
-              Connected
-            </Badge>
-            <span className="text-xs text-muted-foreground">Last updated: {new Date().toLocaleTimeString()}</span>
           </div>
         </div>
 
         {/* Alerts & Risk Summary — Compact */}
         <Card className="p-4 border border-border/60 shadow-[var(--shadow-card)]">
-          <h2 className="text-xs font-semibold text-foreground mb-3 flex items-center gap-2">
-            <BarChart3 className="h-3.5 w-3.5 text-primary" /> Alerts & Risk Summary
-          </h2>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-4">
             {/* Left - Alert Rows */}
             <div className="lg:col-span-4 space-y-0.5">
@@ -283,10 +275,6 @@ export default function RiskMonitor() {
 
         {/* Risk Table */}
         <Card className="border border-border/60 shadow-[var(--shadow-card)] overflow-hidden">
-          <div className="p-4 border-b border-border/40">
-            <h2 className="text-sm font-semibold text-foreground">Detailed Risk Items</h2>
-            <p className="text-xs text-muted-foreground">{sortedData.length} of {riskTableData.length} items</p>
-          </div>
           <div className="overflow-x-auto">
             <Table>
               <TableHeader>
