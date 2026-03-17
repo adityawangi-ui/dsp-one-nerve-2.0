@@ -1,13 +1,7 @@
-import { alertRows, donutData } from "@/data/riskData";
-import { Shield, UserCheck, TrendingUp, DollarSign, AlertCircle, Package } from "lucide-react";
+import { riskData, donutData } from "@/data/riskData";
+import { Shield, UserCheck, TrendingUp, DollarSign, AlertCircle, Package, FolderOpen } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip as RechartsTooltip } from "recharts";
-import { useState } from "react";
-
-const iconMap: Record<string, React.ElementType> = {
-  "Total Risks": Shield,
-  "Past Due": AlertCircle,
-  "Assigned to Me": UserCheck,
-};
+import { useState, useMemo } from "react";
 
 const donutTrends: Record<string, { trend: string; up: boolean }> = {
   Critical: { trend: "+12", up: true },
@@ -15,28 +9,51 @@ const donutTrends: Record<string, { trend: string; up: boolean }> = {
   Low: { trend: "+3", up: true },
 };
 
-export type KpiFilterKey = "total" | "past-due" | "assigned" | "value-at-risk" | "volume" | null;
+export type KpiFilterKey = "total" | "past-due" | "assigned" | "open" | "value-at-risk" | "volume" | null;
 
 interface Props {
   activeKpi?: KpiFilterKey;
   onKpiClick?: (key: KpiFilterKey) => void;
 }
 
-const lhsKpis: { label: string; filterKey: KpiFilterKey }[] = [
-  { label: "Total Risks", filterKey: "total" },
-  { label: "Past Due", filterKey: "past-due" },
-  { label: "Assigned to Me", filterKey: "assigned" },
-];
-
-const rhsKpis = [
-  { label: "Total Risks", value: "1,281", icon: Shield, color: "text-primary", bgColor: "bg-primary/10", filterKey: "total" as KpiFilterKey, trend: null },
-  { label: "Value at Risk", value: "€2.4M", icon: DollarSign, color: "text-destructive", bgColor: "bg-destructive/10", filterKey: "value-at-risk" as KpiFilterKey, trend: { value: "+8%", up: true } },
-  { label: "Volume", value: "6,955", icon: Package, color: "text-success", bgColor: "bg-success/10", filterKey: "volume" as KpiFilterKey, trend: null },
-];
-
 export default function AlertsSection({ activeKpi, onKpiClick }: Props) {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
   const total = donutData.reduce((s, d) => s + d.value, 0);
+
+  // Compute KPI values from actual risk data
+  const kpiValues = useMemo(() => {
+    const totalRisks = riskData.length;
+    const pastDue = riskData.filter(r => r.riskInDays > 14 && r.status === "Open").length;
+    const assignedToMe = riskData.filter(r => r.assignedTo === "Hans Müller").length;
+    const openRisks = riskData.filter(r => r.status === "Open").length;
+    const valueAtRisk = riskData.reduce((s, r) => s + r.expectedLossValue, 0);
+    const volumeCases = riskData.reduce((s, r) => s + r.expectedLossCases, 0);
+    return { totalRisks, pastDue, assignedToMe, openRisks, valueAtRisk, volumeCases };
+  }, []);
+
+  const formatCurrency = (v: number) => {
+    if (v >= 1000000) return `€${(v / 1000000).toFixed(1)}M`;
+    if (v >= 1000) return `€${(v / 1000).toFixed(0)}K`;
+    return `€${v}`;
+  };
+
+  const formatVolume = (v: number) => {
+    if (v >= 1000000) return `${(v / 1000000).toFixed(1)}M`;
+    if (v >= 1000) return `${(v / 1000).toFixed(1)}K`;
+    return String(v);
+  };
+
+  const lhsKpis = [
+    { label: "Total Risks", value: kpiValues.totalRisks, icon: Shield, color: "text-primary", bgColor: "bg-primary/10", filterKey: "total" as KpiFilterKey, tooltip: `All ${kpiValues.totalRisks} tracked risk items across all categories and regions.` },
+    { label: "Past Due", value: kpiValues.pastDue, icon: AlertCircle, color: "text-destructive", bgColor: "bg-destructive/10", filterKey: "past-due" as KpiFilterKey, tooltip: `${kpiValues.pastDue} overdue risk items (>14 days, still open).` },
+    { label: "Assigned to Me", value: kpiValues.assignedToMe, icon: UserCheck, color: "text-primary", bgColor: "bg-primary/10", filterKey: "assigned" as KpiFilterKey, tooltip: `${kpiValues.assignedToMe} risk items assigned to your queue.` },
+  ];
+
+  const rhsKpis = [
+    { label: "Open Risks", value: String(kpiValues.openRisks), icon: FolderOpen, color: "text-warning", bgColor: "bg-warning/10", filterKey: "open" as KpiFilterKey, trend: null },
+    { label: "Value at Risk", value: formatCurrency(kpiValues.valueAtRisk), icon: DollarSign, color: "text-destructive", bgColor: "bg-destructive/10", filterKey: "value-at-risk" as KpiFilterKey, trend: { value: "+8%", up: true } },
+    { label: "Volume", value: formatVolume(kpiValues.volumeCases), icon: Package, color: "text-success", bgColor: "bg-success/10", filterKey: "volume" as KpiFilterKey, trend: null },
+  ];
 
   const handleClick = (key: KpiFilterKey) => {
     onKpiClick?.(activeKpi === key ? null : key);
@@ -56,40 +73,28 @@ export default function AlertsSection({ activeKpi, onKpiClick }: Props) {
       <div className="flex gap-0 relative">
         {/* Left column — Square KPI cards */}
         <div className="w-[35%] pr-4 border-r border-border/40 grid grid-cols-3 gap-2 items-center">
-          {alertRows.filter(row => ["Total Risks", "Past Due", "Assigned to Me"].includes(row.label)).map((row, idx) => {
-            const Icon = iconMap[row.label] || Shield;
-            const lhsColorMap: Record<string, { text: string; bg: string }> = {
-              critical: { text: "text-destructive", bg: "bg-destructive/10" },
-              medium: { text: "text-warning", bg: "bg-warning/10" },
-              low: { text: "text-success", bg: "bg-success/10" },
-              info: { text: "text-primary", bg: "bg-primary/10" },
-              assigned: { text: "text-primary", bg: "bg-primary/10" },
-            };
-            const colors = lhsColorMap[row.severity] || lhsColorMap.info;
-            const filterKey = lhsKpis[idx]?.filterKey;
-            return (
-              <div
-                key={row.label}
-                className={cardClass(filterKey)}
-                onClick={() => handleClick(filterKey)}
-                onMouseEnter={() => setHoveredIdx(idx)}
-                onMouseLeave={() => setHoveredIdx(null)}
-              >
-                <div className={`p-2 rounded-lg ${colors.bg} transition-transform duration-300 group-hover:scale-110`}>
-                  <Icon className={`h-4 w-4 ${colors.text}`} />
-                </div>
-                <span className="text-sm font-extrabold font-mono-tech text-foreground leading-none">{row.value.toLocaleString()}</span>
-                <span className="text-[8px] uppercase tracking-widest text-muted-foreground font-medium text-center leading-tight px-1">{row.label}</span>
-
-                {hoveredIdx === idx && (
-                  <div className="absolute left-full ml-3 top-1/2 -translate-y-1/2 z-50 w-64 bg-foreground text-background text-[11px] rounded-lg p-3 shadow-xl leading-relaxed pointer-events-none">
-                    <div className="absolute left-0 top-1/2 -translate-x-1 -translate-y-1/2 w-2 h-2 bg-foreground rotate-45" />
-                    {row.tooltip}
-                  </div>
-                )}
+          {lhsKpis.map((kpi, idx) => (
+            <div
+              key={kpi.label}
+              className={cardClass(kpi.filterKey)}
+              onClick={() => handleClick(kpi.filterKey)}
+              onMouseEnter={() => setHoveredIdx(idx)}
+              onMouseLeave={() => setHoveredIdx(null)}
+            >
+              <div className={`p-2 rounded-lg ${kpi.bgColor} transition-transform duration-300 group-hover:scale-110`}>
+                <kpi.icon className={`h-4 w-4 ${kpi.color}`} />
               </div>
-            );
-          })}
+              <span className="text-sm font-extrabold font-mono-tech text-foreground leading-none">{kpi.value.toLocaleString()}</span>
+              <span className="text-[8px] uppercase tracking-widest text-muted-foreground font-medium text-center leading-tight px-1">{kpi.label}</span>
+
+              {hoveredIdx === idx && (
+                <div className="absolute left-full ml-3 top-1/2 -translate-y-1/2 z-50 w-64 bg-foreground text-background text-[11px] rounded-lg p-3 shadow-xl leading-relaxed pointer-events-none">
+                  <div className="absolute left-0 top-1/2 -translate-x-1 -translate-y-1/2 w-2 h-2 bg-foreground rotate-45" />
+                  {kpi.tooltip}
+                </div>
+              )}
+            </div>
+          ))}
         </div>
 
         {/* Center column — Donut */}
