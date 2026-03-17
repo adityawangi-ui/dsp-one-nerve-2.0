@@ -137,7 +137,7 @@ export default function RiskOverview() {
             <span className="text-foreground font-medium">Risk AI</span>
           </nav>
 
-          <AlertsSection />
+          <AlertsSection activeKpi={activeKpi} onKpiClick={handleKpiClick} />
           <UnifiedFilters filters={filters} onChange={setFilters} maxLoss={60000000} />
           <DetailedRiskTable data={filteredRows} onOpenInsights={setInsightsRow} onUpdateRow={handleUpdateRow} onOpenAnalysis={handleOpenAnalysis} />
         </div>
