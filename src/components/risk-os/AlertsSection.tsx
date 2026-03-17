@@ -1,5 +1,5 @@
 import { alertRows, donutData } from "@/data/riskData";
-import { Shield, UserCheck, Activity, TrendingUp, TrendingDown, DollarSign, AlertCircle, Package } from "lucide-react";
+import { Shield, UserCheck, TrendingUp, DollarSign, AlertCircle, Package } from "lucide-react";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip as RechartsTooltip } from "recharts";
 import { useState } from "react";
 
@@ -9,46 +9,53 @@ const iconMap: Record<string, React.ElementType> = {
   "Assigned to Me": UserCheck,
 };
 
-const severityDotColor: Record<string, string> = {
-  critical: "bg-critical",
-  medium: "bg-medium",
-  low: "bg-low",
-  info: "bg-info",
-  assigned: "bg-assigned",
-};
-
-const severityBarColor: Record<string, string> = {
-  critical: "bg-critical",
-  medium: "bg-medium",
-  low: "bg-low",
-  info: "bg-info",
-  assigned: "bg-assigned",
-};
-
 const donutTrends: Record<string, { trend: string; up: boolean }> = {
   Critical: { trend: "+12", up: true },
   Medium: { trend: "-5", up: false },
   Low: { trend: "+3", up: true },
 };
 
-// RHS KPI data: Total Risks, Past Due, Assigned to Me with € and volume
-const rhsKPIs = [
-  { label: "Total Risks", value: 1281, volume: "4,820 CS", euro: "€1.8M", icon: Shield, color: "text-primary" },
-  { label: "Past Due", value: 234, volume: "1,245 CS", euro: "€420K", icon: AlertCircle, color: "text-critical" },
-  { label: "Assigned to Me", value: 67, volume: "890 CS", euro: "€185K", icon: UserCheck, color: "text-foreground" },
+export type KpiFilterKey = "total" | "past-due" | "assigned" | "value-at-risk" | "volume" | null;
+
+interface Props {
+  activeKpi?: KpiFilterKey;
+  onKpiClick?: (key: KpiFilterKey) => void;
+}
+
+const lhsKpis: { label: string; filterKey: KpiFilterKey }[] = [
+  { label: "Total Risks", filterKey: "total" },
+  { label: "Past Due", filterKey: "past-due" },
+  { label: "Assigned to Me", filterKey: "assigned" },
 ];
 
-export default function AlertsSection() {
+const rhsKpis = [
+  { label: "Total Risks", value: "1,281", icon: Shield, color: "text-primary", bgColor: "bg-primary/10", filterKey: "total" as KpiFilterKey, trend: null },
+  { label: "Value at Risk", value: "€2.4M", icon: DollarSign, color: "text-destructive", bgColor: "bg-destructive/10", filterKey: "value-at-risk" as KpiFilterKey, trend: { value: "+8%", up: true } },
+  { label: "Volume", value: "6,955", icon: Package, color: "text-success", bgColor: "bg-success/10", filterKey: "volume" as KpiFilterKey, trend: null },
+];
+
+export default function AlertsSection({ activeKpi, onKpiClick }: Props) {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
   const total = donutData.reduce((s, d) => s + d.value, 0);
+
+  const handleClick = (key: KpiFilterKey) => {
+    onKpiClick?.(activeKpi === key ? null : key);
+  };
+
+  const cardClass = (key: KpiFilterKey) =>
+    `relative aspect-square flex flex-col items-center justify-center gap-1.5 rounded-xl border transition-all duration-300 cursor-pointer group ${
+      activeKpi === key
+        ? "border-primary bg-primary/10 shadow-[var(--shadow-glow)] ring-1 ring-primary/30"
+        : "border-border/50 bg-gradient-to-br from-card to-secondary/30 hover:shadow-[var(--shadow-glow)] hover:border-primary/20"
+    }`;
 
   return (
     <div className="section-card relative overflow-hidden py-3">
       <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-primary/5 blur-3xl pointer-events-none" />
 
       <div className="flex gap-0 relative">
-        {/* Left column — Square KPI cards matching RHS style */}
-        <div className="w-[40%] pr-4 border-r border-border/40 grid grid-cols-3 gap-2 items-center">
+        {/* Left column — Square KPI cards */}
+        <div className="w-[35%] pr-4 border-r border-border/40 grid grid-cols-3 gap-2 items-center">
           {alertRows.filter(row => ["Total Risks", "Past Due", "Assigned to Me"].includes(row.label)).map((row, idx) => {
             const Icon = iconMap[row.label] || Shield;
             const lhsColorMap: Record<string, { text: string; bg: string }> = {
@@ -59,10 +66,12 @@ export default function AlertsSection() {
               assigned: { text: "text-primary", bg: "bg-primary/10" },
             };
             const colors = lhsColorMap[row.severity] || lhsColorMap.info;
+            const filterKey = lhsKpis[idx]?.filterKey;
             return (
               <div
                 key={row.label}
-                className="relative aspect-square flex flex-col items-center justify-center gap-1.5 rounded-xl border border-border/50 bg-gradient-to-br from-card to-secondary/30 hover:shadow-[var(--shadow-glow)] hover:border-primary/20 transition-all duration-300 cursor-default group"
+                className={cardClass(filterKey)}
+                onClick={() => handleClick(filterKey)}
                 onMouseEnter={() => setHoveredIdx(idx)}
                 onMouseLeave={() => setHoveredIdx(null)}
               >
@@ -83,7 +92,7 @@ export default function AlertsSection() {
           })}
         </div>
 
-        {/* Center column — Donut with hover showing trends */}
+        {/* Center column — Donut */}
         <div className="w-[30%] px-4 border-r border-border/40 flex flex-col items-center justify-center">
           <div className="relative">
             <ResponsiveContainer width={140} height={140}>
@@ -119,7 +128,6 @@ export default function AlertsSection() {
               <span className="text-[9px] uppercase tracking-wider text-muted-foreground font-semibold">TOTAL</span>
             </div>
           </div>
-          {/* Legend */}
           <div className="flex gap-3 mt-1">
             {donutData.map((d) => (
               <div key={d.name} className="flex items-center gap-1 text-[9px]">
@@ -131,15 +139,12 @@ export default function AlertsSection() {
         </div>
 
         {/* Right column — Square KPI cards */}
-        <div className="w-[30%] pl-4 grid grid-cols-3 gap-2 items-center">
-          {[
-            { label: "Total Risks", value: "1,281", icon: Shield, color: "text-primary", bgColor: "bg-primary/10", trend: null },
-            { label: "Value at Risk", value: "€2.4M", icon: DollarSign, color: "text-destructive", bgColor: "bg-destructive/10", trend: { value: "+8%", up: true } },
-            { label: "Volume", value: "6,955", icon: Package, color: "text-success", bgColor: "bg-success/10", trend: null },
-          ].map((kpi) => (
+        <div className="w-[35%] pl-4 grid grid-cols-3 gap-2 items-center">
+          {rhsKpis.map((kpi) => (
             <div
               key={kpi.label}
-              className="relative aspect-square flex flex-col items-center justify-center gap-1.5 rounded-xl border border-border/50 bg-gradient-to-br from-card to-secondary/30 hover:shadow-[var(--shadow-glow)] hover:border-primary/20 transition-all duration-300 cursor-default group"
+              className={cardClass(kpi.filterKey)}
+              onClick={() => handleClick(kpi.filterKey)}
             >
               <div className={`p-2 rounded-lg ${kpi.bgColor} transition-transform duration-300 group-hover:scale-110`}>
                 <kpi.icon className={`h-4 w-4 ${kpi.color}`} />

@@ -4,7 +4,7 @@ import { riskData, RiskRow } from "@/data/riskData";
 import { Home, ChevronRight, Shield, Clock, BarChart3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import AlertsSection from "@/components/risk-os/AlertsSection";
+import AlertsSection, { KpiFilterKey } from "@/components/risk-os/AlertsSection";
 import UnifiedFilters, { FilterState, defaultFilters } from "@/components/risk-os/UnifiedFilters";
 import DetailedRiskTable from "@/components/risk-os/DetailedRiskTable";
 import InsightsPanel from "@/components/risk-os/InsightsPanel";
@@ -21,6 +21,32 @@ export default function RiskOverview() {
   const [insightsRow, setInsightsRow] = useState<RiskRow | null>(null);
   const [analysisRow, setAnalysisRow] = useState<RiskRow | null>(null);
   const [showVisualCentre, setShowVisualCentre] = useState(false);
+  const [activeKpi, setActiveKpi] = useState<KpiFilterKey>(null);
+
+  const handleKpiClick = (key: KpiFilterKey) => {
+    setActiveKpi(key);
+    if (!key) {
+      setFilters(prev => ({ ...prev, status: "all", assignedTo: "all", severity: "all" }));
+      return;
+    }
+    switch (key) {
+      case "total":
+        setFilters(prev => ({ ...defaultFilters, lossRange: [0, 60000000] }));
+        break;
+      case "past-due":
+        setFilters(prev => ({ ...defaultFilters, lossRange: [0, 60000000], status: "all", priority: "P 1" }));
+        break;
+      case "assigned":
+        setFilters(prev => ({ ...defaultFilters, lossRange: [0, 60000000], assignedTo: "Hans Müller" }));
+        break;
+      case "value-at-risk":
+        setFilters(prev => ({ ...defaultFilters, lossRange: [10000000, 60000000], severity: "S 1" }));
+        break;
+      case "volume":
+        setFilters(prev => ({ ...defaultFilters, lossRange: [0, 60000000] }));
+        break;
+    }
+  };
 
   const now = new Date();
   const timestamp = now.toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" }) + ", " + now.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" });
@@ -111,7 +137,7 @@ export default function RiskOverview() {
             <span className="text-foreground font-medium">Risk AI</span>
           </nav>
 
-          <AlertsSection />
+          <AlertsSection activeKpi={activeKpi} onKpiClick={handleKpiClick} />
           <UnifiedFilters filters={filters} onChange={setFilters} maxLoss={60000000} />
           <DetailedRiskTable data={filteredRows} onOpenInsights={setInsightsRow} onUpdateRow={handleUpdateRow} onOpenAnalysis={handleOpenAnalysis} />
         </div>
