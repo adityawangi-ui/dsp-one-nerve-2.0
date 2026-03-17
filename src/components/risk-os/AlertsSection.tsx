@@ -124,34 +124,29 @@ export default function AlertsSection() {
           </div>
         </div>
 
-        {/* Right column — Total Risk count, € value, volume as mini cards */}
-        <div className="w-[30%] pl-4 flex flex-col justify-center space-y-1.5">
-          <div className="flex items-center justify-between px-3 py-2 rounded-md border border-border/50 bg-secondary/30">
-            <div className="flex items-center gap-1.5">
-              <Shield className="h-3.5 w-3.5 text-muted-foreground" />
-              <span className="text-[11px] text-muted-foreground">Total Risks</span>
+        {/* Right column — Square KPI cards */}
+        <div className="w-[30%] pl-4 grid grid-cols-3 gap-2 items-center">
+          {[
+            { label: "Total Risks", value: "1,281", icon: Shield, color: "text-primary", bgColor: "bg-primary/10", trend: null },
+            { label: "Value at Risk", value: "€2.4M", icon: DollarSign, color: "text-destructive", bgColor: "bg-destructive/10", trend: { value: "+8%", up: true } },
+            { label: "Volume", value: "6,955", icon: Package, color: "text-success", bgColor: "bg-success/10", trend: null },
+          ].map((kpi) => (
+            <div
+              key={kpi.label}
+              className="relative aspect-square flex flex-col items-center justify-center gap-1.5 rounded-xl border border-border/50 bg-gradient-to-br from-card to-secondary/30 hover:shadow-[var(--shadow-glow)] hover:border-primary/20 transition-all duration-300 cursor-default group"
+            >
+              <div className={`p-2 rounded-lg ${kpi.bgColor} transition-transform duration-300 group-hover:scale-110`}>
+                <kpi.icon className={`h-4 w-4 ${kpi.color}`} />
+              </div>
+              <span className="text-sm font-extrabold font-mono-tech text-foreground leading-none">{kpi.value}</span>
+              <span className="text-[8px] uppercase tracking-widest text-muted-foreground font-medium text-center leading-tight px-1">{kpi.label}</span>
+              {kpi.trend && (
+                <span className="absolute top-1.5 right-1.5 text-[8px] text-destructive font-semibold flex items-center gap-0.5">
+                  <TrendingUp className="h-2 w-2" /> {kpi.trend.value}
+                </span>
+              )}
             </div>
-            <span className="text-[15px] font-extrabold font-mono-tech text-primary">1,281</span>
-          </div>
-          <div className="flex items-center justify-between px-3 py-2 rounded-md border border-border/50 bg-secondary/30">
-            <div className="flex items-center gap-1.5">
-              <DollarSign className="h-3.5 w-3.5 text-muted-foreground" />
-              <span className="text-[11px] text-muted-foreground">Value at Risk</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="text-[15px] font-extrabold font-mono-tech text-foreground">€2.4M</span>
-              <span className="text-[10px] text-critical font-semibold flex items-center gap-0.5">
-                <TrendingUp className="h-2.5 w-2.5" /> +8%
-              </span>
-            </div>
-          </div>
-          <div className="flex items-center justify-between px-3 py-2 rounded-md border border-border/50 bg-secondary/30">
-            <div className="flex items-center gap-1.5">
-              <Package className="h-3.5 w-3.5 text-muted-foreground" />
-              <span className="text-[11px] text-muted-foreground">Volume</span>
-            </div>
-            <span className="text-[15px] font-extrabold font-mono-tech text-foreground">6,955 CS</span>
-          </div>
+          ))}
         </div>
       </div>
     </div>
