@@ -102,7 +102,7 @@ export default function RiskOverview() {
       </header>
 
       <main className="flex-1 overflow-auto">
-        <div className="p-6 space-y-4 max-w-[1600px] mx-auto">
+        <div className="p-4 space-y-2 max-w-[1600px] mx-auto">
           <nav className="flex items-center gap-1.5 text-xs text-muted-foreground">
             <a href="/" className="hover:text-primary transition-colors cursor-pointer flex items-center gap-1">
               <Home className="h-3 w-3" /> Home

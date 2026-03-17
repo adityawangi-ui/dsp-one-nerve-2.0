@@ -165,14 +165,12 @@ export default function DetailedRiskTable({ data, onOpenInsights, onUpdateRow, o
   };
 
   return (
-    <div className="section-card overflow-hidden">
+    <div className="section-card overflow-hidden py-3">
       {/* Toolbar */}
-      <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
+      <div className="flex items-center justify-between mb-2 flex-wrap gap-2">
         <div className="flex items-center gap-2">
-          <LayoutList className="h-4 w-4 text-primary" />
-          <span className="text-sm font-semibold text-foreground">Detailed Risk View</span>
           <span className="text-[11px] text-muted-foreground">{data.length} items</span>
-          <div className="flex items-center gap-1 ml-2">
+          <div className="flex items-center gap-1 ml-1">
             <span className="text-[10px] text-muted-foreground">UOM:</span>
             <Select value={displayUom} onValueChange={(v) => setDisplayUom(v)}>
               <SelectTrigger className="h-6 min-w-[70px] text-[10px] font-semibold border-border/40 bg-card">

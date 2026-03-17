@@ -43,12 +43,8 @@ export default function AlertsSection() {
   const total = donutData.reduce((s, d) => s + d.value, 0);
 
   return (
-    <div className="section-card relative overflow-hidden">
+    <div className="section-card relative overflow-hidden py-3">
       <div className="absolute -top-10 -right-10 w-32 h-32 rounded-full bg-primary/5 blur-3xl pointer-events-none" />
-
-      <h2 className="text-sm font-semibold text-foreground mb-4 flex items-center gap-2 relative">
-        <Activity className="h-4 w-4 text-primary" /> Alerts & Risk Summary
-      </h2>
 
       <div className="flex gap-0 relative">
         {/* Left column — Alert rows as mini cards */}
