@@ -4,7 +4,7 @@ import { riskData, RiskRow } from "@/data/riskData";
 import { Home, ChevronRight, Shield, Clock, BarChart3 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import AlertsSection from "@/components/risk-os/AlertsSection";
+import AlertsSection, { KpiFilterKey } from "@/components/risk-os/AlertsSection";
 import UnifiedFilters, { FilterState, defaultFilters } from "@/components/risk-os/UnifiedFilters";
 import DetailedRiskTable from "@/components/risk-os/DetailedRiskTable";
 import InsightsPanel from "@/components/risk-os/InsightsPanel";
