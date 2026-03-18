@@ -112,6 +112,14 @@ export default function RiskOverview() {
             variant="ghost"
             size="sm"
             className="h-8 text-xs gap-1.5 text-muted-foreground hover:text-primary"
+            onClick={() => navigate("/risk-correlation")}
+          >
+            <BarChart3 className="h-3.5 w-3.5" /> Correlation Matrix
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-8 text-xs gap-1.5 text-muted-foreground hover:text-primary"
             onClick={() => setShowVisualCentre(true)}
           >
             <BarChart3 className="h-3.5 w-3.5" /> Visual Centre

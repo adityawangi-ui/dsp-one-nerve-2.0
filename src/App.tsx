@@ -25,6 +25,7 @@ import LearningHub from "./pages/LearningHub";
 import RiskOverview from "./pages/RiskOverview";
 import RiskAnalysisWorkflow from "./pages/RiskAnalysisWorkflow";
 import RiskLanding from "./pages/RiskLanding";
+import RiskCorrelationMatrix from "./pages/RiskCorrelationMatrix";
 import NotFound from "./pages/NotFound";
 import { MainLayout } from "./components/layout/MainLayout";
 
@@ -59,6 +60,7 @@ const App = () => (
           <Route path="/risk-landing" element={<RiskLanding />} />
           <Route path="/risk-monitor" element={<RiskOverview />} />
           <Route path="/risk-analysis" element={<RiskAnalysisWorkflow />} />
+          <Route path="/risk-correlation" element={<RiskCorrelationMatrix />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
