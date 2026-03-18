@@ -23,6 +23,7 @@ export default function RiskOverview() {
   const [analysisRow, setAnalysisRow] = useState<RiskRow | null>(null);
   const [showVisualCentre, setShowVisualCentre] = useState(false);
   const [activeKpi, setActiveKpi] = useState<KpiFilterKey>(null);
+  const [viewMode, setViewMode] = useState<"table" | "kanban">("table");
 
   const handleKpiClick = (key: KpiFilterKey) => {
     setActiveKpi(key);
