@@ -1,12 +1,13 @@
 import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { riskData, RiskRow } from "@/data/riskData";
-import { Home, ChevronRight, Shield, Clock, BarChart3 } from "lucide-react";
+import { Home, ChevronRight, Shield, Clock, BarChart3, Table, Kanban } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import AlertsSection, { KpiFilterKey } from "@/components/risk-os/AlertsSection";
 import UnifiedFilters, { FilterState, defaultFilters } from "@/components/risk-os/UnifiedFilters";
 import DetailedRiskTable from "@/components/risk-os/DetailedRiskTable";
+import RiskKanban from "@/components/risk-os/RiskKanban";
 import InsightsPanel from "@/components/risk-os/InsightsPanel";
 import RiskAIAgent from "@/components/risk-os/RiskAIAgent";
 import RiskAnalysisPanel from "@/components/risk-os/RiskAnalysisPanel";
@@ -22,6 +23,7 @@ export default function RiskOverview() {
   const [analysisRow, setAnalysisRow] = useState<RiskRow | null>(null);
   const [showVisualCentre, setShowVisualCentre] = useState(false);
   const [activeKpi, setActiveKpi] = useState<KpiFilterKey>(null);
+  const [viewMode, setViewMode] = useState<"table" | "kanban">("table");
 
   const handleKpiClick = (key: KpiFilterKey) => {
     setActiveKpi(key);
@@ -141,8 +143,32 @@ export default function RiskOverview() {
           </nav>
 
           <AlertsSection activeKpi={activeKpi} onKpiClick={handleKpiClick} />
-          <UnifiedFilters filters={filters} onChange={setFilters} maxLoss={60000000} />
-          <DetailedRiskTable data={filteredRows} onOpenInsights={setInsightsRow} onUpdateRow={handleUpdateRow} onOpenAnalysis={handleOpenAnalysis} />
+          <div className="flex items-center justify-between">
+            <UnifiedFilters filters={filters} onChange={setFilters} maxLoss={60000000} />
+            <div className="flex items-center gap-1 bg-card border border-border rounded-lg p-0.5 shrink-0">
+              <Button
+                variant={viewMode === "table" ? "default" : "ghost"}
+                size="sm"
+                className="h-7 w-7 p-0"
+                onClick={() => setViewMode("table")}
+              >
+                <Table className="h-3.5 w-3.5" />
+              </Button>
+              <Button
+                variant={viewMode === "kanban" ? "default" : "ghost"}
+                size="sm"
+                className="h-7 w-7 p-0"
+                onClick={() => setViewMode("kanban")}
+              >
+                <Kanban className="h-3.5 w-3.5" />
+              </Button>
+            </div>
+          </div>
+          {viewMode === "table" ? (
+            <DetailedRiskTable data={filteredRows} onOpenInsights={setInsightsRow} onUpdateRow={handleUpdateRow} onOpenAnalysis={handleOpenAnalysis} />
+          ) : (
+            <RiskKanban data={filteredRows} onUpdateRow={handleUpdateRow} onOpenAnalysis={handleOpenAnalysis} />
+          )}
         </div>
       </main>
 
