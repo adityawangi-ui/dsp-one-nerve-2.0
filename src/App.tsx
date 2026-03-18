@@ -60,6 +60,7 @@ const App = () => (
           <Route path="/risk-landing" element={<RiskLanding />} />
           <Route path="/risk-monitor" element={<RiskOverview />} />
           <Route path="/risk-analysis" element={<RiskAnalysisWorkflow />} />
+          <Route path="/risk-correlation" element={<RiskCorrelationMatrix />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
