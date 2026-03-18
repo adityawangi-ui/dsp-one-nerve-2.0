@@ -143,8 +143,32 @@ export default function RiskOverview() {
           </nav>
 
           <AlertsSection activeKpi={activeKpi} onKpiClick={handleKpiClick} />
-          <UnifiedFilters filters={filters} onChange={setFilters} maxLoss={60000000} />
-          <DetailedRiskTable data={filteredRows} onOpenInsights={setInsightsRow} onUpdateRow={handleUpdateRow} onOpenAnalysis={handleOpenAnalysis} />
+          <div className="flex items-center justify-between">
+            <UnifiedFilters filters={filters} onChange={setFilters} maxLoss={60000000} />
+            <div className="flex items-center gap-1 bg-card border border-border rounded-lg p-0.5 shrink-0">
+              <Button
+                variant={viewMode === "table" ? "default" : "ghost"}
+                size="sm"
+                className="h-7 w-7 p-0"
+                onClick={() => setViewMode("table")}
+              >
+                <Table className="h-3.5 w-3.5" />
+              </Button>
+              <Button
+                variant={viewMode === "kanban" ? "default" : "ghost"}
+                size="sm"
+                className="h-7 w-7 p-0"
+                onClick={() => setViewMode("kanban")}
+              >
+                <Kanban className="h-3.5 w-3.5" />
+              </Button>
+            </div>
+          </div>
+          {viewMode === "table" ? (
+            <DetailedRiskTable data={filteredRows} onOpenInsights={setInsightsRow} onUpdateRow={handleUpdateRow} onOpenAnalysis={handleOpenAnalysis} />
+          ) : (
+            <RiskKanban data={filteredRows} onUpdateRow={handleUpdateRow} onOpenAnalysis={handleOpenAnalysis} />
+          )}
         </div>
       </main>
 
